@@ -7,7 +7,7 @@ export default function Pricing() {
       <nav className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           <Link href="/" className="text-2xl font-bold text-gray-800 dark:text-white">
-            YourBrand
+            ChristTask
           </Link>
           <div className="hidden md:flex space-x-8">
             <a href="#features" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">
