@@ -9,17 +9,6 @@ export default function Pricing() {
           <Link href="/" className="text-2xl font-bold text-gray-800 dark:text-white">
             ChristTask
           </Link>
-          <div className="hidden md:flex space-x-8">
-            <a href="#features" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">
-              Features
-            </a>
-            <a href="#about" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">
-              About
-            </a>
-            <a href="#contact" className="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white transition-colors">
-              Contact
-            </a>
-          </div>
         </div>
       </nav>
 
