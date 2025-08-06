@@ -297,19 +297,13 @@ export default function Pricing() {
                       {selectedPlan === 'weekly' ? '£4.50' : '£11.99'}
                     </span>
                   </div>
-                  <div className="flex justify-between">
-                    <span className="text-gray-600 dark:text-gray-300">Tax</span>
-                    <span className="font-semibold text-gray-900 dark:text-white">
-                      {selectedPlan === 'weekly' ? '£0.90' : '£2.40'}
-                    </span>
-                  </div>
                   <div className="border-t pt-2 mt-2">
                     <div className="flex justify-between">
                       <span className="text-lg font-semibold text-gray-900 dark:text-white">
                         Total
                       </span>
                       <span className="text-lg font-semibold text-gray-900 dark:text-white">
-                        {selectedPlan === 'weekly' ? '£5.40' : '£14.39'}
+                        {selectedPlan === 'weekly' ? '£4.50' : '£11.99'}
                       </span>
                     </div>
                   </div>
