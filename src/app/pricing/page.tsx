@@ -15,6 +15,34 @@ export default function Pricing() {
   const [couponCode, setCouponCode] = useState('');
   const [loading, setLoading] = useState(false);
 
+  // Card formatting functions
+  const formatCardNumber = (value: string) => {
+    const v = value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
+    const matches = v.match(/\d{4,16}/g);
+    const match = matches && matches[0] || '';
+    const parts = [];
+    for (let i = 0, len = match.length; i < len; i += 4) {
+      parts.push(match.substring(i, i + 4));
+    }
+    if (parts.length) {
+      return parts.join(' ');
+    } else {
+      return v;
+    }
+  };
+
+  const formatExpiryDate = (value: string) => {
+    const v = value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
+    if (v.length >= 2) {
+      return v.substring(0, 2) + '/' + v.substring(2, 4);
+    }
+    return v;
+  };
+
+  const formatCVV = (value: string) => {
+    return value.replace(/\s+/g, '').replace(/[^0-9]/gi, '').substring(0, 4);
+  };
+
   const handlePayment = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
@@ -220,7 +248,8 @@ export default function Pricing() {
                       type="text"
                       placeholder="1234 5678 9012 3456"
                       value={cardNumber}
-                      onChange={e => setCardNumber(e.target.value)}
+                      onChange={e => setCardNumber(formatCardNumber(e.target.value))}
+                      maxLength={19}
                       className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                       required
                     />
@@ -289,7 +318,8 @@ export default function Pricing() {
                       type="text"
                       placeholder="MM/YY"
                       value={expiryDate}
-                      onChange={e => setExpiryDate(e.target.value)}
+                      onChange={e => setExpiryDate(formatExpiryDate(e.target.value))}
+                      maxLength={5}
                       className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                       required
                     />
@@ -302,7 +332,8 @@ export default function Pricing() {
                       type="text"
                       placeholder="123"
                       value={cvv}
-                      onChange={e => setCvv(e.target.value)}
+                      onChange={e => setCvv(formatCVV(e.target.value))}
+                      maxLength={4}
                       className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
                       required
                     />
