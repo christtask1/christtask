@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { supabase } from '@/lib/supabaseClient';
 
 export default function Pricing() {
   const [selectedPlan, setSelectedPlan] = useState('monthly');
@@ -47,49 +46,18 @@ export default function Pricing() {
     e.preventDefault();
     setLoading(true);
     
-    try {
-      // First, create or get the user
-      const { data: { user }, error: authError } = await supabase.auth.getUser();
-      
-      if (authError || !user) {
-        // Create user account first
-        const { error: signUpError } = await supabase.auth.signUp({
-          email,
-          password,
-        });
-        
-        if (signUpError) {
-          console.error('Signup error:', signUpError);
-          setLoading(false);
-          return;
-        }
-      }
-      
-      // Create checkout session with Supabase
-      const { data: checkoutData, error: checkoutError } = await supabase.functions.invoke('create-checkout-session', {
-        body: {
-          plan: selectedPlan,
-          email: email,
-          success_url: `${window.location.origin}/success`,
-          cancel_url: `${window.location.origin}/pricing`,
-        }
-      });
-      
-      if (checkoutError) {
-        console.error('Checkout error:', checkoutError);
-        setLoading(false);
-        return;
-      }
-      
-      // Redirect to Stripe checkout
-      if (checkoutData?.url) {
-        window.location.href = checkoutData.url;
-      }
-      
-    } catch (error) {
-      console.error('Payment error:', error);
-      setLoading(false);
-    }
+    // TODO: Add payment integration here
+    console.log('Payment form submitted:', {
+      plan: selectedPlan,
+      email,
+      cardNumber,
+      expiryDate,
+      cvv,
+      country,
+      couponCode
+    });
+    
+    setLoading(false);
   };
 
   return (
@@ -152,175 +120,113 @@ export default function Pricing() {
           </div>
 
           {/* Monthly Subscription */}
-          <div className={`bg-gradient-to-br from-blue-600 to-purple-600 rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow cursor-pointer border-2 ${
-            selectedPlan === 'monthly' ? 'border-yellow-400' : 'border-transparent'
+          <div className={`bg-white dark:bg-gray-800 rounded-xl p-6 shadow-lg hover:shadow-xl transition-shadow cursor-pointer border-2 ${
+            selectedPlan === 'monthly' ? 'border-blue-500' : 'border-gray-200 dark:border-gray-700'
           }`} onClick={() => setSelectedPlan('monthly')}>
             <div className="text-center mb-6">
-              <div className="inline-block bg-yellow-400 text-yellow-900 px-2 py-1 rounded-full text-xs font-semibold mb-3">
-                Most Popular
-              </div>
-              <h3 className="text-xl font-bold text-white mb-2">Monthly</h3>
-              <div className="text-3xl font-bold text-white mb-2">
+              <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">Monthly</h3>
+              <div className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
                 £11.99
-                <span className="text-base font-normal text-blue-100">/month</span>
+                <span className="text-base font-normal text-gray-600 dark:text-gray-400">/month</span>
               </div>
-              <p className="text-sm text-blue-100">Best value for long-term use</p>
+              <p className="text-sm text-gray-600 dark:text-gray-400">Best value for long-term use</p>
             </div>
             
             <ul className="space-y-3 mb-6 text-sm">
-              <li className="flex items-center text-white">
-                <svg className="w-4 h-4 text-yellow-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <li className="flex items-center">
+                <svg className="w-4 h-4 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
-                Full access to all features
+                All weekly features
               </li>
-              <li className="flex items-center text-white">
-                <svg className="w-4 h-4 text-yellow-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <li className="flex items-center">
+                <svg className="w-4 h-4 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
-                Priority support
+                Advanced analytics
               </li>
-              <li className="flex items-center text-white">
-                <svg className="w-4 h-4 text-yellow-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <li className="flex items-center">
+                <svg className="w-4 h-4 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                 </svg>
-                Save 33% vs weekly
+                Priority customer support
               </li>
             </ul>
           </div>
         </div>
 
-        {/* Signup Section */}
-        <div className="max-w-4xl mx-auto">
-          <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-lg">
-            <div className="text-center mb-8">
-              <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
-                Create Your Account
-              </h2>
-              <p className="text-gray-600 dark:text-gray-300">
-                Join ChristTask and start your subscription
-              </p>
-            </div>
-
+        {/* Payment Form */}
+        <div className="max-w-2xl mx-auto">
+          <div className="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg">
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Complete Your Subscription</h2>
+            
             <form onSubmit={handlePayment} className="space-y-6">
-              {/* Account Details */}
-              <div className="grid md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Email Address
-                  </label>
-                  <input
-                    type="email"
-                    placeholder="Enter your email"
-                    value={email}
-                    onChange={e => setEmail(e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Password
-                  </label>
-                  <input
-                    type="password"
-                    placeholder="Create a password"
-                    value={password}
-                    onChange={e => setPassword(e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
-                    required
-                  />
-                </div>
-              </div>
-
-              {/* Payment Details */}
-              <div className="border-t pt-6">
-                <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
-                  Payment Information
-                </h3>
-                
-                <div className="grid md:grid-cols-2 gap-6">
+              {/* Account Creation */}
+              <div className="space-y-4">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Create Your Account</h3>
+                <div className="grid md:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                      Card Number
+                      Email Address
                     </label>
                     <input
-                      type="text"
-                      placeholder="1234 5678 9012 3456"
-                      value={cardNumber}
-                      onChange={e => setCardNumber(formatCardNumber(e.target.value))}
-                      maxLength={19}
+                      type="email"
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
                       className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                      placeholder="your@email.com"
                       required
                     />
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                      Country
+                      Password
                     </label>
-                    <select
-                      value={country}
-                      onChange={e => setCountry(e.target.value)}
+                    <input
+                      type="password"
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
                       className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                      placeholder="Create a password"
                       required
-                    >
-                      <option value="">Select Country</option>
-                      <option value="GB">United Kingdom</option>
-                      <option value="US">United States</option>
-                      <option value="CA">Canada</option>
-                      <option value="AU">Australia</option>
-                      <option value="DE">Germany</option>
-                      <option value="FR">France</option>
-                      <option value="IT">Italy</option>
-                      <option value="ES">Spain</option>
-                      <option value="NL">Netherlands</option>
-                      <option value="SE">Sweden</option>
-                      <option value="NO">Norway</option>
-                      <option value="DK">Denmark</option>
-                      <option value="FI">Finland</option>
-                      <option value="CH">Switzerland</option>
-                      <option value="AT">Austria</option>
-                      <option value="BE">Belgium</option>
-                      <option value="IE">Ireland</option>
-                      <option value="PT">Portugal</option>
-                      <option value="GR">Greece</option>
-                      <option value="PL">Poland</option>
-                      <option value="CZ">Czech Republic</option>
-                      <option value="HU">Hungary</option>
-                      <option value="RO">Romania</option>
-                      <option value="BG">Bulgaria</option>
-                      <option value="HR">Croatia</option>
-                      <option value="SI">Slovenia</option>
-                      <option value="SK">Slovakia</option>
-                      <option value="LT">Lithuania</option>
-                      <option value="LV">Latvia</option>
-                      <option value="EE">Estonia</option>
-                      <option value="MT">Malta</option>
-                      <option value="CY">Cyprus</option>
-                      <option value="LU">Luxembourg</option>
-                      <option value="IS">Iceland</option>
-                      <option value="LI">Liechtenstein</option>
-                      <option value="MC">Monaco</option>
-                      <option value="SM">San Marino</option>
-                      <option value="VA">Vatican City</option>
-                      <option value="AD">Andorra</option>
-                      <option value="other">Other</option>
-                    </select>
+                    />
                   </div>
                 </div>
+              </div>
 
-                <div className="grid md:grid-cols-2 gap-6 mt-6">
+              {/* Payment Information */}
+              <div className="space-y-4">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Payment Information</h3>
+                
+                {/* Card Number */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                    Card Number
+                  </label>
+                  <input
+                    type="text"
+                    value={cardNumber}
+                    onChange={(e) => setCardNumber(formatCardNumber(e.target.value))}
+                    className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                    placeholder="1234 5678 9012 3456"
+                    maxLength={19}
+                    required
+                  />
+                </div>
+
+                {/* Card Details Row */}
+                <div className="grid md:grid-cols-3 gap-4">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                       Expiry Date
                     </label>
                     <input
                       type="text"
-                      placeholder="MM/YY"
                       value={expiryDate}
-                      onChange={e => setExpiryDate(formatExpiryDate(e.target.value))}
-                      maxLength={5}
+                      onChange={(e) => setExpiryDate(formatExpiryDate(e.target.value))}
                       className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                      placeholder="MM/YY"
+                      maxLength={5}
                       required
                     />
                   </div>
@@ -330,36 +236,51 @@ export default function Pricing() {
                     </label>
                     <input
                       type="text"
-                      placeholder="123"
                       value={cvv}
-                      onChange={e => setCvv(formatCVV(e.target.value))}
-                      maxLength={4}
+                      onChange={(e) => setCvv(formatCVV(e.target.value))}
                       className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                      placeholder="123"
+                      maxLength={4}
                       required
                     />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                      Country
+                    </label>
+                    <select
+                      value={country}
+                      onChange={(e) => setCountry(e.target.value)}
+                      className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                      required
+                    >
+                      <option value="">Select Country</option>
+                      <option value="GB">United Kingdom</option>
+                      <option value="US">United States</option>
+                      <option value="CA">Canada</option>
+                      <option value="AU">Australia</option>
+                    </select>
                   </div>
                 </div>
 
                 {/* Coupon Code */}
-                <div className="mt-6">
+                <div>
                   <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Coupon Code (Optional)
                   </label>
                   <input
                     type="text"
-                    placeholder="Enter coupon code"
                     value={couponCode}
-                    onChange={e => setCouponCode(e.target.value)}
+                    onChange={(e) => setCouponCode(e.target.value)}
                     className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                    placeholder="Enter coupon code"
                   />
                 </div>
               </div>
 
               {/* Order Summary */}
-              <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-6">
-                <h4 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-                  Order Summary
-                </h4>
+              <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-3">Order Summary</h3>
                 <div className="space-y-2">
                   <div className="flex justify-between">
                     <span className="text-gray-600 dark:text-gray-300">
@@ -369,12 +290,10 @@ export default function Pricing() {
                       {selectedPlan === 'weekly' ? '£4.50' : '£11.99'}
                     </span>
                   </div>
-                  <div className="border-t pt-2 mt-2">
+                  <div className="border-t border-gray-200 dark:border-gray-600 pt-2">
                     <div className="flex justify-between">
-                      <span className="text-lg font-semibold text-gray-900 dark:text-white">
-                        Total
-                      </span>
-                      <span className="text-lg font-semibold text-gray-900 dark:text-white">
+                      <span className="font-semibold text-gray-900 dark:text-white">Total</span>
+                      <span className="font-bold text-lg text-gray-900 dark:text-white">
                         {selectedPlan === 'weekly' ? '£4.50' : '£11.99'}
                       </span>
                     </div>
@@ -386,23 +305,14 @@ export default function Pricing() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-4 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed text-lg"
+                className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200"
               >
-                {loading ? 'Processing Payment...' : `Start ${selectedPlan === 'weekly' ? 'Weekly' : 'Monthly'} Subscription`}
+                {loading ? 'Processing...' : `Subscribe to ${selectedPlan === 'weekly' ? 'Weekly' : 'Monthly'} Plan`}
               </button>
             </form>
           </div>
         </div>
       </section>
-
-      {/* Footer */}
-      <footer className="bg-gray-50 dark:bg-gray-900 py-12 mt-16">
-        <div className="container mx-auto px-6">
-          <div className="text-center text-gray-600 dark:text-gray-400">
-            <p>&copy; 2024 ChristTask. All rights reserved.</p>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 } 
