@@ -45,13 +45,15 @@ serve(async (req: Request) => {
         const { error: upsertError } = await supabase
           .from('subscriptions')
           .upsert({
-            user_id: session.metadata?.user_id,
-            stripe_customer_id: session.customer as string,
-            stripe_subscription_id: session.subscription as string,
-            status: 'active',
+            customer: session.customer as string,
             current_period_end: new Date(session.subscription_data?.trial_end * 1000 || Date.now()).toISOString(),
-            created_at: new Date().toISOString(),
-            updated_at: new Date().toISOString()
+            attrs: {
+              user_id: session.metadata?.user_id,
+              stripe_subscription_id: session.subscription as string,
+              status: 'active',
+              created_at: new Date().toISOString(),
+              updated_at: new Date().toISOString()
+            }
           })
         
         if (upsertError) {
@@ -69,11 +71,13 @@ serve(async (req: Request) => {
         const { error: updateError } = await supabase
           .from('subscriptions')
           .update({
-            status: updatedSubscription.status,
             current_period_end: new Date(updatedSubscription.current_period_end * 1000).toISOString(),
-            updated_at: new Date().toISOString()
+            attrs: {
+              status: updatedSubscription.status,
+              updated_at: new Date().toISOString()
+            }
           })
-          .eq('stripe_subscription_id', updatedSubscription.id)
+          .eq('attrs->stripe_subscription_id', updatedSubscription.id)
         
         if (updateError) {
           console.error('Error updating subscription:', updateError)
@@ -90,10 +94,12 @@ serve(async (req: Request) => {
         const { error: deleteError } = await supabase
           .from('subscriptions')
           .update({
-            status: 'cancelled',
-            updated_at: new Date().toISOString()
+            attrs: {
+              status: 'cancelled',
+              updated_at: new Date().toISOString()
+            }
           })
-          .eq('stripe_subscription_id', deletedSubscription.id)
+          .eq('attrs->stripe_subscription_id', deletedSubscription.id)
         
         if (deleteError) {
           console.error('Error cancelling subscription:', deleteError)
