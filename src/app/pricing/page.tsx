@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { supabase } from '@/lib/supabaseClient';
 
 export default function Pricing() {
   const [selectedPlan, setSelectedPlan] = useState('monthly');
@@ -18,9 +19,50 @@ export default function Pricing() {
   const handlePayment = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    // Here you would integrate with Stripe
-    console.log('Processing payment for:', selectedPlan);
-    setLoading(false);
+    
+    try {
+      // First, create or get the user
+      const { data: { user }, error: authError } = await supabase.auth.getUser();
+      
+      if (authError || !user) {
+        // Create user account first
+        const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
+          email,
+          password,
+        });
+        
+        if (signUpError) {
+          console.error('Signup error:', signUpError);
+          setLoading(false);
+          return;
+        }
+      }
+      
+      // Create checkout session with Supabase
+      const { data: checkoutData, error: checkoutError } = await supabase.functions.invoke('create-checkout-session', {
+        body: {
+          plan: selectedPlan,
+          email: email,
+          success_url: `${window.location.origin}/success`,
+          cancel_url: `${window.location.origin}/pricing`,
+        }
+      });
+      
+      if (checkoutError) {
+        console.error('Checkout error:', checkoutError);
+        setLoading(false);
+        return;
+      }
+      
+      // Redirect to Stripe checkout
+      if (checkoutData?.url) {
+        window.location.href = checkoutData.url;
+      }
+      
+    } catch (error) {
+      console.error('Payment error:', error);
+      setLoading(false);
+    }
   };
 
   return (
