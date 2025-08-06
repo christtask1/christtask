@@ -26,15 +26,41 @@ serve(async (req: Request) => {
     const signature = req.headers.get('stripe-signature')
     
     if (!signature) {
-      throw new Error('No signature found')
+      console.error('No stripe-signature header found')
+      return new Response(
+        JSON.stringify({ error: 'No signature found' }),
+        { 
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          status: 401,
+        },
+      )
     }
 
     const webhookSecret = Deno.env.get('STRIPE_WEBHOOK_SECRET')
     if (!webhookSecret) {
-      throw new Error('Webhook secret not configured')
+      console.error('Webhook secret not configured')
+      return new Response(
+        JSON.stringify({ error: 'Webhook secret not configured' }),
+        { 
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          status: 500,
+        },
+      )
     }
 
-    const event = stripe.webhooks.constructEvent(body, signature, webhookSecret)
+    let event
+    try {
+      event = stripe.webhooks.constructEvent(body, signature, webhookSecret)
+    } catch (err) {
+      console.error('Webhook signature verification failed:', err)
+      return new Response(
+        JSON.stringify({ error: 'Webhook signature verification failed' }),
+        { 
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          status: 400,
+        },
+      )
+    }
 
     switch (event.type) {
       case 'checkout.session.completed':
