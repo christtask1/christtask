@@ -8,7 +8,6 @@ export default function Pricing() {
   const [selectedPlan, setSelectedPlan] = useState('monthly');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
   const [cardNumber, setCardNumber] = useState('');
   const [expiryDate, setExpiryDate] = useState('');
   const [cvv, setCvv] = useState('');

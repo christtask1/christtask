@@ -4,8 +4,13 @@ const nextConfig = {
     appDir: true,
   },
   // Exclude Supabase Edge Functions from the build
-  pageExtensions: ['tsx', 'ts', 'jsx', 'js'],
   webpack: (config) => {
+    // Exclude supabase directory from webpack
+    config.module.rules.push({
+      test: /supabase\/functions/,
+      use: 'ignore-loader'
+    })
+    
     config.resolve.fallback = {
       ...config.resolve.fallback,
       fs: false,
