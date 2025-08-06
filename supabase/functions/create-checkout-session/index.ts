@@ -62,12 +62,14 @@ serve(async (req: Request) => {
       metadata: {
         plan: plan,
         email: email,
+        user_id: email, // Using email as user_id for now
       },
       // Enable automatic webhook handling
       subscription_data: {
         metadata: {
           plan: plan,
           email: email,
+          user_id: email, // Using email as user_id for now
         }
       }
     })
