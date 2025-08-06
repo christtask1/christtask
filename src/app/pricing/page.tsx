@@ -26,7 +26,7 @@ export default function Pricing() {
       
       if (authError || !user) {
         // Create user account first
-        const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
+        const { error: signUpError } = await supabase.auth.signUp({
           email,
           password,
         });
