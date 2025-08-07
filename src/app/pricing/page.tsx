@@ -183,7 +183,7 @@ export default function Pricing() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                   <p className="text-sm text-blue-700 dark:text-blue-300">
-                    You'll be redirected to our secure payment page to complete your subscription.
+                    You&apos;ll be redirected to our secure payment page to complete your subscription.
                   </p>
                 </div>
               </div>
