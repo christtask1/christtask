@@ -8,6 +8,9 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Coupon code is required' }, { status: 400 })
     }
 
+    console.log('Validating coupon:', couponCode)
+    console.log('Using Stripe key:', process.env.STRIPE_SECRET_KEY ? 'Key exists' : 'No key found')
+
     // Validate coupon with Stripe API
     const response = await fetch(`https://api.stripe.com/v1/coupons/${encodeURIComponent(couponCode)}`, {
       method: 'GET',
@@ -16,19 +19,36 @@ export async function POST(request: NextRequest) {
       },
     })
 
+    console.log('Stripe response status:', response.status)
+
     if (!response.ok) {
+      const errorText = await response.text()
+      console.log('Stripe error response:', errorText)
+      
       if (response.status === 404) {
         return NextResponse.json({ error: 'Coupon not found' }, { status: 404 })
       }
-      const error = await response.json()
-      return NextResponse.json({ error: error.error?.message || 'Invalid coupon' }, { status: 400 })
+      
+      try {
+        const error = JSON.parse(errorText)
+        return NextResponse.json({ error: error.error?.message || 'Invalid coupon' }, { status: 400 })
+      } catch {
+        return NextResponse.json({ error: `Stripe API error: ${response.status}` }, { status: 400 })
+      }
     }
 
     const coupon = await response.json()
+    console.log('Coupon data:', coupon)
 
-    // Check if coupon is valid (not expired, etc.)
-    if (!coupon.valid) {
-      return NextResponse.json({ error: 'Coupon is no longer valid' }, { status: 400 })
+    // Check if coupon exists and is not redeem_by expired
+    const now = Math.floor(Date.now() / 1000)
+    if (coupon.redeem_by && coupon.redeem_by < now) {
+      return NextResponse.json({ error: 'Coupon has expired' }, { status: 400 })
+    }
+
+    // Check max redemptions
+    if (coupon.max_redemptions && coupon.times_redeemed >= coupon.max_redemptions) {
+      return NextResponse.json({ error: 'Coupon has reached maximum redemptions' }, { status: 400 })
     }
 
     return NextResponse.json({
@@ -37,7 +57,7 @@ export async function POST(request: NextRequest) {
       percent_off: coupon.percent_off,
       amount_off: coupon.amount_off,
       currency: coupon.currency,
-      valid: coupon.valid,
+      valid: true,
     })
   } catch (error) {
     console.error('Coupon validation error:', error)
