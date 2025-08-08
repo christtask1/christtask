@@ -32,8 +32,9 @@ export default function Chatbot() {
     scrollToBottom()
   }, [messages])
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+
+
+  const submitMessage = async () => {
     if (!input.trim() || isLoading) return
 
     const userMessage: Message = {
@@ -60,10 +61,15 @@ export default function Chatbot() {
     }, 1000)
   }
 
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    await submitMessage()
+  }
+
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault()
-      handleSubmit(e as any)
+      submitMessage()
     }
   }
 
