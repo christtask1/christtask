@@ -60,6 +60,8 @@ export async function createSubscription({
   couponCode,
 }: CreateSubscriptionParams): Promise<SubscriptionResult> {
   try {
+    console.log('Creating subscription for:', { email, plan, paymentMethodId, couponCode })
+    
     // Create customer
     const customerResponse = await fetch('/api/stripe/create-customer', {
       method: 'POST',
@@ -73,11 +75,14 @@ export async function createSubscription({
     })
 
     if (!customerResponse.ok) {
-      const error = await customerResponse.json()
-      return { success: false, error: error.message || 'Failed to create customer' }
+      const errorData = await customerResponse.json()
+      console.error('Customer creation failed:', errorData)
+      return { success: false, error: errorData.error || 'Failed to create customer' }
     }
 
-    const { customerId } = await customerResponse.json()
+    const customerData = await customerResponse.json()
+    console.log('Customer created successfully:', customerData)
+    const { customerId } = customerData
 
     // Create subscription
     const subscriptionResponse = await fetch('/api/stripe/create-subscription', {
@@ -93,18 +98,22 @@ export async function createSubscription({
     })
 
     if (!subscriptionResponse.ok) {
-      const error = await subscriptionResponse.json()
-      return { success: false, error: error.message || 'Failed to create subscription' }
+      const errorData = await subscriptionResponse.json()
+      console.error('Subscription creation failed:', errorData)
+      return { success: false, error: errorData.error || 'Failed to create subscription' }
     }
 
-    const { subscriptionId } = await subscriptionResponse.json()
+    const subscriptionData = await subscriptionResponse.json()
+    console.log('Subscription created successfully:', subscriptionData)
+    const { subscriptionId } = subscriptionData
 
     return {
       success: true,
       subscriptionId,
       customerId,
     }
-  } catch {
+  } catch (error) {
+    console.error('createSubscription error:', error)
     return {
       success: false,
       error: 'Failed to create subscription',

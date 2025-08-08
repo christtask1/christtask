@@ -8,14 +8,23 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Stripe configuration error' }, { status: 500 })
     }
 
-    const { email, paymentMethodId } = await request.json()
+    const body = await request.json()
+    console.log('Received request body:', body)
+
+    const { email, paymentMethodId } = body
 
     // Validate required fields
-    if (!email || !paymentMethodId) {
-      return NextResponse.json({ error: 'Email and payment method are required' }, { status: 400 })
+    if (!email) {
+      console.error('Email is missing from request')
+      return NextResponse.json({ error: 'Email is required' }, { status: 400 })
     }
 
-    console.log('Creating customer for email:', email)
+    if (!paymentMethodId) {
+      console.error('Payment method ID is missing from request')
+      return NextResponse.json({ error: 'Payment method ID is required' }, { status: 400 })
+    }
+
+    console.log('Creating customer for email:', email, 'with payment method:', paymentMethodId)
 
     // Create customer using Stripe API
     const response = await fetch('https://api.stripe.com/v1/customers', {
