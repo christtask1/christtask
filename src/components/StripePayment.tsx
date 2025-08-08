@@ -90,7 +90,7 @@ const PaymentForm = ({ selectedPlan, email, onSuccess, onError }: PaymentFormPro
     e.preventDefault()
     
     if (!stripe || !elements) {
-      onError('Stripe not loaded')
+      onError('Stripe not loaded. Please check your configuration.')
       return
     }
 
@@ -133,7 +133,8 @@ const PaymentForm = ({ selectedPlan, email, onSuccess, onError }: PaymentFormPro
       } else {
         onError(result.error || 'Subscription creation failed')
       }
-    } catch {
+    } catch (error) {
+      console.error('Payment error:', error)
       onError('Payment processing failed')
     } finally {
       setLoading(false)
@@ -307,6 +308,17 @@ interface StripePaymentProps {
 }
 
 export default function StripePayment({ selectedPlan, email, onSuccess, onError }: StripePaymentProps) {
+  // Check if Stripe key is available
+  if (!process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY) {
+    return (
+      <div className="p-4 border border-red-300 bg-red-50 dark:bg-red-900/20 rounded-lg">
+        <p className="text-red-600 dark:text-red-400">
+          Stripe configuration error. Please check your environment variables.
+        </p>
+      </div>
+    )
+  }
+
   return (
     <Elements stripe={stripePromise}>
       <PaymentForm

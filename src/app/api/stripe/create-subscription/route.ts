@@ -2,7 +2,20 @@ import { NextRequest, NextResponse } from 'next/server'
 
 export async function POST(request: NextRequest) {
   try {
+    // Check if STRIPE_SECRET_KEY is set
+    if (!process.env.STRIPE_SECRET_KEY) {
+      console.error('STRIPE_SECRET_KEY is not set')
+      return NextResponse.json({ error: 'Stripe configuration error' }, { status: 500 })
+    }
+
     const { customerId, priceId, couponCode } = await request.json()
+
+    // Validate required fields
+    if (!customerId || !priceId) {
+      return NextResponse.json({ error: 'Customer ID and Price ID are required' }, { status: 400 })
+    }
+
+    console.log('Creating subscription for customer:', customerId, 'price:', priceId)
 
     // Prepare subscription parameters
     const subscriptionParams: Record<string, string> = {
@@ -18,6 +31,7 @@ export async function POST(request: NextRequest) {
     // Add coupon if provided
     if (couponCode && couponCode.trim()) {
       subscriptionParams.coupon = couponCode.trim()
+      console.log('Applying coupon:', couponCode.trim())
     }
 
     // Create subscription using Stripe API
@@ -31,11 +45,15 @@ export async function POST(request: NextRequest) {
     })
 
     if (!response.ok) {
-      const error = await response.json()
-      return NextResponse.json({ error: error.error?.message || 'Failed to create subscription' }, { status: 400 })
+      const errorData = await response.json()
+      console.error('Stripe API error:', errorData)
+      return NextResponse.json({ 
+        error: errorData.error?.message || `Failed to create subscription: ${response.status}` 
+      }, { status: response.status })
     }
 
     const subscription = await response.json()
+    console.log('Subscription created successfully:', subscription.id)
 
     return NextResponse.json({
       subscriptionId: subscription.id,

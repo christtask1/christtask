@@ -2,7 +2,20 @@ import { NextRequest, NextResponse } from 'next/server'
 
 export async function POST(request: NextRequest) {
   try {
+    // Check if STRIPE_SECRET_KEY is set
+    if (!process.env.STRIPE_SECRET_KEY) {
+      console.error('STRIPE_SECRET_KEY is not set')
+      return NextResponse.json({ error: 'Stripe configuration error' }, { status: 500 })
+    }
+
     const { email, paymentMethodId } = await request.json()
+
+    // Validate required fields
+    if (!email || !paymentMethodId) {
+      return NextResponse.json({ error: 'Email and payment method are required' }, { status: 400 })
+    }
+
+    console.log('Creating customer for email:', email)
 
     // Create customer using Stripe API
     const response = await fetch('https://api.stripe.com/v1/customers', {
@@ -21,11 +34,15 @@ export async function POST(request: NextRequest) {
     })
 
     if (!response.ok) {
-      const error = await response.json()
-      return NextResponse.json({ error: error.error?.message || 'Failed to create customer' }, { status: 400 })
+      const errorData = await response.json()
+      console.error('Stripe API error:', errorData)
+      return NextResponse.json({ 
+        error: errorData.error?.message || `Failed to create customer: ${response.status}` 
+      }, { status: response.status })
     }
 
     const customer = await response.json()
+    console.log('Customer created successfully:', customer.id)
 
     return NextResponse.json({
       customerId: customer.id,
