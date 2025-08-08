@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useState } from 'react'
+import { useState } from 'react'
 import { loadStripe } from '@stripe/stripe-js'
 import { Elements, CardElement, useElements, useStripe } from '@stripe/react-stripe-js'
 
@@ -14,7 +14,7 @@ function CardForm({ clientSecret, country }: { clientSecret: string | null; coun
   const confirm = async () => {
     if (!stripe || !elements) return
     if (!clientSecret) {
-      alert('Click Continue first to prepare payment')
+      alert('Click Prepare payment first')
       return
     }
     setLoading(true)
@@ -22,21 +22,33 @@ function CardForm({ clientSecret, country }: { clientSecret: string | null; coun
     const res = await stripe.confirmCardPayment(clientSecret, {
       payment_method: {
         card: card!,
-        billing_details: {
-          address: { country },
-        },
+        billing_details: { address: { country } },
       },
     })
     setLoading(false)
-    if (!res.error) window.location.href = '/'
+    if (!res.error) window.location.href = '/success'
   }
 
   return (
-    <div style={{ display: 'grid', gap: 12 }}>
-      <div style={{ padding: 12, border: '1px solid #ddd', borderRadius: 6 }}>
-        <CardElement options={{ hidePostalCode: true }} />
+    <div className="form-block">
+      <label className="label">Card details</label>
+      <div className="card-shell">
+        <CardElement
+          options={{
+            hidePostalCode: true,
+            style: {
+              base: {
+                color: 'var(--text)',
+                iconColor: 'var(--brand)',
+                fontFamily: 'system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif',
+                '::placeholder': { color: 'var(--muted)' },
+              },
+              invalid: { color: '#ff6b6b' },
+            },
+          }}
+        />
       </div>
-      <button onClick={confirm} disabled={loading} style={{ padding: '10px 16px', background: '#2563eb', color: '#fff', borderRadius: 6 }}>Pay</button>
+      <button className="btn" onClick={confirm} disabled={loading}>{loading ? 'Processing…' : 'Pay now'}</button>
     </div>
   )
 }
@@ -48,36 +60,60 @@ export default function PaymentPage() {
 
   // TODO: Replace with your backend/RPC call to create a PaymentIntent or Subscription and return client_secret
   const createClientSecret = async () => {
-    // placeholder: this should call your Supabase RPC and include coupon & country if needed
-    alert('Wire this button to your Supabase RPC that returns a client_secret for PaymentElement.')
+    alert('Wire this button to your Supabase RPC that returns a client_secret for CardElement.')
+    // setClientSecret('pi_client_secret_xxx')
   }
 
   return (
     <Elements stripe={stripePromise}>
-      <div style={{ maxWidth: 480 }}>
-        <h1>Payment</h1>
-        <div style={{ display: 'grid', gap: 12 }}>
-          <label>
-            <div>Coupon (optional)</div>
-            <input value={coupon} onChange={e=>setCoupon(e.target.value)} placeholder="Enter coupon or promo code" />
-          </label>
-          <label>
-            <div>Country</div>
-            <select value={country} onChange={e=>setCountry(e.target.value)}>
-              <option value="GB">United Kingdom</option>
-              <option value="US">United States</option>
-              <option value="CA">Canada</option>
-              <option value="AU">Australia</option>
-              <option value="DE">Germany</option>
-              <option value="FR">France</option>
-            </select>
-          </label>
-          <CardForm clientSecret={clientSecret} country={country} />
-          <div style={{ display:'flex', gap: 8 }}>
-            <button onClick={createClientSecret} style={{ padding: '10px 16px', background: '#64748b', color: '#fff', borderRadius: 6 }}>Continue</button>
+      <section className="section">
+        <div className="container grid grid-2" style={{ gap: 28, alignItems: 'start' }}>
+          <div className="card" style={{ padding: 28 }}>
+            <span className="pill">Secure checkout</span>
+            <h2 style={{ marginTop: 10 }}>Complete your subscription</h2>
+            <p className="muted" style={{ marginTop: 6 }}>Enter any valid promotion code, choose your country, and pay securely with your card.</p>
+            <ul className="muted" style={{ marginTop: 14, lineHeight: 1.9 }}>
+              <li>256‑bit SSL, PCI‑compliant processing</li>
+              <li>Cancel anytime from your account</li>
+              <li>Instant access after payment</li>
+            </ul>
+          </div>
+
+          <div className="pay-card">
+            <h3>Payment details</h3>
+            <div className="form-block">
+              <label className="label">Coupon (optional)</label>
+              <input className="input" value={coupon} onChange={(e)=>setCoupon(e.target.value)} placeholder="Enter coupon or promo code" />
+            </div>
+            <div className="form-block">
+              <label className="label">Country</label>
+              <select className="select" value={country} onChange={(e)=>setCountry(e.target.value)}>
+                <option value="GB">United Kingdom</option>
+                <option value="US">United States</option>
+                <option value="CA">Canada</option>
+                <option value="AU">Australia</option>
+                <option value="DE">Germany</option>
+                <option value="FR">France</option>
+              </select>
+            </div>
+
+            <CardForm clientSecret={clientSecret} country={country} />
+
+            {!clientSecret && (
+              <button className="btn secondary" onClick={createClientSecret}>Prepare payment</button>
+            )}
           </div>
         </div>
-      </div>
+      </section>
+
+      <style>{`
+        .pay-card { background: linear-gradient(180deg, rgba(23,35,74,0.55), rgba(16,24,48,0.8)); border:1px solid var(--border); border-radius:16px; padding:22px; }
+        .form-block { display:grid; gap:8px; margin-top:14px; }
+        .label { font-weight:700; color: var(--text); font-size:14px; }
+        .input, .select { width:100%; background:#0e1530; color:var(--text); border:1px solid var(--border); border-radius:10px; padding:12px 14px; outline:none; }
+        .input::placeholder { color: var(--muted); }
+        .card-shell { border:1px dashed var(--border); border-radius:12px; padding:14px; background:#0e1530; }
+      `}</style>
     </Elements>
   )
 }
