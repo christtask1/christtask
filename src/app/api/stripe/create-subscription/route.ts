@@ -20,12 +20,10 @@ export async function POST(request: NextRequest) {
     // Prepare subscription parameters
     const subscriptionParams: Record<string, string> = {
       customer: customerId,
-      items: JSON.stringify([{ price: priceId }]),
+      'items[0][price]': priceId,
       payment_behavior: 'default_incomplete',
-      payment_settings: JSON.stringify({
-        save_default_payment_method: 'on_subscription',
-      }),
-      expand: JSON.stringify(['latest_invoice.payment_intent']),
+      'payment_settings[save_default_payment_method]': 'on_subscription',
+      expand: 'latest_invoice.payment_intent',
     }
 
     // Add coupon if provided
