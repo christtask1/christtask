@@ -2,14 +2,22 @@ import { NextRequest, NextResponse } from 'next/server'
 
 export async function POST(request: NextRequest) {
   try {
-    const { couponCode } = await request.json()
+    // Check if STRIPE_SECRET_KEY is set
+    if (!process.env.STRIPE_SECRET_KEY) {
+      console.error('STRIPE_SECRET_KEY is not set')
+      return NextResponse.json({ error: 'Stripe configuration error' }, { status: 500 })
+    }
+
+    const body = await request.json()
+    console.log('Validate coupon request body:', body)
+
+    const { couponCode } = body
 
     if (!couponCode) {
       return NextResponse.json({ error: 'Coupon code is required' }, { status: 400 })
     }
 
     console.log('Validating coupon:', couponCode)
-    console.log('Using Stripe key:', process.env.STRIPE_SECRET_KEY ? 'Key exists' : 'No key found')
 
     // Validate coupon with Stripe API
     const response = await fetch(`https://api.stripe.com/v1/coupons/${encodeURIComponent(couponCode)}`, {
