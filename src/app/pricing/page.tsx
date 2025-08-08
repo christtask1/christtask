@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useState } from "react";
 import StripePayment from "@/components/StripePayment";
+import { supabase } from "@/lib/supabaseClient";
 
 export default function Pricing() {
   const [selectedPlan, setSelectedPlan] = useState<'weekly' | 'monthly'>('monthly');
@@ -10,6 +11,45 @@ export default function Pricing() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
+  const [authLoading, setAuthLoading] = useState(false);
+  const [isAuthed, setIsAuthed] = useState(false);
+
+  const handleAuth = async () => {
+    setError('');
+    setAuthLoading(true);
+    try {
+      if (!email || !password) {
+        setError('Email and password are required');
+        return;
+      }
+      const { data: { session } } = await supabase.auth.getSession();
+      if (session) {
+        setIsAuthed(true);
+        return;
+      }
+      // Try sign in first
+      const { data: signInData, error: signInErr } = await supabase.auth.signInWithPassword({ email, password });
+      if (signInErr) {
+        // If user not found, sign up
+        const { data: signUpData, error: signUpErr } = await supabase.auth.signUp({ email, password });
+        if (signUpErr) {
+          setError(signUpErr.message);
+          return;
+        }
+        if (!signUpData.session) {
+          setError('Please confirm your email, then return here to continue.');
+          return;
+        }
+        setIsAuthed(true);
+        return;
+      }
+      if (signInData.session) {
+        setIsAuthed(true);
+      }
+    } finally {
+      setAuthLoading(false);
+    }
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
@@ -141,14 +181,14 @@ export default function Pricing() {
                 />
               </div>
 
-                            {/* Payment Information */}
+              {/* Payment Information */}
               <div className="space-y-4">
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Payment Information</h3>
                 
                 {error && (
                   <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
                     <p className="text-red-700 dark:text-red-300 text-sm">{error}</p>
-                  </div>
+                      </div>
                 )}
                 
                 <StripePayment
@@ -204,16 +244,16 @@ export default function Pricing() {
 
               {/* Info about embedded payment */}
               {!success && (
-                <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4">
-                  <div className="flex items-center">
-                    <svg className="w-5 h-5 text-blue-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                    <p className="text-sm text-blue-700 dark:text-blue-300">
-                      Complete your payment securely on this page.
-                    </p>
-                  </div>
+              <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4">
+                <div className="flex items-center">
+                  <svg className="w-5 h-5 text-blue-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <p className="text-sm text-blue-700 dark:text-blue-300">
+                    Complete your payment securely on this page.
+                  </p>
                 </div>
+              </div>
               )}
 
             </div>
