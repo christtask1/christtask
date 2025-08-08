@@ -57,6 +57,7 @@ export default function PaymentPage() {
   const [clientSecret, setClientSecret] = useState<string | null>(null)
   const [coupon, setCoupon] = useState('')
   const [country, setCountry] = useState('GB')
+  const [plan, setPlan] = useState<'weekly' | 'monthly'>('monthly')
 
   const COUNTRIES: { code: string; name: string }[] = [
     { code: 'AF', name: 'Afghanistan' },
@@ -333,6 +334,35 @@ export default function PaymentPage() {
           <div className="pay-card">
             <h3>Payment details</h3>
             <div className="form-block">
+              <label className="label">Choose your plan</label>
+              <div className="plan-grid">
+                <button
+                  type="button"
+                  className={`plan-card ${plan === 'weekly' ? 'selected' : ''}`}
+                  onClick={() => setPlan('weekly')}
+                >
+                  <div className="plan-title">Weekly</div>
+                  <div className="plan-price">£4.50<span className="plan-period">/week</span></div>
+                  <ul className="plan-points">
+                    <li>Full access</li>
+                    <li>Cancel anytime</li>
+                  </ul>
+                </button>
+                <button
+                  type="button"
+                  className={`plan-card ${plan === 'monthly' ? 'selected' : ''}`}
+                  onClick={() => setPlan('monthly')}
+                >
+                  <div className="plan-title">Monthly</div>
+                  <div className="plan-price">£11.99<span className="plan-period">/month</span></div>
+                  <ul className="plan-points">
+                    <li>Best value</li>
+                    <li>Priority support</li>
+                  </ul>
+                </button>
+              </div>
+            </div>
+            <div className="form-block">
               <label className="label">Coupon (optional)</label>
               <input className="input" value={coupon} onChange={(e)=>setCoupon(e.target.value)} placeholder="Enter coupon or promo code" />
             </div>
@@ -361,6 +391,15 @@ export default function PaymentPage() {
         .input, .select { width:100%; background:#0e1530; color:var(--text); border:1px solid var(--border); border-radius:10px; padding:12px 14px; outline:none; }
         .input::placeholder { color: var(--muted); }
         .card-shell { border:1px dashed var(--border); border-radius:12px; padding:14px; background:#0e1530; }
+        .plan-grid { display:grid; grid-template-columns: 1fr; gap:12px; }
+        @media(min-width:700px){ .plan-grid { grid-template-columns: 1fr 1fr; } }
+        .plan-card { text-align:left; border:1px solid var(--border); background:#0e1530; padding:16px; border-radius:12px; cursor:pointer; color:var(--text); }
+        .plan-card:hover { border-color: var(--brand); box-shadow: 0 8px 24px rgba(78,123,255,0.18) }
+        .plan-card.selected { border-color: var(--brand); outline: 2px solid rgba(78,123,255,0.35); }
+        .plan-title { font-weight:800; margin-bottom:6px; }
+        .plan-price { font-weight:800; font-size:20px; }
+        .plan-period { font-weight:600; font-size:12px; color: var(--muted); margin-left:6px; }
+        .plan-points { margin:10px 0 0; padding-left:18px; color: var(--muted); }
       `}</style>
     </Elements>
   )
