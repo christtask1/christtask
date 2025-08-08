@@ -67,7 +67,7 @@ export async function createSubscription({
       subscriptionId,
       customerId,
     }
-  } catch (error) {
+  } catch {
     return {
       success: false,
       error: 'Failed to create subscription',

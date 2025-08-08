@@ -16,12 +16,11 @@ const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
 interface PaymentFormProps {
   selectedPlan: 'weekly' | 'monthly'
   email: string
-  password: string
   onSuccess: () => void
   onError: (error: string) => void
 }
 
-const PaymentForm = ({ selectedPlan, email, password, onSuccess, onError }: PaymentFormProps) => {
+const PaymentForm = ({ selectedPlan, email, onSuccess, onError }: PaymentFormProps) => {
   const stripe = useStripe()
   const elements = useElements()
   const [loading, setLoading] = useState(false)
@@ -68,7 +67,7 @@ const PaymentForm = ({ selectedPlan, email, password, onSuccess, onError }: Paym
       } else {
         onError(result.error || 'Subscription creation failed')
       }
-    } catch (error) {
+    } catch {
       onError('Payment processing failed')
     } finally {
       setLoading(false)
@@ -115,18 +114,16 @@ const PaymentForm = ({ selectedPlan, email, password, onSuccess, onError }: Paym
 interface StripePaymentProps {
   selectedPlan: 'weekly' | 'monthly'
   email: string
-  password: string
   onSuccess: () => void
   onError: (error: string) => void
 }
 
-export default function StripePayment({ selectedPlan, email, password, onSuccess, onError }: StripePaymentProps) {
+export default function StripePayment({ selectedPlan, email, onSuccess, onError }: StripePaymentProps) {
   return (
     <Elements stripe={stripePromise}>
       <PaymentForm
         selectedPlan={selectedPlan}
         email={email}
-        password={password}
         onSuccess={onSuccess}
         onError={onError}
       />

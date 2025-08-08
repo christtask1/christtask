@@ -161,7 +161,6 @@ export default function Pricing() {
                   <StripePayment
                     selectedPlan={selectedPlan}
                     email={email}
-                    password={password}
                     onSuccess={() => {
                       setSuccess(true);
                       setError('');
@@ -180,9 +179,9 @@ export default function Pricing() {
                       <svg className="w-5 h-5 text-blue-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
-                      <p className="text-sm text-blue-700 dark:text-blue-300">
-                        Click "Create Account" to proceed to payment
-                      </p>
+                                             <p className="text-sm text-blue-700 dark:text-blue-300">
+                         Click &quot;Create Account&quot; to proceed to payment
+                       </p>
                     </div>
                   </div>
                 </div>
