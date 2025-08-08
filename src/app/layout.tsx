@@ -1,15 +1,64 @@
-import React from 'react'
 
-export const metadata = { title: 'ChristTask', description: 'Simple site' }
+export const metadata = { title: 'ChristTask', description: 'Christian apologetics, thoughtfully.' }
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({ children }: { children: any }) {
   return (
     <html lang="en">
-      <body style={{ margin: 0, fontFamily: 'system-ui, Arial, sans-serif' }}>
-        <header style={{ position: 'sticky', top: 0, padding: '12px 16px', borderBottom: '1px solid #eee' }}>
-          <div style={{ fontWeight: 700 }}>ChristTask</div>
+      <body>
+        <header className="site-header">
+          <div className="container header-inner">
+            <div className="brand">ChristTask</div>
+            <nav className="nav">
+              <a href="/" className="nav-link">Home</a>
+              <a href="/payment" className="nav-cta">Get Access</a>
+            </nav>
+          </div>
         </header>
-        <main style={{ padding: 24 }}>{children}</main>
+        <main>{children}</main>
+
+        <footer className="site-footer">
+          <div className="container footer-inner">
+            <span>© {new Date().getFullYear()} ChristTask</span>
+            <a href="/payment" className="link">Subscribe</a>
+          </div>
+        </footer>
+
+        <style>{`
+          :root {
+            --bg: #0b1020;
+            --card: #101830;
+            --muted: #a8b3cf;
+            --text: #eef1f8;
+            --brand: #7aa2ff;
+            --brand-strong: #4e7bff;
+            --border: #1c2544;
+          }
+          * { box-sizing: border-box; }
+          html, body { height: 100%; }
+          body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; background: radial-gradient(1200px 600px at 10% 10%, #122049 0%, #0b1020 50%), var(--bg); color: var(--text); }
+          .container { width: 100%; max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+          .site-header { position: sticky; top: 0; backdrop-filter: saturate(140%) blur(8px); background: rgba(11,16,32,0.6); border-bottom: 1px solid var(--border); z-index: 50; }
+          .header-inner { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+          .brand { font-weight: 800; letter-spacing: 0.4px; color: var(--text); }
+          .nav { display: flex; gap: 14px; align-items: center; }
+          .nav-link { color: var(--muted); text-decoration: none; padding: 8px 10px; border-radius: 6px; }
+          .nav-link:hover { color: var(--text); background: rgba(122,162,255,0.08); }
+          .nav-cta { text-decoration: none; background: linear-gradient(180deg, var(--brand), var(--brand-strong)); color: white; padding: 8px 14px; border-radius: 8px; font-weight: 600; }
+          main { min-height: calc(100vh - 64px - 64px); }
+          .site-footer { border-top: 1px solid var(--border); background: #0b1020; }
+          .footer-inner { height: 64px; display: flex; align-items: center; justify-content: space-between; color: var(--muted); }
+          .link { color: var(--brand); text-decoration: none; }
+          .link:hover { text-decoration: underline; }
+          .btn { display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(180deg, var(--brand), var(--brand-strong)); color: #fff; padding: 12px 18px; border-radius: 10px; text-decoration: none; font-weight: 700; box-shadow: 0 10px 30px rgba(78,123,255,0.25); }
+          .btn.secondary { background: transparent; border: 1px solid var(--border); color: var(--text); box-shadow: none; }
+          .pill { display:inline-block; background: rgba(122,162,255,0.12); border:1px solid var(--border); padding:6px 10px; border-radius:999px; color: var(--brand); font-weight:700; letter-spacing:0.3px; }
+          .section { padding: 72px 0; }
+          .grid { display:grid; gap:20px; }
+          @media(min-width: 900px){ .grid-2 { grid-template-columns: 1.2fr 1fr; } .grid-3 { grid-template-columns: repeat(3,1fr); } }
+          .card { background: linear-gradient(180deg, rgba(23,35,74,0.55), rgba(16,24,48,0.8)); border:1px solid var(--border); border-radius:16px; padding:22px; }
+          .muted { color: var(--muted); }
+          h1, h2, h3 { margin: 0 0 10px; line-height: 1.15; }
+        `}</style>
       </body>
     </html>
   )
