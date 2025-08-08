@@ -125,8 +125,8 @@ function PaymentFlow({
       const { data: sessionRes } = await supabase.auth.getSession()
       if (!sessionRes?.session) {
         onError('Please log in before paying')
-        return
-      }
+      return
+    }
 
       // Get or create customer
       const { data: custRows, error: custErr } = await supabase.rpc('get_or_create_customer', { user_email: email })
@@ -158,29 +158,29 @@ function PaymentFlow({
   return (
     <div className="space-y-4">
       {!clientSecret ? (
-        <div className="space-y-4">
-          <div>
+      <div className="space-y-4">
+        <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Coupon Code (optional)</label>
-            <input
-              type="text"
-              value={couponCode}
+        <input
+          type="text"
+          value={couponCode}
               onChange={(e) => setCouponCode(e.target.value.trim())}
-              className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+          className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
               placeholder="COUPONID"
-            />
+        />
             {couponPreview && (
               <p className="mt-2 text-sm {couponPreview==='Invalid coupon' ? 'text-red-600' : 'text-green-600'}">
                 {couponPreview}
               </p>
             )}
-          </div>
+      </div>
 
-          <button
+      <button
             onClick={startPayment}
             className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200"
-          >
+      >
             Continue to card details
-          </button>
+      </button>
         </div>
       ) : (
         <Elements stripe={stripePromise} options={{ clientSecret, appearance: { theme: 'stripe' } }}>
@@ -188,9 +188,9 @@ function PaymentFlow({
             <CardForm
               clientSecret={clientSecret}
               subscriptionId={subscriptionId!}
-              onSuccess={onSuccess}
-              onError={onError}
-            />
+        onSuccess={onSuccess}
+        onError={onError}
+      />
           </div>
         </Elements>
       )}
