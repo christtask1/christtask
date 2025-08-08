@@ -36,9 +36,6 @@ export async function POST(request: NextRequest) {
       body: new URLSearchParams({
         email,
         payment_method: paymentMethodId,
-        invoice_settings: JSON.stringify({
-          default_payment_method: paymentMethodId,
-        }),
       }),
     })
 
