@@ -8,7 +8,6 @@ export default function Pricing() {
   const [selectedPlan, setSelectedPlan] = useState<'weekly' | 'monthly'>('monthly');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [showPayment, setShowPayment] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
 
@@ -112,12 +111,7 @@ export default function Pricing() {
           <div className="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg">
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">Create Your Account</h2>
             
-            <form onSubmit={(e) => {
-              e.preventDefault();
-              if (email && password) {
-                setShowPayment(true);
-              }
-            }} className="space-y-6">
+            <div className="space-y-6">
               {/* Account Details */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -147,45 +141,29 @@ export default function Pricing() {
                 />
               </div>
 
-              {/* Payment Information */}
-              {showPayment ? (
-                <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Payment Information</h3>
-                  
-                  {error && (
-                    <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
-                      <p className="text-red-700 dark:text-red-300 text-sm">{error}</p>
-                    </div>
-                  )}
-                  
-                  <StripePayment
-                    selectedPlan={selectedPlan}
-                    email={email}
-                    onSuccess={() => {
-                      setSuccess(true);
-                      setError('');
-                    }}
-                    onError={(errorMessage) => {
-                      setError(errorMessage);
-                      setSuccess(false);
-                    }}
-                  />
-                </div>
-              ) : (
-                <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Payment Information</h3>
-                  <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4">
-                    <div className="flex items-center">
-                      <svg className="w-5 h-5 text-blue-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                      </svg>
-                                             <p className="text-sm text-blue-700 dark:text-blue-300">
-                         Click &quot;Create Account&quot; to proceed to payment
-                       </p>
-                    </div>
+                            {/* Payment Information */}
+              <div className="space-y-4">
+                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Payment Information</h3>
+                
+                {error && (
+                  <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
+                    <p className="text-red-700 dark:text-red-300 text-sm">{error}</p>
                   </div>
-                </div>
-              )}
+                )}
+                
+                <StripePayment
+                  selectedPlan={selectedPlan}
+                  email={email}
+                  onSuccess={() => {
+                    setSuccess(true);
+                    setError('');
+                  }}
+                  onError={(errorMessage) => {
+                    setError(errorMessage);
+                    setSuccess(false);
+                  }}
+                />
+              </div>
 
               {/* Order Summary */}
               <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
@@ -238,15 +216,7 @@ export default function Pricing() {
                 </div>
               )}
 
-              {/* Submit Button */}
-              <button
-                type="submit"
-                disabled={showPayment}
-                className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200"
-              >
-                {showPayment ? 'Payment Form Active' : 'Create Account'}
-              </button>
-            </form>
+            </div>
           </div>
         </div>
       </section>
