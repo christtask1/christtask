@@ -67,7 +67,7 @@ export async function createSubscription({
     console.log('Creating subscription with Stripe wrapper:', { email, plan, paymentMethodId, couponCode })
 
     // First, check if customer exists or create one
-    let { data: customerData, error: customerError } = await supabase
+    const { data: customerData, error: customerError } = await supabase
       .from('customers')
       .select('id')
       .eq('email', email)
