@@ -29,10 +29,10 @@ export default function Success() {
 
           <div className="space-y-4">
             <Link 
-              href="/dashboard"
+              href="/chatbot"
               className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl inline-block"
             >
-              Go to Dashboard
+              Start Chatting with AI
             </Link>
             
             <Link 

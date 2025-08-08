@@ -155,8 +155,8 @@ export default function Pricing() {
                   selectedPlan={selectedPlan}
                   email={email}
                   onSuccess={() => {
-                    setSuccess(true);
-                    setError('');
+                    // Redirect to success page
+                    window.location.href = '/success';
                   }}
                   onError={(errorMessage) => {
                     setError(errorMessage);
