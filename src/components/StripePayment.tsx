@@ -102,14 +102,20 @@ function PaymentFlow({
         return
       }
       const { data, error } = await supabase.rpc('validate_coupon', { coupon_code: couponCode })
-      if (error || !data || !data[0]?.valid) {
+      if (error || !data || !data[0]) {
         setCouponPreview('Invalid coupon')
-      } else {
-        const c = data[0].coupon
-        if (c?.percent_off) setCouponPreview(`${c.percent_off}% off`)
-        else if (c?.amount_off && c?.currency) setCouponPreview(`${c.amount_off / 100} ${c.currency.toUpperCase()} off`)
-        else setCouponPreview('Coupon applied')
+        return
       }
+      const row = data[0]
+      if (!row.valid) {
+        setCouponPreview('Invalid coupon')
+        return
+      }
+      const c = row.coupon
+      if (c?.percent_off) setCouponPreview(`${c.percent_off}% off`)
+      else if (c?.amount_off && c?.currency) setCouponPreview(`${c.amount_off / 100} ${c.currency.toUpperCase()} off`)
+      else if (row.is_promotion_code) setCouponPreview('Promotion code applied')
+      else setCouponPreview('Coupon applied')
     }
     run()
   }, [couponCode])
@@ -122,11 +128,7 @@ function PaymentFlow({
       }
 
       // Ensure authenticated session present
-      const { data: sessionRes } = await supabase.auth.getSession()
-      if (!sessionRes?.session) {
-        onError('Please log in before paying')
-      return
-    }
+      // Allow proceeding. If the server rejects due to auth, the RPC will fail and we display that.
 
       // Get or create customer
       const { data: custRows, error: custErr } = await supabase.rpc('get_or_create_customer', { user_email: email })
