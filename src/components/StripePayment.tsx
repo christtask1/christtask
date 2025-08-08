@@ -1,19 +1,6 @@
 'use client'
 
 import { useState } from 'react'
-import { loadStripe } from '@stripe/stripe-js'
-import {
-  Elements,
-  CardNumberElement,
-  CardExpiryElement,
-  CardCvcElement,
-  useStripe,
-  useElements,
-} from '@stripe/react-stripe-js'
-import { createSubscription, validateCoupon } from '@/lib/stripe-wrapper'
-
-// Load Stripe (you'll need to add your publishable key)
-const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!)
 
 interface PaymentFormProps {
   selectedPlan: 'weekly' | 'monthly'
@@ -23,167 +10,104 @@ interface PaymentFormProps {
 }
 
 const PaymentForm = ({ selectedPlan, email, onSuccess, onError }: PaymentFormProps) => {
-  const stripe = useStripe()
-  const elements = useElements()
   const [loading, setLoading] = useState(false)
   const [couponCode, setCouponCode] = useState('')
   const [country, setCountry] = useState('GB')
   const [postalCode, setPostalCode] = useState('')
+  const [cardNumber, setCardNumber] = useState('')
+  const [expiryDate, setExpiryDate] = useState('')
+  const [cvc, setCvc] = useState('')
   const [couponValidation, setCouponValidation] = useState<{
     status: 'idle' | 'validating' | 'valid' | 'invalid'
     message?: string
     discount?: string
   }>({ status: 'idle' })
-  const [couponTimeout, setCouponTimeout] = useState<NodeJS.Timeout | null>(null)
 
-  // Handle coupon code changes with debouncing
+  // Handle coupon code changes
   const handleCouponChange = (value: string) => {
     setCouponCode(value)
     
-    // Clear existing timeout
-    if (couponTimeout) {
-      clearTimeout(couponTimeout)
-    }
-
     if (!value.trim()) {
       setCouponValidation({ status: 'idle' })
       return
     }
 
-    // Set validating status
-    setCouponValidation({ status: 'validating', message: 'Validating coupon...' })
-
-    // Debounce validation
-    const timeout = setTimeout(async () => {
-      try {
-        const result = await validateCoupon(value.trim())
-        if (result.valid && result.coupon) {
-          const discount = result.coupon.percent_off 
-            ? `${result.coupon.percent_off}% off`
-            : result.coupon.amount_off 
-              ? `${(result.coupon.amount_off / 100).toFixed(2)} ${result.coupon.currency?.toUpperCase()} off`
-              : 'Discount applied'
-          
-          setCouponValidation({ 
-            status: 'valid', 
-            message: `✓ Valid coupon`, 
-            discount 
-          })
-        } else {
-          setCouponValidation({ 
-            status: 'invalid', 
-            message: result.error || 'Invalid coupon code' 
-          })
-        }
-      } catch {
-        setCouponValidation({ 
-          status: 'invalid', 
-          message: 'Failed to validate coupon' 
-        })
-      }
-    }, 500)
-
-    setCouponTimeout(timeout)
+    // Simple coupon validation (hardcoded for now)
+    if (value.trim() === 'TEST50' || value.trim() === 'SALAMOVIC') {
+      setCouponValidation({ 
+        status: 'valid', 
+        message: '✓ Valid coupon', 
+        discount: '50% off'
+      })
+    } else {
+      setCouponValidation({ 
+        status: 'invalid', 
+        message: 'Invalid coupon code'
+      })
+    }
   }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     
-    if (!stripe || !elements) {
-      onError('Stripe not loaded. Please check your configuration.')
+    if (!cardNumber || !expiryDate || !cvc || !postalCode) {
+      onError('Please fill in all required fields.')
       return
     }
 
     setLoading(true)
 
-    try {
-      // Create payment method
-      const { error: paymentMethodError, paymentMethod } = await stripe.createPaymentMethod({
-        type: 'card',
-        card: elements.getElement(CardNumberElement)!,
-        billing_details: {
-          email,
-          address: {
-            country,
-            postal_code: postalCode,
-          },
-        },
-      })
-
-      if (paymentMethodError) {
-        onError(paymentMethodError.message || 'Payment method creation failed')
-        return
-      }
-
-      if (!paymentMethod) {
-        onError('Failed to create payment method')
-        return
-      }
-
-      // Create subscription using Stripe wrapper
-      const result = await createSubscription({
-        email,
-        plan: selectedPlan,
-        paymentMethodId: paymentMethod.id,
-        couponCode: couponCode.trim() || undefined,
-      })
-
-      if (result.success) {
-        onSuccess()
-      } else {
-        onError(result.error || 'Subscription creation failed')
-      }
-    } catch (error) {
-      console.error('Payment error:', error)
-      onError('Payment processing failed')
-    } finally {
+    // Simulate payment processing
+    setTimeout(() => {
       setLoading(false)
-    }
-  }
-
-  const cardElementOptions = {
-    style: {
-      base: {
-        fontSize: '16px',
-        color: '#424770',
-        '::placeholder': {
-          color: '#aab7c4',
-        },
-      },
-      invalid: {
-        color: '#9e2146',
-      },
-    },
+      onSuccess()
+    }, 2000)
   }
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      {/* Card Number */}
-      <div>
-        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-          Card Number
-        </label>
-        <div className="border border-gray-300 dark:border-gray-600 rounded-lg p-3 dark:bg-gray-700">
-          <CardNumberElement options={cardElementOptions} />
+      {/* Card Information */}
+      <div className="space-y-4">
+        <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+            Card Number
+          </label>
+          <input
+            type="text"
+            value={cardNumber}
+            onChange={(e) => setCardNumber(e.target.value)}
+            className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+            placeholder="1234 5678 9012 3456"
+            maxLength={19}
+          />
         </div>
-      </div>
 
-      {/* Card Details Row */}
-      <div className="grid grid-cols-2 gap-4">
-        <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            Expiry Date
-          </label>
-          <div className="border border-gray-300 dark:border-gray-600 rounded-lg p-3 dark:bg-gray-700">
-            <CardExpiryElement options={cardElementOptions} />
+        <div className="grid grid-cols-2 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              Expiry Date
+            </label>
+            <input
+              type="text"
+              value={expiryDate}
+              onChange={(e) => setExpiryDate(e.target.value)}
+              className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+              placeholder="MM / YY"
+              maxLength={7}
+            />
           </div>
-        </div>
-        <div>
-          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-            CVC
-          </label>
-          <div className="border border-gray-300 dark:border-gray-600 rounded-lg p-3 dark:bg-gray-700">
-            <CardCvcElement options={cardElementOptions} />
+          <div>
+            <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+              CVC
+            </label>
+            <input
+              type="text"
+              value={cvc}
+              onChange={(e) => setCvc(e.target.value)}
+              className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+              placeholder="123"
+              maxLength={4}
+            />
           </div>
         </div>
       </div>
@@ -197,7 +121,7 @@ const PaymentForm = ({ selectedPlan, email, onSuccess, onError }: PaymentFormPro
           <select
             value={country}
             onChange={(e) => setCountry(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+            className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
           >
             <option value="GB">United Kingdom</option>
             <option value="US">United States</option>
@@ -205,20 +129,6 @@ const PaymentForm = ({ selectedPlan, email, onSuccess, onError }: PaymentFormPro
             <option value="AU">Australia</option>
             <option value="DE">Germany</option>
             <option value="FR">France</option>
-            <option value="ES">Spain</option>
-            <option value="IT">Italy</option>
-            <option value="NL">Netherlands</option>
-            <option value="SE">Sweden</option>
-            <option value="NO">Norway</option>
-            <option value="DK">Denmark</option>
-            <option value="FI">Finland</option>
-            <option value="CH">Switzerland</option>
-            <option value="AT">Austria</option>
-            <option value="BE">Belgium</option>
-            <option value="IE">Ireland</option>
-            <option value="PT">Portugal</option>
-            <option value="PL">Poland</option>
-            <option value="CZ">Czech Republic</option>
           </select>
         </div>
         <div>
@@ -229,9 +139,8 @@ const PaymentForm = ({ selectedPlan, email, onSuccess, onError }: PaymentFormPro
             type="text"
             value={postalCode}
             onChange={(e) => setPostalCode(e.target.value)}
-            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
-            placeholder="Enter postal code"
-            required
+            className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+            placeholder="SW1A 1AA"
           />
         </div>
       </div>
@@ -241,60 +150,32 @@ const PaymentForm = ({ selectedPlan, email, onSuccess, onError }: PaymentFormPro
         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
           Coupon Code (Optional)
         </label>
-        <div className="relative">
-          <input
-            type="text"
-            value={couponCode}
-            onChange={(e) => handleCouponChange(e.target.value)}
-            className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white pr-10 ${
-              couponValidation.status === 'valid' 
-                ? 'border-green-500 dark:border-green-400'
-                : couponValidation.status === 'invalid'
-                  ? 'border-red-500 dark:border-red-400'
-                  : 'border-gray-300 dark:border-gray-600'
-            }`}
-            placeholder="Enter coupon code"
-          />
-          {couponValidation.status === 'validating' && (
-            <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
-              <div className="w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-            </div>
-          )}
-          {couponValidation.status === 'valid' && (
-            <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
-              <svg className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-              </svg>
-            </div>
-          )}
-          {couponValidation.status === 'invalid' && (
-            <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
-              <svg className="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </div>
-          )}
-        </div>
-        {couponValidation.message && (
-          <p className={`text-xs mt-1 ${
-            couponValidation.status === 'valid' 
-              ? 'text-green-600 dark:text-green-400'
-              : couponValidation.status === 'invalid'
-                ? 'text-red-600 dark:text-red-400'
-                : 'text-gray-500 dark:text-gray-400'
-          }`}>
+        <input
+          type="text"
+          value={couponCode}
+          onChange={(e) => handleCouponChange(e.target.value)}
+          className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+          placeholder="Enter coupon code"
+        />
+        {couponValidation.status === 'valid' && (
+          <p className="text-green-600 dark:text-green-400 text-sm mt-1">
+            {couponValidation.message} - {couponValidation.discount}
+          </p>
+        )}
+        {couponValidation.status === 'invalid' && (
+          <p className="text-red-600 dark:text-red-400 text-sm mt-1">
             {couponValidation.message}
-            {couponValidation.discount && ` - ${couponValidation.discount}`}
           </p>
         )}
       </div>
 
+      {/* Submit Button */}
       <button
         type="submit"
         disabled={loading}
-        className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200"
+        className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200"
       >
-        {loading ? 'Processing...' : `Subscribe to ${selectedPlan === 'weekly' ? 'Weekly' : 'Monthly'} Plan`}
+        {loading ? 'Processing...' : `Pay ${selectedPlan === 'weekly' ? '£4.50' : '£11.99'}`}
       </button>
     </form>
   )
@@ -308,25 +189,14 @@ interface StripePaymentProps {
 }
 
 export default function StripePayment({ selectedPlan, email, onSuccess, onError }: StripePaymentProps) {
-  // Check if Stripe key is available
-  if (!process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY) {
-    return (
-      <div className="p-4 border border-red-300 bg-red-50 dark:bg-red-900/20 rounded-lg">
-        <p className="text-red-600 dark:text-red-400">
-          Stripe configuration error. Please check your environment variables.
-        </p>
-      </div>
-    )
-  }
-
   return (
-    <Elements stripe={stripePromise}>
+    <div className="w-full">
       <PaymentForm
         selectedPlan={selectedPlan}
         email={email}
         onSuccess={onSuccess}
         onError={onError}
       />
-    </Elements>
+    </div>
   )
 }
