@@ -2,29 +2,15 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import StripePayment from "@/components/StripePayment";
 
 export default function Pricing() {
-  const [selectedPlan, setSelectedPlan] = useState('monthly');
+  const [selectedPlan, setSelectedPlan] = useState<'weekly' | 'monthly'>('monthly');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
-
-  const handlePayment = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    
-    // TODO: Add Stripe Elements integration here
-    console.log('Payment form submitted:', {
-      plan: selectedPlan,
-      email,
-      password
-    });
-    
-    // TODO: This will be replaced with Stripe Elements payment processing
-    // Instead of redirecting to Stripe Checkout, we'll process payment directly on the page
-    
-    setLoading(false);
-  };
+  const [showPayment, setShowPayment] = useState(false);
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState(false);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
@@ -126,7 +112,12 @@ export default function Pricing() {
           <div className="bg-white dark:bg-gray-800 rounded-xl p-8 shadow-lg">
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">Create Your Account</h2>
             
-            <form onSubmit={handlePayment} className="space-y-6">
+            <form onSubmit={(e) => {
+              e.preventDefault();
+              if (email && password) {
+                setShowPayment(true);
+              }
+            }} className="space-y-6">
               {/* Account Details */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -157,54 +148,45 @@ export default function Pricing() {
               </div>
 
               {/* Payment Information */}
-              <div className="space-y-4">
-                <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Payment Information</h3>
-                
-                {/* Card Number */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                    Card Number
-                  </label>
-                  <div className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-transparent dark:bg-gray-700 dark:text-white">
-                    <div className="h-6 bg-transparent">
-                      {/* TODO: Stripe CardNumberElement will be rendered here */}
-                      <div className="text-sm text-gray-500 dark:text-gray-400">
-                        Card number input will be integrated here
-                      </div>
+              {showPayment ? (
+                <div className="space-y-4">
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Payment Information</h3>
+                  
+                  {error && (
+                    <div className="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4">
+                      <p className="text-red-700 dark:text-red-300 text-sm">{error}</p>
+                    </div>
+                  )}
+                  
+                  <StripePayment
+                    selectedPlan={selectedPlan}
+                    email={email}
+                    password={password}
+                    onSuccess={() => {
+                      setSuccess(true);
+                      setError('');
+                    }}
+                    onError={(errorMessage) => {
+                      setError(errorMessage);
+                      setSuccess(false);
+                    }}
+                  />
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  <h3 className="text-lg font-semibold text-gray-900 dark:text-white">Payment Information</h3>
+                  <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4">
+                    <div className="flex items-center">
+                      <svg className="w-5 h-5 text-blue-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      <p className="text-sm text-blue-700 dark:text-blue-300">
+                        Click "Create Account" to proceed to payment
+                      </p>
                     </div>
                   </div>
                 </div>
-
-                {/* Card Details Row */}
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                      Expiry Date
-                    </label>
-                    <div className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-transparent dark:bg-gray-700 dark:text-white">
-                      <div className="h-6 bg-transparent">
-                        {/* TODO: Stripe CardExpiryElement will be rendered here */}
-                        <div className="text-sm text-gray-500 dark:text-gray-400">
-                          MM/YY
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                      CVC
-                    </label>
-                    <div className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-transparent dark:bg-gray-700 dark:text-white">
-                      <div className="h-6 bg-transparent">
-                        {/* TODO: Stripe CardCvcElement will be rendered here */}
-                        <div className="text-sm text-gray-500 dark:text-gray-400">
-                          CVC
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              )}
 
               {/* Order Summary */}
               <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4">
@@ -229,25 +211,41 @@ export default function Pricing() {
                 </div>
               </div>
 
-              {/* Info about embedded payment */}
-              <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4">
-                <div className="flex items-center">
-                  <svg className="w-5 h-5 text-blue-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                  <p className="text-sm text-blue-700 dark:text-blue-300">
-                    Complete your payment securely on this page.
-                  </p>
+              {/* Success Message */}
+              {success && (
+                <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-4">
+                  <div className="flex items-center">
+                    <svg className="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                    </svg>
+                    <p className="text-sm text-green-700 dark:text-green-300">
+                      Payment successful! Your subscription is now active.
+                    </p>
+                  </div>
                 </div>
-              </div>
+              )}
+
+              {/* Info about embedded payment */}
+              {!success && (
+                <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-4">
+                  <div className="flex items-center">
+                    <svg className="w-5 h-5 text-blue-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <p className="text-sm text-blue-700 dark:text-blue-300">
+                      Complete your payment securely on this page.
+                    </p>
+                  </div>
+                </div>
+              )}
 
               {/* Submit Button */}
               <button
                 type="submit"
-                disabled={loading}
+                disabled={showPayment}
                 className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200"
               >
-                {loading ? 'Processing...' : `Subscribe to ${selectedPlan === 'weekly' ? 'Weekly' : 'Monthly'} Plan`}
+                {showPayment ? 'Payment Form Active' : 'Create Account'}
               </button>
             </form>
           </div>
