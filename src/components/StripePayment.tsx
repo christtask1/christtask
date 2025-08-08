@@ -10,7 +10,6 @@ import {
   useStripe,
   useElements,
 } from '@stripe/react-stripe-js'
-import { createSubscription, validateCoupon } from '@/lib/stripe-service'
 
 // Load Stripe (you'll need to add your publishable key)
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!)
@@ -29,62 +28,6 @@ const PaymentForm = ({ selectedPlan, email, onSuccess, onError }: PaymentFormPro
   const [couponCode, setCouponCode] = useState('')
   const [country, setCountry] = useState('GB')
   const [postalCode, setPostalCode] = useState('')
-  const [couponValidation, setCouponValidation] = useState<{
-    status: 'idle' | 'validating' | 'valid' | 'invalid'
-    message?: string
-    discount?: string
-  }>({ status: 'idle' })
-  const [couponTimeout, setCouponTimeout] = useState<NodeJS.Timeout | null>(null)
-
-  // Handle coupon code changes with debouncing
-  const handleCouponChange = (value: string) => {
-    setCouponCode(value)
-    
-    // Clear existing timeout
-    if (couponTimeout) {
-      clearTimeout(couponTimeout)
-    }
-
-    if (!value.trim()) {
-      setCouponValidation({ status: 'idle' })
-      return
-    }
-
-    // Set validating status
-    setCouponValidation({ status: 'validating', message: 'Validating coupon...' })
-
-    // Debounce validation
-    const timeout = setTimeout(async () => {
-      try {
-        const result = await validateCoupon(value.trim())
-        if (result.valid && result.coupon) {
-          const discount = result.coupon.percent_off 
-            ? `${result.coupon.percent_off}% off`
-            : result.coupon.amount_off 
-              ? `${(result.coupon.amount_off / 100).toFixed(2)} ${result.coupon.currency?.toUpperCase()} off`
-              : 'Discount applied'
-          
-          setCouponValidation({ 
-            status: 'valid', 
-            message: `✓ Valid coupon`, 
-            discount 
-          })
-        } else {
-          setCouponValidation({ 
-            status: 'invalid', 
-            message: result.error || 'Invalid coupon code' 
-          })
-        }
-      } catch {
-        setCouponValidation({ 
-          status: 'invalid', 
-          message: 'Failed to validate coupon' 
-        })
-      }
-    }, 500)
-
-    setCouponTimeout(timeout)
-  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -120,19 +63,15 @@ const PaymentForm = ({ selectedPlan, email, onSuccess, onError }: PaymentFormPro
         return
       }
 
-      // Create subscription using our service
-      const result = await createSubscription({
-        email,
-        plan: selectedPlan,
-        paymentMethodId: paymentMethod.id,
-        couponCode: couponCode.trim() || undefined,
-      })
+      // TODO: Use Supabase Stripe wrapper here
+      // This is where you'll integrate with the Stripe wrapper
+      console.log('Payment method created:', paymentMethod.id)
+      console.log('Selected plan:', selectedPlan)
+      console.log('Email:', email)
+      console.log('Coupon code:', couponCode)
 
-      if (result.success) {
-        onSuccess()
-      } else {
-        onError(result.error || 'Subscription creation failed')
-      }
+      // For now, just show success
+      onSuccess()
     } catch (error) {
       console.error('Payment error:', error)
       onError('Payment processing failed')
@@ -245,48 +184,11 @@ const PaymentForm = ({ selectedPlan, email, onSuccess, onError }: PaymentFormPro
           <input
             type="text"
             value={couponCode}
-            onChange={(e) => handleCouponChange(e.target.value)}
-            className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white pr-10 ${
-              couponValidation.status === 'valid' 
-                ? 'border-green-500 dark:border-green-400'
-                : couponValidation.status === 'invalid'
-                  ? 'border-red-500 dark:border-red-400'
-                  : 'border-gray-300 dark:border-gray-600'
-            }`}
+            onChange={(e) => setCouponCode(e.target.value)}
+            className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white pr-10`}
             placeholder="Enter coupon code"
           />
-          {couponValidation.status === 'validating' && (
-            <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
-              <div className="w-4 h-4 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
-            </div>
-          )}
-          {couponValidation.status === 'valid' && (
-            <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
-              <svg className="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-              </svg>
-            </div>
-          )}
-          {couponValidation.status === 'invalid' && (
-            <div className="absolute right-3 top-1/2 transform -translate-y-1/2">
-              <svg className="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
-            </div>
-          )}
         </div>
-        {couponValidation.message && (
-          <p className={`text-xs mt-1 ${
-            couponValidation.status === 'valid' 
-              ? 'text-green-600 dark:text-green-400'
-              : couponValidation.status === 'invalid'
-                ? 'text-red-600 dark:text-red-400'
-                : 'text-gray-500 dark:text-gray-400'
-          }`}>
-            {couponValidation.message}
-            {couponValidation.discount && ` - ${couponValidation.discount}`}
-          </p>
-        )}
       </div>
 
       <button
