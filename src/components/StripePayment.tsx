@@ -17,35 +17,6 @@ const PaymentForm = ({ selectedPlan, email, onSuccess, onError }: PaymentFormPro
   const [cardNumber, setCardNumber] = useState('')
   const [expiryDate, setExpiryDate] = useState('')
   const [cvc, setCvc] = useState('')
-  const [couponValidation, setCouponValidation] = useState<{
-    status: 'idle' | 'validating' | 'valid' | 'invalid'
-    message?: string
-    discount?: string
-  }>({ status: 'idle' })
-
-  // Handle coupon code changes
-  const handleCouponChange = (value: string) => {
-    setCouponCode(value)
-    
-    if (!value.trim()) {
-      setCouponValidation({ status: 'idle' })
-      return
-    }
-
-    // Simple coupon validation (hardcoded for now)
-    if (value.trim() === 'TEST50' || value.trim() === 'SALAMOVIC') {
-      setCouponValidation({ 
-        status: 'valid', 
-        message: '✓ Valid coupon', 
-        discount: '50% off'
-      })
-    } else {
-      setCouponValidation({ 
-        status: 'invalid', 
-        message: 'Invalid coupon code'
-      })
-    }
-  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -153,20 +124,10 @@ const PaymentForm = ({ selectedPlan, email, onSuccess, onError }: PaymentFormPro
         <input
           type="text"
           value={couponCode}
-          onChange={(e) => handleCouponChange(e.target.value)}
+          onChange={(e) => setCouponCode(e.target.value)}
           className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
           placeholder="Enter coupon code"
         />
-        {couponValidation.status === 'valid' && (
-          <p className="text-green-600 dark:text-green-400 text-sm mt-1">
-            {couponValidation.message} - {couponValidation.discount}
-          </p>
-        )}
-        {couponValidation.status === 'invalid' && (
-          <p className="text-red-600 dark:text-red-400 text-sm mt-1">
-            {couponValidation.message}
-          </p>
-        )}
       </div>
 
       {/* Submit Button */}
