@@ -15,6 +15,7 @@ export default function Home() {
             <div style={{ display: 'flex', gap: 12, marginTop: 18 }}>
               <a className="btn" href="/payment">Get access</a>
               <a className="btn secondary" href="#features">Learn more</a>
+              <a className="btn secondary" href="/login">Log in</a>
             </div>
           </div>
           <div className="card" style={{ padding: 28 }}>
@@ -52,8 +53,9 @@ export default function Home() {
         <div className="container card" style={{ textAlign: 'center', padding: 28 }}>
           <h2>Ready to dive in?</h2>
           <p className="muted" style={{ marginTop: 6 }}>Subscribe to access the full library and new weekly content.</p>
-          <div style={{ marginTop: 14 }}>
+          <div style={{ marginTop: 14, display: 'flex', justifyContent: 'center', gap: 12 }}>
             <a className="btn" href="/payment">Get access</a>
+            <a className="btn secondary" href="/login">Log in</a>
           </div>
         </div>
       </section>
