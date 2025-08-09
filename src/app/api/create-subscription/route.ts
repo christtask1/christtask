@@ -39,8 +39,19 @@ export async function POST(request: NextRequest) {
 
     const subscription = await stripe.subscriptions.create(subscriptionData)
 
+    // Safely access client_secret
+    const clientSecret = subscription?.latest_invoice?.payment_intent?.client_secret
+    
+    if (!clientSecret) {
+      console.error('No client_secret found in subscription:', JSON.stringify(subscription, null, 2))
+      return NextResponse.json(
+        { error: 'No client_secret received from Stripe' },
+        { status: 500 }
+      )
+    }
+
     return NextResponse.json({
-      client_secret: subscription.latest_invoice.payment_intent.client_secret,
+      client_secret: clientSecret,
       subscription_id: subscription.id,
     })
   } catch (error: any) {
