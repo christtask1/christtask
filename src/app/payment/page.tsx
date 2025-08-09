@@ -325,7 +325,7 @@ export default function PaymentPage() {
         if (data && data.length > 0) {
           setPlan(data[0].id)
         }
-      } catch (error) {
+      } catch (error: any) {
         console.error('Error loading prices:', error)
         console.error('Error details:', JSON.stringify(error, null, 2))
         alert(`Failed to load subscription plans: ${error?.message || 'Unknown error'}. Please refresh.`)
