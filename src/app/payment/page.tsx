@@ -74,6 +74,7 @@ function CardForm({
 
         const data = await response.json()
         secret = data.client_secret
+        if (!secret) throw new Error('No client_secret received from server')
         onClientSecret(secret)
       }
 
