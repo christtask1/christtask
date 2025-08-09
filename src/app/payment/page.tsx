@@ -7,27 +7,52 @@ import { supabase } from '../../lib/supabaseClient'
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || '')
 
-function CardForm({ clientSecret, country }: { clientSecret: string | null; country: string }) {
+function CardForm({
+  clientSecret,
+  country,
+  plan,
+  coupon,
+  onClientSecret,
+}: {
+  clientSecret: string | null
+  country: string
+  plan: string
+  coupon: string
+  onClientSecret: (secret: string) => void
+}) {
   const stripe = useStripe()
   const elements = useElements()
   const [loading, setLoading] = useState(false)
 
   const confirm = async () => {
     if (!stripe || !elements) return
-    if (!clientSecret) {
-      alert('Click Prepare payment first')
-      return
-    }
     setLoading(true)
+    try {
+      let secret = clientSecret
+      if (!secret) {
+        const { data, error } = await supabase.rpc('create_subscription_for_price', {
+          price_id: plan,
+          coupon,
+        })
+        if (error) throw error
+        secret = data.client_secret as string
+        onClientSecret(secret)
+      }
+
     const card = elements.getElement(CardElement)
-    const res = await stripe.confirmCardPayment(clientSecret, {
+      const res = await stripe.confirmCardPayment(secret!, {
       payment_method: {
         card: card!,
         billing_details: { address: { country } },
       },
     })
+      if (!res.error) window.location.href = '/success'
+      else alert(res.error.message || 'Payment failed')
+    } catch (err: any) {
+      console.error('Payment error:', err)
+      alert(err?.message || 'Unable to start payment')
+    }
     setLoading(false)
-    if (!res.error) window.location.href = '/success'
   }
 
   return (
@@ -61,6 +86,18 @@ export default function PaymentPage() {
   const [plan, setPlan] = useState<string>('')
   const [prices, setPrices] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
+
+  // Require login before accessing payment page
+  useEffect(() => {
+    const checkSession = async () => {
+      const { data } = await supabase.auth.getSession()
+      if (!data.session) {
+        const redirect = encodeURIComponent('/payment')
+        window.location.href = `/login?redirect=${redirect}`
+      }
+    }
+    checkSession()
+  }, [])
 
   const COUNTRIES: { code: string; name: string }[] = [
     { code: 'AF', name: 'Afghanistan' },
@@ -410,11 +447,13 @@ export default function PaymentPage() {
               </select>
             </div>
 
-            <CardForm clientSecret={clientSecret} country={country} />
-
-            {!clientSecret && (
-              <button className="btn secondary" onClick={createClientSecret}>Prepare payment</button>
-            )}
+            <CardForm
+              clientSecret={clientSecret}
+              country={country}
+              plan={plan}
+              coupon={coupon}
+              onClientSecret={setClientSecret}
+            />
           </div>
         </div>
       </section>
