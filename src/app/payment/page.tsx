@@ -74,7 +74,12 @@ function CardForm({
 
         const data = await response.json()
         secret = data.client_secret
-        if (!secret) throw new Error('No client_secret received from server')
+        if (!secret) {
+          // No payment required (e.g., 100% discount). Consider subscription successful.
+          window.location.href = '/success'
+          setLoading(false)
+          return
+        }
         onClientSecret(secret)
       }
 

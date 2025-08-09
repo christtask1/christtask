@@ -29,7 +29,8 @@ export async function POST(request: NextRequest) {
       payment_settings: {
         payment_method_types: ['card'],
       },
-      expand: ['latest_invoice.payment_intent'],
+      // Expand both latest_invoice and its payment_intent so we can inspect
+      expand: ['latest_invoice', 'latest_invoice.payment_intent'],
     }
 
     // Add coupon if provided (using discounts format)
@@ -41,19 +42,34 @@ export async function POST(request: NextRequest) {
 
     // Safely access client_secret
     const clientSecret = subscription?.latest_invoice?.payment_intent?.client_secret
-    
-    if (!clientSecret) {
-      console.error('No client_secret found in subscription:', JSON.stringify(subscription, null, 2))
-      return NextResponse.json(
-        { error: 'No client_secret received from Stripe' },
-        { status: 500 }
-      )
+    const latestInvoice = subscription?.latest_invoice
+    const invoiceStatus = latestInvoice?.status
+    const amountDue = (latestInvoice && typeof latestInvoice.amount_due === 'number') ? latestInvoice.amount_due : undefined
+
+    // If there is a client_secret, return it for front-end confirmation
+    if (clientSecret) {
+      return NextResponse.json({
+        client_secret: clientSecret,
+        subscription_id: subscription.id,
+        status: subscription.status,
+      })
     }
 
-    return NextResponse.json({
-      client_secret: clientSecret,
-      subscription_id: subscription.id,
-    })
+    // If no client_secret, check if no payment is required (e.g., 100% coupon) or already paid
+    if (invoiceStatus === 'paid' || amountDue === 0 || subscription.status === 'active' || subscription.status === 'trialing') {
+      return NextResponse.json({
+        client_secret: null,
+        subscription_id: subscription.id,
+        status: subscription.status,
+      })
+    }
+
+    // Otherwise treat as an error and bubble up details for debugging
+    console.error('No client_secret and invoice not paid. Subscription:', JSON.stringify(subscription, null, 2))
+    return NextResponse.json(
+      { error: 'Subscription requires payment but no client_secret was returned' },
+      { status: 500 }
+    )
   } catch (error: any) {
     console.error('Stripe API error:', error)
     return NextResponse.json(
