@@ -65,8 +65,33 @@ function CardForm({
 
         const data = await response.json()
         secret = data.client_secret
+        if (data.intent_type === 'setup') {
+          // When no payment is due, Stripe returns a SetupIntent client_secret
+          const card = elements.getElement(CardElement)
+          const si = await stripe.confirmCardSetup(secret!, {
+            payment_method: {
+              card: card!,
+              billing_details: { address: { country } },
+            },
+          })
+          if (si.error) throw new Error(si.error.message || 'Failed to save card')
+
+          // After saving card, create/sign-in account if needed and redirect
+          if (!user) {
+            try {
+              const { error: signUpError } = await supabase.auth.signUp({ email, password })
+              if (signUpError && !/registered/i.test(signUpError.message)) throw signUpError
+              if (signUpError && /registered/i.test(signUpError.message)) {
+                await supabase.auth.signInWithPassword({ email, password })
+              }
+            } catch (e) { console.warn('Post-setup signup error:', e) }
+          }
+          window.location.href = '/chat'
+          setLoading(false)
+          return
+        }
         if (!secret) {
-          // No payment required (e.g., 100% discount). Create account now (if needed) then redirect.
+          // Fallback: treat as success if no secret provided
           if (!user) {
             try {
               const { error: signUpError } = await supabase.auth.signUp({ email, password })

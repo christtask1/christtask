@@ -61,10 +61,18 @@ export async function POST(request: NextRequest) {
 
     // If no client_secret, check if no payment is required (e.g., 100% coupon) or already paid
     if (invoiceStatus === 'paid' || amountDue === 0 || subscription.status === 'active' || subscription.status === 'trialing') {
+      // Create a SetupIntent so the card can be saved even when no payment is due
+      const setupIntent = await stripe.setupIntents.create({
+        customer: customer.id,
+        payment_method_types: ['card'],
+        usage: 'off_session',
+      })
+
       return NextResponse.json({
-        client_secret: null,
+        client_secret: setupIntent.client_secret,
         subscription_id: subscription.id,
         status: subscription.status,
+        intent_type: 'setup',
       })
     }
 
