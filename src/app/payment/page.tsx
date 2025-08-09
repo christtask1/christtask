@@ -14,6 +14,8 @@ function CardForm({
   coupon,
   onClientSecret,
   user,
+  email,
+  password,
 }: {
   clientSecret: string | null
   country: string
@@ -21,15 +23,30 @@ function CardForm({
   coupon: string
   onClientSecret: (secret: string) => void
   user: any
+  email: string
+  password: string
 }) {
   const stripe = useStripe()
   const elements = useElements()
   const [loading, setLoading] = useState(false)
 
     const confirm = async () => {
-    if (!stripe || !elements || !user) return
+    if (!stripe || !elements) return
+    if (!user && (!email || !password)) {
+      alert('Please enter your email and password')
+      return
+    }
+    
     setLoading(true)
     try {
+      // If user not signed in, create account first
+      if (!user) {
+        const { error: authError } = await supabase.auth.signUp({ email, password })
+        if (authError) throw authError
+        // Wait a moment for auth state to update
+        await new Promise(resolve => setTimeout(resolve, 1000))
+      }
+
       let secret = clientSecret
       if (!secret) {
         const { data, error } = await supabase.rpc('create_subscription_for_price', {
@@ -76,7 +93,9 @@ function CardForm({
           }}
         />
       </div>
-      <button className="btn" onClick={confirm} disabled={loading || !user}>{loading ? 'Processing…' : user ? 'Pay now' : 'Please sign up first'}</button>
+      <button className="btn" onClick={confirm} disabled={loading}>
+        {loading ? 'Processing…' : user ? 'Pay now' : 'Create account & Pay now'}
+      </button>
     </div>
   )
 }
@@ -91,9 +110,6 @@ export default function PaymentPage() {
   const [user, setUser] = useState<any>(null)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [authMode, setAuthMode] = useState<'login' | 'signup'>('signup')
-  const [authLoading, setAuthLoading] = useState(false)
-  const [authError, setAuthError] = useState<string | null>(null)
 
   // Check for existing session
   useEffect(() => {
@@ -386,27 +402,6 @@ export default function PaymentPage() {
     loadPrices()
   }, [])
 
-  // Handle auth (login/signup)
-  const handleAuth = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setAuthError(null)
-    setAuthLoading(true)
-    
-    try {
-      if (authMode === 'signup') {
-        const { error } = await supabase.auth.signUp({ email, password })
-        if (error) throw error
-      } else {
-        const { error } = await supabase.auth.signInWithPassword({ email, password })
-        if (error) throw error
-      }
-    } catch (error: any) {
-      setAuthError(error.message)
-    } finally {
-      setAuthLoading(false)
-    }
-  }
-
   // Format price for display
   const formatPrice = (amount: number, currency: string) => {
     return new Intl.NumberFormat('en-GB', {
@@ -482,39 +477,29 @@ export default function PaymentPage() {
 
             {!user && (
               <div className="form-block">
-                <h4>{authMode === 'signup' ? 'Create account' : 'Log in'}</h4>
-                <form onSubmit={handleAuth} style={{ display: 'grid', gap: 12, marginTop: 12 }}>
-                  <input 
-                    className="input" 
-                    type="email" 
-                    placeholder="Email" 
-                    value={email} 
-                    onChange={(e) => setEmail(e.target.value)} 
-                    required 
-                  />
-                  <input 
-                    className="input" 
-                    type="password" 
-                    placeholder="Password" 
-                    value={password} 
-                    onChange={(e) => setPassword(e.target.value)} 
-                    required 
-                  />
-                  {authError && <div style={{ color: '#ff6b6b', fontSize: '14px' }}>{authError}</div>}
-                  <button className="btn secondary" type="submit" disabled={authLoading}>
-                    {authLoading ? 'Processing…' : authMode === 'signup' ? 'Create account' : 'Log in'}
-                  </button>
-                </form>
-                <div style={{ marginTop: 12, fontSize: '14px', color: 'var(--muted)' }}>
-                  {authMode === 'signup' ? 'Have an account?' : 'No account?'}{' '}
-                  <button 
-                    type="button" 
-                    onClick={() => setAuthMode(authMode === 'signup' ? 'login' : 'signup')}
-                    style={{ background: 'none', border: 'none', color: 'var(--brand)', cursor: 'pointer', textDecoration: 'underline' }}
-                  >
-                    {authMode === 'signup' ? 'Log in' : 'Sign up'}
-                  </button>
-                </div>
+                <label className="label">Email</label>
+                <input 
+                  className="input" 
+                  type="email" 
+                  placeholder="Enter your email" 
+                  value={email} 
+                  onChange={(e) => setEmail(e.target.value)} 
+                  required 
+                />
+              </div>
+            )}
+
+            {!user && (
+              <div className="form-block">
+                <label className="label">Password</label>
+                <input 
+                  className="input" 
+                  type="password" 
+                  placeholder="Create a password" 
+                  value={password} 
+                  onChange={(e) => setPassword(e.target.value)} 
+                  required 
+                />
               </div>
             )}
 
@@ -533,6 +518,8 @@ export default function PaymentPage() {
               coupon={coupon}
               onClientSecret={setClientSecret}
               user={user}
+              email={email}
+              password={password}
             />
           </div>
         </div>
