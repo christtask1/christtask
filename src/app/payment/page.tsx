@@ -1,8 +1,9 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { loadStripe } from '@stripe/stripe-js'
 import { Elements, CardElement, useElements, useStripe } from '@stripe/react-stripe-js'
+import { supabase } from '@/lib/supabaseClient'
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || '')
 
@@ -57,7 +58,9 @@ export default function PaymentPage() {
   const [clientSecret, setClientSecret] = useState<string | null>(null)
   const [coupon, setCoupon] = useState('')
   const [country, setCountry] = useState('GB')
-  const [plan, setPlan] = useState<'weekly' | 'monthly'>('monthly')
+  const [plan, setPlan] = useState<string>('')
+  const [prices, setPrices] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
 
   const COUNTRIES: { code: string; name: string }[] = [
     { code: 'AF', name: 'Afghanistan' },
@@ -310,6 +313,37 @@ export default function PaymentPage() {
     { code: 'ZW', name: 'Zimbabwe' },
   ]
 
+  // Load live prices from Supabase RPC
+  useEffect(() => {
+    const loadPrices = async () => {
+      try {
+        const { data, error } = await supabase.rpc('get_active_prices')
+        if (error) throw error
+        
+        setPrices(data || [])
+        // Set first price as default if available
+        if (data && data.length > 0) {
+          setPlan(data[0].id)
+        }
+      } catch (error) {
+        console.error('Error loading prices:', error)
+        alert('Failed to load subscription plans. Please refresh.')
+      } finally {
+        setLoading(false)
+      }
+    }
+    
+    loadPrices()
+  }, [])
+
+  // Format price for display
+  const formatPrice = (amount: number, currency: string) => {
+    return new Intl.NumberFormat('en-GB', {
+      style: 'currency',
+      currency: currency.toUpperCase(),
+    }).format(amount / 100)
+  }
+
   // TODO: Replace with your backend/RPC call to create a PaymentIntent or Subscription and return client_secret
   const createClientSecret = async () => {
     alert('Wire this button to your Supabase RPC that returns a client_secret for CardElement.')
@@ -335,32 +369,32 @@ export default function PaymentPage() {
             <h3>Payment details</h3>
             <div className="form-block">
               <label className="label">Choose your plan</label>
-              <div className="plan-grid">
-                <button
-                  type="button"
-                  className={`plan-card ${plan === 'weekly' ? 'selected' : ''}`}
-                  onClick={() => setPlan('weekly')}
-                >
-                  <div className="plan-title">Weekly</div>
-                  <div className="plan-price">£4.50<span className="plan-period">/week</span></div>
-                  <ul className="plan-points">
-                    <li>Full access</li>
-                    <li>Cancel anytime</li>
-                  </ul>
-                </button>
-                <button
-                  type="button"
-                  className={`plan-card ${plan === 'monthly' ? 'selected' : ''}`}
-                  onClick={() => setPlan('monthly')}
-                >
-                  <div className="plan-title">Monthly</div>
-                  <div className="plan-price">£11.99<span className="plan-period">/month</span></div>
-                  <ul className="plan-points">
-                    <li>Best value</li>
-                    <li>Priority support</li>
-                  </ul>
-                </button>
-              </div>
+              {loading ? (
+                <div style={{ padding: '20px', textAlign: 'center', color: 'var(--muted)' }}>
+                  Loading subscription plans...
+                </div>
+              ) : (
+                <div className="plan-grid">
+                  {prices.map((price) => (
+                    <button
+                      key={price.id}
+                      type="button"
+                      className={`plan-card ${plan === price.id ? 'selected' : ''}`}
+                      onClick={() => setPlan(price.id)}
+                    >
+                      <div className="plan-title">{price.product_name}</div>
+                      <div className="plan-price">
+                        {formatPrice(price.unit_amount, price.currency)}
+                        <span className="plan-period">/{price.type === 'recurring' ? 'month' : 'one-time'}</span>
+                      </div>
+                      <ul className="plan-points">
+                        <li>Full access</li>
+                        <li>Cancel anytime</li>
+                      </ul>
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
             <div className="form-block">
               <label className="label">Coupon (optional)</label>
