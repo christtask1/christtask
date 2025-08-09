@@ -327,7 +327,8 @@ export default function PaymentPage() {
         }
       } catch (error) {
         console.error('Error loading prices:', error)
-        alert('Failed to load subscription plans. Please refresh.')
+        console.error('Error details:', JSON.stringify(error, null, 2))
+        alert(`Failed to load subscription plans: ${error?.message || 'Unknown error'}. Please refresh.`)
       } finally {
         setLoading(false)
       }
