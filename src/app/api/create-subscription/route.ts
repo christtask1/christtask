@@ -6,9 +6,10 @@ export async function POST(request: NextRequest) {
   try {
     const { price_id, coupon, user_id, user_email } = await request.json()
 
-    if (!price_id || !user_id || !user_email) {
+    // user_id is optional now. We only require price_id and user_email to create a customer/subscription.
+    if (!price_id || !user_email) {
       return NextResponse.json(
-        { error: 'Missing required fields: price_id, user_id, user_email' },
+        { error: 'Missing required fields: price_id, user_email' },
         { status: 400 }
       )
     }
@@ -17,7 +18,9 @@ export async function POST(request: NextRequest) {
     const customer = await stripe.customers.create({
       email: user_email,
       metadata: {
-        supabase_uid: user_id,
+        supabase_uid: user_id || '',
+        signup_status: user_id ? 'existing' : 'pending',
+        signup_email: user_email,
       },
     })
 

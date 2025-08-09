@@ -39,23 +39,14 @@ function CardForm({
     
     setLoading(true)
     try {
-      // If user not signed in, create account first
-      if (!user) {
-        const { error: authError } = await supabase.auth.signUp({ email, password })
-        if (authError) throw authError
-        // Wait a moment for auth state to update
-        await new Promise(resolve => setTimeout(resolve, 1000))
-      }
 
       let secret = clientSecret
       if (!secret) {
-        // Create Stripe subscription directly from frontend via API route
+        // Create Stripe subscription via API route (no account creation yet)
         const { data: { session } } = await supabase.auth.getSession()
-        const userId = session?.user?.id
-        
-        if (!userId) throw new Error('User not authenticated')
+        const userId = session?.user?.id || undefined
+        const emailForStripe = session?.user?.email || email
 
-        // Create customer and subscription via our API route
         const response = await fetch('/api/create-subscription', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -63,7 +54,7 @@ function CardForm({
             price_id: plan,
             coupon: coupon || undefined,
             user_id: userId,
-            user_email: session?.user?.email
+            user_email: emailForStripe
           }),
         })
 
@@ -75,7 +66,16 @@ function CardForm({
         const data = await response.json()
         secret = data.client_secret
         if (!secret) {
-          // No payment required (e.g., 100% discount). Consider subscription successful.
+          // No payment required (e.g., 100% discount). Create account now (if needed) then redirect.
+          if (!user) {
+            try {
+              const { error: signUpError } = await supabase.auth.signUp({ email, password })
+              if (signUpError && !/registered/i.test(signUpError.message)) throw signUpError
+              if (signUpError && /registered/i.test(signUpError.message)) {
+                await supabase.auth.signInWithPassword({ email, password })
+              }
+            } catch (e) { console.warn('Post-payment signup error:', e) }
+          }
           window.location.href = '/chat'
           setLoading(false)
           return
@@ -90,7 +90,19 @@ function CardForm({
           billing_details: { address: { country } },
         },
       })
-      if (!res.error) window.location.href = '/chat'
+      if (!res.error) {
+        // After successful payment, create account if not already created
+        if (!user) {
+          try {
+            const { error: signUpError } = await supabase.auth.signUp({ email, password })
+            if (signUpError && !/registered/i.test(signUpError.message)) throw signUpError
+            if (signUpError && /registered/i.test(signUpError.message)) {
+              await supabase.auth.signInWithPassword({ email, password })
+            }
+          } catch (e) { console.warn('Post-payment signup error:', e) }
+        }
+        window.location.href = '/chat'
+      }
       else alert(res.error.message || 'Payment failed')
     } catch (err: any) {
       console.error('Payment error:', err)
