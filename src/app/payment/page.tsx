@@ -49,12 +49,31 @@ function CardForm({
 
       let secret = clientSecret
       if (!secret) {
-        const { data, error } = await supabase.rpc('create_subscription_for_price', {
-          price_id: plan,
-          coupon,
+        // Create Stripe subscription directly from frontend via API route
+        const { data: { session } } = await supabase.auth.getSession()
+        const userId = session?.user?.id
+        
+        if (!userId) throw new Error('User not authenticated')
+
+        // Create customer and subscription via our API route
+        const response = await fetch('/api/create-subscription', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            price_id: plan,
+            coupon: coupon || undefined,
+            user_id: userId,
+            user_email: session?.user?.email
+          }),
         })
-        if (error) throw error
-        secret = data.client_secret as string
+
+        if (!response.ok) {
+          const error = await response.text()
+          throw new Error(`Failed to create subscription: ${error}`)
+        }
+
+        const data = await response.json()
+        secret = data.client_secret
         onClientSecret(secret)
       }
 
