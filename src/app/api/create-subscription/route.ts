@@ -31,6 +31,7 @@ export async function POST(request: NextRequest) {
       payment_behavior: 'default_incomplete',
       payment_settings: {
         payment_method_types: ['card'],
+        save_default_payment_method: 'on_subscription',
       },
       // Expand both latest_invoice and its payment_intent so we can inspect
       expand: ['latest_invoice', 'latest_invoice.payment_intent'],
