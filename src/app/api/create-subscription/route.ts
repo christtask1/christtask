@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
     })
 
     // Create subscription
-    const subscriptionData = {
+    const subscriptionData: any = {
       customer: customer.id,
       items: [{ price: price_id }],
       payment_behavior: 'default_incomplete',
