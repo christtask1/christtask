@@ -32,9 +32,9 @@ export async function POST(request: NextRequest) {
       expand: ['latest_invoice.payment_intent'],
     }
 
-    // Add coupon if provided
+    // Add coupon if provided (using discounts format)
     if (coupon && coupon.trim()) {
-      subscriptionData.coupon = coupon.trim()
+      subscriptionData.discounts = [{ coupon: coupon.trim() }]
     }
 
     const subscription = await stripe.subscriptions.create(subscriptionData)
