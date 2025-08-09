@@ -39,7 +39,7 @@ export default function RootLayout({ children }: { children: any }) {
           .container { width: 100%; max-width: 1100px; margin: 0 auto; padding: 0 20px; }
           .site-header { position: sticky; top: 0; backdrop-filter: saturate(140%) blur(8px); background: rgba(11,16,32,0.6); border-bottom: 1px solid var(--border); z-index: 50; }
           .header-inner { display: flex; align-items: center; justify-content: space-between; height: 64px; }
-          .brand { font-weight: 800; letter-spacing: 0.4px; color: var(--text); }
+          .brand { font-weight: 800; letter-spacing: 0.4px; color: var(--text); font-size: 20px; }
           .nav { display: flex; gap: 14px; align-items: center; }
           .nav-link { color: var(--muted); text-decoration: none; padding: 8px 10px; border-radius: 6px; }
           .nav-link:hover { color: var(--text); background: rgba(122,162,255,0.08); }
