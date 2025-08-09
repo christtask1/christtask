@@ -398,28 +398,31 @@ export default function PaymentPage() {
     { code: 'ZW', name: 'Zimbabwe' },
   ]
 
-  // Load live prices from Supabase RPC
+  // Load prices - using hardcoded plans for now
   useEffect(() => {
-    const loadPrices = async () => {
-      try {
-        const { data, error } = await supabase.rpc('get_active_prices')
-        if (error) throw error
-        
-        setPrices(data || [])
-        // Set first price as default if available
-        if (data && data.length > 0) {
-          setPlan(data[0].id)
-        }
-      } catch (error: any) {
-        console.error('Error loading prices:', error)
-        console.error('Error details:', JSON.stringify(error, null, 2))
-        alert(`Failed to load subscription plans: ${error?.message || 'Unknown error'}. Please refresh.`)
-      } finally {
-        setLoading(false)
+    // Your actual Stripe price IDs
+    const hardcodedPrices = [
+      {
+        id: 'price_1Rsw49FEfjI8S6GYhL8ih4Zi', // £11.99 monthly
+        product_name: 'ChristTask Monthly',
+        unit_amount: 1199, // £11.99 in pence
+        currency: 'gbp',
+        type: 'recurring'
+      },
+      {
+        id: 'price_1Rsw3dFEfjI8S6GYpcOVkvSF', // £4.50 weekly
+        product_name: 'ChristTask Weekly',
+        unit_amount: 450, // £4.50 in pence
+        currency: 'gbp',
+        type: 'recurring'
       }
-    }
+    ]
     
-    loadPrices()
+    setPrices(hardcodedPrices)
+    if (hardcodedPrices.length > 0) {
+      setPlan(hardcodedPrices[0].id)
+    }
+    setLoading(false)
   }, [])
 
   // Format price for display
