@@ -8,7 +8,7 @@ export default function LoginPage() {
   const [password, setPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
-  const [redirectTo, setRedirectTo] = useState('/payment')
+  const [redirectTo, setRedirectTo] = useState('/chat')
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)

@@ -76,7 +76,7 @@ function CardForm({
         secret = data.client_secret
         if (!secret) {
           // No payment required (e.g., 100% discount). Consider subscription successful.
-          window.location.href = '/success'
+          window.location.href = '/chat'
           setLoading(false)
           return
         }
@@ -90,7 +90,7 @@ function CardForm({
           billing_details: { address: { country } },
         },
       })
-      if (!res.error) window.location.href = '/success'
+      if (!res.error) window.location.href = '/chat'
       else alert(res.error.message || 'Payment failed')
     } catch (err: any) {
       console.error('Payment error:', err)
