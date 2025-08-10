@@ -57,7 +57,7 @@ export default function Home() {
           marginTop: '-2cm'
         }}>
           <div style={{
-            fontSize: '72px',
+            fontSize: '60px',
             fontWeight: 'bold',
             color: '#8B5CF6',
             marginBottom: '20px'
@@ -65,9 +65,9 @@ export default function Home() {
             Jesus
           </div>
           <div style={{
-            fontSize: '72px',
+            fontSize: '60px',
             color: 'white',
-            minHeight: '90px',
+            minHeight: '75px',
             textAlign: 'center',
             marginTop: '10px'
           }}>
