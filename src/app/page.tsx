@@ -54,7 +54,7 @@ export default function Home() {
           justifyContent: 'center', 
           alignItems: 'center', 
           minHeight: '60vh',
-          marginTop: '-2cm'
+          marginTop: '1cm'
         }}>
 
           <div style={{
