@@ -57,7 +57,7 @@ export default function Home() {
           marginTop: '-2cm'
         }}>
           <div style={{
-            fontSize: '56px',
+            fontSize: '72px',
             fontWeight: 'bold',
             color: '#8B5CF6',
             marginBottom: '20px'
