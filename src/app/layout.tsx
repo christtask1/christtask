@@ -77,8 +77,12 @@ export default function RootLayout({ children }: { children: any }) {
           .grid { display:grid; gap:20px; }
           @media(min-width: 900px){ .grid-2 { grid-template-columns: 1.2fr 1fr; } .grid-3 { grid-template-columns: repeat(3,1fr); } }
           .card { background: linear-gradient(180deg, rgba(23,35,74,0.55), rgba(16,24,48,0.8)); border:1px solid var(--border); border-radius:16px; padding:22px; }
-          .muted { color: var(--muted); }
-          h1, h2, h3 { margin: 0 0 10px; line-height: 1.15; }
+                            .muted { color: var(--muted); }
+                  h1, h2, h3 { margin: 0 0 10px; line-height: 1.15; }
+                  @keyframes blink {
+                    0%, 50% { opacity: 1; }
+                    51%, 100% { opacity: 0; }
+                  }
         `}</style>
       </body>
     </html>
