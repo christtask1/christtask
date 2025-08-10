@@ -72,7 +72,7 @@ export default function ApologeticsPreviewBox() {
 
         {/* Answer row */}
         <div style={styles.rowAnswer}>
-          <span style={styles.badgeScripture}>Scripture</span>
+          <span style={styles.badgeScripture}>ChristTask</span>
           <div style={styles.bubbleAnswer}>
             <div key={`ans-${index}`} style={{ width: '100%' }}>
               <div style={styles.revealTextDelayed}>
