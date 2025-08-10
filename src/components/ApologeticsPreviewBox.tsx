@@ -81,7 +81,16 @@ export default function ApologeticsPreviewBox() {
               </div>
               <ul style={styles.pointsList}>
                 {scenario.bullets.map((p, i) => (
-                  <li key={i} style={styles.pointItem}>{p}</li>
+                  <li
+                    key={i}
+                    style={{
+                      ...styles.pointItem,
+                      ...styles.pointReveal,
+                      animationDelay: `${160 + i * 100}ms`
+                    }}
+                  >
+                    {p}
+                  </li>
                 ))}
               </ul>
             </div>
@@ -180,6 +189,10 @@ const styles: Record<string, React.CSSProperties> = {
   },
   pointItem: {
     marginBottom: 6
+  },
+  pointReveal: {
+    animation: 'blurReveal 700ms cubic-bezier(0.2, 0.8, 0.2, 1) both',
+    willChange: 'filter, opacity'
   },
   revealText: {
     animation: 'blurReveal 700ms cubic-bezier(0.2, 0.8, 0.2, 1) both',
