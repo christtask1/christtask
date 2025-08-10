@@ -2,26 +2,41 @@
 
 import { useEffect, useMemo, useState } from 'react'
 
-type Scenario = { claim: string; verse: string; answer: string }
+type Scenario = { claim: string; verse: string; answer: string; bullets: string[] }
 
 const SCENARIOS: Scenario[] = [
   {
     claim: '“Jesus never claimed to be God.”',
     verse: 'John 10:30; John 8:58',
     answer:
-      'Jesus said “I and the Father are one” and “Before Abraham was, I AM.” His listeners recognized the divine claim.'
+      'Short answer: He did—clearly and in ways His audience understood.',
+    bullets: [
+      'Identity: “I and the Father are one” and “Before Abraham was, I AM” (echoing Exodus 3:14).',
+      'Reaction: The crowd tried to stone Him—because they understood He was claiming deity (John 10:33).',
+      'Titles & worship: “Son of Man” of Daniel 7; He forgave sins and received worship.'
+    ]
   },
   {
     claim: '“The Resurrection is a myth.”',
     verse: '1 Corinthians 15:3–8',
     answer:
-      'Paul cites an early creed and hundreds of eyewitnesses; many were alive to be questioned, anchoring the claim in history.'
+      'Short answer: The best early sources point to a real, public event.',
+    bullets: [
+      'Earliest creed: Paul quotes a formula within years of the event, not centuries later.',
+      'Eyewitnesses: Over 500 people; many were still alive when published—inviting fact‑checking.',
+      'Impact: Cowardly disciples became bold witnesses; the movement exploded in hostile territory.'
+    ]
   },
   {
     claim: '“The Bible was changed over time.”',
     verse: 'Isaiah 40:8',
     answer:
-      'Thousands of early manuscripts, including the Dead Sea Scrolls, show stability; differences are minor and do not alter core doctrine.'
+      'Short answer: The text is remarkably stable across thousands of manuscripts.',
+    bullets: [
+      'Manuscripts: We have an unparalleled number of copies across centuries and regions.',
+      'Dead Sea Scrolls: OT texts match later copies closely—showing long‑term stability.',
+      'Variants: Mostly spelling/word order; no core doctrine hangs on a disputed reading.'
+    ]
   }
 ]
 
@@ -59,9 +74,16 @@ export default function ApologeticsPreviewBox() {
         <div style={styles.rowAnswer}>
           <span style={styles.badgeScripture}>Scripture</span>
           <div style={styles.bubbleAnswer}>
-            <div key={`ans-${index}`} style={styles.revealTextDelayed}>
-              <strong style={{ color: '#ffffff' }}>{scenario.verse}</strong>
-              <span style={{ color: '#F2F4F8' }}> — {scenario.answer}</span>
+            <div key={`ans-${index}`} style={{ width: '100%' }}>
+              <div style={styles.revealTextDelayed}>
+                <strong style={{ color: '#ffffff' }}>{scenario.verse}</strong>
+                <span style={{ color: '#F2F4F8' }}> — {scenario.answer}</span>
+              </div>
+              <ul style={styles.pointsList}>
+                {scenario.bullets.map((p, i) => (
+                  <li key={i} style={styles.pointItem}>{p}</li>
+                ))}
+              </ul>
             </div>
           </div>
         </div>
@@ -143,13 +165,23 @@ const styles: Record<string, React.CSSProperties> = {
     padding: '10px 12px',
     borderRadius: 14,
     color: '#ffffff',
-    maxWidth: 380,
+    maxWidth: 420,
     minHeight: 48,
-    maxHeight: 96,
+    maxHeight: 140,
     display: 'flex',
     alignItems: 'center',
     overflow: 'hidden',
     textShadow: '0 1px 1px rgba(0,0,0,0.25)'
+  },
+  pointsList: {
+    margin: '8px 0 0',
+    padding: '0 0 0 16px',
+    color: '#EAEFF9',
+    fontSize: 13,
+    lineHeight: 1.35
+  },
+  pointItem: {
+    marginBottom: 6
   },
   revealText: {
     animation: 'blurReveal 700ms cubic-bezier(0.2, 0.8, 0.2, 1) both',
