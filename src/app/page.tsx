@@ -11,7 +11,7 @@ export default function Home() {
           fontSize: '48px',
           fontWeight: 'bold',
           color: '#8B5CF6',
-          marginTop: '-4cm'
+          marginTop: '-2cm'
         }}>
           Jesus
         </div>
