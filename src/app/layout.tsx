@@ -36,6 +36,10 @@ export default function RootLayout({ children }: { children: any }) {
             --brand: #7aa2ff;
             --brand-strong: #4e7bff;
             --border: #1c2544;
+            /* typographic utilities */
+            --tracking-tight: -0.01em;
+            --font-weight-medium: 500;
+            --leading-snug: 1.35;
           }
           * { box-sizing: border-box; }
           html, body { height: 100%; }

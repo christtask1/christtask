@@ -99,7 +99,18 @@ export default function Home() {
       {/* Demo Box Section (light, Apple-style) */}
       <section className="section">
         <div className="container" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16 }}>
-          <div style={{ color: '#4E7BFF', fontWeight: 700, letterSpacing: 0.2, fontSize: 18 }}>Answer False Claims</div>
+          <div
+            style={{
+              color: '#4d96ff',
+              fontWeight: 'var(--font-weight-medium)',
+              letterSpacing: 'var(--tracking-tight)',
+              lineHeight: 'var(--leading-snug)',
+              fontSize: '1.125rem',
+              display: 'block'
+            }}
+          >
+            Answer False Claims
+          </div>
           <ApologeticsPreviewBox />
         </div>
       </section>
