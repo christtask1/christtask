@@ -47,20 +47,21 @@ export default function RootLayout({ children }: { children: any }) {
           .container { width: 100%; max-width: 1100px; margin: 0 auto; padding: 0 20px; }
           .site-header { position: sticky; top: 0; backdrop-filter: saturate(140%) blur(8px); background: rgba(11,16,32,0.6); z-index: 50; }
           .header-inner { display: flex; align-items: center; justify-content: space-between; height: 64px; }
-          .brand { 
-            font-weight: 600; 
-            letter-spacing: 0.3px; 
-            color: var(--text); 
-            font-size: 22px; 
-            font-family: Inter, "Inter Fallback", ui-sans-serif, system-ui, sans-serif;
-            line-height: 28px;
-            cursor: pointer;
-            -webkit-font-smoothing: antialiased;
-            padding: 6px 10px;
-            border-radius: 6px;
-            transition: all 0.2s ease;
-            margin-left: -75px;
-          }
+                            .brand {
+                    font-weight: 600;
+                    letter-spacing: 0.3px;
+                    color: var(--text);
+                    font-size: 22px;
+                    font-family: Inter, "Inter Fallback", ui-sans-serif, system-ui, sans-serif;
+                    line-height: 28px;
+                    cursor: pointer;
+                    -webkit-font-smoothing: antialiased;
+                    padding: 6px 10px;
+                    border-radius: 6px;
+                    transition: all 0.2s ease;
+                    margin-left: -75px;
+                    text-decoration: none;
+                  }
           .brand:hover {
             background: rgba(122,162,255,0.08);
             transform: translateY(-1px);
