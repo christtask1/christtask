@@ -46,12 +46,12 @@ export default function RootLayout({ children }: { children: any }) {
             font-weight: 700; 
             letter-spacing: 0.3px; 
             color: var(--text); 
-            font-size: 18px; 
+            font-size: 22px; 
             font-family: Inter, "Inter Fallback", ui-sans-serif, system-ui, sans-serif;
-            line-height: 24px;
+            line-height: 28px;
             cursor: pointer;
             -webkit-font-smoothing: antialiased;
-            padding: 4px 8px;
+            padding: 6px 10px;
             border-radius: 6px;
             transition: all 0.2s ease;
           }
