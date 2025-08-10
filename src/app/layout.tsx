@@ -12,6 +12,7 @@ export default function RootLayout({ children }: { children: any }) {
           <div className="container header-inner">
             <div className="brand">ChristTask</div>
             <nav className="nav">
+              <a href="/login" className="nav-link">Login</a>
               <a href="/" className="nav-link">Home</a>
               <a href="/payment" className="nav-cta">Get Access</a>
             </nav>
