@@ -3,8 +3,11 @@ export const metadata = { title: 'ChristTask', description: 'Christian apologeti
 
 export default function RootLayout({ children }: { children: any }) {
   return (
-    <html lang="en">
-      <body>
+            <html lang="en">
+          <head>
+            <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+          </head>
+          <body>
         <header className="site-header">
           <div className="container header-inner">
             <div className="brand">ChristTask</div>
@@ -39,7 +42,23 @@ export default function RootLayout({ children }: { children: any }) {
           .container { width: 100%; max-width: 1100px; margin: 0 auto; padding: 0 20px; }
           .site-header { position: sticky; top: 0; backdrop-filter: saturate(140%) blur(8px); background: rgba(11,16,32,0.6); border-bottom: 1px solid var(--border); z-index: 50; }
           .header-inner { display: flex; align-items: center; justify-content: space-between; height: 64px; }
-          .brand { font-weight: 800; letter-spacing: 0.4px; color: var(--text); font-size: 20px; }
+          .brand { 
+            font-weight: 700; 
+            letter-spacing: 0.3px; 
+            color: var(--text); 
+            font-size: 18px; 
+            font-family: Inter, "Inter Fallback", ui-sans-serif, system-ui, sans-serif;
+            line-height: 24px;
+            cursor: pointer;
+            -webkit-font-smoothing: antialiased;
+            padding: 4px 8px;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+          }
+          .brand:hover {
+            background: rgba(122,162,255,0.08);
+            transform: translateY(-1px);
+          }
           .nav { display: flex; gap: 14px; align-items: center; }
           .nav-link { color: var(--muted); text-decoration: none; padding: 8px 10px; border-radius: 6px; }
           .nav-link:hover { color: var(--text); background: rgba(122,162,255,0.08); }
