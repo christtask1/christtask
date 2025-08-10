@@ -43,7 +43,9 @@ export default function ApologeticsPreviewBox() {
         {/* Claim row */}
         <div style={styles.rowClaim}>
           <span style={styles.badgeNeutral}>Claim</span>
-          <div style={styles.bubbleClaim}>{scenario.claim}</div>
+          <div style={styles.bubbleClaim}>
+            <div key={`claim-${index}`} style={styles.revealText}>{scenario.claim}</div>
+          </div>
         </div>
 
         <div style={{ height: 12 }} />
@@ -80,13 +82,13 @@ const styles: Record<string, React.CSSProperties> = {
     borderRadius: 24,
     padding: 18,
     height: 240,
-    border: '1px solid rgba(255,255,255,0.35)',
-    background: 'transparent',
-    // Fully see-through card, no glass blur
-    backdropFilter: undefined as unknown as string,
-    WebkitBackdropFilter: undefined as unknown as string,
-    boxShadow: '0 10px 30px rgba(0,0,0,0.20)',
-    color: '#ffffff'
+    border: '1px solid rgba(255,255,255,0.22)',
+    background: 'rgba(255,255,255,0.08)',
+    backdropFilter: 'saturate(180%) blur(16px)',
+    WebkitBackdropFilter: 'saturate(180%) blur(16px)',
+    boxShadow: '0 20px 40px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.10)',
+    color: '#ffffff',
+    fontFamily: '-apple-system, system-ui, Segoe UI, Roboto, Inter, Arial, sans-serif'
   },
   rowClaim: { display: 'flex', alignItems: 'center', gap: 10 },
   rowAnswer: { display: 'flex', alignItems: 'center', gap: 10, justifyContent: 'flex-end' },
@@ -95,7 +97,7 @@ const styles: Record<string, React.CSSProperties> = {
     padding: '4px 8px',
     borderRadius: 999,
     color: '#ffffff',
-    border: '1px solid rgba(255,255,255,0.35)',
+    border: '1px solid rgba(255,255,255,0.25)',
     background: 'rgba(255,255,255,0.10)'
   },
   badgeScripture: {
@@ -103,12 +105,12 @@ const styles: Record<string, React.CSSProperties> = {
     padding: '4px 8px',
     borderRadius: 999,
     color: '#ffffff',
-    border: '1px solid rgba(255,255,255,0.35)',
-    background: 'rgba(255,255,255,0.12)'
+    border: '1px solid rgba(255,255,255,0.25)',
+    background: 'rgba(255,255,255,0.10)'
   },
   bubbleClaim: {
-    background: 'transparent',
-    border: '1px solid rgba(255,255,255,0.25)',
+    background: 'rgba(255,255,255,0.06)',
+    border: '1px solid rgba(255,255,255,0.20)',
     padding: '10px 12px',
     borderRadius: 14,
     color: '#ffffff',
@@ -117,11 +119,12 @@ const styles: Record<string, React.CSSProperties> = {
     maxHeight: 64,
     display: 'flex',
     alignItems: 'center',
-    overflow: 'hidden'
+    overflow: 'hidden',
+    textShadow: '0 1px 1px rgba(0,0,0,0.25)'
   },
   bubbleAnswer: {
-    background: 'transparent',
-    border: '1px solid rgba(255,255,255,0.28)',
+    background: 'rgba(255,255,255,0.06)',
+    border: '1px solid rgba(255,255,255,0.20)',
     padding: '10px 12px',
     borderRadius: 14,
     color: '#ffffff',
@@ -130,11 +133,16 @@ const styles: Record<string, React.CSSProperties> = {
     maxHeight: 96,
     display: 'flex',
     alignItems: 'center',
-    overflow: 'hidden'
+    overflow: 'hidden',
+    textShadow: '0 1px 1px rgba(0,0,0,0.25)'
+  },
+  revealText: {
+    animation: 'reveal 420ms cubic-bezier(0.2, 0.8, 0.2, 1) both',
+    willChange: 'transform, filter, opacity'
   },
   revealTextDelayed: {
-    animation: 'reveal .42s ease-out both',
-    animationDelay: '0.08s',
+    animation: 'reveal 420ms cubic-bezier(0.2, 0.8, 0.2, 1) both',
+    animationDelay: '100ms',
     willChange: 'transform, filter, opacity'
   }
 }
