@@ -65,10 +65,11 @@ export default function Home() {
             Jesus
           </div>
           <div style={{
-            fontSize: '24px',
-            color: '#a8b3cf',
-            minHeight: '30px',
-            textAlign: 'center'
+            fontSize: '72px',
+            color: 'white',
+            minHeight: '90px',
+            textAlign: 'center',
+            marginTop: '10px'
           }}>
             {currentText}
             <span style={{ animation: 'blink 1s infinite' }}>|</span>
