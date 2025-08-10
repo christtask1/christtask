@@ -6,6 +6,7 @@ import { supabase } from '../../lib/supabaseClient'
 export default function LoginPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
   const [redirectTo, setRedirectTo] = useState('/chat')
@@ -69,23 +70,59 @@ export default function LoginPage() {
 
             <label style={{ display: 'grid', gap: 6 }}>
               <span style={{ fontSize: 13, color: '#c9d1e7' }}>Password</span>
-              <input
-                type="password"
-                autoComplete="current-password"
-                placeholder="••••••••"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-                style={{
-                  height: 44,
-                  padding: '0 12px',
-                  borderRadius: 12,
-                  border: '1px solid rgba(255,255,255,0.18)',
-                  background: 'rgba(255,255,255,0.06)',
-                  color: '#eef1f8',
-                  outline: 'none'
-                }}
-              />
+              <div style={{ position: 'relative' }}>
+                <input
+                  type={showPassword ? 'text' : 'password'}
+                  autoComplete="current-password"
+                  placeholder="••••••••"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  style={{
+                    height: 44,
+                    padding: '0 40px 0 12px',
+                    borderRadius: 12,
+                    border: '1px solid rgba(255,255,255,0.18)',
+                    background: 'rgba(255,255,255,0.06)',
+                    color: '#eef1f8',
+                    outline: 'none',
+                    width: '100%'
+                  }}
+                />
+                <button
+                  type="button"
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
+                  onClick={() => setShowPassword((v) => !v)}
+                  style={{
+                    position: 'absolute',
+                    right: 8,
+                    top: '50%',
+                    transform: 'translateY(-50%)',
+                    background: 'transparent',
+                    border: 'none',
+                    color: '#c9d1e7',
+                    cursor: 'pointer',
+                    padding: 6,
+                    borderRadius: 8
+                  }}
+                >
+                  {showPassword ? (
+                    // Eye off icon
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M17.94 17.94A10.94 10.94 0 0 1 12 20c-5 0-9.27-3-11-8 1.02-2.86 2.98-5.06 5.22-6.41" />
+                      <path d="M1 1l22 22" />
+                      <path d="M9.88 9.88A3 3 0 0 0 12 15c1.66 0 3-1.34 3-3 0-.53-.14-1.02-.38-1.45" />
+                      <path d="M22.11 11.99C20.39 7.99 16.12 5 12 5c-.82 0-1.62.1-2.38.3" />
+                    </svg>
+                  ) : (
+                    // Eye icon
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7-11-7-11-7z" />
+                      <circle cx="12" cy="12" r="3" />
+                    </svg>
+                  )}
+                </button>
+              </div>
             </label>
 
             {error && (
