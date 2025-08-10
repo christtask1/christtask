@@ -56,6 +56,7 @@ export default function Home() {
           minHeight: '60vh',
           marginTop: '-2cm'
         }}>
+          <div className="pill" style={{ marginBottom: '18px' }}>AI-Powered Christian Apologetics</div>
           <div style={{
             fontSize: '60px',
             fontWeight: 'bold',
@@ -75,6 +76,20 @@ export default function Home() {
             {currentText}
             <span style={{ animation: 'blink 1s infinite' }}>|</span>
           </div>
+
+          <p className="muted" style={{
+            marginTop: '26px',
+            fontSize: '20px',
+            maxWidth: '920px',
+            textAlign: 'center'
+          }}>
+            Simply ask it a question, and it counters with Scripture, morality, and proof.
+          </p>
+
+          <a href="/payment" className="btn" style={{ marginTop: '24px', padding: '12px 22px', borderRadius: '12px' }}>
+            Never lose a debate
+          </a>
+          <div className="muted" style={{ marginTop: '8px', fontSize: '14px' }}>(Instantly)</div>
         </div>
       </section>
 
