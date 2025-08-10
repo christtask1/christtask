@@ -69,7 +69,7 @@ export default function ApologeticsPreviewBox() {
 
       {/* Local keyframes */}
       <style>{`
-        @keyframes reveal { from { opacity: 0; transform: translateY(8px); filter: blur(6px); } to { opacity: 1; transform: translateY(0); filter: blur(0); } }
+        @keyframes blurReveal { from { opacity: 0; filter: blur(10px); } to { opacity: 1; filter: blur(0); } }
       `}</style>
     </div>
   )
@@ -144,13 +144,13 @@ const styles: Record<string, React.CSSProperties> = {
     textShadow: '0 1px 1px rgba(0,0,0,0.25)'
   },
   revealText: {
-    animation: 'reveal 420ms cubic-bezier(0.2, 0.8, 0.2, 1) both',
-    willChange: 'transform, filter, opacity'
+    animation: 'blurReveal 700ms cubic-bezier(0.2, 0.8, 0.2, 1) both',
+    willChange: 'filter, opacity'
   },
   revealTextDelayed: {
-    animation: 'reveal 420ms cubic-bezier(0.2, 0.8, 0.2, 1) both',
-    animationDelay: '100ms',
-    willChange: 'transform, filter, opacity'
+    animation: 'blurReveal 700ms cubic-bezier(0.2, 0.8, 0.2, 1) both',
+    animationDelay: '120ms',
+    willChange: 'filter, opacity'
   }
 }
 
