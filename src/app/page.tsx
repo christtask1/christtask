@@ -8,7 +8,7 @@ export default function Home() {
           justifyContent: 'center', 
           alignItems: 'center', 
           minHeight: '60vh',
-          fontSize: '48px',
+          fontSize: '56px',
           fontWeight: 'bold',
           color: '#8B5CF6',
           marginTop: '-2cm'
