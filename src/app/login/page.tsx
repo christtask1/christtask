@@ -149,7 +149,7 @@ export default function LoginPage() {
 
           <div style={{ marginTop: 14, color: '#a8b3cf' }}>
             No account?{' '}
-            <a href={`/signup?redirect=${encodeURIComponent(redirectTo)}`} className="link">Sign up</a>
+            <a href="/payment" className="link">Sign up</a>
           </div>
         </div>
       </div>
