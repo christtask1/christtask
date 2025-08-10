@@ -10,7 +10,7 @@ export default function RootLayout({ children }: { children: any }) {
       <body>
         <header className="site-header">
           <div className="container header-inner">
-            <div className="brand">ChristTask</div>
+                              <a href="/" className="brand">ChristTask</a>
             <nav className="nav">
               <a href="/login" className="nav-link">Login</a>
               <a href="/" className="nav-link">Home</a>
