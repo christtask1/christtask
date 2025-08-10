@@ -1,6 +1,9 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import dynamic from 'next/dynamic'
+
+const ApologeticsPreviewBox = dynamic(() => import('../components/ApologeticsPreviewBox'), { ssr: false })
 
 export default function Home() {
   const [currentText, setCurrentText] = useState('')
@@ -93,6 +96,12 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Demo Box Section (light, Apple-style) */}
+      <section className="section">
+        <div className="container" style={{ display: 'flex', justifyContent: 'center' }}>
+          <ApologeticsPreviewBox />
+        </div>
+      </section>
       
     </>
   )
