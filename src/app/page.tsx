@@ -56,7 +56,7 @@ export default function Home() {
           minHeight: '60vh',
           marginTop: '-2cm'
         }}>
-          <div className="pill" style={{ marginBottom: '18px' }}>AI-Powered Christian Apologetics</div>
+
           <div style={{
             fontSize: '60px',
             fontWeight: 'bold',
