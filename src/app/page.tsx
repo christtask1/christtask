@@ -21,7 +21,7 @@ export default function Home() {
       if (currentText.length > 0) {
         const timeout = setTimeout(() => {
           setCurrentText(currentText.slice(0, -1))
-        }, 25)
+        }, 15)
         return () => clearTimeout(timeout)
       } else {
         setIsDeleting(false)
@@ -32,13 +32,13 @@ export default function Home() {
       if (currentText.length < currentPhrase.length) {
         const timeout = setTimeout(() => {
           setCurrentText(currentPhrase.slice(0, currentText.length + 1))
-        }, 50)
+        }, 30)
         return () => clearTimeout(timeout)
       } else {
         // Wait before starting to delete
         const timeout = setTimeout(() => {
           setIsDeleting(true)
-        }, 1000)
+        }, 800)
         return () => clearTimeout(timeout)
       }
     }
