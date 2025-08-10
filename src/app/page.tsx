@@ -32,7 +32,7 @@ export default function Home() {
       if (currentText.length < currentPhrase.length) {
         const timeout = setTimeout(() => {
           setCurrentText(currentPhrase.slice(0, currentText.length + 1))
-        }, 40)
+        }, 35)
         return () => clearTimeout(timeout)
       } else {
         // Wait before starting to delete
