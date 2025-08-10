@@ -57,14 +57,14 @@ export default function Home() {
           marginTop: '1cm'
         }}>
 
-          <div style={{
-            fontSize: '60px',
-            fontWeight: 'bold',
-            color: '#8B5CF6',
-            marginBottom: '20px'
-          }}>
-            Jesus
-          </div>
+                     <div style={{
+             fontSize: '72px',
+             fontWeight: 'bold',
+             color: '#8B5CF6',
+             marginBottom: '20px'
+           }}>
+             Jesus
+           </div>
           <div style={{
             fontSize: '60px',
             color: 'white',
