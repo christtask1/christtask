@@ -27,41 +27,15 @@ const SCENARIOS: Scenario[] = [
 
 export default function ApologeticsPreviewBox() {
   const [index, setIndex] = useState(0)
-  const [phase, setPhase] = useState<'think' | 'type' | 'hold'>('think')
-  const [typed, setTyped] = useState('')
-
   const scenario = useMemo(() => SCENARIOS[index], [index])
 
-  // Thinking pause before typing begins
+  // Auto-advance scenarios with a calm cadence
   useEffect(() => {
-    if (phase !== 'think') return
-    setTyped('')
-    const t = setTimeout(() => setPhase('type'), 800)
-    return () => clearTimeout(t)
-  }, [phase])
-
-  // Typewriter effect
-  useEffect(() => {
-    if (phase !== 'type') return
-    if (typed.length >= scenario.answer.length) {
-      const t = setTimeout(() => setPhase('hold'), 900)
-      return () => clearTimeout(t)
-    }
-    const t = setTimeout(() => {
-      setTyped(scenario.answer.slice(0, typed.length + 1))
-    }, 35)
-    return () => clearTimeout(t)
-  }, [phase, typed, scenario.answer])
-
-  // Hold, then advance to next scenario
-  useEffect(() => {
-    if (phase !== 'hold') return
     const t = setTimeout(() => {
       setIndex((prev) => (prev + 1) % SCENARIOS.length)
-      setPhase('think')
-    }, 1400)
+    }, 3200)
     return () => clearTimeout(t)
-  }, [phase])
+  }, [index])
 
   return (
     <div style={styles.wrapper}>
@@ -78,42 +52,18 @@ export default function ApologeticsPreviewBox() {
         <div style={styles.rowAnswer}>
           <span style={styles.badgeScripture}>Scripture</span>
           <div style={styles.bubbleAnswer}>
-            {phase === 'think' ? (
-              <TypingIndicator />
-            ) : (
-              <div>
-                <strong style={{ color: '#ffffff' }}>{scenario.verse}</strong>
-                <span style={{ color: '#F2F4F8' }}> — {typed}</span>
-                <span style={styles.cursor}>|</span>
-              </div>
-            )}
+            <div key={`ans-${index}`} style={styles.revealTextDelayed}>
+              <strong style={{ color: '#ffffff' }}>{scenario.verse}</strong>
+              <span style={{ color: '#F2F4F8' }}> — {scenario.answer}</span>
+            </div>
           </div>
         </div>
       </div>
 
       {/* Local keyframes */}
       <style>{`
-        @keyframes blink { 0%,50%{opacity:1} 51%,100%{opacity:0} }
-        @keyframes dot { 0%, 20% { transform: translateY(0); opacity: .6 } 50% { transform: translateY(-3px); opacity: 1 } 80%, 100% { transform: translateY(0); opacity: .6 } }
+        @keyframes reveal { from { opacity: 0; transform: translateY(8px); filter: blur(6px); } to { opacity: 1; transform: translateY(0); filter: blur(0); } }
       `}</style>
-    </div>
-  )
-}
-
-function TypingIndicator() {
-  const dotStyle: React.CSSProperties = {
-    width: 6,
-    height: 6,
-    borderRadius: 999,
-    background: '#8E8E93',
-    margin: '0 3px',
-    display: 'inline-block'
-  }
-  return (
-    <div style={{ display: 'inline-flex', alignItems: 'center', height: 22 }}>
-      <span style={{ ...dotStyle, animation: 'dot 1s infinite .0s' }} />
-      <span style={{ ...dotStyle, animation: 'dot 1s infinite .15s' }} />
-      <span style={{ ...dotStyle, animation: 'dot 1s infinite .3s' }} />
     </div>
   )
 }
@@ -131,9 +81,10 @@ const styles: Record<string, React.CSSProperties> = {
     padding: 18,
     height: 240,
     border: '1px solid rgba(255,255,255,0.35)',
-    background: 'rgba(255,255,255,0.06)',
-    backdropFilter: 'saturate(180%) blur(12px)',
-    WebkitBackdropFilter: 'saturate(180%) blur(12px)',
+    background: 'transparent',
+    // Fully see-through card, no glass blur
+    backdropFilter: undefined as unknown as string,
+    WebkitBackdropFilter: undefined as unknown as string,
     boxShadow: '0 10px 30px rgba(0,0,0,0.20)',
     color: '#ffffff'
   },
@@ -156,7 +107,7 @@ const styles: Record<string, React.CSSProperties> = {
     background: 'rgba(255,255,255,0.12)'
   },
   bubbleClaim: {
-    background: 'rgba(255,255,255,0.06)',
+    background: 'transparent',
     border: '1px solid rgba(255,255,255,0.25)',
     padding: '10px 12px',
     borderRadius: 14,
@@ -169,7 +120,7 @@ const styles: Record<string, React.CSSProperties> = {
     overflow: 'hidden'
   },
   bubbleAnswer: {
-    background: 'rgba(255,255,255,0.10)',
+    background: 'transparent',
     border: '1px solid rgba(255,255,255,0.28)',
     padding: '10px 12px',
     borderRadius: 14,
@@ -181,7 +132,11 @@ const styles: Record<string, React.CSSProperties> = {
     alignItems: 'center',
     overflow: 'hidden'
   },
-  cursor: { marginLeft: 2, animation: 'blink 1s infinite' }
+  revealTextDelayed: {
+    animation: 'reveal .42s ease-out both',
+    animationDelay: '0.08s',
+    willChange: 'transform, filter, opacity'
+  }
 }
 
 
