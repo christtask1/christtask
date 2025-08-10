@@ -3,11 +3,11 @@ export const metadata = { title: 'ChristTask', description: 'Christian apologeti
 
 export default function RootLayout({ children }: { children: any }) {
   return (
-            <html lang="en">
-          <head>
-            <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-          </head>
-          <body>
+    <html lang="en">
+      <head>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+      </head>
+      <body>
         <header className="site-header">
           <div className="container header-inner">
             <div className="brand">ChristTask</div>
