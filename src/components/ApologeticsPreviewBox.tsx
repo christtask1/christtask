@@ -129,6 +129,7 @@ const styles: Record<string, React.CSSProperties> = {
     width: 'min(560px, 92vw)',
     borderRadius: 24,
     padding: 18,
+    height: 240,
     border: '1px solid rgba(0,0,0,0.08)',
     background: 'rgba(255,255,255,0.65)',
     backdropFilter: 'saturate(180%) blur(12px)',
@@ -160,7 +161,12 @@ const styles: Record<string, React.CSSProperties> = {
     padding: '10px 12px',
     borderRadius: 14,
     color: '#1f2937',
-    maxWidth: 380
+    maxWidth: 380,
+    minHeight: 48,
+    maxHeight: 64,
+    display: 'flex',
+    alignItems: 'center',
+    overflow: 'hidden'
   },
   bubbleAnswer: {
     background: 'rgba(52,199,89,0.08)',
@@ -168,7 +174,12 @@ const styles: Record<string, React.CSSProperties> = {
     padding: '10px 12px',
     borderRadius: 14,
     color: '#1f2937',
-    maxWidth: 380
+    maxWidth: 380,
+    minHeight: 48,
+    maxHeight: 96,
+    display: 'flex',
+    alignItems: 'center',
+    overflow: 'hidden'
   },
   cursor: { marginLeft: 2, animation: 'blink 1s infinite' }
 }
