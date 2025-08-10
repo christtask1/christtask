@@ -19,10 +19,16 @@ export default function Home() {
       <section id="features" className="section">
         <div className="container grid grid-3">
           <div className="card">
+            <h3>Concise</h3>
+            <p className="muted">Clear, short explanations with sources—made for real conversations.</p>
           </div>
           <div className="card">
+            <h3>Grounded</h3>
+            <p className="muted">History, scripture, and analytic philosophy—balanced, informed, and careful.</p>
           </div>
           <div className="card">
+            <h3>Practical</h3>
+            <p className="muted">Organized by questions people actually ask, with step‑by‑step answers.</p>
           </div>
         </div>
       </section>
@@ -30,6 +36,8 @@ export default function Home() {
       {/* CTA */}
       <section className="section" style={{ paddingTop: 0 }}>
         <div className="container card" style={{ textAlign: 'center', padding: 28 }}>
+          <h2>Ready to dive in?</h2>
+          <p className="muted" style={{ marginTop: 6 }}>Subscribe to access the full library and new weekly content.</p>
           <div style={{ marginTop: 14, display: 'flex', justifyContent: 'center', gap: 12 }}>
             <a className="btn" href="/payment">Get access</a>
             <a className="btn secondary" href="/login">Log in</a>
