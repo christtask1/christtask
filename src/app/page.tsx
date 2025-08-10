@@ -8,9 +8,10 @@ export default function Home() {
           justifyContent: 'center', 
           alignItems: 'center', 
           minHeight: '60vh',
-          fontSize: '72px',
+          fontSize: '48px',
           fontWeight: 'bold',
-          color: '#8B5CF6'
+          color: '#8B5CF6',
+          marginTop: '-5cm'
         }}>
           Jesus
         </div>
