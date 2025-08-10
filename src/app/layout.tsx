@@ -54,6 +54,7 @@ export default function RootLayout({ children }: { children: any }) {
             padding: 6px 10px;
             border-radius: 6px;
             transition: all 0.2s ease;
+            margin-left: -8px;
           }
           .brand:hover {
             background: rgba(122,162,255,0.08);
