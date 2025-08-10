@@ -82,8 +82,8 @@ export default function ApologeticsPreviewBox() {
               <TypingIndicator />
             ) : (
               <div>
-                <strong style={{ color: '#0f172a' }}>{scenario.verse}</strong>
-                <span style={{ color: '#111827' }}> — {typed}</span>
+                <strong style={{ color: '#ffffff' }}>{scenario.verse}</strong>
+                <span style={{ color: '#F2F4F8' }}> — {typed}</span>
                 <span style={styles.cursor}>|</span>
               </div>
             )}
@@ -130,12 +130,12 @@ const styles: Record<string, React.CSSProperties> = {
     borderRadius: 24,
     padding: 18,
     height: 240,
-    border: '1px solid rgba(0,0,0,0.08)',
-    background: 'rgba(255,255,255,0.65)',
+    border: '1px solid rgba(255,255,255,0.35)',
+    background: 'rgba(255,255,255,0.06)',
     backdropFilter: 'saturate(180%) blur(12px)',
     WebkitBackdropFilter: 'saturate(180%) blur(12px)',
-    boxShadow: '0 10px 30px rgba(0,0,0,0.10)',
-    color: '#0f172a'
+    boxShadow: '0 10px 30px rgba(0,0,0,0.20)',
+    color: '#ffffff'
   },
   rowClaim: { display: 'flex', alignItems: 'center', gap: 10 },
   rowAnswer: { display: 'flex', alignItems: 'center', gap: 10, justifyContent: 'flex-end' },
@@ -143,24 +143,24 @@ const styles: Record<string, React.CSSProperties> = {
     fontSize: 12,
     padding: '4px 8px',
     borderRadius: 999,
-    color: '#007AFF', // iOS blue
-    border: '1px solid rgba(0,122,255,0.25)',
-    background: 'rgba(0,122,255,0.10)'
+    color: '#ffffff',
+    border: '1px solid rgba(255,255,255,0.35)',
+    background: 'rgba(255,255,255,0.10)'
   },
   badgeScripture: {
     fontSize: 12,
     padding: '4px 8px',
     borderRadius: 999,
-    color: '#34C759', // iOS green
-    border: '1px solid rgba(52,199,89,0.28)',
-    background: 'rgba(52,199,89,0.12)'
+    color: '#ffffff',
+    border: '1px solid rgba(255,255,255,0.35)',
+    background: 'rgba(255,255,255,0.12)'
   },
   bubbleClaim: {
-    background: 'rgba(0,0,0,0.04)',
-    border: '1px solid rgba(0,0,0,0.08)',
+    background: 'rgba(255,255,255,0.06)',
+    border: '1px solid rgba(255,255,255,0.25)',
     padding: '10px 12px',
     borderRadius: 14,
-    color: '#1f2937',
+    color: '#ffffff',
     maxWidth: 380,
     minHeight: 48,
     maxHeight: 64,
@@ -169,11 +169,11 @@ const styles: Record<string, React.CSSProperties> = {
     overflow: 'hidden'
   },
   bubbleAnswer: {
-    background: 'rgba(52,199,89,0.08)',
-    border: '1px solid rgba(52,199,89,0.22)',
+    background: 'rgba(255,255,255,0.10)',
+    border: '1px solid rgba(255,255,255,0.28)',
     padding: '10px 12px',
     borderRadius: 14,
-    color: '#1f2937',
+    color: '#ffffff',
     maxWidth: 380,
     minHeight: 48,
     maxHeight: 96,
