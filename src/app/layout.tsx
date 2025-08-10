@@ -43,7 +43,7 @@ export default function RootLayout({ children }: { children: any }) {
           .site-header { position: sticky; top: 0; backdrop-filter: saturate(140%) blur(8px); background: rgba(11,16,32,0.6); border-bottom: 1px solid var(--border); z-index: 50; }
           .header-inner { display: flex; align-items: center; justify-content: space-between; height: 64px; }
           .brand { 
-            font-weight: 700; 
+            font-weight: 500; 
             letter-spacing: 0.3px; 
             color: var(--text); 
             font-size: 22px; 
