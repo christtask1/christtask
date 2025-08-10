@@ -67,6 +67,7 @@ export default function Home() {
           <div style={{
             fontSize: '60px',
             color: 'white',
+            fontWeight: 'bold',
             minHeight: '75px',
             textAlign: 'center',
             marginTop: '10px'
