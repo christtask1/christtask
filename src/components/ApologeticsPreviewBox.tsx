@@ -40,6 +40,11 @@ export default function ApologeticsPreviewBox() {
   return (
     <div style={styles.wrapper}>
       <div style={styles.card}>
+        {/* Header */}
+        <div style={styles.headerRow}>
+          <span style={styles.headerTitle}>Debate</span>
+        </div>
+        <div style={{ height: 10 }} />
         {/* Claim row */}
         <div style={styles.rowClaim}>
           <span style={styles.badgeNeutral}>Claim</span>
@@ -90,6 +95,8 @@ const styles: Record<string, React.CSSProperties> = {
     color: '#ffffff',
     fontFamily: '-apple-system, system-ui, Segoe UI, Roboto, Inter, Arial, sans-serif'
   },
+  headerRow: { display: 'flex', alignItems: 'center' },
+  headerTitle: { fontSize: 14, fontWeight: 600, color: '#4E7BFF', letterSpacing: 0.2, textShadow: '0 1px 1px rgba(0,0,0,0.25)' },
   rowClaim: { display: 'flex', alignItems: 'center', gap: 10 },
   rowAnswer: { display: 'flex', alignItems: 'center', gap: 10, justifyContent: 'flex-end' },
   badgeNeutral: {
