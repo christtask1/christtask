@@ -105,10 +105,10 @@ const styles: Record<string, React.CSSProperties> = {
     width: '100%'
   },
   card: {
-    width: 'min(560px, 92vw)',
+    width: 'min(700px, 92vw)',
     borderRadius: 24,
     padding: 18,
-    height: 240,
+    minHeight: 320,
     border: '1px solid rgba(255,255,255,0.22)',
     background: 'rgba(255,255,255,0.08)',
     backdropFilter: 'saturate(180%) blur(16px)',
@@ -151,12 +151,11 @@ const styles: Record<string, React.CSSProperties> = {
     padding: '10px 12px',
     borderRadius: 14,
     color: '#ffffff',
-    maxWidth: 380,
+    maxWidth: '100%',
     minHeight: 48,
-    maxHeight: 64,
     display: 'flex',
     alignItems: 'center',
-    overflow: 'hidden',
+    overflow: 'visible',
     textShadow: '0 1px 1px rgba(0,0,0,0.25)'
   },
   bubbleAnswer: {
@@ -165,12 +164,11 @@ const styles: Record<string, React.CSSProperties> = {
     padding: '10px 12px',
     borderRadius: 14,
     color: '#ffffff',
-    maxWidth: 420,
+    maxWidth: '100%',
     minHeight: 48,
-    maxHeight: 140,
     display: 'flex',
     alignItems: 'center',
-    overflow: 'hidden',
+    overflow: 'visible',
     textShadow: '0 1px 1px rgba(0,0,0,0.25)'
   },
   pointsList: {
