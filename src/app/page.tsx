@@ -3,7 +3,16 @@ export default function Home() {
     <>
       {/* Hero */}
       <section className="section">
-        <div className="container">
+        <div className="container" style={{ 
+          display: 'flex', 
+          justifyContent: 'center', 
+          alignItems: 'center', 
+          minHeight: '60vh',
+          fontSize: '72px',
+          fontWeight: 'bold',
+          color: '#8B5CF6'
+        }}>
+          Jesus
         </div>
       </section>
 
