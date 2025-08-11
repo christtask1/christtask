@@ -29,7 +29,7 @@ export default function RootLayout({ children }: { children: any }) {
 
         <style>{`
           :root {
-            --bg: rgb(221, 226, 238);
+            --bg: #000000;
             --card: #101830;
             --muted: #a8b3cf;
             --text: #eef1f8;
