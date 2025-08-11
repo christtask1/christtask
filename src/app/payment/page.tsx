@@ -30,7 +30,7 @@ function CardForm({
   const elements = useElements()
   const [loading, setLoading] = useState(false)
 
-    const confirm = async () => {
+  const confirm = async () => {
     if (!stripe || !elements) return
     if (!user && (!email || !password)) {
       alert('Please enter your email and password')
@@ -108,13 +108,13 @@ function CardForm({
         onClientSecret(secret)
       }
 
-      const card = elements.getElement(CardElement)
+    const card = elements.getElement(CardElement)
       const res = await stripe.confirmCardPayment(secret!, {
-        payment_method: {
-          card: card!,
-          billing_details: { address: { country } },
-        },
-      })
+      payment_method: {
+        card: card!,
+        billing_details: { address: { country } },
+      },
+    })
       if (!res.error) {
         // After successful payment, create account if not already created
         if (!user) {
@@ -464,7 +464,7 @@ export default function PaymentPage() {
     if (hardcodedPrices.length > 0) {
       setPlan(hardcodedPrices[0].id)
     }
-    setLoading(false)
+        setLoading(false)
   }, [])
 
   // Format price for display
