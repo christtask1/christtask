@@ -145,6 +145,98 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Why pay? */}
+      <section className="section">
+        <div className="container">
+          <h2 style={{ margin: '0 0 14px', fontSize: 24, letterSpacing: '-0.01em' }}>Why pay?</h2>
+          <div className="grid grid-3">
+            <div className="card">
+              <div style={{ fontWeight: 700, marginBottom: 6 }}>Cites Scripture</div>
+              <div className="muted">Every answer includes chapter and verse you can verify.</div>
+            </div>
+            <div className="card">
+              <div style={{ fontWeight: 700, marginBottom: 6 }}>Clear structure</div>
+              <div className="muted">Lead sentence + 2–3 crisp points you can share.</div>
+            </div>
+            <div className="card">
+              <div style={{ fontWeight: 700, marginBottom: 6 }}>Saves hours</div>
+              <div className="muted">Pulls relevant passages fast—no tab‑hopping.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* How it works */}
+      <section className="section">
+        <div className="container" style={{ display: 'grid', gap: 12 }}>
+          <h2 style={{ margin: 0, fontSize: 24, letterSpacing: '-0.01em' }}>How it works</h2>
+          <ol style={{ margin: 0, paddingLeft: 18, color: 'var(--text)' }}>
+            <li style={{ marginBottom: 6 }}>Ask any claim or question.</li>
+            <li style={{ marginBottom: 6 }}>ChristTask retrieves relevant Scripture and trusted sources.</li>
+            <li>Get a concise answer with citations and shareable bullets.</li>
+          </ol>
+        </div>
+      </section>
+
+      {/* Features */}
+      <section className="section">
+        <div className="container" style={{ display: 'grid', gap: 12 }}>
+          <h2 style={{ margin: 0, fontSize: 24, letterSpacing: '-0.01em' }}>Features</h2>
+          <ul style={{ margin: 0, paddingLeft: 18 }}>
+            <li className="muted">Bible integration: instant verse citations in multiple translations.</li>
+            <li className="muted">Modes: Quick Answer or Deep Dive with references.</li>
+            <li className="muted">Share & Save: copy answers, save threads, revisit citations.</li>
+            <li className="muted">Tone control: respectful, firm, or academic.</li>
+            <li className="muted">Privacy: your chats aren’t shared; you control exports.</li>
+          </ul>
+        </div>
+      </section>
+
+      {/* Who it's for */}
+      <section className="section">
+        <div className="container" style={{ display: 'grid', gap: 12 }}>
+          <h2 style={{ margin: 0, fontSize: 24, letterSpacing: '-0.01em' }}>Who it’s for</h2>
+          <ul style={{ margin: 0, paddingLeft: 18 }}>
+            <li className="muted">Christians in conversations and debates</li>
+            <li className="muted">Students and small‑group leaders</li>
+            <li className="muted">Pastors and creators who need quick, sourced outlines</li>
+          </ul>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section className="section">
+        <div className="container" style={{ display: 'grid', gap: 16 }}>
+          <h2 style={{ margin: 0, fontSize: 24, letterSpacing: '-0.01em' }}>FAQ</h2>
+          <div className="grid grid-2">
+            <div className="card">
+              <div style={{ fontWeight: 700, marginBottom: 6 }}>Is this replacing Scripture?</div>
+              <div className="muted">No—ChristTask is a study assistant; Scripture stays primary.</div>
+            </div>
+            <div className="card">
+              <div style={{ fontWeight: 700, marginBottom: 6 }}>Is it accurate?</div>
+              <div className="muted">Answers include citations so you can verify. You’re in control.</div>
+            </div>
+            <div className="card">
+              <div style={{ fontWeight: 700, marginBottom: 6 }}>Denominational concerns?</div>
+              <div className="muted">We prioritize core, historic Christianity and plain‑sense exegesis.</div>
+            </div>
+            <div className="card">
+              <div style={{ fontWeight: 700, marginBottom: 6 }}>Will it be combative?</div>
+              <div className="muted">No—answers aim for clarity, charity, and confidence.</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Final CTA */}
+      <section className="section">
+        <div className="container" style={{ textAlign: 'center' }}>
+          <h2 style={{ margin: 0, fontSize: 28, letterSpacing: '-0.01em' }}>Be ready with an answer—today</h2>
+          <a href="/payment" className="btn" style={{ marginTop: 14 }}>Get Access</a>
+        </div>
+      </section>
+
     </>
   )
 }
