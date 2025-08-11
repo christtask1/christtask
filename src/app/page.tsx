@@ -114,7 +114,37 @@ export default function Home() {
           <ApologeticsPreviewBox />
         </div>
       </section>
-      
+
+      {/* Pricing */}
+      <section className="section">
+        <div className="container" style={{ display: 'grid', gap: 16 }}>
+          <h2 style={{ margin: 0, fontSize: 24, letterSpacing: '-0.01em' }}>Choose your plan</h2>
+          <div className="grid grid-2">
+            <a href="/payment" className="card" style={{ textDecoration: 'none', color: 'inherit' }}>
+              <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 12 }}>
+                <div style={{ fontSize: 18, fontWeight: 600 }}>Weekly</div>
+                <div style={{ fontSize: 28, fontWeight: 700 }}>£4.50</div>
+              </div>
+              <div className="muted" style={{ marginTop: 6 }}>Billed weekly</div>
+              <div style={{ marginTop: 12 }}>
+                <span className="btn" style={{ padding: '10px 14px', borderRadius: 10 }}>Get Access</span>
+              </div>
+            </a>
+
+            <a href="/payment" className="card" style={{ textDecoration: 'none', color: 'inherit' }}>
+              <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 12 }}>
+                <div style={{ fontSize: 18, fontWeight: 600 }}>Monthly</div>
+                <div style={{ fontSize: 28, fontWeight: 700 }}>£11.99</div>
+              </div>
+              <div className="muted" style={{ marginTop: 6 }}>Billed monthly</div>
+              <div style={{ marginTop: 12 }}>
+                <span className="btn" style={{ padding: '10px 14px', borderRadius: 10 }}>Get Access</span>
+              </div>
+            </a>
+          </div>
+        </div>
+      </section>
+
     </>
   )
 }
