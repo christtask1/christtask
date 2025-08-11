@@ -29,7 +29,7 @@ export default function RootLayout({ children }: { children: any }) {
 
         <style>{`
           :root {
-            --bg: #000000;
+            --bg: #040406;
             --card: #101830;
             --muted: #a8b3cf;
             --text: #eef1f8;
@@ -45,7 +45,7 @@ export default function RootLayout({ children }: { children: any }) {
           html, body { height: 100%; }
           body { margin: 0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; background: var(--bg); color: var(--text); }
           .container { width: 100%; max-width: 1100px; margin: 0 auto; padding: 0 20px; }
-          .site-header { position: sticky; top: 0; backdrop-filter: saturate(140%) blur(8px); background: #000000; z-index: 50; }
+          .site-header { position: sticky; top: 0; backdrop-filter: saturate(140%) blur(8px); background: #040406; z-index: 50; }
           .header-inner { display: flex; align-items: center; justify-content: space-between; height: 64px; }
                             .brand {
                     font-weight: 600;
