@@ -98,6 +98,7 @@ export default function ChatPage() {
             { key: 'new', label: 'New' },
             { key: 'documents', label: 'Documents' },
             { key: 'library', label: 'Library' },
+            { key: 'bible', label: 'Bible' },
             { key: 'ai', label: 'AI Chat', active: true },
           ].map((item) => (
             <button
