@@ -518,7 +518,7 @@ export default function PaymentPage() {
                       <div className="plan-title">{price.product_name}</div>
                       <div className="plan-price">
                         {formatPrice(price.unit_amount, price.currency)}
-                        <span className="plan-period">/{price.type === 'recurring' ? 'month' : 'one-time'}</span>
+                        <span className="plan-period">/{price.product_name.includes('Weekly') ? 'week' : price.product_name.includes('Monthly') ? 'month' : 'one-time'}</span>
                       </div>
                       <ul className="plan-points">
                         <li>Full access</li>
