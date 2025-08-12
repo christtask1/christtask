@@ -52,6 +52,8 @@ export default function ChatPage() {
 
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const bottomRef = useRef<HTMLDivElement | null>(null)
+  const chatTopRef = useRef<HTMLDivElement | null>(null)
+  const biblePanelRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
     const init = async () => {
@@ -104,7 +106,6 @@ export default function ChatPage() {
       const res = await fetch(url)
       if (!res.ok) throw new Error(`Failed to load ${bookName} ${chapter}`)
       const data = await res.json()
-      // Combine verses into one formatted block
       const text = (data.verses || [])
         .map((v: any) => `${v.verse}. ${v.text.trim()}`)
         .join('\n')
@@ -121,12 +122,31 @@ export default function ChatPage() {
     setSelectedChapter(1)
     setIsBibleOpen(true)
     loadBibleChapter(book.name, 1)
+    setTimeout(() => {
+      biblePanelRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }, 80)
   }
 
   const handleChangeChapter = (chapter: number) => {
     if (!selectedBook) return
     setSelectedChapter(chapter)
     loadBibleChapter(selectedBook.name, chapter)
+  }
+
+  // Sidebar navigation actions
+  const goToBible = () => {
+    setIsBibleOpen(true)
+    setIsSidebarOpen(false)
+    setTimeout(() => {
+      biblePanelRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }, 60)
+  }
+  const goToChat = () => {
+    setIsBibleOpen(false)
+    setIsSidebarOpen(false)
+    setTimeout(() => {
+      chatTopRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }, 60)
   }
 
   return (
@@ -136,14 +156,12 @@ export default function ChatPage() {
       overflow: 'hidden',
       position: 'relative'
     }}>
-      {/* Hover hotspot to reveal the sidebar when cursor hits left edge */}
       <div
         aria-hidden
         onMouseEnter={openSidebar}
         style={{ position: 'fixed', left: 0, top: 0, bottom: 0, width: 12, zIndex: 250, background: 'transparent' }}
       />
 
-      {/* Floating Sidebar (overlay) */}
       <aside
         aria-label="Chat navigation"
         onMouseEnter={openSidebar}
@@ -174,8 +192,8 @@ export default function ChatPage() {
             { key: 'new', label: 'New' },
             { key: 'documents', label: 'Documents' },
             { key: 'library', label: 'Library' },
-            { key: 'bible', label: 'Bible', onClick: () => setIsBibleOpen(true) },
-            { key: 'ai', label: 'AI Chat', active: true },
+            { key: 'bible', label: 'Bible', onClick: goToBible },
+            { key: 'ai', label: 'AI Chat', onClick: goToChat, active: !isBibleOpen },
           ].map((item) => (
             <button
               key={item.key}
@@ -200,7 +218,6 @@ export default function ChatPage() {
         </div>
       </aside>
 
-      {/* Chat Area */}
       <div style={{
         flex: 1,
         display: 'flex',
@@ -208,7 +225,7 @@ export default function ChatPage() {
         padding: 20,
         minWidth: 0
       }}>
-        <div style={{
+        <div ref={chatTopRef} style={{
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
@@ -218,9 +235,8 @@ export default function ChatPage() {
           <h2 style={{ margin: 0 }}>Chat</h2>
         </div>
 
-        {/* Bible Panel (when open) */}
         {isBibleOpen && (
-          <div className="card" style={{ padding: 16, marginBottom: 16 }}>
+          <div ref={biblePanelRef} className="card" style={{ padding: 16, marginBottom: 16 }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
               <div style={{ display: 'flex', gap: 8 }}>
                 <button
@@ -275,7 +291,6 @@ export default function ChatPage() {
               </div>
             </div>
 
-            {/* Books scroller */}
             <div style={{ display: 'flex', gap: 16, marginTop: 12, flexWrap: 'wrap' }}>
               <div style={{ flex: '1 1 260px', minWidth: 220 }}>
                 <div className="muted" style={{ marginBottom: 6 }}>Books</div>
@@ -302,7 +317,6 @@ export default function ChatPage() {
                 </div>
               </div>
 
-              {/* Passage viewer */}
               <div style={{ flex: '3 1 420px', minWidth: 300 }}>
                 <div className="muted" style={{ marginBottom: 6 }}>
                   {selectedBook ? `${selectedBook.name} ${selectedChapter}` : 'Select a book'}
