@@ -76,13 +76,37 @@ export default function ChatPage() {
 
     setMessages((prev) => [...prev, { role: 'user', content: text }])
 
-    setTimeout(() => {
+    try {
+      // Call your RAG backend through the API route
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          message: text
+        })
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to get response')
+      }
+
+      const data = await response.json()
+      
       setMessages((prev) => [
         ...prev,
-        { role: 'assistant', content: `Thanks! You said: "${text}". (Hook this to your AI/knowledge base.)` },
+        { role: 'assistant', content: data.content }
       ])
+    } catch (error) {
+      console.error('Chat error:', error)
+      setMessages((prev) => [
+        ...prev,
+        { role: 'assistant', content: 'Sorry, I encountered an error. Please try again.' }
+      ])
+    } finally {
       setSending(false)
-    }, 500)
+    }
   }
 
   const openSidebar = () => {
