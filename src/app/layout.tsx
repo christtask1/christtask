@@ -65,10 +65,10 @@ export default function RootLayout({ children }: { children: any }) {
           @keyframes blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
         `}</style>
       </head>
-      <body>
+            <body>
         <header className="site-header">
           <div className="container header-inner">
-                              <a href="/" className="brand">ChristTask</a>
+            <a href="/" className="brand">ChristTask</a>
             <nav className="nav">
               <a href="/login" className="nav-link">Login</a>
               <a href="/" className="nav-link">Home</a>
@@ -85,7 +85,13 @@ export default function RootLayout({ children }: { children: any }) {
           </div>
         </footer>
 
-        
+        <style>{`
+          /* Hide header and footer on chat page only */
+          body:has([data-page="chat"]) .site-header,
+          body:has([data-page="chat"]) .site-footer {
+            display: none !important;
+          }
+        `}</style>
       </body>
     </html>
   )

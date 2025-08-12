@@ -44,8 +44,8 @@ export default function ChatPage() {
   }
 
   return (
-    <div style={{ 
-      height: 'calc(100vh - 128px)', // Full height minus header/footer space
+    <div data-page="chat" style={{ 
+      height: '100vh', // Full height since header/footer are hidden
       display: 'flex', 
       flexDirection: 'column',
       padding: '20px',
