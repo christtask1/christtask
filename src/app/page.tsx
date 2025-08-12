@@ -9,16 +9,16 @@ export default function Home() {
   const [currentText, setCurrentText] = useState('')
   const [currentIndex, setCurrentIndex] = useState(0)
   const [isDeleting, setIsDeleting] = useState(false)
-  
+
   const phrases = [
     "is just a prophet",
-    "is only human", 
+    "is only human",
     "never claimed he was God"
   ]
 
   useEffect(() => {
     const currentPhrase = phrases[currentIndex]
-    
+
     if (isDeleting) {
       // Delete text
       if (currentText.length > 0) {
@@ -34,7 +34,7 @@ export default function Home() {
       // Type text
       if (currentText.length < currentPhrase.length) {
         const timeout = setTimeout(() => {
-          setCurrentText(currentPhrase.slice(0, currentText.length + 1))
+          setCurrentText(currentPhrase.slice(0, currentText.length + 1))      
         }, 35)
         return () => clearTimeout(timeout)
       } else {
@@ -51,23 +51,23 @@ export default function Home() {
     <>
       {/* Hero */}
       <section className="section">
-        <div className="container" style={{ 
-          display: 'flex', 
+        <div className="container" style={{
+          display: 'flex',
           flexDirection: 'column',
-          justifyContent: 'center', 
-          alignItems: 'center', 
+          justifyContent: 'center',
+          alignItems: 'center',
           minHeight: '60vh',
           marginTop: '1cm'
         }}>
 
-                                           <div style={{
-              fontSize: '84px',
-              fontWeight: 'bold',
-              color: '#8B5CF6',
-              marginBottom: '20px'
-            }}>
-              Jesus
-            </div>
+          <div style={{
+            fontSize: '84px',
+            fontWeight: 'bold',
+            color: '#8B5CF6',
+            marginBottom: '20px'
+          }}>
+            Jesus
+          </div>
           <div style={{
             fontSize: '60px',
             color: 'white',
@@ -119,7 +119,7 @@ export default function Home() {
       <section className="section">
         <div className="container" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16, flexWrap: 'wrap' }}>
           <div className="muted" style={{ fontWeight: 600 }}>Trusted for clarity by</div>
-          <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>        
             <span className="pill">Students</span>
             <span className="pill">Pastors</span>
             <span className="pill">Creators</span>
@@ -202,21 +202,21 @@ export default function Home() {
 
       {/* Pricing (links to /payment) */}
       <section className="section">
-        <div className="container" style={{ display: 'grid', gap: 16 }}>
+        <div className="container" style={{ display: 'grid', gap: 16 }}>      
           <h2 style={{ margin: 0, fontSize: 28, letterSpacing: '-0.01em' }}>Choose your plan</h2>
           <div className="grid grid-2">
             <a href="/payment" className="card" style={{ textDecoration: 'none', color: 'inherit' }}>
               <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 12 }}>
-                <div style={{ fontSize: 18, fontWeight: 600 }}>Weekly</div>
-                <div style={{ fontSize: 28, fontWeight: 700 }}>£4.50</div>
+                <div style={{ fontSize: 18, fontWeight: 600 }}>Weekly</div>   
+                <div style={{ fontSize: 28, fontWeight: 700 }}>£4.50</div>    
               </div>
               <div className="muted" style={{ marginTop: 6 }}>Billed weekly</div>
               <div style={{ marginTop: 12 }}><span className="btn" style={{ padding: '10px 14px', borderRadius: 10 }}>Get Access</span></div>
             </a>
             <a href="/payment" className="card" style={{ textDecoration: 'none', color: 'inherit' }}>
               <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', gap: 12 }}>
-                <div style={{ fontSize: 18, fontWeight: 600 }}>Monthly</div>
-                <div style={{ fontSize: 28, fontWeight: 700 }}>£11.99</div>
+                <div style={{ fontSize: 18, fontWeight: 600 }}>Monthly</div>  
+                <div style={{ fontSize: 28, fontWeight: 700 }}>£11.99</div>   
               </div>
               <div className="muted" style={{ marginTop: 6 }}>Billed monthly</div>
               <div style={{ marginTop: 12 }}><span className="btn" style={{ padding: '10px 14px', borderRadius: 10 }}>Get Access</span></div>
@@ -227,7 +227,7 @@ export default function Home() {
 
       {/* FAQ */}
       <section className="section">
-        <div className="container" style={{ display: 'grid', gap: 16 }}>
+        <div className="container" style={{ display: 'grid', gap: 16 }}>      
           <h2 style={{ margin: 0, fontSize: 28, letterSpacing: '-0.01em' }}>FAQ</h2>
           <div className="grid grid-2">
             <div className="card"><div style={{ fontWeight: 700, marginBottom: 6 }}>Does this replace Scripture?</div><div className="muted">No—ChristTask is a study assistant; Scripture remains primary.</div></div>
@@ -249,5 +249,3 @@ export default function Home() {
     </>
   )
 }
-
-
