@@ -10,7 +10,8 @@ export default function ChatPage() {
   ])
   const [input, setInput] = useState<string>('')
   const [sending, setSending] = useState<boolean>(false)
-  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(true)
+  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false)
+  const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const bottomRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
@@ -43,27 +44,52 @@ export default function ChatPage() {
     }, 500)
   }
 
+  const openSidebar = () => {
+    if (closeTimer.current) { clearTimeout(closeTimer.current) }
+    setIsSidebarOpen(true)
+  }
+  const scheduleCloseSidebar = () => {
+    if (closeTimer.current) { clearTimeout(closeTimer.current) }
+    closeTimer.current = setTimeout(() => setIsSidebarOpen(false), 250)
+  }
+
   return (
     <div data-page="chat" style={{
       height: '100vh',
       display: 'flex',
-      overflow: 'hidden'
+      overflow: 'hidden',
+      position: 'relative'
     }}>
-      {/* Sidebar */}
+      {/* Hover hotspot to reveal the sidebar when cursor hits left edge */}
+      <div
+        aria-hidden
+        onMouseEnter={openSidebar}
+        style={{ position: 'fixed', left: 0, top: 0, bottom: 0, width: 12, zIndex: 250, background: 'transparent' }}
+      />
+
+      {/* Floating Sidebar (overlay) */}
       <aside
         aria-label="Chat navigation"
-        aria-hidden={!isSidebarOpen}
+        onMouseEnter={openSidebar}
+        onMouseLeave={scheduleCloseSidebar}
         style={{
-          width: isSidebarOpen ? 240 : 0,
-          background: '#0e1530',
-          borderRight: isSidebarOpen ? '1px solid var(--border)' : 'none',
-          padding: isSidebarOpen ? 16 : 0,
+          position: 'fixed',
+          left: 12,
+          top: 12,
+          bottom: 12,
+          width: isSidebarOpen ? 260 : 0,
+          background: 'linear-gradient(180deg, rgba(23,35,74,0.85), rgba(16,24,48,0.95))',
+          border: isSidebarOpen ? '1px solid var(--border)' : '1px solid transparent',
+          borderRadius: 16,
+          boxShadow: isSidebarOpen ? '0 16px 50px rgba(0,0,0,0.45)' : 'none',
+          padding: isSidebarOpen ? 14 : 0,
+          overflow: 'hidden',
+          transition: 'width 160ms ease, padding 160ms ease, border-color 160ms ease, box-shadow 160ms ease',
+          pointerEvents: isSidebarOpen ? 'auto' : 'none',
+          zIndex: 300,
           display: 'flex',
           flexDirection: 'column',
-          gap: 12,
-          overflow: 'hidden',
-          transition: 'width 180ms ease, padding 180ms ease, border-color 180ms ease',
-          pointerEvents: isSidebarOpen ? 'auto' : 'none'
+          gap: 12
         }}
       >
         <div style={{ fontWeight: 800, letterSpacing: '0.2px' }}>ChristTask</div>
@@ -111,34 +137,7 @@ export default function ChatPage() {
           marginBottom: 16,
           flexShrink: 0
         }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-            <button
-              type="button"
-              aria-label={isSidebarOpen ? 'Collapse sidebar' : 'Expand sidebar'}
-              onClick={() => setIsSidebarOpen((v) => !v)}
-              style={{
-                background: 'transparent',
-                border: '1px solid var(--border)',
-                color: 'var(--text)',
-                padding: '8px 10px',
-                borderRadius: 8,
-                cursor: 'pointer'
-              }}
-            >
-              {isSidebarOpen ? (
-                // « icon
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="15 18 9 12 15 6"></polyline>
-                </svg>
-              ) : (
-                // » icon
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <polyline points="9 18 15 12 9 6"></polyline>
-                </svg>
-              )}
-            </button>
-            <h2 style={{ margin: 0 }}>Chat</h2>
-          </div>
+          <h2 style={{ margin: 0 }}>Chat</h2>
           <div className="muted" style={{ fontSize: 14 }}>
             {userEmail ? `Signed in as ${userEmail}` : 'Not signed in'}
           </div>
