@@ -145,10 +145,12 @@ function CardForm({
             hidePostalCode: true,
             style: {
               base: {
-                color: 'var(--text)',
+                color: '#ffffff',
                 iconColor: 'var(--brand)',
                 fontFamily: 'system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif',
                 '::placeholder': { color: 'var(--muted)' },
+                fontSize: '16px',
+                fontWeight: '400',
               },
               invalid: { color: '#ff6b6b' },
             },
