@@ -3,6 +3,35 @@
 import { useEffect, useRef, useState } from 'react'
 import { supabase } from '../../lib/supabaseClient'
 
+// Minimal book metadata for Old and New Testament (book name + number of chapters)
+const OLD_TESTAMENT: Array<{ name: string; chapters: number }> = [
+  { name: 'Genesis', chapters: 50 }, { name: 'Exodus', chapters: 40 }, { name: 'Leviticus', chapters: 27 },
+  { name: 'Numbers', chapters: 36 }, { name: 'Deuteronomy', chapters: 34 }, { name: 'Joshua', chapters: 24 },
+  { name: 'Judges', chapters: 21 }, { name: 'Ruth', chapters: 4 }, { name: '1 Samuel', chapters: 31 },
+  { name: '2 Samuel', chapters: 24 }, { name: '1 Kings', chapters: 22 }, { name: '2 Kings', chapters: 25 },
+  { name: '1 Chronicles', chapters: 29 }, { name: '2 Chronicles', chapters: 36 }, { name: 'Ezra', chapters: 10 },
+  { name: 'Nehemiah', chapters: 13 }, { name: 'Esther', chapters: 10 }, { name: 'Job', chapters: 42 },
+  { name: 'Psalms', chapters: 150 }, { name: 'Proverbs', chapters: 31 }, { name: 'Ecclesiastes', chapters: 12 },
+  { name: 'Song of Solomon', chapters: 8 }, { name: 'Isaiah', chapters: 66 }, { name: 'Jeremiah', chapters: 52 },
+  { name: 'Lamentations', chapters: 5 }, { name: 'Ezekiel', chapters: 48 }, { name: 'Daniel', chapters: 12 },
+  { name: 'Hosea', chapters: 14 }, { name: 'Joel', chapters: 3 }, { name: 'Amos', chapters: 9 },
+  { name: 'Obadiah', chapters: 1 }, { name: 'Jonah', chapters: 4 }, { name: 'Micah', chapters: 7 },
+  { name: 'Nahum', chapters: 3 }, { name: 'Habakkuk', chapters: 3 }, { name: 'Zephaniah', chapters: 3 },
+  { name: 'Haggai', chapters: 2 }, { name: 'Zechariah', chapters: 14 }, { name: 'Malachi', chapters: 4 }
+]
+
+const NEW_TESTAMENT: Array<{ name: string; chapters: number }> = [
+  { name: 'Matthew', chapters: 28 }, { name: 'Mark', chapters: 16 }, { name: 'Luke', chapters: 24 },
+  { name: 'John', chapters: 21 }, { name: 'Acts', chapters: 28 }, { name: 'Romans', chapters: 16 },
+  { name: '1 Corinthians', chapters: 16 }, { name: '2 Corinthians', chapters: 13 }, { name: 'Galatians', chapters: 6 },
+  { name: 'Ephesians', chapters: 6 }, { name: 'Philippians', chapters: 4 }, { name: 'Colossians', chapters: 4 },
+  { name: '1 Thessalonians', chapters: 5 }, { name: '2 Thessalonians', chapters: 3 }, { name: '1 Timothy', chapters: 6 },
+  { name: '2 Timothy', chapters: 4 }, { name: 'Titus', chapters: 3 }, { name: 'Philemon', chapters: 1 },
+  { name: 'Hebrews', chapters: 13 }, { name: 'James', chapters: 5 }, { name: '1 Peter', chapters: 5 },
+  { name: '2 Peter', chapters: 3 }, { name: '1 John', chapters: 5 }, { name: '2 John', chapters: 1 },
+  { name: '3 John', chapters: 1 }, { name: 'Jude', chapters: 1 }, { name: 'Revelation', chapters: 22 }
+]
+
 export default function ChatPage() {
   const [userEmail, setUserEmail] = useState<string>('')
   const [messages, setMessages] = useState<Array<{ role: 'user' | 'assistant'; content: string }>>([
@@ -10,7 +39,17 @@ export default function ChatPage() {
   ])
   const [input, setInput] = useState<string>('')
   const [sending, setSending] = useState<boolean>(false)
+
+  // Sidebar + Bible panel state
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false)
+  const [isBibleOpen, setIsBibleOpen] = useState<boolean>(false)
+  const [activeTestament, setActiveTestament] = useState<'OT' | 'NT'>('OT')
+  const [selectedBook, setSelectedBook] = useState<{ name: string; chapters: number } | null>(null)
+  const [selectedChapter, setSelectedChapter] = useState<number>(1)
+  const [bibleLoading, setBibleLoading] = useState<boolean>(false)
+  const [bibleError, setBibleError] = useState<string | null>(null)
+  const [bibleText, setBibleText] = useState<string>('')
+
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const bottomRef = useRef<HTMLDivElement | null>(null)
 
@@ -51,6 +90,43 @@ export default function ChatPage() {
   const scheduleCloseSidebar = () => {
     if (closeTimer.current) { clearTimeout(closeTimer.current) }
     closeTimer.current = setTimeout(() => setIsSidebarOpen(false), 250)
+  }
+
+  const books = activeTestament === 'OT' ? OLD_TESTAMENT : NEW_TESTAMENT
+
+  const loadBibleChapter = async (bookName: string, chapter: number) => {
+    try {
+      setBibleLoading(true)
+      setBibleError(null)
+      setBibleText('')
+      const ref = encodeURIComponent(`${bookName} ${chapter}`)
+      const url = `https://bible-api.com/${ref}?translation=kjv`
+      const res = await fetch(url)
+      if (!res.ok) throw new Error(`Failed to load ${bookName} ${chapter}`)
+      const data = await res.json()
+      // Combine verses into one formatted block
+      const text = (data.verses || [])
+        .map((v: any) => `${v.verse}. ${v.text.trim()}`)
+        .join('\n')
+      setBibleText(text || data.text || '')
+    } catch (e: any) {
+      setBibleError(e?.message || 'Unable to load passage')
+    } finally {
+      setBibleLoading(false)
+    }
+  }
+
+  const handleSelectBook = (book: { name: string; chapters: number }) => {
+    setSelectedBook(book)
+    setSelectedChapter(1)
+    setIsBibleOpen(true)
+    loadBibleChapter(book.name, 1)
+  }
+
+  const handleChangeChapter = (chapter: number) => {
+    if (!selectedBook) return
+    setSelectedChapter(chapter)
+    loadBibleChapter(selectedBook.name, chapter)
   }
 
   return (
@@ -98,12 +174,13 @@ export default function ChatPage() {
             { key: 'new', label: 'New' },
             { key: 'documents', label: 'Documents' },
             { key: 'library', label: 'Library' },
-            { key: 'bible', label: 'Bible' },
+            { key: 'bible', label: 'Bible', onClick: () => setIsBibleOpen(true) },
             { key: 'ai', label: 'AI Chat', active: true },
           ].map((item) => (
             <button
               key={item.key}
               type="button"
+              onClick={item.onClick as any}
               style={{
                 textAlign: 'left',
                 background: item.active ? 'rgba(122,162,255,0.12)' : 'transparent',
@@ -140,6 +217,115 @@ export default function ChatPage() {
         }}>
           <h2 style={{ margin: 0 }}>Chat</h2>
         </div>
+
+        {/* Bible Panel (when open) */}
+        {isBibleOpen && (
+          <div className="card" style={{ padding: 16, marginBottom: 16 }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
+              <div style={{ display: 'flex', gap: 8 }}>
+                <button
+                  type="button"
+                  onClick={() => setActiveTestament('OT')}
+                  style={{
+                    background: activeTestament === 'OT' ? 'rgba(122,162,255,0.12)' : 'transparent',
+                    border: '1px solid var(--border)',
+                    color: '#eef1f8',
+                    padding: '8px 12px',
+                    borderRadius: 10,
+                    cursor: 'pointer'
+                  }}
+                >
+                  Old Testament
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setActiveTestament('NT')}
+                  style={{
+                    background: activeTestament === 'NT' ? 'rgba(122,162,255,0.12)' : 'transparent',
+                    border: '1px solid var(--border)',
+                    color: '#eef1f8',
+                    padding: '8px 12px',
+                    borderRadius: 10,
+                    cursor: 'pointer'
+                  }}
+                >
+                  New Testament
+                </button>
+              </div>
+              <div style={{ display: 'flex', gap: 8 }}>
+                {selectedBook && (
+                  <select
+                    value={selectedChapter}
+                    onChange={(e) => handleChangeChapter(Number(e.target.value))}
+                    style={{ background: '#0e1530', color: '#eef1f8', border: '1px solid var(--border)', borderRadius: 8, padding: '8px 10px' }}
+                  >
+                    {Array.from({ length: selectedBook.chapters }, (_, i) => i + 1).map((ch) => (
+                      <option key={ch} value={ch}>Chapter {ch}</option>
+                    ))}
+                  </select>
+                )}
+                <button
+                  type="button"
+                  onClick={() => setIsBibleOpen(false)}
+                  className="btn secondary"
+                  style={{ padding: '8px 12px', borderRadius: 10 }}
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+
+            {/* Books scroller */}
+            <div style={{ display: 'flex', gap: 16, marginTop: 12, flexWrap: 'wrap' }}>
+              <div style={{ flex: '1 1 260px', minWidth: 220 }}>
+                <div className="muted" style={{ marginBottom: 6 }}>Books</div>
+                <div style={{ maxHeight: 220, overflowY: 'auto', border: '1px solid var(--border)', borderRadius: 12 }}>
+                  {books.map((b) => (
+                    <button
+                      key={b.name}
+                      type="button"
+                      onClick={() => handleSelectBook(b)}
+                      style={{
+                        width: '100%',
+                        textAlign: 'left',
+                        padding: '10px 12px',
+                        background: selectedBook?.name === b.name ? 'rgba(122,162,255,0.12)' : 'transparent',
+                        color: '#eef1f8',
+                        border: 'none',
+                        borderBottom: '1px solid var(--border)',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      {b.name}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Passage viewer */}
+              <div style={{ flex: '3 1 420px', minWidth: 300 }}>
+                <div className="muted" style={{ marginBottom: 6 }}>
+                  {selectedBook ? `${selectedBook.name} ${selectedChapter}` : 'Select a book'}
+                </div>
+                <div style={{
+                  border: '1px solid var(--border)',
+                  borderRadius: 12,
+                  padding: 14,
+                  minHeight: 200,
+                  maxHeight: 300,
+                  overflowY: 'auto',
+                  background: '#0e1530'
+                }}>
+                  {bibleLoading && <div className="muted">Loading passage…</div>}
+                  {bibleError && <div style={{ color: '#ff6b6b' }}>{bibleError}</div>}
+                  {!bibleLoading && !bibleError && bibleText && (
+                    <pre style={{ margin: 0, whiteSpace: 'pre-wrap', fontFamily: 'inherit', lineHeight: 1.6 }}>{bibleText}</pre>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
         <div
           className="card"
