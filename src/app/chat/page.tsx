@@ -33,7 +33,6 @@ export default function ChatPage() {
 
     setMessages((prev) => [...prev, { role: 'user', content: text }])
 
-    // Placeholder assistant response. Replace with your backend/AI call when ready.
     setTimeout(() => {
       setMessages((prev) => [
         ...prev,
@@ -44,28 +43,68 @@ export default function ChatPage() {
   }
 
   return (
-    <div data-page="chat" style={{ 
-      height: '100vh', // Full height since header/footer are hidden
-      display: 'flex', 
-      flexDirection: 'column',
-      padding: '20px',
-      overflow: 'hidden' // Prevent page scrolling
+    <div data-page="chat" style={{
+      height: '100vh',
+      display: 'flex',
+      overflow: 'hidden'
     }}>
-      <div style={{ 
-        maxWidth: 800, 
-        margin: '0 auto', 
-        width: '100%',
-        height: '100%',
+      {/* Sidebar */}
+      <aside
+        aria-label="Chat navigation"
+        style={{
+          width: 240,
+          background: '#0e1530',
+          borderRight: '1px solid var(--border)',
+          padding: 16,
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 12
+        }}
+      >
+        <div style={{ fontWeight: 800, letterSpacing: '0.2px' }}>ChristTask</div>
+        <nav style={{ display: 'grid', gap: 8 }}>
+          {[
+            { key: 'new', label: 'New' },
+            { key: 'documents', label: 'Documents' },
+            { key: 'library', label: 'Library' },
+            { key: 'ai', label: 'AI Chat', active: true },
+          ].map((item) => (
+            <button
+              key={item.key}
+              type="button"
+              style={{
+                textAlign: 'left',
+                background: item.active ? 'rgba(122,162,255,0.12)' : 'transparent',
+                color: item.active ? '#eef1f8' : 'var(--muted)',
+                border: '1px solid var(--border)',
+                padding: '10px 12px',
+                borderRadius: 10,
+                cursor: 'pointer'
+              }}
+            >
+              {item.label}
+            </button>
+          ))}
+        </nav>
+        <div style={{ marginTop: 'auto', color: 'var(--muted)', fontSize: 12 }}>
+          Signed in: {userEmail || 'Anonymous'}
+        </div>
+      </aside>
+
+      {/* Chat Area */}
+      <div style={{
+        flex: 1,
         display: 'flex',
-        flexDirection: 'column'
+        flexDirection: 'column',
+        padding: 20,
+        minWidth: 0
       }}>
-        {/* Header */}
-        <div style={{ 
-          display: 'flex', 
-          justifyContent: 'space-between', 
-          alignItems: 'center', 
+        <div style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
           marginBottom: 16,
-          flexShrink: 0 // Don't shrink this header
+          flexShrink: 0
         }}>
           <h2 style={{ margin: 0 }}>Chat</h2>
           <div className="muted" style={{ fontSize: 14 }}>
@@ -73,28 +112,36 @@ export default function ChatPage() {
           </div>
         </div>
 
-        {/* Chat Messages - Takes remaining space */}
-        <div className="card" style={{ 
-          padding: 16, 
-          flex: 1, // Take all available space
-          overflowY: 'auto',
-          display: 'flex',
-          flexDirection: 'column'
-        }}>
+        <div
+          className="card"
+          style={{
+            padding: 16,
+            flex: 1,
+            overflowY: 'auto',
+            display: 'flex',
+            flexDirection: 'column',
+            minHeight: 0
+          }}
+        >
           <div style={{ flex: 1, overflowY: 'auto' }}>
             {messages.map((m, idx) => (
-              <div key={idx} style={{
-                display: 'flex',
-                justifyContent: m.role === 'user' ? 'flex-end' : 'flex-start',
-                marginBottom: 10,
-              }}>
-                <div style={{
-                  maxWidth: '75%',
-                  padding: '10px 12px',
-                  borderRadius: 12,
-                  background: m.role === 'user' ? 'rgba(78,123,255,0.15)' : '#0e1530',
-                  border: '1px solid var(--border)'
-                }}>
+              <div
+                key={idx}
+                style={{
+                  display: 'flex',
+                  justifyContent: m.role === 'user' ? 'flex-end' : 'flex-start',
+                  marginBottom: 10,
+                }}
+              >
+                <div
+                  style={{
+                    maxWidth: '75%',
+                    padding: '10px 12px',
+                    borderRadius: 12,
+                    background: m.role === 'user' ? 'rgba(78,123,255,0.15)' : '#0e1530',
+                    border: '1px solid var(--border)'
+                  }}
+                >
                   <div style={{ fontSize: 14, whiteSpace: 'pre-wrap' }}>{m.content}</div>
                 </div>
               </div>
@@ -103,13 +150,15 @@ export default function ChatPage() {
           </div>
         </div>
 
-        {/* Input Form - Fixed at bottom */}
-        <form onSubmit={onSend} style={{ 
-          display: 'flex', 
-          gap: 10, 
-          marginTop: 16,
-          flexShrink: 0 // Don't shrink the input
-        }}>
+        <form
+          onSubmit={onSend}
+          style={{
+            display: 'flex',
+            gap: 10,
+            marginTop: 16,
+            flexShrink: 0
+          }}
+        >
           <input
             className="input"
             placeholder="Ask anything..."
