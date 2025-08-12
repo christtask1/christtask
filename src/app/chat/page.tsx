@@ -138,9 +138,6 @@ export default function ChatPage() {
           flexShrink: 0
         }}>
           <h2 style={{ margin: 0 }}>Chat</h2>
-          <div className="muted" style={{ fontSize: 14 }}>
-            {userEmail ? `Signed in as ${userEmail}` : 'Not signed in'}
-          </div>
         </div>
 
         <div
