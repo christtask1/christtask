@@ -20,6 +20,10 @@ export async function POST(request: NextRequest) {
     
     console.log('Calling backend:', CHAT_ENDPOINT)
     
+    // Use AbortController for timeout (works reliably on Node runtime)
+    const controller = new AbortController()
+    const timeout = setTimeout(() => controller.abort(), 30_000)
+
     const response = await fetch(CHAT_ENDPOINT, {
       method: 'POST',
       headers: {
@@ -33,9 +37,9 @@ export async function POST(request: NextRequest) {
         question: message ?? question,
         conversation_history,
       }),
-      // Add timeout
-      signal: AbortSignal.timeout(30000) // 30 second timeout
+      signal: controller.signal,
     })
+    clearTimeout(timeout)
 
     if (!response.ok) {
       // Bubble up backend error body to help diagnose quickly
@@ -82,3 +86,5 @@ export async function POST(request: NextRequest) {
     )
   }
 }
+
+export const runtime = 'nodejs'
