@@ -39,6 +39,7 @@ export default function ChatPage() {
   ])
   const [input, setInput] = useState<string>('')
   const [sending, setSending] = useState<boolean>(false)
+  const [isTyping, setIsTyping] = useState<boolean>(false)
 
   // Sidebar + Bible panel state
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false)
@@ -75,6 +76,7 @@ export default function ChatPage() {
     setSending(true)
 
     setMessages((prev) => [...prev, { role: 'user', content: text }])
+    setIsTyping(true)
 
     try {
       // Call your RAG backend through the API route
@@ -106,6 +108,7 @@ export default function ChatPage() {
       ])
     } finally {
       setSending(false)
+      setIsTyping(false)
     }
   }
 
@@ -399,6 +402,61 @@ export default function ChatPage() {
                 </div>
               </div>
             ))}
+            
+            {/* Typing indicator */}
+            {isTyping && (
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'flex-start',
+                  marginBottom: 10,
+                }}
+              >
+                <div
+                  style={{
+                    maxWidth: '75%',
+                    padding: '10px 12px',
+                    borderRadius: 12,
+                    background: '#0e1530',
+                    border: '1px solid var(--border)'
+                  }}
+                >
+                  <div style={{ 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    gap: 4,
+                    fontSize: 14,
+                    color: 'var(--muted)'
+                  }}>
+                    <span>AI is typing</span>
+                    <div style={{ display: 'flex', gap: 2 }}>
+                      <div style={{
+                        width: 4,
+                        height: 4,
+                        borderRadius: '50%',
+                        background: 'var(--brand)',
+                        animation: 'typing 1.4s infinite ease-in-out'
+                      }}></div>
+                      <div style={{
+                        width: 4,
+                        height: 4,
+                        borderRadius: '50%',
+                        background: 'var(--brand)',
+                        animation: 'typing 1.4s infinite ease-in-out 0.2s'
+                      }}></div>
+                      <div style={{
+                        width: 4,
+                        height: 4,
+                        borderRadius: '50%',
+                        background: 'var(--brand)',
+                        animation: 'typing 1.4s infinite ease-in-out 0.4s'
+                      }}></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
+            
             <div ref={bottomRef} />
           </div>
         </div>

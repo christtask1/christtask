@@ -63,6 +63,7 @@ export default function RootLayout({ children }: { children: any }) {
           .muted { color: var(--muted); }
           h1, h2, h3 { margin: 0 0 10px; line-height: 1.15; }
           @keyframes blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
+          @keyframes typing { 0%, 60%, 100% { transform: translateY(0); } 30% { transform: translateY(-10px); } }
         `}</style>
       </head>
             <body>
