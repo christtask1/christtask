@@ -403,26 +403,29 @@ export default function ChatPage() {
           </div>
         </div>
 
-        <form
-          onSubmit={onSend}
-          style={{
-            display: 'flex',
-            gap: 10,
-            marginTop: 16,
-            flexShrink: 0
-          }}
-        >
-          <input
-            className="input"
-            placeholder="Ask anything..."
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            style={{ flex: 1 }}
-          />
-          <button className="btn" type="submit" disabled={sending || !input.trim()}>
-            {sending ? 'Sending…' : 'Send'}
-          </button>
-        </form>
+        {/* Only show chat input when Bible panel is closed */}
+        {!isBibleOpen && (
+          <form
+            onSubmit={onSend}
+            style={{
+              display: 'flex',
+              gap: 10,
+              marginTop: 16,
+              flexShrink: 0
+            }}
+          >
+            <input
+              className="input"
+              placeholder="Ask anything..."
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              style={{ flex: 1 }}
+            />
+            <button className="btn" type="submit" disabled={sending || !input.trim()}>
+              {sending ? 'Sending…' : 'Send'}
+            </button>
+          </form>
+        )}
       </div>
     </div>
   )
