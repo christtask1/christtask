@@ -27,7 +27,17 @@ export async function POST(request: NextRequest) {
     })
 
     if (!response.ok) {
-      throw new Error(`Backend returned ${response.status}`)
+      // Bubble up backend error body to help diagnose quickly
+      let backendError: any = null
+      try {
+        backendError = await response.json()
+      } catch {
+        backendError = await response.text()
+      }
+      return NextResponse.json(
+        { error: backendError || `Backend returned ${response.status}` },
+        { status: response.status }
+      )
     }
 
     let data: any
