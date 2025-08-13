@@ -10,11 +10,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Too many requests' }, { status: 429 })
     }
 
-    // Require authentication to use chat
+    // Try to identify user (optional). Do not block if unauthenticated.
     const user = await getAuthUser()
-    if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-    }
     const { message, question, conversation_history = [] } = await request.json()
     
     // Your actual RAG backend endpoint
@@ -30,8 +27,7 @@ export async function POST(request: NextRequest) {
         'Accept': 'application/json',
         // Add any auth headers your backend needs
         // 'Authorization': `Bearer ${process.env.RAG_API_KEY}`
-        'X-User-Id': user.id,
-        'X-User-Email': user.email || '',
+        ...(user ? { 'X-User-Id': user.id, 'X-User-Email': user.email || '' } : {}),
       },
       body: JSON.stringify({
         question: message ?? question,
