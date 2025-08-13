@@ -8,16 +8,19 @@ export type AuthUser = { id: string; email?: string | null }
 
 export async function getAuthUser(): Promise<AuthUser | null> {
   try {
-    const cookieStore = cookies()
-    const accessToken = cookieStore.get('sb-access-token')?.value || cookieStore.get('supabase-auth-token')?.value
+    // In Next 15, cookies() returns a Promise in route handlers
+    const cookieStore = await cookies()
+    const accessToken =
+      cookieStore.get('sb-access-token')?.value ||
+      cookieStore.get('supabase-auth-token')?.value ||
+      null
     if (!accessToken) return null
 
     const supabase = createClient(supabaseUrl, supabaseAnonKey, {
-      global: { headers: { Authorization: `Bearer ${accessToken}` } },
       auth: { persistSession: false, detectSessionInUrl: false },
     })
 
-    const { data, error } = await supabase.auth.getUser()
+    const { data, error } = await supabase.auth.getUser(accessToken)
     if (error) return null
     return data.user ? { id: data.user.id, email: data.user.email } : null
   } catch {
