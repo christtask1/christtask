@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { loadStripe } from '@stripe/stripe-js'
 import { Elements, CardElement, useElements, useStripe } from '@stripe/react-stripe-js'
+import { useRouter } from 'next/navigation'
 import { supabase } from '../../lib/supabaseClient'
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || '')
@@ -174,6 +175,7 @@ export default function PaymentPage() {
   const [user, setUser] = useState<any>(null)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
+  const router = useRouter()
 
   // Check for existing session
   useEffect(() => {
@@ -588,6 +590,16 @@ export default function PaymentPage() {
               email={email}
               password={password}
             />
+            <div className="form-block">
+              <button
+                type="button"
+                className="btn secondary"
+                onClick={() => router.push('/login?redirect=/payment')}
+                style={{ width: '100%' }}
+              >
+                Already have an account? Log in
+              </button>
+            </div>
           </div>
         </div>
       </section>

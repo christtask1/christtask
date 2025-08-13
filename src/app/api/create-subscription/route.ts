@@ -1,10 +1,18 @@
 import { NextRequest, NextResponse } from 'next/server'
-
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
+import { getStripe } from '../../../lib/stripe'
+import { getAuthUser } from '../../../lib/auth'
+import Stripe from 'stripe'
 
 export async function POST(request: NextRequest) {
   try {
     const { price_id, coupon, user_id, user_email } = await request.json()
+
+    // Basic input validation
+    const emailOk = typeof user_email === 'string' && /.+@.+\..+/.test(user_email)
+    const priceOk = typeof price_id === 'string' && price_id.startsWith('price_')
+    if (!emailOk || !priceOk) {
+      return NextResponse.json({ error: 'Invalid input' }, { status: 400 })
+    }
 
     // user_id is optional now. We only require price_id and user_email to create a customer/subscription.
     if (!price_id || !user_email) {
@@ -14,11 +22,19 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    const stripe = getStripe()
+
+    // Require logged-in user if a user_id is provided mismatch
+    const user = await getAuthUser()
+    if (user_id && (!user || user.id !== user_id)) {
+      return NextResponse.json({ error: 'Unauthorized user' }, { status: 401 })
+    }
+
     // Create Stripe customer
     const customer = await stripe.customers.create({
       email: user_email,
       metadata: {
-        supabase_uid: user_id || '',
+        supabase_uid: user?.id || user_id || '',
         signup_status: user_id ? 'existing' : 'pending',
         signup_email: user_email,
       },
@@ -44,11 +60,25 @@ export async function POST(request: NextRequest) {
 
     const subscription = await stripe.subscriptions.create(subscriptionData)
 
-    // Safely access client_secret
-    const clientSecret = subscription?.latest_invoice?.payment_intent?.client_secret
-    const latestInvoice = subscription?.latest_invoice
-    const invoiceStatus = latestInvoice?.status
-    const amountDue = (latestInvoice && typeof latestInvoice.amount_due === 'number') ? latestInvoice.amount_due : undefined
+    // Safely access nested fields with type narrowing
+    let clientSecret: string | undefined
+    let invoiceStatus: Stripe.Invoice.Status | undefined
+    let amountDue: number | undefined
+
+    const li = subscription.latest_invoice
+    if (li && typeof li !== 'string') {
+      const invoice = li as Stripe.Invoice
+      invoiceStatus = (invoice.status || undefined) as Stripe.Invoice.Status | undefined
+      if (typeof invoice.amount_due === 'number') {
+        amountDue = invoice.amount_due
+      }
+      // Access expanded payment_intent via any to avoid type friction from union
+      const anyInvoice: any = invoice
+      const pi = anyInvoice.payment_intent
+      if (pi && typeof pi !== 'string') {
+        clientSecret = (pi as Stripe.PaymentIntent).client_secret || undefined
+      }
+    }
 
     // If there is a client_secret, return it for front-end confirmation
     if (clientSecret) {
@@ -90,3 +120,5 @@ export async function POST(request: NextRequest) {
     )
   }
 }
+
+export const runtime = 'nodejs'

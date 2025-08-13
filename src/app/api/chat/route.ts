@@ -1,7 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { getAuthUser } from '../../../lib/auth'
+import { allowRequest } from '../../../lib/ratelimit'
 
 export async function POST(request: NextRequest) {
   try {
+    // Basic rate limit per IP
+    const ip = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown'
+    if (!allowRequest(ip, 60, 60_000)) {
+      return NextResponse.json({ error: 'Too many requests' }, { status: 429 })
+    }
+
+    // Require authentication to use chat
+    const user = await getAuthUser()
+    if (!user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+    }
     const { message, question, conversation_history = [] } = await request.json()
     
     // Your actual RAG backend endpoint
@@ -17,6 +30,8 @@ export async function POST(request: NextRequest) {
         'Accept': 'application/json',
         // Add any auth headers your backend needs
         // 'Authorization': `Bearer ${process.env.RAG_API_KEY}`
+        'X-User-Id': user.id,
+        'X-User-Email': user.email || '',
       },
       body: JSON.stringify({
         question: message ?? question,
