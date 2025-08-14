@@ -499,38 +499,32 @@ export default function PaymentPage() {
     RON: { MONTHLY: process.env.NEXT_PUBLIC_PRICE_RON_MONTHLY || '', WEEKLY: process.env.NEXT_PUBLIC_PRICE_RON_WEEKLY || '', AMOUNTS: { MONTHLY: 1199, WEEKLY: 450 } },
   } as const
 
-  const buildPlansForCurrency = (currency: string) => {
-    const cfg = (PRICE_IDS as any)[currency] || (PRICE_IDS as any).GBP
-    const upper = currency.toUpperCase()
-    const list = [
-      {
-        id: cfg.MONTHLY,
-        product_name: 'ChristTask Monthly',
-        unit_amount: cfg.AMOUNTS.MONTHLY,
-        currency: upper,
-        type: 'recurring'
-      },
-      {
-        id: cfg.WEEKLY,
-        product_name: 'ChristTask Weekly',
-        unit_amount: cfg.AMOUNTS.WEEKLY,
-        currency: upper,
-        type: 'recurring'
-      }
-    ]
-    // Filter out empty price IDs to avoid invalid selection
-    return list.filter(p => !!p.id)
-  }
-
-  // Load prices based on selected country/currency
+  // Load prices based on selected country/currency from backend to ensure exact Stripe currency/amounts
   useEffect(() => {
-    const cur = COUNTRY_TO_CURRENCY[country] || 'GBP'
-    const list = buildPlansForCurrency(cur)
-    setPrices(list)
-    if (list.length > 0) {
-      setPlan(list[0].id)
+    const load = async () => {
+      setLoading(true)
+      try {
+        const cur = COUNTRY_TO_CURRENCY[country] || 'GBP'
+        const res = await fetch(`/api/get-prices?currency=${encodeURIComponent(cur)}`)
+        if (!res.ok) throw new Error(await res.text())
+        const data = await res.json()
+        const list = (data.prices || [])
+        setPrices(list)
+        if (list.length > 0) setPlan(list[0].id)
+      } catch (e) {
+        // Fallback to GBP config if backend fails
+        const cfg = (PRICE_IDS as any).GBP
+        const fallback = [
+          { id: cfg.MONTHLY, product_name: 'ChristTask Monthly', unit_amount: cfg.AMOUNTS.MONTHLY, currency: 'GBP', type: 'recurring' },
+          { id: cfg.WEEKLY, product_name: 'ChristTask Weekly', unit_amount: cfg.AMOUNTS.WEEKLY, currency: 'GBP', type: 'recurring' },
+        ].filter((p) => !!p.id)
+        setPrices(fallback)
+        if (fallback.length > 0) setPlan(fallback[0].id)
+      } finally {
+        setLoading(false)
+      }
     }
-    setLoading(false)
+    load()
   }, [country])
 
   // Format price for display
