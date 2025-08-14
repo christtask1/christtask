@@ -87,7 +87,7 @@ function CardForm({
               }
             } catch (e) { console.warn('Post-setup signup error:', e) }
           }
-          window.location.href = '/chat'
+          window.location.href = '/loading'
           setLoading(false)
           return
         }
@@ -102,7 +102,7 @@ function CardForm({
               }
             } catch (e) { console.warn('Post-payment signup error:', e) }
           }
-          window.location.href = '/chat'
+          window.location.href = '/loading'
           setLoading(false)
           return
         }
@@ -127,7 +127,7 @@ function CardForm({
             }
           } catch (e) { console.warn('Post-payment signup error:', e) }
         }
-        window.location.href = '/chat'
+        window.location.href = '/loading'
       }
       else alert(res.error.message || 'Payment failed')
     } catch (err: any) {
