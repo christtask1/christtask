@@ -176,6 +176,7 @@ export default function PaymentPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const router = useRouter()
+  const [fxRates, setFxRates] = useState<Record<string, number> | null>(null)
 
   // Check for existing session
   useEffect(() => {
@@ -535,6 +536,35 @@ export default function PaymentPage() {
     }).format(amount / 100)
   }
 
+  // Load FX rates once (base GBP) for display-only conversion
+  useEffect(() => {
+    const loadFx = async () => {
+      try {
+        const res = await fetch('https://open.er-api.com/v6/latest/GBP')
+        const data = await res.json()
+        if (data && data.rates) setFxRates(data.rates as Record<string, number>)
+      } catch {
+        // ignore; we will fallback to showing base currency
+      }
+    }
+    if (!fxRates) loadFx()
+  }, [fxRates])
+
+  const convertMinorUnits = (
+    amountMinor: number,
+    fromCurrency: string,
+    toCurrency: string,
+  ): number => {
+    const from = fromCurrency.toUpperCase()
+    const to = toCurrency.toUpperCase()
+    if (from === to || !fxRates) return amountMinor
+    const rateFrom = from === 'GBP' ? 1 : fxRates[from]
+    const rateTo = to === 'GBP' ? 1 : fxRates[to]
+    if (!rateFrom || !rateTo) return amountMinor
+    const factor = rateTo / rateFrom
+    return Math.round(amountMinor * factor)
+  }
+
   // TODO: Replace with your backend/RPC call to create a PaymentIntent or Subscription and return client_secret
   const createClientSecret = async () => {
     alert('Wire this button to your Supabase RPC that returns a client_secret for CardElement.')
@@ -566,7 +596,10 @@ export default function PaymentPage() {
                 </div>
               ) : (
                 <div className="plan-grid">
-                  {prices.map((price) => (
+                  {prices.map((price) => {
+                    const displayCurrency = (COUNTRY_TO_CURRENCY[country] || price.currency || 'GBP').toUpperCase()
+                    const displayAmountMinor = convertMinorUnits(price.unit_amount, price.currency, displayCurrency)
+                    return (
                     <button
                       key={price.id}
                       type="button"
@@ -575,7 +608,7 @@ export default function PaymentPage() {
                     >
                       <div className="plan-title">{price.product_name}</div>
                       <div className="plan-price">
-                        {formatPrice(price.unit_amount, price.currency)}
+                        {formatPrice(displayAmountMinor, displayCurrency)}
                         <span className="plan-period">/{price.product_name.includes('Weekly') ? 'week' : price.product_name.includes('Monthly') ? 'month' : 'one-time'}</span>
                       </div>
                       <ul className="plan-points">
@@ -583,7 +616,7 @@ export default function PaymentPage() {
                         <li>Cancel anytime</li>
                       </ul>
                     </button>
-                  ))}
+                  )})}
                 </div>
               )}
             </div>
