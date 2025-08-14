@@ -368,123 +368,69 @@ export default function ChatPage() {
           </div>
         )}
 
-        <div
-          className="card"
-          style={{
-            padding: 16,
-            flex: 1,
-            overflowY: 'auto',
-            display: 'flex',
-            flexDirection: 'column',
-            minHeight: 0
-          }}
-        >
-          <div style={{ flex: 1, overflowY: 'auto' }}>
-            {messages.map((m, idx) => (
-              <div
-                key={idx}
-                style={{
-                  display: 'flex',
-                  justifyContent: m.role === 'user' ? 'flex-end' : 'flex-start',
-                  marginBottom: 10,
-                }}
-              >
-                <div
-                  style={{
-                    maxWidth: '75%',
-                    padding: '10px 12px',
-                    borderRadius: 12,
-                    background: m.role === 'user' ? 'rgba(78,123,255,0.15)' : '#0e1530',
-                    border: '1px solid var(--border)'
-                  }}
-                >
-                  <div style={{ fontSize: 14, whiteSpace: 'pre-wrap' }}>{m.content}</div>
+        <div className="card" style={{ padding: 0, flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0 }}>
+          <div className="claude-chat" style={{ flex: 1, overflowY: 'auto', padding: 18 }}>
+            <div className="stream">
+              {messages.map((m, idx) => (
+                <div key={idx} className={`bubble ${m.role}`}>
+                  <div className="bubble-inner">
+                    <div className="bubble-text">{m.content}</div>
+                  </div>
                 </div>
-              </div>
-            ))}
-            
-            {/* Typing indicator */}
-            {isTyping && (
-              <div
-                style={{
-                  display: 'flex',
-                  justifyContent: 'flex-start',
-                  marginBottom: 10,
-                }}
-              >
-                <div
-                  style={{
-                    maxWidth: '75%',
-                    padding: '10px 12px',
-                    borderRadius: 12,
-                    background: '#0e1530',
-                    border: '1px solid var(--border)'
-                  }}
-                >
-                  <div style={{ 
-                    display: 'flex', 
-                    alignItems: 'center', 
-                    gap: 4,
-                    fontSize: 14,
-                    color: 'var(--muted)'
-                  }}>
-                    <span>AI is typing</span>
-                    <div style={{ display: 'flex', gap: 2 }}>
-                      <div style={{
-                        width: 4,
-                        height: 4,
-                        borderRadius: '50%',
-                        background: 'var(--brand)',
-                        animation: 'typing 1.4s infinite ease-in-out'
-                      }}></div>
-                      <div style={{
-                        width: 4,
-                        height: 4,
-                        borderRadius: '50%',
-                        background: 'var(--brand)',
-                        animation: 'typing 1.4s infinite ease-in-out 0.2s'
-                      }}></div>
-                      <div style={{
-                        width: 4,
-                        height: 4,
-                        borderRadius: '50%',
-                        background: 'var(--brand)',
-                        animation: 'typing 1.4s infinite ease-in-out 0.4s'
-                      }}></div>
+              ))}
+              {isTyping && (
+                <div className="bubble assistant">
+                  <div className="bubble-inner">
+                    <div className="typing">
+                      <span className="dot" />
+                      <span className="dot" />
+                      <span className="dot" />
                     </div>
                   </div>
                 </div>
-              </div>
+              )}
+              <div ref={bottomRef} />
+            </div>
+          </div>
+
+          {/* Input rail */}
+          <div className="input-rail">
+            {!isBibleOpen && (
+              <form onSubmit={onSend} style={{ display: 'flex', gap: 10, width: '100%' }}>
+                <input
+                  className="input fancy"
+                  placeholder="Ask anything..."
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                />
+                <button className="btn" type="submit" disabled={sending || !input.trim()}>
+                  {sending ? 'Sending…' : 'Send'}
+                </button>
+              </form>
             )}
-            
-            <div ref={bottomRef} />
           </div>
         </div>
 
-        {/* Only show chat input when Bible panel is closed */}
-        {!isBibleOpen && (
-          <form
-            onSubmit={onSend}
-            style={{
-              display: 'flex',
-              gap: 10,
-              marginTop: 16,
-              flexShrink: 0
-            }}
-          >
-            <input
-              className="input"
-              placeholder="Ask anything..."
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              style={{ flex: 1 }}
-            />
-            <button className="btn" type="submit" disabled={sending || !input.trim()}>
-              {sending ? 'Sending…' : 'Send'}
-            </button>
-          </form>
-        )}
+        {/* extra spacing for small screens */}
+        <div style={{ height: 8 }} />
       </div>
+      <style>{`
+        .claude-chat .stream { display: grid; gap: 12px; }
+        .bubble { display: flex; }
+        .bubble.assistant { justify-content: flex-start; }
+        .bubble.user { justify-content: flex-end; }
+        .bubble-inner { max-width: min(780px, 85%); border: 1px solid var(--border); border-radius: 16px; padding: 12px 14px; }
+        .bubble.assistant .bubble-inner { background: #0e1530; }
+        .bubble.user .bubble-inner { background: rgba(78,123,255,0.12); }
+        .bubble-text { font-size: 14px; white-space: pre-wrap; line-height: 1.6; }
+        .typing { display:flex; gap:6px; align-items:center; }
+        .dot { width:6px; height:6px; border-radius:50%; background: var(--brand); animation: typing 1.4s infinite ease-in-out; }
+        .dot:nth-child(2) { animation-delay: .2s }
+        .dot:nth-child(3) { animation-delay: .4s }
+        .input-rail { position: sticky; bottom: 0; background: linear-gradient(180deg, rgba(4,4,6,0), rgba(4,4,6,0.8) 40%); padding: 12px 12px 0 12px; border-top: 1px solid var(--border); }
+        .input.fancy { flex: 1; border-radius: 999px; border: 1px solid var(--border); background: #0e1530; color: #eef1f8; padding: 12px 16px; outline: none; }
+        @media(min-width: 900px){ .input.fancy { padding: 14px 18px; } }
+      `}</style>
     </div>
   )
 }
