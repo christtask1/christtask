@@ -159,7 +159,7 @@ function CardForm({
         />
       </div>
       <button className="btn" onClick={confirm} disabled={loading}>
-        {loading ? 'Processing…' : user ? 'Pay now' : 'Create account & Pay now'}
+        {loading ? 'Processing…' : user ? 'Pay now' : 'Join Now →'}
       </button>
     </div>
   )
