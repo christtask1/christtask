@@ -444,32 +444,94 @@ export default function PaymentPage() {
     { code: 'ZW', name: 'Zimbabwe' },
   ]
 
-  // Load prices - using hardcoded plans for now
-  useEffect(() => {
-    // Your actual Stripe price IDs
-    const hardcodedPrices = [
+  // Map countries to primary currencies
+  const COUNTRY_TO_CURRENCY: Record<string, string> = {
+    GB: 'GBP', IE: 'EUR', FR: 'EUR', DE: 'EUR', ES: 'EUR', IT: 'EUR', PT: 'EUR', NL: 'EUR', BE: 'EUR', LU: 'EUR', AT: 'EUR',
+    US: 'USD', CA: 'CAD', AU: 'AUD', NZ: 'NZD', JP: 'JPY', SG: 'SGD', HK: 'HKD', CH: 'CHF', SE: 'SEK', NO: 'NOK', DK: 'DKK',
+    AE: 'AED', SA: 'SAR', QA: 'QAR', KW: 'KWD', BH: 'BHD', OM: 'OMR',
+    NG: 'NGN', ZA: 'ZAR', KE: 'KES', GH: 'GHS', EG: 'EGP',
+    IN: 'INR', PK: 'PKR', BD: 'BDT', LK: 'LKR', TH: 'THB', MY: 'MYR', ID: 'IDR', PH: 'PHP', VN: 'VND', KR: 'KRW', CN: 'CNY',
+    BR: 'BRL', MX: 'MXN', AR: 'ARS', CL: 'CLP', CO: 'COP', PE: 'PEN',
+    TR: 'TRY', IL: 'ILS', CZ: 'CZK', PL: 'PLN', HU: 'HUF', RO: 'RON'
+  }
+
+  // Configure Stripe price IDs per currency via env; fallback to GBP
+  const PRICE_IDS = {
+    GBP: {
+      MONTHLY: process.env.NEXT_PUBLIC_PRICE_GBP_MONTHLY || 'price_1Rsw49FEfjI8S6GYhL8ih4Zi',
+      WEEKLY: process.env.NEXT_PUBLIC_PRICE_GBP_WEEKLY || 'price_1Rsw3dFEfjI8S6GYpcOVkvSF',
+      AMOUNTS: { MONTHLY: 1199, WEEKLY: 450 },
+    },
+    USD: {
+      MONTHLY: process.env.NEXT_PUBLIC_PRICE_USD_MONTHLY || '',
+      WEEKLY: process.env.NEXT_PUBLIC_PRICE_USD_WEEKLY || '',
+      AMOUNTS: { MONTHLY: 1199, WEEKLY: 450 },
+    },
+    EUR: {
+      MONTHLY: process.env.NEXT_PUBLIC_PRICE_EUR_MONTHLY || '',
+      WEEKLY: process.env.NEXT_PUBLIC_PRICE_EUR_WEEKLY || '',
+      AMOUNTS: { MONTHLY: 1199, WEEKLY: 450 },
+    },
+    CAD: { MONTHLY: process.env.NEXT_PUBLIC_PRICE_CAD_MONTHLY || '', WEEKLY: process.env.NEXT_PUBLIC_PRICE_CAD_WEEKLY || '', AMOUNTS: { MONTHLY: 1199, WEEKLY: 450 } },
+    AUD: { MONTHLY: process.env.NEXT_PUBLIC_PRICE_AUD_MONTHLY || '', WEEKLY: process.env.NEXT_PUBLIC_PRICE_AUD_WEEKLY || '', AMOUNTS: { MONTHLY: 1199, WEEKLY: 450 } },
+    NZD: { MONTHLY: process.env.NEXT_PUBLIC_PRICE_NZD_MONTHLY || '', WEEKLY: process.env.NEXT_PUBLIC_PRICE_NZD_WEEKLY || '', AMOUNTS: { MONTHLY: 1199, WEEKLY: 450 } },
+    JPY: { MONTHLY: process.env.NEXT_PUBLIC_PRICE_JPY_MONTHLY || '', WEEKLY: process.env.NEXT_PUBLIC_PRICE_JPY_WEEKLY || '', AMOUNTS: { MONTHLY: 1199, WEEKLY: 450 } },
+    SGD: { MONTHLY: process.env.NEXT_PUBLIC_PRICE_SGD_MONTHLY || '', WEEKLY: process.env.NEXT_PUBLIC_PRICE_SGD_WEEKLY || '', AMOUNTS: { MONTHLY: 1199, WEEKLY: 450 } },
+    HKD: { MONTHLY: process.env.NEXT_PUBLIC_PRICE_HKD_MONTHLY || '', WEEKLY: process.env.NEXT_PUBLIC_PRICE_HKD_WEEKLY || '', AMOUNTS: { MONTHLY: 1199, WEEKLY: 450 } },
+    CHF: { MONTHLY: process.env.NEXT_PUBLIC_PRICE_CHF_MONTHLY || '', WEEKLY: process.env.NEXT_PUBLIC_PRICE_CHF_WEEKLY || '', AMOUNTS: { MONTHLY: 1199, WEEKLY: 450 } },
+    SEK: { MONTHLY: process.env.NEXT_PUBLIC_PRICE_SEK_MONTHLY || '', WEEKLY: process.env.NEXT_PUBLIC_PRICE_SEK_WEEKLY || '', AMOUNTS: { MONTHLY: 1199, WEEKLY: 450 } },
+    NOK: { MONTHLY: process.env.NEXT_PUBLIC_PRICE_NOK_MONTHLY || '', WEEKLY: process.env.NEXT_PUBLIC_PRICE_NOK_WEEKLY || '', AMOUNTS: { MONTHLY: 1199, WEEKLY: 450 } },
+    DKK: { MONTHLY: process.env.NEXT_PUBLIC_PRICE_DKK_MONTHLY || '', WEEKLY: process.env.NEXT_PUBLIC_PRICE_DKK_WEEKLY || '', AMOUNTS: { MONTHLY: 1199, WEEKLY: 450 } },
+    AED: { MONTHLY: process.env.NEXT_PUBLIC_PRICE_AED_MONTHLY || '', WEEKLY: process.env.NEXT_PUBLIC_PRICE_AED_WEEKLY || '', AMOUNTS: { MONTHLY: 1199, WEEKLY: 450 } },
+    SAR: { MONTHLY: process.env.NEXT_PUBLIC_PRICE_SAR_MONTHLY || '', WEEKLY: process.env.NEXT_PUBLIC_PRICE_SAR_WEEKLY || '', AMOUNTS: { MONTHLY: 1199, WEEKLY: 450 } },
+    QAR: { MONTHLY: process.env.NEXT_PUBLIC_PRICE_QAR_MONTHLY || '', WEEKLY: process.env.NEXT_PUBLIC_PRICE_QAR_WEEKLY || '', AMOUNTS: { MONTHLY: 1199, WEEKLY: 450 } },
+    KWD: { MONTHLY: process.env.NEXT_PUBLIC_PRICE_KWD_MONTHLY || '', WEEKLY: process.env.NEXT_PUBLIC_PRICE_KWD_WEEKLY || '', AMOUNTS: { MONTHLY: 1199, WEEKLY: 450 } },
+    NGN: { MONTHLY: process.env.NEXT_PUBLIC_PRICE_NGN_MONTHLY || '', WEEKLY: process.env.NEXT_PUBLIC_PRICE_NGN_WEEKLY || '', AMOUNTS: { MONTHLY: 1199, WEEKLY: 450 } },
+    ZAR: { MONTHLY: process.env.NEXT_PUBLIC_PRICE_ZAR_MONTHLY || '', WEEKLY: process.env.NEXT_PUBLIC_PRICE_ZAR_WEEKLY || '', AMOUNTS: { MONTHLY: 1199, WEEKLY: 450 } },
+    INR: { MONTHLY: process.env.NEXT_PUBLIC_PRICE_INR_MONTHLY || '', WEEKLY: process.env.NEXT_PUBLIC_PRICE_INR_WEEKLY || '', AMOUNTS: { MONTHLY: 1199, WEEKLY: 450 } },
+    BRL: { MONTHLY: process.env.NEXT_PUBLIC_PRICE_BRL_MONTHLY || '', WEEKLY: process.env.NEXT_PUBLIC_PRICE_BRL_WEEKLY || '', AMOUNTS: { MONTHLY: 1199, WEEKLY: 450 } },
+    MXN: { MONTHLY: process.env.NEXT_PUBLIC_PRICE_MXN_MONTHLY || '', WEEKLY: process.env.NEXT_PUBLIC_PRICE_MXN_WEEKLY || '', AMOUNTS: { MONTHLY: 1199, WEEKLY: 450 } },
+    TRY: { MONTHLY: process.env.NEXT_PUBLIC_PRICE_TRY_MONTHLY || '', WEEKLY: process.env.NEXT_PUBLIC_PRICE_TRY_WEEKLY || '', AMOUNTS: { MONTHLY: 1199, WEEKLY: 450 } },
+    ILS: { MONTHLY: process.env.NEXT_PUBLIC_PRICE_ILS_MONTHLY || '', WEEKLY: process.env.NEXT_PUBLIC_PRICE_ILS_WEEKLY || '', AMOUNTS: { MONTHLY: 1199, WEEKLY: 450 } },
+    CZK: { MONTHLY: process.env.NEXT_PUBLIC_PRICE_CZK_MONTHLY || '', WEEKLY: process.env.NEXT_PUBLIC_PRICE_CZK_WEEKLY || '', AMOUNTS: { MONTHLY: 1199, WEEKLY: 450 } },
+    PLN: { MONTHLY: process.env.NEXT_PUBLIC_PRICE_PLN_MONTHLY || '', WEEKLY: process.env.NEXT_PUBLIC_PRICE_PLN_WEEKLY || '', AMOUNTS: { MONTHLY: 1199, WEEKLY: 450 } },
+    HUF: { MONTHLY: process.env.NEXT_PUBLIC_PRICE_HUF_MONTHLY || '', WEEKLY: process.env.NEXT_PUBLIC_PRICE_HUF_WEEKLY || '', AMOUNTS: { MONTHLY: 1199, WEEKLY: 450 } },
+    RON: { MONTHLY: process.env.NEXT_PUBLIC_PRICE_RON_MONTHLY || '', WEEKLY: process.env.NEXT_PUBLIC_PRICE_RON_WEEKLY || '', AMOUNTS: { MONTHLY: 1199, WEEKLY: 450 } },
+  } as const
+
+  const buildPlansForCurrency = (currency: string) => {
+    const cfg = (PRICE_IDS as any)[currency] || (PRICE_IDS as any).GBP
+    const upper = currency.toUpperCase()
+    const list = [
       {
-        id: 'price_1Rsw49FEfjI8S6GYhL8ih4Zi', // £11.99 monthly
+        id: cfg.MONTHLY,
         product_name: 'ChristTask Monthly',
-        unit_amount: 1199, // £11.99 in pence
-        currency: 'gbp',
+        unit_amount: cfg.AMOUNTS.MONTHLY,
+        currency: upper,
         type: 'recurring'
       },
       {
-        id: 'price_1Rsw3dFEfjI8S6GYpcOVkvSF', // £4.50 weekly
+        id: cfg.WEEKLY,
         product_name: 'ChristTask Weekly',
-        unit_amount: 450, // £4.50 in pence
-        currency: 'gbp',
+        unit_amount: cfg.AMOUNTS.WEEKLY,
+        currency: upper,
         type: 'recurring'
       }
     ]
-    
-    setPrices(hardcodedPrices)
-    if (hardcodedPrices.length > 0) {
-      setPlan(hardcodedPrices[0].id)
+    // Filter out empty price IDs to avoid invalid selection
+    return list.filter(p => !!p.id)
+  }
+
+  // Load prices based on selected country/currency
+  useEffect(() => {
+    const cur = COUNTRY_TO_CURRENCY[country] || 'GBP'
+    const list = buildPlansForCurrency(cur)
+    setPrices(list)
+    if (list.length > 0) {
+      setPlan(list[0].id)
     }
-        setLoading(false)
-  }, [])
+    setLoading(false)
+  }, [country])
 
   // Format price for display
   const formatPrice = (amount: number, currency: string) => {
