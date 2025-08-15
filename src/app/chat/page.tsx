@@ -32,6 +32,9 @@ const NEW_TESTAMENT: Array<{ name: string; chapters: number }> = [
   { name: '3 John', chapters: 1 }, { name: 'Jude', chapters: 1 }, { name: 'Revelation', chapters: 22 }
 ]
 
+// Specific list for Gospels
+const GOSPELS = ['Matthew', 'Mark', 'Luke', 'John']
+
 export default function ChatPage() {
   const [userEmail, setUserEmail] = useState<string>('')
   const [messages, setMessages] = useState<Array<{ role: 'user' | 'assistant'; content: string }>>([
@@ -44,6 +47,8 @@ export default function ChatPage() {
   // Sidebar + Bible panel state
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false)
   const [isBibleOpen, setIsBibleOpen] = useState<boolean>(false)
+  const [isBibleFullscreen, setIsBibleFullscreen] = useState<boolean>(false)
+  const [isBookPickerOpen, setIsBookPickerOpen] = useState<boolean>(false)
   const [activeTestament, setActiveTestament] = useState<'OT' | 'NT'>('OT')
   const [selectedBook, setSelectedBook] = useState<{ name: string; chapters: number } | null>(null)
   const [selectedChapter, setSelectedChapter] = useState<number>(1)
@@ -148,6 +153,7 @@ export default function ChatPage() {
     setSelectedBook(book)
     setSelectedChapter(1)
     setIsBibleOpen(true)
+    setIsBookPickerOpen(false)
     loadBibleChapter(book.name, 1)
     setTimeout(() => {
       biblePanelRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
@@ -263,97 +269,77 @@ export default function ChatPage() {
         </div>
 
         {isBibleOpen && (
-          <div ref={biblePanelRef} className="card" style={{ padding: 16, marginBottom: 16 }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
-              <div style={{ display: 'flex', gap: 8 }}>
-                <button
-                  type="button"
-                  onClick={() => setActiveTestament('OT')}
-                  style={{
-                    background: activeTestament === 'OT' ? 'rgba(122,162,255,0.12)' : 'transparent',
-                    border: '1px solid var(--border)',
-                    color: '#eef1f8',
-                    padding: '8px 12px',
-                    borderRadius: 10,
-                    cursor: 'pointer'
-                  }}
-                >
-                  Old Testament
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setActiveTestament('NT')}
-                  style={{
-                    background: activeTestament === 'NT' ? 'rgba(122,162,255,0.12)' : 'transparent',
-                    border: '1px solid var(--border)',
-                    color: '#eef1f8',
-                    padding: '8px 12px',
-                    borderRadius: 10,
-                    cursor: 'pointer'
-                  }}
-                >
-                  New Testament
-                </button>
-              </div>
-              <div style={{ display: 'flex', gap: 8 }}>
-                {selectedBook && (
-                  <select
-                    value={selectedChapter}
-                    onChange={(e) => handleChangeChapter(Number(e.target.value))}
-                    style={{ background: '#0e1530', color: '#eef1f8', border: '1px solid var(--border)', borderRadius: 8, padding: '8px 10px' }}
+          <div
+            ref={biblePanelRef}
+            style={{
+              position: isBibleFullscreen ? 'fixed' : 'relative',
+              inset: isBibleFullscreen ? 0 : 'auto',
+              zIndex: isBibleFullscreen ? 450 : 'auto',
+              background: isBibleFullscreen ? 'rgba(7,11,31,0.98)' : 'transparent',
+              borderRadius: isBibleFullscreen ? 0 : undefined,
+              display: 'flex',
+              flexDirection: 'column'
+            }}
+          >
+            <div className="card" style={{ padding: 16, marginBottom: isBibleFullscreen ? 0 : 16, display: 'flex', flexDirection: 'column', gap: 12, height: isBibleFullscreen ? '100%' : 'auto' }}>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
+                <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                  <button
+                    type="button"
+                    onClick={() => setIsBookPickerOpen(true)}
+                    style={{
+                      background: 'rgba(122,162,255,0.12)',
+                      border: '1px solid var(--border)',
+                      color: '#eef1f8',
+                      padding: '8px 12px',
+                      borderRadius: 10,
+                      cursor: 'pointer'
+                    }}
                   >
-                    {Array.from({ length: selectedBook.chapters }, (_, i) => i + 1).map((ch) => (
-                      <option key={ch} value={ch}>Chapter {ch}</option>
-                    ))}
-                  </select>
-                )}
-                <button
-                  type="button"
-                  onClick={() => setIsBibleOpen(false)}
-                  className="btn secondary"
-                  style={{ padding: '8px 12px', borderRadius: 10 }}
-                >
-                  Close
-                </button>
-              </div>
-            </div>
-
-            <div style={{ display: 'flex', gap: 16, marginTop: 12, flexWrap: 'wrap' }}>
-              <div style={{ flex: '1 1 260px', minWidth: 220 }}>
-                <div className="muted" style={{ marginBottom: 6 }}>Books</div>
-                <div style={{ maxHeight: 220, overflowY: 'auto', border: '1px solid var(--border)', borderRadius: 12 }}>
-                  {books.map((b) => (
-                    <button
-                      key={b.name}
-                      type="button"
-                      onClick={() => handleSelectBook(b)}
-                      style={{
-                        width: '100%',
-                        textAlign: 'left',
-                        padding: '10px 12px',
-                        background: selectedBook?.name === b.name ? 'rgba(122,162,255,0.12)' : 'transparent',
-                        color: '#eef1f8',
-                        border: 'none',
-                        borderBottom: '1px solid var(--border)',
-                        cursor: 'pointer'
-                      }}
+                    Books
+                  </button>
+                  <div className="muted" style={{ fontSize: 13 }}>
+                    {selectedBook ? `${selectedBook.name} • Chapters: ${selectedBook.chapters}` : 'Choose a book'}
+                  </div>
+                </div>
+                <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+                  {selectedBook && (
+                    <select
+                      value={selectedChapter}
+                      onChange={(e) => handleChangeChapter(Number(e.target.value))}
+                      style={{ background: '#0e1530', color: '#eef1f8', border: '1px solid var(--border)', borderRadius: 8, padding: '8px 10px' }}
                     >
-                      {b.name}
-                    </button>
-                  ))}
+                      {Array.from({ length: selectedBook.chapters }, (_, i) => i + 1).map((ch) => (
+                        <option key={ch} value={ch}>Chapter {ch}</option>
+                      ))}
+                    </select>
+                  )}
+                  <button
+                    type="button"
+                    onClick={() => setIsBibleFullscreen((v) => !v)}
+                    className="btn secondary"
+                    style={{ padding: '8px 12px', borderRadius: 10 }}
+                  >
+                    {isBibleFullscreen ? 'Exit Fullscreen' : 'Fullscreen'}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => { setIsBibleOpen(false); setIsBibleFullscreen(false) }}
+                    className="btn secondary"
+                    style={{ padding: '8px 12px', borderRadius: 10 }}
+                  >
+                    Close
+                  </button>
                 </div>
               </div>
 
-              <div style={{ flex: '3 1 420px', minWidth: 300 }}>
-                <div className="muted" style={{ marginBottom: 6 }}>
-                  {selectedBook ? `${selectedBook.name} ${selectedChapter}` : 'Select a book'}
-                </div>
+              <div style={{ flex: 1, minHeight: 200, display: 'flex' }}>
                 <div style={{
                   border: '1px solid var(--border)',
                   borderRadius: 12,
                   padding: 14,
-                  minHeight: 200,
-                  maxHeight: 300,
+                  width: '100%',
+                  height: '100%',
                   overflowY: 'auto',
                   background: '#0e1530'
                 }}>
@@ -362,6 +348,118 @@ export default function ChatPage() {
                   {!bibleLoading && !bibleError && bibleText && (
                     <pre style={{ margin: 0, whiteSpace: 'pre-wrap', fontFamily: 'inherit', lineHeight: 1.6 }}>{bibleText}</pre>
                   )}
+                </div>
+              </div>
+            </div>
+
+            {/* Slide-up Book Picker */}
+            <div
+              aria-hidden={!isBookPickerOpen}
+              onClick={() => setIsBookPickerOpen(false)}
+              style={{
+                position: 'fixed', left: 0, right: 0, top: 0, bottom: 0,
+                background: isBookPickerOpen ? 'rgba(0,0,0,0.45)' : 'transparent',
+                transition: 'background 180ms ease',
+                pointerEvents: isBookPickerOpen ? 'auto' : 'none',
+                zIndex: 500
+              }}
+            >
+              <div
+                role="dialog"
+                aria-label="Choose book"
+                onClick={(e) => e.stopPropagation()}
+                style={{
+                  position: 'absolute', left: 0, right: 0, bottom: 0,
+                  transform: isBookPickerOpen ? 'translateY(0)' : 'translateY(100%)',
+                  transition: 'transform 220ms ease',
+                  background: '#0e1530',
+                  borderTopLeftRadius: 16,
+                  borderTopRightRadius: 16,
+                  maxHeight: '70%',
+                  overflowY: 'auto',
+                  borderTop: '1px solid var(--border)',
+                  boxShadow: '0 -18px 40px rgba(0,0,0,0.45)'
+                }}
+              >
+                <div style={{ padding: 14, display: 'grid', gap: 12 }}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div style={{ fontWeight: 700 }}>Select Book</div>
+                    <button type="button" className="btn secondary" onClick={() => setIsBookPickerOpen(false)} style={{ padding: '6px 10px', borderRadius: 10 }}>Close</button>
+                  </div>
+                  <div style={{ display: 'grid', gap: 8 }}>
+                    <div className="muted" style={{ marginTop: 4 }}>Gospels</div>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: 8 }}>
+                      {GOSPELS.map((name) => {
+                        const book = NEW_TESTAMENT.find((b) => b.name === name)!
+                        return (
+                          <button
+                            key={name}
+                            type="button"
+                            onClick={() => handleSelectBook(book)}
+                            style={{
+                              textAlign: 'left',
+                              background: selectedBook?.name === name ? 'rgba(122,162,255,0.12)' : 'transparent',
+                              color: '#eef1f8',
+                              border: '1px solid var(--border)',
+                              padding: '10px 12px',
+                              borderRadius: 10,
+                              cursor: 'pointer'
+                            }}
+                          >
+                            {name}
+                          </button>
+                        )
+                      })}
+                    </div>
+                  </div>
+
+                  <div style={{ display: 'grid', gap: 8 }}>
+                    <div className="muted" style={{ marginTop: 10 }}>Old Testament</div>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: 8 }}>
+                      {OLD_TESTAMENT.map((b) => (
+                        <button
+                          key={b.name}
+                          type="button"
+                          onClick={() => handleSelectBook(b)}
+                          style={{
+                            textAlign: 'left',
+                            background: selectedBook?.name === b.name ? 'rgba(122,162,255,0.12)' : 'transparent',
+                            color: '#eef1f8',
+                            border: '1px solid var(--border)',
+                            padding: '10px 12px',
+                            borderRadius: 10,
+                            cursor: 'pointer'
+                          }}
+                        >
+                          {b.name}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div style={{ display: 'grid', gap: 8 }}>
+                    <div className="muted" style={{ marginTop: 10 }}>New Testament</div>
+                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: 8 }}>
+                      {NEW_TESTAMENT.filter((b) => !GOSPELS.includes(b.name)).map((b) => (
+                        <button
+                          key={b.name}
+                          type="button"
+                          onClick={() => handleSelectBook(b)}
+                          style={{
+                            textAlign: 'left',
+                            background: selectedBook?.name === b.name ? 'rgba(122,162,255,0.12)' : 'transparent',
+                            color: '#eef1f8',
+                            border: '1px solid var(--border)',
+                            padding: '10px 12px',
+                            borderRadius: 10,
+                            cursor: 'pointer'
+                          }}
+                        >
+                          {b.name}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
