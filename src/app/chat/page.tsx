@@ -278,10 +278,11 @@ export default function ChatPage() {
               background: isBibleFullscreen ? 'rgba(7,11,31,0.98)' : 'transparent',
               borderRadius: isBibleFullscreen ? 0 : undefined,
               display: 'flex',
-              flexDirection: 'column'
+              flexDirection: 'column',
+              flex: isBibleFullscreen ? 'none' : 1
             }}
           >
-            <div className="card" style={{ padding: 16, marginBottom: isBibleFullscreen ? 0 : 16, display: 'flex', flexDirection: 'column', gap: 12, height: isBibleFullscreen ? '100%' : 'auto' }}>
+            <div className="card" style={{ padding: 16, marginBottom: 0, display: 'flex', flexDirection: 'column', gap: 12, height: isBibleFullscreen ? '100%' : '100%', flex: 1 }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
                 <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
                   <button
@@ -466,34 +467,34 @@ export default function ChatPage() {
           </div>
         )}
 
-        <div className="card" style={{ padding: 0, flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0 }}>
-          <div className="claude-chat" style={{ flex: 1, overflowY: 'auto', padding: 18 }}>
-            <div className="stream">
-              {messages.map((m, idx) => (
-                <div key={idx} className={`bubble ${m.role}`}>
-                  <div className="bubble-inner">
-                    <div className="bubble-text">{m.content}</div>
-                  </div>
-                </div>
-              ))}
-              {isTyping && (
-                <div className="bubble assistant">
-                  <div className="bubble-inner">
-                    <div className="typing">
-                      <span className="dot" />
-                      <span className="dot" />
-                      <span className="dot" />
+{!isBibleOpen && (
+          <div className="card" style={{ padding: 0, flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0 }}>
+            <div className="claude-chat" style={{ flex: 1, overflowY: 'auto', padding: 18 }}>
+              <div className="stream">
+                {messages.map((m, idx) => (
+                  <div key={idx} className={`bubble ${m.role}`}>
+                    <div className="bubble-inner">
+                      <div className="bubble-text">{m.content}</div>
                     </div>
                   </div>
-                </div>
-              )}
-              <div ref={bottomRef} />
+                ))}
+                {isTyping && (
+                  <div className="bubble assistant">
+                    <div className="bubble-inner">
+                      <div className="typing">
+                        <span className="dot" />
+                        <span className="dot" />
+                        <span className="dot" />
+                      </div>
+                    </div>
+                  </div>
+                )}
+                <div ref={bottomRef} />
+              </div>
             </div>
-          </div>
 
-          {/* Input rail */}
-          <div className="input-rail">
-            {!isBibleOpen && (
+            {/* Input rail */}
+            <div className="input-rail">
               <form onSubmit={onSend} style={{ display: 'flex', gap: 10, width: '100%' }}>
                 <input
                   className="input fancy"
@@ -505,9 +506,9 @@ export default function ChatPage() {
                   {sending ? 'Sending…' : 'Send'}
                 </button>
               </form>
-            )}
+            </div>
           </div>
-        </div>
+        )}
 
         {/* extra spacing for small screens */}
         <div style={{ height: 8 }} />
