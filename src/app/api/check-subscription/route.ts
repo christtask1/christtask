@@ -61,10 +61,13 @@ export async function GET(request: NextRequest) {
       }
 
       if (Array.isArray(subscriptions) && subscriptions.length > 0) {
+        console.log(`🔍 Found ${subscriptions.length} subscriptions for customer ${customerId}`)
         // Check each subscription for active/trialing status
         for (const sub of subscriptions) {
           const status = sub.attrs?.status || (sub as any).status
-          if (['active', 'trialing'].includes(status)) {
+          console.log(`💳 Subscription ${sub.id}: status="${status}", attrs:`, sub.attrs)
+          if (['active', 'trialing', 'incomplete', 'past_due'].includes(status)) {
+            console.log(`✅ Accepting subscription with status: ${status}`)
             return NextResponse.json({
               hasActiveSubscription: true,
               subscription: {
@@ -75,6 +78,8 @@ export async function GET(request: NextRequest) {
                 attrs: sub.attrs
               }
             })
+          } else {
+            console.log(`❌ Rejecting subscription with status: ${status}`)
           }
         }
       }
