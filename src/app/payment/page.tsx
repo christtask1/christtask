@@ -614,9 +614,9 @@ export default function PaymentPage() {
 
   return (
     <Elements stripe={stripePromise}>
-      <section className="section" data-page="payment" style={{ minHeight: '100vh', overflow: 'hidden', padding: 0 }}>
-        <div className="container grid grid-2" style={{ gap: 0, alignItems: 'start' }}>
-          <div className="card left-fixed" style={{ padding: 28 }}>
+      <section className="section" data-page="payment" style={{ minHeight: '100vh', overflow: 'hidden', padding: 0, margin: 0 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', height: '100vh', width: '100vw' }}>
+          <div className="left-fixed" style={{ padding: 28 }}>
             <span className="pill">Secure checkout</span>
             <h2 style={{ marginTop: 10 }}>Complete your subscription</h2>
             <p className="muted" style={{ marginTop: 6 }}>Enter any valid promotion code, choose your country, and pay securely with your card.</p>
@@ -626,7 +626,7 @@ export default function PaymentPage() {
               <li>Instant access after payment</li>
             </ul>
           </div>
-          <div className="pay-scroll" style={{ display: 'flex', justifyContent: 'flex-end', paddingRight: '20px' }}>
+          <div className="pay-scroll" style={{ display: 'flex', justifyContent: 'flex-end', paddingRight: '20px', paddingTop: '20px' }}>
             <div className="pay-card" style={{ width: '500px', maxWidth: '500px' }}>
             <h3>Payment details</h3>
             <div className="form-block">
@@ -736,7 +736,7 @@ export default function PaymentPage() {
       </section>
 
       <style>{`
-        .left-fixed { position: sticky; top: 0; height: 100vh; overflow: hidden; border: none; border-radius: 16px; background: linear-gradient(180deg, rgba(16,24,48,0.95), rgba(10,16,36,0.95)); position: sticky; }
+        .left-fixed { position: sticky; top: 0; height: 100vh; overflow: hidden; border: none; border-radius: 0; background: linear-gradient(180deg, rgba(16,24,48,0.95), rgba(10,16,36,0.95)); }
         .left-fixed::before, .left-fixed::after { content: ""; position: absolute; inset: -15%; pointer-events: none; filter: blur(18px); }
         .left-fixed::before { background: radial-gradient(600px 380px at 10% 20%, rgba(122,162,255,0.30), transparent 60%), radial-gradient(520px 320px at 80% 30%, rgba(120,95,255,0.22), transparent 60%), radial-gradient(520px 360px at 40% 80%, rgba(78,123,255,0.18), transparent 60%); animation: flowA 28s ease-in-out infinite alternate; }
         .left-fixed::after  { background: radial-gradient(700px 420px at 0% 60%, rgba(98,201,255,0.18), transparent 60%), radial-gradient(600px 360px at 100% 10%, rgba(122,162,255,0.16), transparent 60%); mix-blend-mode: screen; animation: flowB 36s ease-in-out infinite alternate; }
