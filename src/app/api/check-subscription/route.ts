@@ -30,41 +30,50 @@ export async function GET(request: NextRequest) {
       console.log('⚠️ Metadata search failed:', e)
     }
 
-    // 2) Direct query: find any subscription for this user's email
-    const { data: userSubs, error: userSubsError } = await supabase
-      .from('subscriptions')
-      .select(`
-        id, attrs, current_period_end, customer,
-        customers!inner(email)
-      `)
-      .eq('customers.email', user.email)
-      .limit(10)
+    // 2) Use the exact same approach as your working SQL queries
+    // First get customers by email
+    const { data: customers } = await supabase
+      .from('customers')
+      .select('id')
+      .eq('email', user.email)
 
-    if (userSubsError) {
-      console.log('Direct subscription lookup failed:', userSubsError)
+    if (!customers || customers.length === 0) {
+      console.log('No customers found for email:', user.email)
       return NextResponse.json({ hasActiveSubscription: false, subscription: null })
     }
 
-    if (Array.isArray(userSubs) && userSubs.length > 0) {
-      console.log(`🔍 Found ${userSubs.length} subscriptions for email ${user.email}`)
+    console.log(`Found ${customers.length} customers for email ${user.email}`)
+
+    // Then get subscriptions for those customers
+    const customerIds = customers.map(c => c.id)
+    const { data: subscriptions } = await supabase
+      .from('subscriptions')
+      .select('id, attrs, current_period_end, customer')
+      .in('customer', customerIds)
+
+    if (!subscriptions || subscriptions.length === 0) {
+      console.log('No subscriptions found for customers:', customerIds)
+      return NextResponse.json({ hasActiveSubscription: false, subscription: null })
+    }
+
+    console.log(`Found ${subscriptions.length} subscriptions for customers`)
+
+    // Check each subscription for active status
+    for (const sub of subscriptions) {
+      const status = sub.attrs?.status
+      console.log(`Subscription ${sub.id}: status="${status}"`)
       
-      for (const sub of userSubs) {
-        const status = sub.attrs?.status || (sub as any).status
-        console.log(`💳 Subscription ${sub.id}: status="${status}"`)
-        
-        if (['active', 'trialing', 'incomplete', 'past_due'].includes(status)) {
-          console.log(`✅ Accepting subscription with status: ${status}`)
-          return NextResponse.json({
-            hasActiveSubscription: true,
-            subscription: {
-              id: sub.id,
-              status: status,
-              current_period_end: sub.current_period_end,
-              customer: sub.customer,
-              attrs: sub.attrs
-            }
-          })
-        }
+      if (['active', 'trialing', 'incomplete', 'past_due'].includes(status)) {
+        console.log(`✅ Accepting subscription with status: ${status}`)
+        return NextResponse.json({
+          hasActiveSubscription: true,
+          subscription: {
+            id: sub.id,
+            status: status,
+            current_period_end: sub.current_period_end,
+            customer: sub.customer
+          }
+        })
       }
     }
 
