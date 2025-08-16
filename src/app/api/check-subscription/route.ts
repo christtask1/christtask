@@ -46,8 +46,10 @@ export async function GET(request: NextRequest) {
 
     // Deduplicate ids
     const uniqueCustomerIds = Array.from(new Set(possibleCustomerIds))
+    console.log('🎯 Unique customer IDs found:', uniqueCustomerIds)
 
     if (uniqueCustomerIds.length === 0) {
+      console.log('❌ No customer IDs found, returning false')
       return NextResponse.json({ hasActiveSubscription: false, subscription: null })
     }
 
