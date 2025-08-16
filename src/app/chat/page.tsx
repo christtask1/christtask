@@ -65,26 +65,41 @@ export default function ChatPage() {
 
   useEffect(() => {
     const init = async () => {
+      console.log('🔍 Chat page init - checking session...')
       const { data } = await supabaseAuth.auth.getSession()
+      console.log('📧 User email:', data.session?.user?.email)
+      console.log('🔑 Has access token:', !!data.session?.access_token)
+      console.log('👤 User ID:', data.session?.user?.id)
+      
       setUserEmail(data.session?.user?.email || '')
       
       // Check subscription status
       if (data.session?.user) {
         try {
-          const response = await fetch('/api/check-subscription', {
-            headers: data.session?.access_token ? { Authorization: `Bearer ${data.session.access_token}` } : {},
-          })
+          console.log('🚀 Making subscription check request...')
+          const headers = data.session?.access_token 
+            ? { Authorization: `Bearer ${data.session.access_token}` } 
+            : {}
+          console.log('📋 Request headers:', headers)
+          
+          const response = await fetch('/api/check-subscription', { headers })
+          console.log('📥 Subscription check response status:', response.status)
+          
           if (response.ok) {
             const result = await response.json()
+            console.log('📊 Subscription check result:', result)
             setHasActiveSubscription(result.hasActiveSubscription)
           } else {
+            const errorText = await response.text()
+            console.error('❌ Subscription check failed:', response.status, errorText)
             setHasActiveSubscription(false)
           }
         } catch (error) {
-          console.error('Failed to check subscription:', error)
+          console.error('💥 Failed to check subscription:', error)
           setHasActiveSubscription(false)
         }
       } else {
+        console.log('🚫 No user session found')
         setHasActiveSubscription(false)
       }
       setSubscriptionLoading(false)
