@@ -187,10 +187,10 @@ function CardForm({
             hidePostalCode: true,
             style: {
               base: {
-                color: '#ffffff',
-                iconColor: 'var(--brand)',
+                color: '#333',
+                iconColor: '#7aa2ff',
                 fontFamily: 'system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif',
-                '::placeholder': { color: 'var(--muted)' },
+                '::placeholder': { color: '#999' },
                 fontSize: '16px',
                 fontWeight: '400',
               },
@@ -199,7 +199,7 @@ function CardForm({
           }}
         />
       </div>
-      <button className="btn" onClick={confirm} disabled={loading}>
+      <button className="btn" onClick={confirm} disabled={loading} style={{ background: '#7aa2ff', color: '#fff', border: 'none', borderRadius: '8px', padding: '16px 24px', fontWeight: '600', fontSize: '16px', cursor: 'pointer', width: '100%', marginTop: '16px' }}>
         {loading ? 'Processing…' : user ? 'Pay now' : 'Join Now →'}
       </button>
     </div>
@@ -606,48 +606,56 @@ export default function PaymentPage() {
     return Math.round(amountMinor * factor)
   }
 
-  // TODO: Replace with your backend/RPC call to create a PaymentIntent or Subscription and return client_secret
-  const createClientSecret = async () => {
-    alert('Wire this button to your Supabase RPC that returns a client_secret for CardElement.')
-    // setClientSecret('pi_client_secret_xxx')
-  }
-
   return (
     <Elements stripe={stripePromise}>
-      <section className="section" data-page="payment" style={{ minHeight: '100vh', overflow: 'hidden', padding: 0, margin: 0 }}>
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', height: '100vh', width: '100vw' }}>
-          <div className="left-fixed" style={{ padding: 28 }}>
-            <span className="pill">Secure checkout</span>
-            <h2 style={{ marginTop: 10 }}>Complete your subscription</h2>
-            <p className="muted" style={{ marginTop: 6 }}>Enter any valid promotion code, choose your country, and pay securely with your card.</p>
-            <ul className="muted" style={{ marginTop: 14, lineHeight: 1.9 }}>
-              <li>256‑bit SSL, PCI‑compliant processing</li>
-              <li>Cancel anytime from your account</li>
-              <li>Instant access after payment</li>
-            </ul>
+      <div data-page="payment" style={{ height: '100vh', width: '100vw', display: 'flex', margin: 0, padding: 0, overflow: 'hidden' }}>
+        {/* Left Panel - Hero Section */}
+        <div className="left-panel" style={{ 
+          flex: '1', 
+          height: '100vh',
+          padding: '60px 40px',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center'
+        }}>
+          <div style={{ maxWidth: '400px' }}>
+            <h1 style={{ fontSize: '42px', fontWeight: '800', lineHeight: '1.1', marginBottom: '20px', color: '#fff' }}>
+              Master Apologetics <span style={{ color: '#7aa2ff' }}>Today</span>
+            </h1>
+            <p style={{ fontSize: '18px', color: 'rgba(255,255,255,0.8)', lineHeight: '1.6', marginBottom: 0 }}>
+              Be equipped to defend Christianity and never stay silent during accusations. Together with 1000+ Christians.
+            </p>
           </div>
-          <div className="pay-scroll" style={{ display: 'flex', justifyContent: 'center', paddingLeft: '40px', paddingRight: '40px', background: '#040406', minHeight: '100vh' }}>
-            <div className="pay-card" style={{ width: '100%', maxWidth: 'none', height: '100vh', paddingTop: '40px', paddingBottom: '40px' }}>
-            <h3>Payment details</h3>
-            <div className="form-block">
-              <label className="label">Choose your plan</label>
-              {loading ? (
-                <div style={{ padding: '20px', textAlign: 'center', color: 'var(--muted)' }}>
-                  Loading subscription plans...
-                </div>
-              ) : (
-                <div className="plan-grid">
-                  {prices.map((price) => {
-                    const displayCurrency = (COUNTRY_TO_CURRENCY[country] || price.currency || 'GBP').toUpperCase()
-                    const displayAmountMinor = convertMinorUnits(price.unit_amount, price.currency, displayCurrency)
-                    return (
+        </div>
+
+        {/* Right Panel - Payment Form */}
+        <div style={{ 
+          flex: '1', 
+          height: '100vh',
+          background: '#fff',
+          padding: '60px 40px',
+          overflowY: 'auto'
+        }}>
+          <div style={{ maxWidth: '500px', margin: '0 auto' }}>
+            <h3>Choose Your Plan</h3>
+            
+            {loading ? (
+              <div style={{ padding: '20px', textAlign: 'center', color: '#666' }}>
+                Loading subscription plans...
+              </div>
+            ) : (
+              <div className="plan-grid">
+                {prices.map((price) => {
+                  const displayCurrency = (COUNTRY_TO_CURRENCY[country] || price.currency || 'GBP').toUpperCase()
+                  const displayAmountMinor = convertMinorUnits(price.unit_amount, price.currency, displayCurrency)
+                  return (
                     <button
                       key={price.id}
                       type="button"
                       className={`plan-card ${plan === price.id ? 'selected' : ''}`}
                       onClick={() => setPlan(price.id)}
                     >
-                      <div className="plan-title">{price.product_name}</div>
+                      <div className="plan-title">{price.product_name.replace('ChristTask ', '')}</div>
                       <div className="plan-price">
                         {formatPrice(displayAmountMinor, displayCurrency)}
                         <span className="plan-period">/{price.product_name.includes('Weekly') ? 'week' : price.product_name.includes('Monthly') ? 'month' : 'one-time'}</span>
@@ -657,14 +665,26 @@ export default function PaymentPage() {
                         <li>Cancel anytime</li>
                       </ul>
                     </button>
-                  )})}
-                </div>
-              )}
-            </div>
+                  )
+                })}
+              </div>
+            )}
+
+            <div style={{ margin: '32px 0 24px 0', fontSize: '20px', fontWeight: '600', color: '#333' }}>What's included:</div>
+            <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 32px 0', color: '#666' }}>
+              <li style={{ marginBottom: '8px' }}>✅ Complete apologetics training</li>
+              <li style={{ marginBottom: '8px' }}>✅ Defend your faith confidently</li>
+              <li style={{ marginBottom: '8px' }}>✅ Join 1000+ Christians</li>
+              <li style={{ marginBottom: '8px' }}>✅ Access to all ChristTask features</li>
+            </ul>
+
+            <div style={{ margin: '32px 0 0 0', fontSize: '20px', fontWeight: '600', color: '#333' }}>Create Account</div>
+
             <div className="form-block">
               <label className="label">Coupon (optional)</label>
               <input className="input" value={coupon} onChange={(e)=>setCoupon(e.target.value)} placeholder="Enter coupon or promo code" />
             </div>
+            
             <div className="form-block">
               <label className="label">Country</label>
               <select className="select" value={country} onChange={(e)=>setCountry(e.target.value)}>
@@ -676,11 +696,11 @@ export default function PaymentPage() {
 
             {!user && (
               <div className="form-block">
-                <label className="label">Email</label>
+                <label className="label">Email address *</label>
                 <input 
                   className="input" 
                   type="email" 
-                  placeholder="Enter your email" 
+                  placeholder="your@email.com" 
                   value={email} 
                   onChange={(e) => setEmail(e.target.value)} 
                   required 
@@ -690,11 +710,11 @@ export default function PaymentPage() {
 
             {!user && (
               <div className="form-block">
-                <label className="label">Password</label>
+                <label className="label">Password *</label>
                 <input 
                   className="input" 
                   type="password" 
-                  placeholder="Create a password" 
+                  placeholder="Create a password (min 6 chars)" 
                   value={password} 
                   onChange={(e) => setPassword(e.target.value)} 
                   required 
@@ -704,7 +724,7 @@ export default function PaymentPage() {
 
             {user && (
               <div className="form-block">
-                <div style={{ color: 'var(--brand)', fontSize: '14px', marginBottom: 12 }}>
+                <div style={{ color: '#22c55e', fontSize: '14px', marginBottom: 12 }}>
                   ✓ Signed in as {user.email}
                 </div>
               </div>
@@ -720,49 +740,85 @@ export default function PaymentPage() {
               email={email}
               password={password}
             />
+            
             <div className="form-block">
               <button
                 type="button"
-                className="btn secondary"
                 onClick={() => router.push('/login?redirect=/payment')}
-                style={{ width: '100%' }}
+                style={{ 
+                  width: '100%', 
+                  background: 'transparent', 
+                  border: '1px solid #e1e5e9', 
+                  color: '#666', 
+                  padding: '12px 16px', 
+                  borderRadius: '8px', 
+                  cursor: 'pointer',
+                  marginTop: '16px'
+                }}
               >
                 Already have an account? Log in
               </button>
             </div>
-            </div>
           </div>
         </div>
-      </section>
 
-      <style>{`
-        .left-fixed { position: sticky; top: 0; height: 100vh; overflow: hidden; border: none; border-radius: 0; background: linear-gradient(180deg, rgba(16,24,48,0.95), rgba(10,16,36,0.95)); }
-        .left-fixed::before, .left-fixed::after { content: ""; position: absolute; inset: -15%; pointer-events: none; filter: blur(18px); }
-        .left-fixed::before { background: radial-gradient(600px 380px at 10% 20%, rgba(122,162,255,0.30), transparent 60%), radial-gradient(520px 320px at 80% 30%, rgba(120,95,255,0.22), transparent 60%), radial-gradient(520px 360px at 40% 80%, rgba(78,123,255,0.18), transparent 60%); animation: flowA 28s ease-in-out infinite alternate; }
-        .left-fixed::after  { background: radial-gradient(700px 420px at 0% 60%, rgba(98,201,255,0.18), transparent 60%), radial-gradient(600px 360px at 100% 10%, rgba(122,162,255,0.16), transparent 60%); mix-blend-mode: screen; animation: flowB 36s ease-in-out infinite alternate; }
-        .left-fixed > * { position: relative; z-index: 1; }
-        @keyframes flowA { 0% { transform: translate3d(0,0,0) scale(1); } 50% { transform: translate3d(2%, -1%, 0) scale(1.02); } 100% { transform: translate3d(-2%, 2%, 0) scale(1.03); } }
-        @keyframes flowB { 0% { transform: translate3d(0,0,0) scale(1); } 50% { transform: translate3d(-1%, 2%, 0) scale(1.01); } 100% { transform: translate3d(2%, -2%, 0) scale(1.02); } }
-        .pay-scroll { height: 100vh; overflow-y: auto; padding-right: 0; }
-        .pay-card { background: linear-gradient(180deg, rgba(23,35,74,0.55), rgba(16,24,48,0.8)); border: none; border-radius: 0; padding: 22px; }
-        .form-block { display:grid; gap:8px; margin-top:14px; }
-        .label { font-weight:700; color: var(--text); font-size:14px; }
-        .input, .select { width:100%; background:#0e1530; color:var(--text); border:1px solid var(--border); border-radius:10px; padding:12px 14px; outline:none; }
-        .input::placeholder { color: var(--muted); }
-        .card-shell { border:1px dashed var(--border); border-radius:12px; padding:14px; background:#0e1530; }
-        .plan-grid { display:grid; grid-template-columns: 1fr; gap:12px; }
-        @media(min-width:700px){ .plan-grid { grid-template-columns: 1fr 1fr; } }
-        .plan-card { text-align:left; border:1px solid var(--border); background:#0e1530; padding:16px; border-radius:12px; cursor:pointer; color:var(--text); }
-        .plan-card:hover { border-color: var(--brand); box-shadow: 0 8px 24px rgba(78,123,255,0.18) }
-        .plan-card.selected { border-color: var(--brand); outline: 2px solid rgba(78,123,255,0.35); }
-        .plan-title { font-weight:800; margin-bottom:6px; }
-        .plan-price { font-weight:800; font-size:20px; }
-        .plan-period { font-weight:600; font-size:12px; color: var(--muted); margin-left:6px; }
-        .plan-points { margin:10px 0 0; padding-left:18px; color: var(--muted); }
-        @media(max-width: 900px){ .left-fixed { position: static; height: auto; } .pay-scroll { height: auto; overflow: visible; } }
-      `}</style>
+        <style>{`
+          .left-panel { 
+            position: relative;
+            background: linear-gradient(180deg, rgba(16,24,48,0.95), rgba(10,16,36,0.95)); 
+          }
+          .left-panel::before, .left-panel::after { 
+            content: ""; 
+            position: absolute; 
+            inset: -15%; 
+            pointer-events: none; 
+            filter: blur(18px); 
+          }
+          .left-panel::before { 
+            background: radial-gradient(600px 380px at 10% 20%, rgba(122,162,255,0.30), transparent 60%), 
+                        radial-gradient(520px 320px at 80% 30%, rgba(120,95,255,0.22), transparent 60%), 
+                        radial-gradient(520px 360px at 40% 80%, rgba(78,123,255,0.18), transparent 60%); 
+            animation: flowA 28s ease-in-out infinite alternate; 
+          }
+          .left-panel::after { 
+            background: radial-gradient(700px 420px at 0% 60%, rgba(98,201,255,0.18), transparent 60%), 
+                        radial-gradient(600px 360px at 100% 10%, rgba(122,162,255,0.16), transparent 60%); 
+            mix-blend-mode: screen; 
+            animation: flowB 36s ease-in-out infinite alternate; 
+          }
+          .left-panel > * { position: relative; z-index: 1; }
+          @keyframes flowA { 
+            0% { transform: translate3d(0,0,0) scale(1); } 
+            50% { transform: translate3d(2%, -1%, 0) scale(1.02); } 
+            100% { transform: translate3d(-2%, 2%, 0) scale(1.03); } 
+          }
+          @keyframes flowB { 
+            0% { transform: translate3d(0,0,0) scale(1); } 
+            50% { transform: translate3d(-1%, 2%, 0) scale(1.01); } 
+            100% { transform: translate3d(2%, -2%, 0) scale(1.02); } 
+          }
+          .form-block { display:grid; gap:12px; margin-top:20px; }
+          .label { font-weight:600; color: #333; font-size:14px; margin-bottom: 8px; }
+          .input, .select { width:100%; background:#fff; color:#333; border:1px solid #e1e5e9; border-radius:8px; padding:12px 16px; outline:none; font-size: 16px; }
+          .input:focus, .select:focus { border-color: #7aa2ff; box-shadow: 0 0 0 3px rgba(122,162,255,0.1); }
+          .input::placeholder { color: #999; }
+          .card-shell { border:1px solid #e1e5e9; border-radius:8px; padding:16px; background:#f9fafb; margin-top: 8px; }
+          .plan-grid { display:grid; grid-template-columns: 1fr 1fr; gap:16px; margin-bottom: 24px; }
+          .plan-card { text-align:left; border:2px solid #e1e5e9; background:#fff; padding:20px; border-radius:12px; cursor:pointer; color:#333; transition: all 0.2s; }
+          .plan-card:hover { border-color: #7aa2ff; }
+          .plan-card.selected { border-color: #7aa2ff; background: #f8faff; }
+          .plan-title { font-weight:700; margin-bottom:8px; font-size: 18px; }
+          .plan-price { font-weight:800; font-size:24px; color: #333; }
+          .plan-period { font-weight:500; font-size:14px; color: #666; margin-left:4px; }
+          .plan-points { margin:12px 0 0; padding-left:0; color: #666; list-style: none; }
+          .plan-points li { margin-bottom: 4px; }
+          .plan-points li:before { content: "✓ "; color: #22c55e; font-weight: bold; }
+          h3 { margin: 0 0 24px 0; font-size: 28px; font-weight: 700; color: #1f2937; }
+          @media(max-width: 900px){ 
+            .plan-grid { grid-template-columns: 1fr; }
+          }
+        `}</style>
+      </div>
     </Elements>
   )
 }
-
-
