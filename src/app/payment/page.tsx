@@ -626,7 +626,7 @@ export default function PaymentPage() {
               <li>Instant access after payment</li>
             </ul>
           </div>
-          <div className="pay-scroll" style={{ display: 'flex', justifyContent: 'flex-end', paddingRight: '20px', paddingTop: '20px' }}>
+          <div className="pay-scroll" style={{ display: 'flex', justifyContent: 'flex-end', paddingRight: '20px', paddingTop: '20px', background: '#040406' }}>
             <div className="pay-card" style={{ width: '500px', maxWidth: '500px' }}>
             <h3>Payment details</h3>
             <div className="form-block">
