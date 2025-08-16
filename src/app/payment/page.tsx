@@ -736,7 +736,13 @@ export default function PaymentPage() {
       </section>
 
       <style>{`
-        .left-fixed { position: sticky; top: 0; height: 100vh; overflow: hidden; background: radial-gradient(1200px 600px at -10% 10%, rgba(122,162,255,0.14), transparent 40%), radial-gradient(1000px 500px at 120% 20%, rgba(122,162,255,0.08), transparent 40%), linear-gradient(180deg, rgba(23,35,74,0.55), rgba(16,24,48,0.8)); }
+        .left-fixed { position: sticky; top: 0; height: 100vh; overflow: hidden; border: none; border-radius: 16px; background: linear-gradient(180deg, rgba(16,24,48,0.95), rgba(10,16,36,0.95)); position: sticky; }
+        .left-fixed::before, .left-fixed::after { content: ""; position: absolute; inset: -15%; pointer-events: none; filter: blur(18px); }
+        .left-fixed::before { background: radial-gradient(600px 380px at 10% 20%, rgba(122,162,255,0.30), transparent 60%), radial-gradient(520px 320px at 80% 30%, rgba(120,95,255,0.22), transparent 60%), radial-gradient(520px 360px at 40% 80%, rgba(78,123,255,0.18), transparent 60%); animation: flowA 28s ease-in-out infinite alternate; }
+        .left-fixed::after  { background: radial-gradient(700px 420px at 0% 60%, rgba(98,201,255,0.18), transparent 60%), radial-gradient(600px 360px at 100% 10%, rgba(122,162,255,0.16), transparent 60%); mix-blend-mode: screen; animation: flowB 36s ease-in-out infinite alternate; }
+        .left-fixed > * { position: relative; z-index: 1; }
+        @keyframes flowA { 0% { transform: translate3d(0,0,0) scale(1); } 50% { transform: translate3d(2%, -1%, 0) scale(1.02); } 100% { transform: translate3d(-2%, 2%, 0) scale(1.03); } }
+        @keyframes flowB { 0% { transform: translate3d(0,0,0) scale(1); } 50% { transform: translate3d(-1%, 2%, 0) scale(1.01); } 100% { transform: translate3d(2%, -2%, 0) scale(1.02); } }
         .pay-scroll { height: 100vh; overflow-y: auto; padding-right: 4px; }
         .pay-card { background: linear-gradient(180deg, rgba(23,35,74,0.55), rgba(16,24,48,0.8)); border:1px solid var(--border); border-radius:16px; padding:22px; }
         .form-block { display:grid; gap:8px; margin-top:14px; }
