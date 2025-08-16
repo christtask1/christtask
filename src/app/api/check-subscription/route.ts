@@ -34,7 +34,7 @@ export async function GET(request: NextRequest) {
     const { data: byEmail, error: emailError } = await supabase
       .from('customers')
       .select('id')
-      .ilike('email', user.email || '')
+      .ilike('email', `%${user.email || ''}%`)
 
     console.log('📧 Found by email:', byEmail?.length || 0, 'Error:', emailError)
     if (emailError) {
