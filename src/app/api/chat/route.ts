@@ -16,24 +16,36 @@ export async function POST(request: NextRequest) {
     
     // Check subscription status if user is authenticated
     if (user) {
-      // Find user's Stripe customer by email
-      const { data: customers } = await supabase
+      // Build set of possible Stripe customer ids
+      const customerIds: string[] = []
+      try {
+        const { data: byMeta } = await supabase
+          .from('customers')
+          .select('id, attrs')
+          .filter('attrs->metadata->>supabase_uid', 'eq', user.id)
+        if (Array.isArray(byMeta)) for (const c of byMeta) if (c?.id) customerIds.push(c.id)
+      } catch {}
+
+      const { data: byEmail } = await supabase
         .from('customers')
         .select('id')
-        .eq('email', user.email)
+        .ilike('email', user.email || '')
+      if (Array.isArray(byEmail)) for (const c of byEmail) if (c?.id) customerIds.push(c.id)
+
+      const uniqueIds = Array.from(new Set(customerIds))
 
       let hasActiveSubscription = false
-      
-      if (customers && customers.length > 0) {
-        // Check for active subscriptions
+      for (const cid of uniqueIds) {
         const { data: subscriptions } = await supabase
           .from('subscriptions')
-          .select('status')
-          .eq('customer', customers[0].id)
+          .select('id, status')
+          .eq('customer', cid)
           .in('status', ['active', 'trialing'])
           .limit(1)
-
-        hasActiveSubscription = Array.isArray(subscriptions) && subscriptions.length > 0
+        if (Array.isArray(subscriptions) && subscriptions.length > 0) {
+          hasActiveSubscription = true
+          break
+        }
       }
 
       if (!hasActiveSubscription) {
