@@ -47,32 +47,36 @@ export async function GET(request: NextRequest) {
 
     // Check each potential customer for an active/trialing subscription
     for (const customerId of uniqueCustomerIds) {
+      // Note: In Stripe FDW, status is in attrs JSON, not a direct column
       const { data: subscriptions, error: subscriptionError } = await supabase
         .from('subscriptions')
-        .select('id, status, current_period_end, customer, currency')
+        .select('id, attrs, current_period_end, customer')
         .eq('customer', customerId)
-        .in('status', ['active', 'trialing'])
         .order('current_period_end', { ascending: false })
-        .limit(1)
+        .limit(10)
 
       if (subscriptionError) {
         console.warn('Subscription lookup error for', customerId, subscriptionError)
         continue
       }
 
-      const active = Array.isArray(subscriptions) && subscriptions.length > 0
-      if (active) {
-        const sub = subscriptions[0]
-        return NextResponse.json({
-          hasActiveSubscription: true,
-          subscription: {
-            id: sub.id,
-            status: sub.status,
-            current_period_end: sub.current_period_end,
-            customer: sub.customer,
-            currency: sub.currency,
+      if (Array.isArray(subscriptions) && subscriptions.length > 0) {
+        // Check each subscription for active/trialing status
+        for (const sub of subscriptions) {
+          const status = sub.attrs?.status || (sub as any).status
+          if (['active', 'trialing'].includes(status)) {
+            return NextResponse.json({
+              hasActiveSubscription: true,
+              subscription: {
+                id: sub.id,
+                status: status,
+                current_period_end: sub.current_period_end,
+                customer: sub.customer,
+                attrs: sub.attrs
+              }
+            })
           }
-        })
+        }
       }
     }
 

@@ -38,13 +38,19 @@ export async function POST(request: NextRequest) {
       for (const cid of uniqueIds) {
         const { data: subscriptions } = await supabase
           .from('subscriptions')
-          .select('id, status')
+          .select('id, attrs')
           .eq('customer', cid)
-          .in('status', ['active', 'trialing'])
-          .limit(1)
+          .limit(5)
         if (Array.isArray(subscriptions) && subscriptions.length > 0) {
-          hasActiveSubscription = true
-          break
+          // Check if any subscription is active/trialing
+          for (const sub of subscriptions) {
+            const status = sub.attrs?.status || (sub as any).status
+            if (['active', 'trialing'].includes(status)) {
+              hasActiveSubscription = true
+              break
+            }
+          }
+          if (hasActiveSubscription) break
         }
       }
 
