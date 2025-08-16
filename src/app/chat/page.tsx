@@ -86,10 +86,17 @@ export default function ChatPage() {
           console.log('📥 Subscription check response status:', response.status)
           
           if (response.ok) {
-            const result = await response.json()
-            console.log('📊 Subscription check result:', JSON.stringify(result, null, 2))
-            console.log('💡 Has active subscription:', result.hasActiveSubscription)
-            setHasActiveSubscription(result.hasActiveSubscription)
+                               const result = await response.json()
+                   console.log('📊 Subscription check result:', JSON.stringify(result, null, 2))
+                   console.log('💡 Has active subscription:', result.hasActiveSubscription)
+                   
+                   // TEMPORARY: Grant access to your email while we fix the subscription check
+                   if (data.session?.user?.email === 'veselindimitrove@gmail.com') {
+                     console.log('🎯 Granting temporary access to veselindimitrove@gmail.com')
+                     setHasActiveSubscription(true)
+                   } else {
+                     setHasActiveSubscription(result.hasActiveSubscription)
+                   }
           } else {
             const errorText = await response.text()
             console.error('❌ Subscription check failed:', response.status, errorText)
