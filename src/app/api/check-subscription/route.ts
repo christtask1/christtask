@@ -49,7 +49,7 @@ export async function GET(request: NextRequest) {
             subscription: {
               id: subscription.id,
               status: subscription.status,
-              current_period_end: subscription.current_period_end,
+              current_period_end: (subscription as any).current_period_end,
               customer: subscription.customer
             }
           })
