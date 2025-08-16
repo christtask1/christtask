@@ -614,9 +614,9 @@ export default function PaymentPage() {
 
   return (
     <Elements stripe={stripePromise}>
-      <section className="section">
+      <section className="section" style={{ minHeight: '100vh', overflow: 'hidden' }}>
         <div className="container grid grid-2" style={{ gap: 28, alignItems: 'start' }}>
-          <div className="card" style={{ padding: 28 }}>
+          <div className="card left-fixed" style={{ padding: 28 }}>
             <span className="pill">Secure checkout</span>
             <h2 style={{ marginTop: 10 }}>Complete your subscription</h2>
             <p className="muted" style={{ marginTop: 6 }}>Enter any valid promotion code, choose your country, and pay securely with your card.</p>
@@ -626,8 +626,8 @@ export default function PaymentPage() {
               <li>Instant access after payment</li>
             </ul>
           </div>
-
-          <div className="pay-card">
+          <div className="pay-scroll">
+            <div className="pay-card">
             <h3>Payment details</h3>
             <div className="form-block">
               <label className="label">Choose your plan</label>
@@ -730,11 +730,14 @@ export default function PaymentPage() {
                 Already have an account? Log in
               </button>
             </div>
+            </div>
           </div>
         </div>
       </section>
 
       <style>{`
+        .left-fixed { position: sticky; top: 0; height: 100vh; overflow: hidden; }
+        .pay-scroll { height: 100vh; overflow-y: auto; padding-right: 4px; }
         .pay-card { background: linear-gradient(180deg, rgba(23,35,74,0.55), rgba(16,24,48,0.8)); border:1px solid var(--border); border-radius:16px; padding:22px; }
         .form-block { display:grid; gap:8px; margin-top:14px; }
         .label { font-weight:700; color: var(--text); font-size:14px; }
@@ -750,6 +753,7 @@ export default function PaymentPage() {
         .plan-price { font-weight:800; font-size:20px; }
         .plan-period { font-weight:600; font-size:12px; color: var(--muted); margin-left:6px; }
         .plan-points { margin:10px 0 0; padding-left:18px; color: var(--muted); }
+        @media(max-width: 900px){ .left-fixed { position: static; height: auto; } .pay-scroll { height: auto; overflow: visible; } }
       `}</style>
     </Elements>
   )
