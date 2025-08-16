@@ -77,7 +77,7 @@ export default function ChatPage() {
       if (data.session?.user) {
         try {
           console.log('🚀 Making subscription check request...')
-          const headers = data.session?.access_token 
+          const headers: HeadersInit = data.session?.access_token 
             ? { Authorization: `Bearer ${data.session.access_token}` } 
             : {}
           console.log('📋 Request headers:', headers)
@@ -124,12 +124,13 @@ export default function ChatPage() {
     try {
       const { data: { session } } = await supabaseAuth.auth.getSession()
       // Call your RAG backend through the API route
+      const headers: HeadersInit = {
+        'Content-Type': 'application/json',
+        ...(session?.access_token ? { Authorization: `Bearer ${session.access_token}` } : {}),
+      }
       const response = await fetch('/api/chat', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          ...(session?.access_token ? { Authorization: `Bearer ${session.access_token}` } : {}),
-        },
+        headers,
         body: JSON.stringify({
           message: text
         })
