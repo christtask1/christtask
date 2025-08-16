@@ -626,7 +626,7 @@ export default function PaymentPage() {
               <li>Instant access after payment</li>
             </ul>
           </div>
-          <div className="pay-scroll" style={{ display: 'flex', justifyContent: 'center', paddingLeft: '40px', paddingRight: '40px', background: '#040406' }}>
+          <div className="pay-scroll" style={{ display: 'flex', justifyContent: 'center', paddingLeft: '40px', paddingRight: '40px', background: '#040406', minHeight: '100vh' }}>
             <div className="pay-card" style={{ width: '100%', maxWidth: 'none', height: '100vh', paddingTop: '40px', paddingBottom: '40px' }}>
             <h3>Payment details</h3>
             <div className="form-block">
@@ -743,7 +743,7 @@ export default function PaymentPage() {
         .left-fixed > * { position: relative; z-index: 1; }
         @keyframes flowA { 0% { transform: translate3d(0,0,0) scale(1); } 50% { transform: translate3d(2%, -1%, 0) scale(1.02); } 100% { transform: translate3d(-2%, 2%, 0) scale(1.03); } }
         @keyframes flowB { 0% { transform: translate3d(0,0,0) scale(1); } 50% { transform: translate3d(-1%, 2%, 0) scale(1.01); } 100% { transform: translate3d(2%, -2%, 0) scale(1.02); } }
-        .pay-scroll { height: 100vh; overflow-y: auto; padding-right: 4px; }
+        .pay-scroll { height: 100vh; overflow-y: auto; padding-right: 0; }
         .pay-card { background: linear-gradient(180deg, rgba(23,35,74,0.55), rgba(16,24,48,0.8)); border: none; border-radius: 0; padding: 22px; }
         .form-block { display:grid; gap:8px; margin-top:14px; }
         .label { font-weight:700; color: var(--text); font-size:14px; }
