@@ -61,23 +61,8 @@ export async function POST(request: NextRequest) {
 
     const subscription = await stripe.subscriptions.create(subscriptionData)
 
-    // Save subscription to Supabase table (only if user exists)
-    if (user?.id) {
-      try {
-        await supabase.from('subscriptions').insert({
-          user_id: user.id,
-          stripe_subscription_id: subscription.id,
-          stripe_customer_id: customer.id,
-          status: subscription.status,
-          price_id: price_id,
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString(),
-        })
-      } catch (dbError) {
-        console.error('Failed to save subscription to Supabase:', dbError)
-        // Don't fail the whole request if DB save fails
-      }
-    }
+    // Note: We're using Stripe FDW, so subscription data is automatically available
+    // No need to manually save subscription data - it's read directly from Stripe
 
     // Safely access nested fields with type narrowing
     let clientSecret: string | undefined

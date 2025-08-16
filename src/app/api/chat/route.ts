@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getAuthUser } from '../../../lib/auth'
+import { getAuthUserFromRequest } from '../../../lib/auth'
 import { allowRequest } from '../../../lib/ratelimit'
+import { supabase } from '../../../lib/supabaseClient'
 
 export async function POST(request: NextRequest) {
   try {
@@ -11,7 +12,38 @@ export async function POST(request: NextRequest) {
     }
 
     // Try to identify user (optional). Do not block if unauthenticated.
-    const user = await getAuthUser()
+    const user = await getAuthUserFromRequest(request)
+    
+    // Check subscription status if user is authenticated
+    if (user) {
+      // Find user's Stripe customer by email
+      const { data: customers } = await supabase
+        .from('customers')
+        .select('id')
+        .eq('email', user.email)
+
+      let hasActiveSubscription = false
+      
+      if (customers && customers.length > 0) {
+        // Check for active subscriptions
+        const { data: subscriptions } = await supabase
+          .from('subscriptions')
+          .select('status')
+          .eq('customer', customers[0].id)
+          .in('status', ['active', 'trialing'])
+          .limit(1)
+
+        hasActiveSubscription = subscriptions && subscriptions.length > 0
+      }
+
+      if (!hasActiveSubscription) {
+        return NextResponse.json({ 
+          error: 'Subscription required. Please subscribe to continue using ChristTask.',
+          code: 'SUBSCRIPTION_REQUIRED'
+        }, { status: 403 })
+      }
+    }
+    
     const { message, question, conversation_history = [] } = await request.json()
     
     // Your actual RAG backend endpoint

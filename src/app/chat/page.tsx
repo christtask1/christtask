@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { supabase } from '../../lib/supabaseClient'
+import { supabaseAuth } from '../../lib/supabaseClient'
 
 // Minimal book metadata for Old and New Testament (book name + number of chapters)
 const OLD_TESTAMENT: Array<{ name: string; chapters: number }> = [
@@ -43,6 +43,8 @@ export default function ChatPage() {
   const [input, setInput] = useState<string>('')
   const [sending, setSending] = useState<boolean>(false)
   const [isTyping, setIsTyping] = useState<boolean>(false)
+  const [hasActiveSubscription, setHasActiveSubscription] = useState<boolean | null>(null)
+  const [subscriptionLoading, setSubscriptionLoading] = useState<boolean>(true)
 
   // Sidebar + Bible panel state
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false)
@@ -63,8 +65,27 @@ export default function ChatPage() {
 
   useEffect(() => {
     const init = async () => {
-      const { data } = await supabase.auth.getSession()
+      const { data } = await supabaseAuth.auth.getSession()
       setUserEmail(data.session?.user?.email || '')
+      
+      // Check subscription status
+      if (data.session?.user) {
+        try {
+          const response = await fetch('/api/check-subscription')
+          if (response.ok) {
+            const result = await response.json()
+            setHasActiveSubscription(result.hasActiveSubscription)
+          } else {
+            setHasActiveSubscription(false)
+          }
+        } catch (error) {
+          console.error('Failed to check subscription:', error)
+          setHasActiveSubscription(false)
+        }
+      } else {
+        setHasActiveSubscription(false)
+      }
+      setSubscriptionLoading(false)
     }
     init()
   }, [])
@@ -184,11 +205,68 @@ export default function ChatPage() {
 
   const handleLogout = async () => {
     try {
-      await supabase.auth.signOut()
+      await supabaseAuth.auth.signOut()
       window.location.href = '/login'
     } catch (error) {
       console.error('Logout error:', error)
     }
+  }
+
+  // Show loading state
+  if (subscriptionLoading) {
+    return (
+      <div style={{
+        height: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: '#000',
+        color: '#fff'
+      }}>
+        <div>Loading...</div>
+      </div>
+    )
+  }
+
+  // Show paywall if no active subscription
+  if (hasActiveSubscription === false) {
+    return (
+      <div style={{
+        height: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: '#000',
+        color: '#fff',
+        padding: '20px'
+      }}>
+        <div style={{ textAlign: 'center', maxWidth: '500px' }}>
+          <h2 style={{ color: '#4E7BFF', marginBottom: '16px' }}>Subscription Required</h2>
+          <p style={{ marginBottom: '24px', color: '#a8b3cf' }}>
+            You need an active subscription to access ChristTask chat. 
+            Get instant access to biblical answers and apologetics.
+          </p>
+          <div style={{ display: 'flex', gap: '12px', justifyContent: 'center' }}>
+            <a href="/payment" className="btn" style={{ padding: '12px 24px' }}>
+              Subscribe Now
+            </a>
+            <button 
+              onClick={handleLogout}
+              style={{
+                padding: '12px 24px',
+                background: 'transparent',
+                border: '1px solid rgba(255,255,255,0.3)',
+                borderRadius: '8px',
+                color: '#fff',
+                cursor: 'pointer'
+              }}
+            >
+              Sign Out
+            </button>
+          </div>
+        </div>
+      </div>
+    )
   }
 
   return (
