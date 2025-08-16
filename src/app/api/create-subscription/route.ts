@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getStripe } from '../../../lib/stripe'
 import { getAuthUser } from '../../../lib/auth'
+import { supabase } from '../../../lib/supabaseClient'
 import Stripe from 'stripe'
 
 export async function POST(request: NextRequest) {
@@ -59,6 +60,24 @@ export async function POST(request: NextRequest) {
     }
 
     const subscription = await stripe.subscriptions.create(subscriptionData)
+
+    // Save subscription to Supabase table (only if user exists)
+    if (user?.id) {
+      try {
+        await supabase.from('subscriptions').insert({
+          user_id: user.id,
+          stripe_subscription_id: subscription.id,
+          stripe_customer_id: customer.id,
+          status: subscription.status,
+          price_id: price_id,
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        })
+      } catch (dbError) {
+        console.error('Failed to save subscription to Supabase:', dbError)
+        // Don't fail the whole request if DB save fails
+      }
+    }
 
     // Safely access nested fields with type narrowing
     let clientSecret: string | undefined
