@@ -71,7 +71,9 @@ export default function ChatPage() {
       // Check subscription status
       if (data.session?.user) {
         try {
-          const response = await fetch('/api/check-subscription')
+          const response = await fetch('/api/check-subscription', {
+            headers: data.session?.access_token ? { Authorization: `Bearer ${data.session.access_token}` } : {},
+          })
           if (response.ok) {
             const result = await response.json()
             setHasActiveSubscription(result.hasActiveSubscription)
@@ -105,11 +107,13 @@ export default function ChatPage() {
     setIsTyping(true)
 
     try {
+      const { data: { session } } = await supabaseAuth.auth.getSession()
       // Call your RAG backend through the API route
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          ...(session?.access_token ? { Authorization: `Bearer ${session.access_token}` } : {}),
         },
         body: JSON.stringify({
           message: text

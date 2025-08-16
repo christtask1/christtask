@@ -31,9 +31,13 @@ export default function SignupPage() {
     
     // Create account record in stripe1 schema
     try {
+      const { data: { session } } = await supabaseAuth.auth.getSession()
       await fetch('/api/create-account', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' }
+        headers: {
+          'Content-Type': 'application/json',
+          ...(session?.access_token ? { Authorization: `Bearer ${session.access_token}` } : {}),
+        }
       })
     } catch (e) {
       console.warn('Failed to create account record:', e)

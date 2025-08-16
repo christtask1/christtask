@@ -50,7 +50,10 @@ function CardForm({
 
         const response = await fetch('/api/create-subscription', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          headers: {
+            'Content-Type': 'application/json',
+            ...(session?.access_token ? { Authorization: `Bearer ${session.access_token}` } : {}),
+          },
           body: JSON.stringify({
             price_id: plan,
             coupon: coupon || undefined,
@@ -88,9 +91,13 @@ function CardForm({
               
               // Create account record in stripe1 schema
               try {
+                const { data: { session } } = await supabaseAuth.auth.getSession()
                 await fetch('/api/create-account', {
                   method: 'POST',
-                  headers: { 'Content-Type': 'application/json' }
+                  headers: {
+                    'Content-Type': 'application/json',
+                    ...(session?.access_token ? { Authorization: `Bearer ${session.access_token}` } : {}),
+                  }
                 })
               } catch (e) { console.warn('Failed to create account record:', e) }
               
@@ -112,9 +119,13 @@ function CardForm({
               
               // Create account record in stripe1 schema
               try {
+                const { data: { session } } = await supabaseAuth.auth.getSession()
                 await fetch('/api/create-account', {
                   method: 'POST',
-                  headers: { 'Content-Type': 'application/json' }
+                  headers: {
+                    'Content-Type': 'application/json',
+                    ...(session?.access_token ? { Authorization: `Bearer ${session.access_token}` } : {}),
+                  }
                 })
               } catch (e) { console.warn('Failed to create account record:', e) }
               
@@ -146,9 +157,13 @@ function CardForm({
             
             // Create account record in stripe1 schema
             try {
+              const { data: { session } } = await supabaseAuth.auth.getSession()
               await fetch('/api/create-account', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' }
+                headers: {
+                  'Content-Type': 'application/json',
+                  ...(session?.access_token ? { Authorization: `Bearer ${session.access_token}` } : {}),
+                }
               })
             } catch (e) { console.warn('Failed to create account record:', e) }
           } catch (e) { console.warn('Post-payment signup error:', e) }
