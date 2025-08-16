@@ -614,7 +614,7 @@ export default function PaymentPage() {
 
   return (
     <Elements stripe={stripePromise}>
-      <section className="section" style={{ minHeight: '100vh', overflow: 'hidden' }}>
+      <section className="section" data-page="payment" style={{ minHeight: '100vh', overflow: 'hidden', padding: 0 }}>
         <div className="container grid grid-2" style={{ gap: 28, alignItems: 'start' }}>
           <div className="card left-fixed" style={{ padding: 28 }}>
             <span className="pill">Secure checkout</span>
@@ -736,7 +736,7 @@ export default function PaymentPage() {
       </section>
 
       <style>{`
-        .left-fixed { position: sticky; top: 0; height: 100vh; overflow: hidden; }
+        .left-fixed { position: sticky; top: 0; height: 100vh; overflow: hidden; background: radial-gradient(1200px 600px at -10% 10%, rgba(122,162,255,0.14), transparent 40%), radial-gradient(1000px 500px at 120% 20%, rgba(122,162,255,0.08), transparent 40%), linear-gradient(180deg, rgba(23,35,74,0.55), rgba(16,24,48,0.8)); }
         .pay-scroll { height: 100vh; overflow-y: auto; padding-right: 4px; }
         .pay-card { background: linear-gradient(180deg, rgba(23,35,74,0.55), rgba(16,24,48,0.8)); border:1px solid var(--border); border-radius:16px; padding:22px; }
         .form-block { display:grid; gap:8px; margin-top:14px; }

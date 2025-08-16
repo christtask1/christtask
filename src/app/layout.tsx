@@ -87,9 +87,11 @@ export default function RootLayout({ children }: { children: any }) {
         </footer>
 
         <style>{`
-          /* Hide header and footer on chat page only */
+          /* Hide header and footer on chat and payment pages */
           body:has([data-page="chat"]) .site-header,
-          body:has([data-page="chat"]) .site-footer {
+          body:has([data-page="chat"]) .site-footer,
+          body:has([data-page="payment"]) .site-header,
+          body:has([data-page="payment"]) .site-footer {
             display: none !important;
           }
         `}</style>
