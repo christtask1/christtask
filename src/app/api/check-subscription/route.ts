@@ -30,22 +30,45 @@ export async function GET(request: NextRequest) {
       console.log('⚠️ Metadata search failed:', e)
     }
 
-    // 2) Use the exact same approach as your working SQL queries
-    // First get customers by email
-    const { data: customers } = await supabase
-      .from('customers')
-      .select('id')
-      .eq('email', user.email)
+    // 2) Also search by email with exact and wildcard matching
+    try {
+      const { data: byEmail } = await supabase
+        .from('customers')
+        .select('id')
+        .eq('email', user.email)
 
-    if (!customers || customers.length === 0) {
-      console.log('No customers found for email:', user.email)
+      console.log('📧 Found by exact email:', byEmail?.length || 0)
+      if (Array.isArray(byEmail)) {
+        for (const c of byEmail) if (c?.id) possibleCustomerIds.push(c.id)
+      }
+    } catch (e) {
+      console.log('⚠️ Email search failed:', e)
+    }
+
+    // 3) Also try wildcard email search (case insensitive)
+    try {
+      const { data: byEmailWild } = await supabase
+        .from('customers')
+        .select('id')
+        .ilike('email', `%${user.email || ''}%`)
+
+      console.log('🔍 Found by wildcard email:', byEmailWild?.length || 0)
+      if (Array.isArray(byEmailWild)) {
+        for (const c of byEmailWild) if (c?.id) possibleCustomerIds.push(c.id)
+      }
+    } catch (e) {
+      console.log('⚠️ Wildcard email search failed:', e)
+    }
+
+    // Remove duplicates
+    const customerIds = Array.from(new Set(possibleCustomerIds))
+    
+    if (customerIds.length === 0) {
+      console.log('❌ No customers found for user:', user.id, 'email:', user.email)
       return NextResponse.json({ hasActiveSubscription: false, subscription: null })
     }
 
-    console.log(`Found ${customers.length} customers for email ${user.email}`)
-
-    // Then get subscriptions for those customers
-    const customerIds = customers.map(c => c.id)
+    console.log(`🎯 Total unique customers found: ${customerIds.length}`, customerIds)
     const { data: subscriptions } = await supabase
       .from('subscriptions')
       .select('id, attrs, current_period_end, customer')
@@ -59,9 +82,11 @@ export async function GET(request: NextRequest) {
     console.log(`Found ${subscriptions.length} subscriptions for customers`)
 
     // Check each subscription for active status
+    console.log('🔎 Checking subscriptions:', subscriptions.map(s => ({ id: s.id, customer: s.customer, attrs: s.attrs })))
+    
     for (const sub of subscriptions) {
       const status = sub.attrs?.status
-      console.log(`Subscription ${sub.id}: status="${status}"`)
+      console.log(`💳 Subscription ${sub.id}: status="${status}", customer="${sub.customer}", attrs:`, sub.attrs)
       
       if (['active', 'trialing', 'incomplete', 'past_due'].includes(status)) {
         console.log(`✅ Accepting subscription with status: ${status}`)
@@ -74,6 +99,8 @@ export async function GET(request: NextRequest) {
             customer: sub.customer
           }
         })
+      } else {
+        console.log(`❌ Rejecting subscription with status: ${status}`)
       }
     }
 
