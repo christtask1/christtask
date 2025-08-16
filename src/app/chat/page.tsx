@@ -73,8 +73,11 @@ export default function ChatPage() {
       
       setUserEmail(data.session?.user?.email || '')
       
-      // Check subscription status
-      if (data.session?.user) {
+      // TEMPORARY: Skip subscription check for user veselindimitrove@gmail.com
+      if (data.session?.user?.email === 'veselindimitrove@gmail.com') {
+        console.log('🎯 TEMP: Allowing access for veselindimitrove@gmail.com')
+        setHasActiveSubscription(true)
+      } else if (data.session?.user) {
         try {
           console.log('🚀 Making subscription check request...')
           const headers: HeadersInit = data.session?.access_token 
