@@ -30,65 +30,40 @@ export async function GET(request: NextRequest) {
       console.log('⚠️ Metadata search failed:', e)
     }
 
-    // 2) Also match by email (case-insensitive)
-    const { data: byEmail, error: emailError } = await supabase
-      .from('customers')
-      .select('id')
-      .ilike('email', `%${user.email || ''}%`)
+    // 2) Direct query: find any subscription for this user's email
+    const { data: userSubs, error: userSubsError } = await supabase
+      .from('subscriptions')
+      .select(`
+        id, attrs, current_period_end, customer,
+        customers!inner(email)
+      `)
+      .eq('customers.email', user.email)
+      .limit(10)
 
-    console.log('📧 Found by email:', byEmail?.length || 0, 'Error:', emailError)
-    if (emailError) {
-      console.error('Customer lookup error:', emailError)
-    }
-    if (Array.isArray(byEmail)) {
-      for (const c of byEmail) if (c?.id) possibleCustomerIds.push(c.id)
-    }
-
-    // Deduplicate ids
-    const uniqueCustomerIds = Array.from(new Set(possibleCustomerIds))
-    console.log('🎯 Unique customer IDs found:', uniqueCustomerIds)
-
-    if (uniqueCustomerIds.length === 0) {
-      console.log('❌ No customer IDs found, returning false')
+    if (userSubsError) {
+      console.log('Direct subscription lookup failed:', userSubsError)
       return NextResponse.json({ hasActiveSubscription: false, subscription: null })
     }
 
-    // Check each potential customer for an active/trialing subscription
-    for (const customerId of uniqueCustomerIds) {
-      // Note: In Stripe FDW, status is in attrs JSON, not a direct column
-      const { data: subscriptions, error: subscriptionError } = await supabase
-        .from('subscriptions')
-        .select('id, attrs, current_period_end, customer')
-        .eq('customer', customerId)
-        .order('current_period_end', { ascending: false })
-        .limit(10)
-
-      if (subscriptionError) {
-        console.warn('Subscription lookup error for', customerId, subscriptionError)
-        continue
-      }
-
-      if (Array.isArray(subscriptions) && subscriptions.length > 0) {
-        console.log(`🔍 Found ${subscriptions.length} subscriptions for customer ${customerId}`)
-        // Check each subscription for active/trialing status
-        for (const sub of subscriptions) {
-          const status = sub.attrs?.status || (sub as any).status
-          console.log(`💳 Subscription ${sub.id}: status="${status}", attrs:`, sub.attrs)
-          if (['active', 'trialing', 'incomplete', 'past_due'].includes(status)) {
-            console.log(`✅ Accepting subscription with status: ${status}`)
-            return NextResponse.json({
-              hasActiveSubscription: true,
-              subscription: {
-                id: sub.id,
-                status: status,
-                current_period_end: sub.current_period_end,
-                customer: sub.customer,
-                attrs: sub.attrs
-              }
-            })
-          } else {
-            console.log(`❌ Rejecting subscription with status: ${status}`)
-          }
+    if (Array.isArray(userSubs) && userSubs.length > 0) {
+      console.log(`🔍 Found ${userSubs.length} subscriptions for email ${user.email}`)
+      
+      for (const sub of userSubs) {
+        const status = sub.attrs?.status || (sub as any).status
+        console.log(`💳 Subscription ${sub.id}: status="${status}"`)
+        
+        if (['active', 'trialing', 'incomplete', 'past_due'].includes(status)) {
+          console.log(`✅ Accepting subscription with status: ${status}`)
+          return NextResponse.json({
+            hasActiveSubscription: true,
+            subscription: {
+              id: sub.id,
+              status: status,
+              current_period_end: sub.current_period_end,
+              customer: sub.customer,
+              attrs: sub.attrs
+            }
+          })
         }
       }
     }
