@@ -615,7 +615,7 @@ export default function PaymentPage() {
   return (
     <Elements stripe={stripePromise}>
       <section className="section" data-page="payment" style={{ minHeight: '100vh', overflow: 'hidden', padding: 0 }}>
-        <div className="container grid grid-2" style={{ gap: 28, alignItems: 'start' }}>
+        <div className="container grid grid-2" style={{ gap: 0, alignItems: 'start' }}>
           <div className="card left-fixed" style={{ padding: 28 }}>
             <span className="pill">Secure checkout</span>
             <h2 style={{ marginTop: 10 }}>Complete your subscription</h2>
@@ -626,8 +626,8 @@ export default function PaymentPage() {
               <li>Instant access after payment</li>
             </ul>
           </div>
-          <div className="pay-scroll">
-            <div className="pay-card">
+          <div className="pay-scroll" style={{ display: 'flex', justifyContent: 'flex-end', paddingRight: '20px' }}>
+            <div className="pay-card" style={{ width: '500px', maxWidth: '500px' }}>
             <h3>Payment details</h3>
             <div className="form-block">
               <label className="label">Choose your plan</label>
