@@ -87,7 +87,8 @@ export default function ChatPage() {
           
           if (response.ok) {
             const result = await response.json()
-            console.log('📊 Subscription check result:', result)
+            console.log('📊 Subscription check result:', JSON.stringify(result, null, 2))
+            console.log('💡 Has active subscription:', result.hasActiveSubscription)
             setHasActiveSubscription(result.hasActiveSubscription)
           } else {
             const errorText = await response.text()
