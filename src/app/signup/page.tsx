@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { supabase } from '../../lib/supabaseClient'
+import { supabaseAuth } from '../../lib/supabaseClient'
 
 export default function SignupPage() {
   const [email, setEmail] = useState('')
@@ -20,10 +20,27 @@ export default function SignupPage() {
     e.preventDefault()
     setError(null)
     setLoading(true)
-    const { error } = await supabase.auth.signUp({ email, password })
+    
+    const { error } = await supabaseAuth.auth.signUp({ email, password })
+    
+    if (error) {
+      setError(error.message)
+      setLoading(false)
+      return
+    }
+    
+    // Create account record in stripe1 schema
+    try {
+      await fetch('/api/create-account', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' }
+      })
+    } catch (e) {
+      console.warn('Failed to create account record:', e)
+    }
+    
     setLoading(false)
-    if (error) setError(error.message)
-    else window.location.href = redirectTo
+    window.location.href = redirectTo
   }
 
   return (

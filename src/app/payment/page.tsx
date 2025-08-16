@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import { loadStripe } from '@stripe/stripe-js'
 import { Elements, CardElement, useElements, useStripe } from '@stripe/react-stripe-js'
 import { useRouter } from 'next/navigation'
-import { supabase } from '../../lib/supabaseClient'
+import { supabase, supabaseAuth } from '../../lib/supabaseClient'
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || '')
 
@@ -44,7 +44,7 @@ function CardForm({
       let secret = clientSecret
       if (!secret) {
         // Create Stripe subscription via API route (no account creation yet)
-        const { data: { session } } = await supabase.auth.getSession()
+        const { data: { session } } = await supabaseAuth.auth.getSession()
         const userId = session?.user?.id || undefined
         const emailForStripe = session?.user?.email || email
 
@@ -80,11 +80,20 @@ function CardForm({
           // After saving card, create/sign-in account if needed and redirect
           if (!user) {
             try {
-              const { error: signUpError } = await supabase.auth.signUp({ email, password })
+              const { error: signUpError } = await supabaseAuth.auth.signUp({ email, password })
               if (signUpError && !/registered/i.test(signUpError.message)) throw signUpError
               if (signUpError && /registered/i.test(signUpError.message)) {
-                await supabase.auth.signInWithPassword({ email, password })
+                await supabaseAuth.auth.signInWithPassword({ email, password })
               }
+              
+              // Create account record in stripe1 schema
+              try {
+                await fetch('/api/create-account', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' }
+                })
+              } catch (e) { console.warn('Failed to create account record:', e) }
+              
             } catch (e) { console.warn('Post-setup signup error:', e) }
           }
           window.location.href = '/loading'
@@ -95,11 +104,20 @@ function CardForm({
           // Fallback: treat as success if no secret provided
           if (!user) {
             try {
-              const { error: signUpError } = await supabase.auth.signUp({ email, password })
+              const { error: signUpError } = await supabaseAuth.auth.signUp({ email, password })
               if (signUpError && !/registered/i.test(signUpError.message)) throw signUpError
               if (signUpError && /registered/i.test(signUpError.message)) {
-                await supabase.auth.signInWithPassword({ email, password })
+                await supabaseAuth.auth.signInWithPassword({ email, password })
               }
+              
+              // Create account record in stripe1 schema
+              try {
+                await fetch('/api/create-account', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' }
+                })
+              } catch (e) { console.warn('Failed to create account record:', e) }
+              
             } catch (e) { console.warn('Post-payment signup error:', e) }
           }
           window.location.href = '/loading'
@@ -120,11 +138,19 @@ function CardForm({
         // After successful payment, create account if not already created
         if (!user) {
           try {
-            const { error: signUpError } = await supabase.auth.signUp({ email, password })
+            const { error: signUpError } = await supabaseAuth.auth.signUp({ email, password })
             if (signUpError && !/registered/i.test(signUpError.message)) throw signUpError
             if (signUpError && /registered/i.test(signUpError.message)) {
-              await supabase.auth.signInWithPassword({ email, password })
+              await supabaseAuth.auth.signInWithPassword({ email, password })
             }
+            
+            // Create account record in stripe1 schema
+            try {
+              await fetch('/api/create-account', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' }
+              })
+            } catch (e) { console.warn('Failed to create account record:', e) }
           } catch (e) { console.warn('Post-payment signup error:', e) }
         }
         window.location.href = '/loading'
@@ -181,13 +207,13 @@ export default function PaymentPage() {
   // Check for existing session
   useEffect(() => {
     const getSession = async () => {
-      const { data } = await supabase.auth.getSession()
+      const { data } = await supabaseAuth.auth.getSession()
       setUser(data.session?.user || null)
     }
     getSession()
 
     // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: { subscription } } = supabaseAuth.auth.onAuthStateChange((_event, session) => {
       setUser(session?.user || null)
     })
 
