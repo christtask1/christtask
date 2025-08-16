@@ -12,6 +12,15 @@ export async function GET(request: NextRequest) {
 
     const stripe = getStripe()
 
+    // Check if user has email
+    if (!user.email) {
+      return NextResponse.json({
+        hasActiveSubscription: false,
+        subscription: null,
+        debug: 'User has no email address'
+      })
+    }
+
     // Search for customers by email directly in Stripe
     const customers = await stripe.customers.list({
       email: user.email,
