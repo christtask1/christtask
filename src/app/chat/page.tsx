@@ -182,6 +182,15 @@ export default function ChatPage() {
     }, 60)
   }
 
+  const handleLogout = async () => {
+    try {
+      await supabase.auth.signOut()
+      window.location.href = '/login'
+    } catch (error) {
+      console.error('Logout error:', error)
+    }
+  }
+
   return (
     <div data-page="chat" style={{
       height: '100vh',
@@ -246,8 +255,37 @@ export default function ChatPage() {
             </button>
           ))}
         </nav>
-        <div style={{ marginTop: 'auto', color: 'var(--muted)', fontSize: 12 }}>
-          Signed in: {userEmail || 'Anonymous'}
+        <div style={{ marginTop: 'auto', display: 'flex', flexDirection: 'column', gap: 8 }}>
+          {userEmail && (
+            <button
+              type="button"
+              onClick={handleLogout}
+              style={{
+                textAlign: 'left',
+                background: 'transparent',
+                color: '#ff6b6b',
+                border: '1px solid rgba(255, 107, 107, 0.3)',
+                padding: '8px 12px',
+                borderRadius: 10,
+                cursor: 'pointer',
+                fontSize: 13,
+                transition: 'all 160ms ease'
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = 'rgba(255, 107, 107, 0.12)'
+                e.currentTarget.style.borderColor = '#ff6b6b'
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = 'transparent'
+                e.currentTarget.style.borderColor = 'rgba(255, 107, 107, 0.3)'
+              }}
+            >
+              Sign Out
+            </button>
+          )}
+          <div style={{ color: 'var(--muted)', fontSize: 12 }}>
+            Signed in: {userEmail || 'Anonymous'}
+          </div>
         </div>
       </aside>
 
