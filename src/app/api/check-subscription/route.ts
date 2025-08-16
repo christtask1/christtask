@@ -13,6 +13,8 @@ export async function GET(request: NextRequest) {
     // Collect possible Stripe customer ids for this user
     const possibleCustomerIds: string[] = []
     
+    console.log('🔍 Looking for customers for user:', user.id, 'email:', user.email)
+    
     // 1) Prefer metadata linkage (we set supabase_uid when creating the customer)
     try {
       const { data: byMeta } = await supabase
@@ -20,10 +22,13 @@ export async function GET(request: NextRequest) {
         .select('id, attrs')
         .filter('attrs->metadata->>supabase_uid', 'eq', user.id)
 
+      console.log('📋 Found by metadata:', byMeta?.length || 0)
       if (Array.isArray(byMeta)) {
         for (const c of byMeta) if (c?.id) possibleCustomerIds.push(c.id)
       }
-    } catch {}
+    } catch (e) {
+      console.log('⚠️ Metadata search failed:', e)
+    }
 
     // 2) Also match by email (case-insensitive)
     const { data: byEmail, error: emailError } = await supabase
@@ -31,6 +36,7 @@ export async function GET(request: NextRequest) {
       .select('id')
       .ilike('email', user.email || '')
 
+    console.log('📧 Found by email:', byEmail?.length || 0, 'Error:', emailError)
     if (emailError) {
       console.error('Customer lookup error:', emailError)
     }
