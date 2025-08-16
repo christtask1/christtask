@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
           .in('status', ['active', 'trialing'])
           .limit(1)
 
-        hasActiveSubscription = subscriptions && subscriptions.length > 0
+        hasActiveSubscription = Array.isArray(subscriptions) && subscriptions.length > 0
       }
 
       if (!hasActiveSubscription) {
