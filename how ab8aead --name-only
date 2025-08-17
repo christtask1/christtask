@@ -1,0 +1,15 @@
+[33m827ff66[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m Add table access test for customers table
+[33mb5387ea[m Add detailed email query debug logging
+[33ma50d6de[m Add debug logging to subscription lookup in chat API
+[33mb95f55d[m Add test comment to chat API
+[33mef71243[m feat: add password visibility toggle with eye icon in payment form
+[33me8a9b24[m feat: complete payment page redesign - clean split-pane layout with white right panel and animated left panel
+[33m7a5990f[m fix: ensure right panel extends full viewport height; remove padding that was causing cut-off
+[33mc53682b[m ui(payment): remove card styling; make payment section square and full-width like reference image
+[33mb1b9f53[m fix: add dark background to right panel to eliminate bottom black section
+[33m8bb41ef[m fix: full-bleed payment layout; remove container gaps and black corners
+[33ma874594[m ui(payment): move payment box to far right edge; keep scrollable
+[33m5466aa6[m ui(payment): animated flowing gradient background for left pane; keeps right pane scroll-only
+[33m207ef16[m ui(payment): full-bleed two-pane layout; hide site header/footer on payment page; right pane scrollable only
+[33md8df00b[m ui(payment): two-pane layout with sticky left pane and scrollable right checkout; no logic changes
+[33m5130ffe[m fix: add type assertion for subscription.current_period_end

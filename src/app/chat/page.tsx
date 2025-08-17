@@ -84,11 +84,15 @@ export default function ChatPage() {
     setIsTyping(true)
 
     try {
+      // Get auth token for backend
+      const { data: { session } } = await supabase.auth.getSession()
+      
       // Call your RAG backend through the API route
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          ...(session?.access_token ? { 'Authorization': `Bearer ${session.access_token}` } : {})
         },
         body: JSON.stringify({
           message: text

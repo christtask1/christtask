@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
 
     // Try to identify user (optional). Do not block if unauthenticated.
    // Require authenticated user for chatbot access
-const user = await getAuthUser()
+const user = await getAuthUser(request)
 console.log('Debug - User from getAuthUser():', user)
 if (!user) {
   console.log('Debug - No user found, returning 401')
@@ -33,23 +33,23 @@ const customers = await stripe.customers.list({
   limit: 10
 })
 
-let hasActiveSubscription = false
+      let hasActiveSubscription = false
 for (const customer of customers.data) {
   const subscriptions = await stripe.subscriptions.list({
     customer: customer.id,
     status: 'active'
   })
   if (subscriptions.data.length > 0) {
-    hasActiveSubscription = true
-    break
-  }
-}
+              hasActiveSubscription = true
+              break
+        }
+      }
 
-if (!hasActiveSubscription) {
+      if (!hasActiveSubscription) {
   return NextResponse.json({ error: 'Active subscription required to use the chatbot.', code: 'SUBSCRIPTION_REQUIRED' }, { status: 403 })
-}
-
-const { message, question, conversation_history = [] } = await request.json()
+    }
+    
+    const { message, question, conversation_history = [] } = await request.json()
     
     // Your actual RAG backend endpoint
     const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://christtask-backend-8xky.onrender.com'

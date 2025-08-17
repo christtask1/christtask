@@ -1,0 +1,44 @@
+[33m0bbde45[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m Fix backend payload format mismatch
+[33mf390262[m Fix chat authorization: replace broken Supabase FDW with working Stripe API
+[33m827ff66[m Add table access test for customers table
+[33mb5387ea[m Add detailed email query debug logging
+[33ma50d6de[m Add debug logging to subscription lookup in chat API
+[33mb95f55d[m Add test comment to chat API
+[33mef71243[m feat: add password visibility toggle with eye icon in payment form
+[33me8a9b24[m feat: complete payment page redesign - clean split-pane layout with white right panel and animated left panel
+[33m7a5990f[m fix: ensure right panel extends full viewport height; remove padding that was causing cut-off
+[33mc53682b[m ui(payment): remove card styling; make payment section square and full-width like reference image
+[33mb1b9f53[m fix: add dark background to right panel to eliminate bottom black section
+[33m8bb41ef[m fix: full-bleed payment layout; remove container gaps and black corners
+[33ma874594[m ui(payment): move payment box to far right edge; keep scrollable
+[33m5466aa6[m ui(payment): animated flowing gradient background for left pane; keeps right pane scroll-only
+[33m207ef16[m ui(payment): full-bleed two-pane layout; hide site header/footer on payment page; right pane scrollable only
+[33md8df00b[m ui(payment): two-pane layout with sticky left pane and scrollable right checkout; no logic changes
+[33m5130ffe[m fix: add type assertion for subscription.current_period_end
+[33m4d05ada[m fix: use Stripe API directly for subscription checks to handle multiple customers per email
+[33m6c20359[m fix: simplify subscription check with direct approach and better logging
+[33m7fb7ced[m add: debug endpoint to inspect stripe1 schema data
+[33m31d72ea[m fix: improve customer lookup in subscription check with multiple search methods and detailed logging
+[33me38db4c[m Remove temporary bypass - test if fixed subscription check works properly
+[33mf1ba3a6[m Fix: use exact same logic as working SQL queries for subscription lookup
+[33m69757b0[m TEMP: bypass subscription check for veselindimitrove@gmail.com to unblock access
+[33me92ed66[m Simplify: use direct subscription lookup with email join instead of complex customer ID matching
+[33m9e71d31[m Fix: add percent wildcards to email search to match SQL query pattern
+[33m66f27a5[m Debug: add logging for customer IDs found to diagnose subscription lookup
+[33m9385dd7[m Debug: add customer lookup logging to diagnose metadata vs email matching
+[33m6a4dfc1[m Debug: add detailed subscription status logging and accept more statuses for 100% off coupons
+[33me770050[m Fix: adapt subscription checks to Stripe FDW column structure\n\n- Query attrs JSON instead of direct status column\n- Remove status filter from initial query to avoid column errors\n- Check status from attrs.status for both check-subscription and chat APIs
+[33mbb6e5fc[m Debug: expand subscription check result logging to see full JSON response
+[33m121be64[m Fix TypeScript error: properly type fetch headers to avoid undefined Authorization
+[33m6b3589b[m Debug: add detailed console logging to diagnose auth session issues
+[33mdbd8944[m Fix: consolidate Supabase auth clients to prevent multiple GoTrueClient instances\n\n- Use shared auth client in auth.ts to avoid creating multiple instances\n- This should fix authentication token conflicts causing Unauthorized errors
+[33m2555b12[m Auth: send Bearer token from client fetches and read it server-side\n- chat page: add Authorization to /api/check-subscription and /api/chat\n- payment page: add Authorization to /api/create-subscription and /api/create-account\n- signup page: add Authorization to /api/create-account\n- create-account API: use getAuthUserFromRequest to read Bearer token
+[33m5dcdb65[m Fix TypeScript error: add type assertions for subscription properties
+[33m5a78c3d[m Fix TypeScript error: add null check for user.email in direct Stripe API call
+[33m02efe84[m Add direct Stripe API subscription check to bypass FDW issues
+[33mb394387[m Improve subscription validation: lookup Stripe customer by metadata supabase_uid and email; handle multiple customer IDs; add optional admin client; fixes for users who just paid but didn't match by email
+[33m7b806af[m Fix TS type narrowing for subscriptions array in chat API for Vercel build
+[33m6609d45[m Fix subscription enforcement system for Stripe FDW integration
+[33ma396d4d[m Implement stripe1 schema integration and fix accounts table population
+[33m0bc8ea5[m Add logout button to sidebar navigation
+[33md52af04[m Add minimal subscription data saving to Supabase
