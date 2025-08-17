@@ -16,7 +16,9 @@ export async function POST(request: NextRequest) {
     // Try to identify user (optional). Do not block if unauthenticated.
    // Require authenticated user for chatbot access
 const user = await getAuthUser()
+console.log('Debug - User from getAuthUser():', user)
 if (!user) {
+  console.log('Debug - No user found, returning 401')
   return NextResponse.json({ error: 'Please log in to use the chatbot.', code: 'LOGIN_REQUIRED' }, { status: 401 })
 }
 
