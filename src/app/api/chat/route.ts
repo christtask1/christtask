@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import { getAuthUser } from '../../../lib/auth'
 import { allowRequest } from '../../../lib/ratelimit'
 
+// Reverted to original working chatbot code - no subscription gate
+
 export async function POST(request: NextRequest) {
   try {
     // Basic rate limit per IP
