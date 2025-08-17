@@ -10,10 +10,19 @@ export async function getAuthUser(): Promise<AuthUser | null> {
   try {
     // In Next 15, cookies() returns a Promise in route handlers
     const cookieStore = await cookies()
+    
+    // Debug: log all available cookies
+    const allCookies = Object.fromEntries(cookieStore.getAll().map(cookie => [cookie.name, cookie.value]))
+    console.log('Debug - All cookies:', Object.keys(allCookies))
+    
     const accessToken =
       cookieStore.get('sb-access-token')?.value ||
       cookieStore.get('supabase-auth-token')?.value ||
+      cookieStore.get('sb-access-token')?.value ||
+      cookieStore.get('sb-refresh-token')?.value ||
       null
+    
+    console.log('Debug - Found access token:', !!accessToken)
     if (!accessToken) return null
 
     const supabase = createClient(supabaseUrl, supabaseAnonKey, {
