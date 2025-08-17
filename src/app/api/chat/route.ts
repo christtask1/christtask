@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getAuthUser } from '../../../lib/auth'
 import { allowRequest } from '../../../lib/ratelimit'
+import { getStripe } from '../../../lib/stripe'
 
 // Reverted to original working chatbot code - no subscription gate
 
@@ -13,8 +14,40 @@ export async function POST(request: NextRequest) {
     }
 
     // Try to identify user (optional). Do not block if unauthenticated.
-    const user = await getAuthUser()
-    const { message, question, conversation_history = [] } = await request.json()
+   // Require authenticated user for chatbot access
+const user = await getAuthUser()
+if (!user) {
+  return NextResponse.json({ error: 'Please log in to use the chatbot.', code: 'LOGIN_REQUIRED' }, { status: 401 })
+}
+
+// Check subscription status with Stripe API
+const stripe = getStripe()
+if (!user.email) {
+  return NextResponse.json({ error: 'User email is required for subscription check.', code: 'EMAIL_REQUIRED' }, { status: 400 })
+}
+
+const customers = await stripe.customers.list({
+  email: user.email,
+  limit: 10
+})
+
+let hasActiveSubscription = false
+for (const customer of customers.data) {
+  const subscriptions = await stripe.subscriptions.list({
+    customer: customer.id,
+    status: 'active'
+  })
+  if (subscriptions.data.length > 0) {
+    hasActiveSubscription = true
+    break
+  }
+}
+
+if (!hasActiveSubscription) {
+  return NextResponse.json({ error: 'Active subscription required to use the chatbot.', code: 'SUBSCRIPTION_REQUIRED' }, { status: 403 })
+}
+
+const { message, question, conversation_history = [] } = await request.json()
     
     // Your actual RAG backend endpoint
     const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://christtask-backend-8xky.onrender.com'
