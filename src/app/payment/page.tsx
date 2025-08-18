@@ -30,6 +30,7 @@ function CardForm({
   const stripe = useStripe()
   const elements = useElements()
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   const confirm = async () => {
     if (!stripe || !elements) return
@@ -38,6 +39,7 @@ function CardForm({
       return
     }
     
+    setError(null) // Clear any previous errors
     setLoading(true)
     try {
 
@@ -85,7 +87,11 @@ function CardForm({
               if (signUpError && /registered/i.test(signUpError.message)) {
                 await supabase.auth.signInWithPassword({ email, password })
               }
-            } catch (e) { console.warn('Post-setup signup error:', e) }
+            } catch (e: any) { 
+              setError(`Account creation failed: ${e.message}. Please contact support if this continues.`)
+              setLoading(false)
+              return
+            }
           }
           window.location.href = '/loading'
           setLoading(false)
@@ -100,7 +106,11 @@ function CardForm({
               if (signUpError && /registered/i.test(signUpError.message)) {
                 await supabase.auth.signInWithPassword({ email, password })
               }
-            } catch (e) { console.warn('Post-payment signup error:', e) }
+            } catch (e: any) { 
+              setError(`Account creation failed after payment: ${e.message}. Please contact support with your payment confirmation.`)
+              setLoading(false)
+              return
+            }
           }
           window.location.href = '/loading'
           setLoading(false)
@@ -125,7 +135,11 @@ function CardForm({
             if (signUpError && /registered/i.test(signUpError.message)) {
               await supabase.auth.signInWithPassword({ email, password })
             }
-          } catch (e) { console.warn('Post-payment signup error:', e) }
+          } catch (e: any) { 
+            setError(`Account creation failed: ${e.message}. Please contact support.`)
+            setLoading(false)
+            return
+          }
         }
         window.location.href = '/loading'
       }
@@ -158,6 +172,19 @@ function CardForm({
           }}
         />
       </div>
+      {error && (
+        <div style={{
+          background: 'rgba(255,99,99,0.08)',
+          border: '1px solid rgba(255,99,99,0.25)',
+          color: '#ff8080',
+          padding: '12px',
+          borderRadius: 10,
+          marginTop: 12,
+          fontSize: 14
+        }}>
+          {error}
+        </div>
+      )}
       <button className="btn" onClick={confirm} disabled={loading}>
         {loading ? 'Processing…' : user ? 'Pay now' : 'Join Now →'}
       </button>
