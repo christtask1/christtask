@@ -91,7 +91,7 @@ export default function Home() {
 
           <a href="/payment" style={{ 
             marginTop: '24px', 
-            padding: '12px 22px', 
+            padding: '14px 40px', 
             borderRadius: '12px',
             background: '#3a4a5c',
             color: '#ffffff',
@@ -99,7 +99,9 @@ export default function Home() {
             fontWeight: '600',
             display: 'inline-block',
             border: '1px solid #4a5a6c',
-            transition: 'all 0.2s ease'
+            transition: 'all 0.2s ease',
+            minWidth: '220px',
+            textAlign: 'center'
           }}>
             Never lose a debate
           </a>
