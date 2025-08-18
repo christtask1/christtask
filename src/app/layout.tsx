@@ -3,12 +3,9 @@ export const metadata = {
   title: 'ChristTask', 
   description: 'Christian apologetics, thoughtfully.',
   icons: {
-    icon: [
-      { url: '/favicon.ico', sizes: '16x16', type: 'image/x-icon' },
-      { url: '/favicon.svg', type: 'image/svg+xml' }
-    ],
-    shortcut: '/favicon.ico',
-    apple: '/favicon.ico',
+    icon: '/favicon.svg',
+    shortcut: '/favicon.svg',
+    apple: '/favicon.svg',
   }
 }
 
@@ -17,8 +14,6 @@ export default function RootLayout({ children }: { children: any }) {
     <html lang="en">
       <head>
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-        <link rel="icon" href="/favicon.ico" sizes="16x16" type="image/x-icon" />
-        <link rel="shortcut icon" href="/favicon.ico" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
