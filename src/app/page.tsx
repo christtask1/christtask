@@ -89,7 +89,18 @@ export default function Home() {
             Simply ask it a question, and it counters with Scripture, morality, and proof.
           </p>
 
-          <a href="/payment" className="btn" style={{ marginTop: '24px', padding: '12px 22px', borderRadius: '12px' }}>
+          <a href="/payment" style={{ 
+            marginTop: '24px', 
+            padding: '12px 22px', 
+            borderRadius: '12px',
+            background: '#3a4a5c',
+            color: '#ffffff',
+            textDecoration: 'none',
+            fontWeight: '600',
+            display: 'inline-block',
+            border: '1px solid #4a5a6c',
+            transition: 'all 0.2s ease'
+          }}>
             Never lose a debate
           </a>
           <div className="muted" style={{ marginTop: '8px', fontSize: '14px' }}>(Instantly)</div>
