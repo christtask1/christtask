@@ -13,7 +13,13 @@ export default function SignupPage() {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
     const redirect = params.get('redirect')
-    if (redirect) setRedirectTo(redirect)
+    
+    // Whitelist allowed redirects to prevent open redirect attacks
+    const allowedRedirects = ['/chat', '/payment', '/', '/success', '/loading']
+    if (redirect && allowedRedirects.includes(redirect)) {
+      setRedirectTo(redirect)
+    }
+    // Otherwise keep default '/payment'
   }, [])
 
   const onSubmit = async (e: React.FormEvent) => {
