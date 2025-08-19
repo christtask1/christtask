@@ -3,6 +3,38 @@
 import { useEffect, useRef, useState } from 'react'
 import { supabase } from '../../lib/supabaseClient'
 
+// Component for typing animation effect like demo box
+function TypingText({ text, delay = 0 }: { text: string; delay?: number }) {
+  const [displayedText, setDisplayedText] = useState('')
+  const [currentIndex, setCurrentIndex] = useState(0)
+
+  useEffect(() => {
+    if (currentIndex < text.length) {
+      const timeout = setTimeout(() => {
+        setDisplayedText(text.slice(0, currentIndex + 1))
+        setCurrentIndex(currentIndex + 1)
+      }, 30 + delay) // 30ms per character + initial delay
+      return () => clearTimeout(timeout)
+    }
+  }, [currentIndex, text, delay])
+
+  return (
+    <div style={{
+      animation: 'blurReveal 700ms cubic-bezier(0.2, 0.8, 0.2, 1) both',
+      animationDelay: `${delay}ms`,
+      willChange: 'filter, opacity'
+    }}>
+      {displayedText}
+      {currentIndex < text.length && (
+        <span style={{ 
+          animation: 'blink 1s infinite',
+          marginLeft: '1px'
+        }}>|</span>
+      )}
+    </div>
+  )
+}
+
 // Minimal book metadata for Old and New Testament (book name + number of chapters)
 const OLD_TESTAMENT: Array<{ name: string; chapters: number }> = [
   { name: 'Genesis', chapters: 50 }, { name: 'Exodus', chapters: 40 }, { name: 'Leviticus', chapters: 27 },
@@ -516,7 +548,13 @@ export default function ChatPage() {
                 {messages.map((m, idx) => (
                   <div key={idx} className={`bubble ${m.role}`}>
                     <div className="bubble-inner">
-                      <div className="bubble-text">{m.content}</div>
+                      <div className="bubble-text">
+                        {m.role === 'assistant' ? (
+                          <TypingText text={m.content} delay={0} />
+                        ) : (
+                          m.content
+                        )}
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -564,6 +602,8 @@ export default function ChatPage() {
         .bubble.assistant .bubble-inner { background: #0e1530; }
         .bubble.user .bubble-inner { background: rgba(78,123,255,0.12); }
         .bubble-text { font-size: 14px; white-space: pre-wrap; line-height: 1.6; }
+        @keyframes blurReveal { from { opacity: 0; filter: blur(10px); } to { opacity: 1; filter: blur(0); } }
+        @keyframes blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
         .typing { display:flex; gap:6px; align-items:center; }
         .dot { width:6px; height:6px; border-radius:50%; background: var(--brand); animation: typing 1.4s infinite ease-in-out; }
         .dot:nth-child(2) { animation-delay: .2s }
