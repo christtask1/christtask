@@ -13,7 +13,7 @@ function TypingText({ text, delay = 0 }: { text: string; delay?: number }) {
       const timeout = setTimeout(() => {
         setDisplayedText(text.slice(0, currentIndex + 1))
         setCurrentIndex(currentIndex + 1)
-      }, 30 + delay) // 30ms per character + initial delay
+      }, 20 + delay) // 20ms per character + initial delay
       return () => clearTimeout(timeout)
     }
   }, [currentIndex, text, delay])
