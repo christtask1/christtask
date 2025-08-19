@@ -51,61 +51,21 @@ export default function Home() {
     <>
       {/* Hero */}
       <section className="section">
-        <div className="container" style={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center',
-          minHeight: '60vh',
-          marginTop: '1cm'
-        }}>
+        <div className="container hero-container">
 
-          <div style={{
-            fontSize: '84px',
-            fontWeight: 'bold',
-            color: '#8B5CF6',
-            marginBottom: '20px'
-          }}>
+          <div className="hero-title">
             Jesus
           </div>
-          <div style={{
-            fontSize: '60px',
-            color: 'white',
-            fontWeight: 'bold',
-            minHeight: '75px',
-            textAlign: 'center',
-            marginTop: '10px'
-          }}>
+          <div className="hero-subtitle">
             {currentText}
             <span style={{ animation: 'blink 1s infinite' }}>|</span>
           </div>
 
-          <p style={{
-            marginTop: '26px',
-            fontSize: '20px',
-            maxWidth: '920px',
-            textAlign: 'center',
-            color: '#ffffff'
-          }}>
+          <p className="hero-description">
             Simply ask it a question, and it counters with Scripture, morality, and proof.
           </p>
 
-          <a href="/payment" style={{ 
-            marginTop: '24px', 
-            padding: '14px 40px', 
-            borderRadius: '12px',
-            background: 'linear-gradient(180deg, #3a4a5c 0%, #2a3a4c 50%, #1a2a3c 100%)',
-            color: '#ffffff',
-            textDecoration: 'none',
-            fontWeight: '600',
-            display: 'inline-block',
-            border: '1px solid #4a5a6c',
-            borderTop: '1px solid rgba(255, 255, 255, 1)',
-            boxShadow: 'inset 0 2px 0 rgba(255, 255, 255, 0.3), 0 2px 8px rgba(0, 0, 0, 0.25)',
-            transition: 'all 0.2s ease',
-            minWidth: '220px',
-            textAlign: 'center'
-          }}>
+          <a href="/payment" className="hero-button">
             Never lose a debate
           </a>
           <div className="muted" style={{ marginTop: '8px', fontSize: '14px' }}>(Instantly)</div>
@@ -263,6 +223,141 @@ export default function Home() {
         </div>
       </section>
 
+      <style>{`
+        /* Responsive Hero Styles */
+        .hero-container {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          min-height: 60vh;
+          margin-top: 1cm;
+          padding: 0 20px;
+        }
+        
+        .hero-title {
+          font-size: 84px;
+          font-weight: bold;
+          color: #8B5CF6;
+          margin-bottom: 20px;
+          text-align: center;
+        }
+        
+        .hero-subtitle {
+          font-size: 60px;
+          color: white;
+          font-weight: bold;
+          min-height: 75px;
+          text-align: center;
+          margin-top: 10px;
+        }
+        
+        .hero-description {
+          margin-top: 26px;
+          font-size: 20px;
+          max-width: 920px;
+          text-align: center;
+          color: #ffffff;
+          line-height: 1.5;
+        }
+        
+        .hero-button {
+          margin-top: 24px;
+          padding: 14px 40px;
+          border-radius: 12px;
+          background: linear-gradient(180deg, #3a4a5c 0%, #2a3a4c 50%, #1a2a3c 100%);
+          color: #ffffff;
+          text-decoration: none;
+          font-weight: 600;
+          display: inline-block;
+          border: 1px solid #4a5a6c;
+          border-top: 1px solid rgba(255, 255, 255, 1);
+          box-shadow: inset 0 2px 0 rgba(255, 255, 255, 0.3), 0 2px 8px rgba(0, 0, 0, 0.25);
+          transition: all 0.2s ease;
+          min-width: 220px;
+          text-align: center;
+        }
+        
+        /* Tablet Styles (768px - 1024px) */
+        @media (max-width: 1024px) {
+          .hero-title {
+            font-size: 64px;
+          }
+          .hero-subtitle {
+            font-size: 44px;
+            min-height: 60px;
+          }
+          .hero-description {
+            font-size: 18px;
+            max-width: 680px;
+          }
+          .hero-button {
+            padding: 12px 32px;
+            min-width: 200px;
+          }
+          .hero-container {
+            margin-top: 40px;
+            min-height: 50vh;
+          }
+        }
+        
+        /* Mobile Styles (max-width: 768px) */
+        @media (max-width: 768px) {
+          .hero-title {
+            font-size: 48px;
+            margin-bottom: 16px;
+          }
+          .hero-subtitle {
+            font-size: 32px;
+            min-height: 45px;
+            margin-top: 8px;
+          }
+          .hero-description {
+            font-size: 16px;
+            margin-top: 20px;
+            max-width: 90%;
+            padding: 0 10px;
+          }
+          .hero-button {
+            margin-top: 20px;
+            padding: 12px 28px;
+            min-width: 180px;
+            font-size: 16px;
+          }
+          .hero-container {
+            margin-top: 20px;
+            min-height: 40vh;
+            padding: 0 15px;
+          }
+        }
+        
+        /* Small Mobile (max-width: 480px) */
+        @media (max-width: 480px) {
+          .hero-title {
+            font-size: 36px;
+            margin-bottom: 12px;
+          }
+          .hero-subtitle {
+            font-size: 24px;
+            min-height: 35px;
+          }
+          .hero-description {
+            font-size: 14px;
+            margin-top: 16px;
+            line-height: 1.4;
+          }
+          .hero-button {
+            padding: 10px 24px;
+            min-width: 160px;
+            font-size: 14px;
+          }
+          .hero-container {
+            margin-top: 10px;
+            min-height: 35vh;
+            padding: 0 10px;
+          }
+        }
+      `}</style>
     </>
   )
 }
