@@ -83,7 +83,7 @@ export default function RootLayout({ children }: { children: any }) {
               font-size: 18px;
               line-height: 22px;
               padding: 4px 8px;
-              margin-left: -50px;
+              margin-left: 1cm;
             }
             .nav {
               gap: 8px;
@@ -106,7 +106,7 @@ export default function RootLayout({ children }: { children: any }) {
               font-size: 16px;
               line-height: 20px;
               padding: 3px 6px;
-              margin-left: -30px;
+              margin-left: 1cm;
             }
             .nav {
               gap: 6px;
