@@ -132,6 +132,39 @@ export default function ChatPage() {
       })
 
       if (!response.ok) {
+        // Handle specific error cases with clear messages
+        try {
+          const errorData = await response.json()
+          
+          if (errorData.code === 'SUBSCRIPTION_REQUIRED') {
+            setMessages((prev) => [
+              ...prev,
+              { role: 'assistant', content: 'You need an active subscription to use the chatbot. Please visit the payment page to subscribe and unlock access.' }
+            ])
+            return
+          }
+          
+          if (errorData.code === 'LOGIN_REQUIRED') {
+            setMessages((prev) => [
+              ...prev,
+              { role: 'assistant', content: 'Please log in to use the chatbot. Click the login button in the top right corner.' }
+            ])
+            return
+          }
+          
+          // Show the specific error message if available
+          const errorMessage = errorData.error || 'Failed to get response from chatbot'
+          setMessages((prev) => [
+            ...prev,
+            { role: 'assistant', content: `Error: ${errorMessage}` }
+          ])
+          return
+          
+        } catch (parseError) {
+          // If we can't parse the error response, fall through to generic error
+          console.error('Could not parse error response:', parseError)
+        }
+        
         throw new Error('Failed to get response')
       }
 
