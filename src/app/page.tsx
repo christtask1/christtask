@@ -99,7 +99,7 @@ export default function Home() {
             fontWeight: '600',
             display: 'inline-block',
             border: '1px solid #4a5a6c',
-            borderTop: '2px solid rgba(255, 255, 255, 1)',
+            borderTop: '1px solid rgba(255, 255, 255, 1)',
             boxShadow: 'inset 0 2px 0 rgba(255, 255, 255, 0.3), 0 2px 8px rgba(0, 0, 0, 0.25)',
             transition: 'all 0.2s ease',
             minWidth: '220px',
@@ -109,6 +109,7 @@ export default function Home() {
           </a>
           <div className="muted" style={{ marginTop: '8px', fontSize: '14px' }}>(Instantly)</div>
         </div>
+        {/* Trigger deployment */}
       </section>
 
       {/* Demo Box Section (light, Apple-style) */}
