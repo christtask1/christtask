@@ -93,7 +93,7 @@ export default function Home() {
             marginTop: '24px', 
             padding: '14px 40px', 
             borderRadius: '12px',
-            background: 'linear-gradient(180deg, #4a5a6c 0%, #3a4a5c 50%, #2a3a4c 100%)',
+            background: 'linear-gradient(180deg, #3a4a5c 0%, #2a3a4c 50%, #1a2a3c 100%)',
             color: '#ffffff',
             textDecoration: 'none',
             fontWeight: '600',
