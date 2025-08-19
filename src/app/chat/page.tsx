@@ -567,7 +567,7 @@ export default function ChatPage() {
                           className="copy-button"
                           title="Copy response"
                         >
-                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                             <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
                             <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
                           </svg>
@@ -624,12 +624,12 @@ export default function ChatPage() {
         @keyframes blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
         .copy-button { 
           position: absolute; 
-          bottom: 8px; 
-          right: 8px; 
+          bottom: 6px; 
+          right: 6px; 
           background: rgba(255, 255, 255, 0.1); 
           border: 1px solid rgba(255, 255, 255, 0.2); 
-          border-radius: 6px; 
-          padding: 6px; 
+          border-radius: 4px; 
+          padding: 4px; 
           color: #a8b3cf; 
           cursor: pointer; 
           transition: all 0.2s ease; 
