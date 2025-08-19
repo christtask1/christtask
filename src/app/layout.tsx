@@ -73,6 +73,53 @@ export default function RootLayout({ children }: { children: any }) {
           h1, h2, h3 { margin: 0 0 10px; line-height: 1.15; }
           @keyframes blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
           @keyframes typing { 0%, 60%, 100% { transform: translateY(0); } 30% { transform: translateY(-10px); } }
+          
+          /* Mobile Header Responsive Styles */
+          @media (max-width: 768px) {
+            .header-inner { 
+              height: 48px; 
+            }
+            .brand {
+              font-size: 18px;
+              line-height: 22px;
+              padding: 4px 8px;
+              margin-left: -50px;
+            }
+            .nav {
+              gap: 8px;
+            }
+            .nav-link {
+              padding: 6px 8px;
+              font-size: 14px;
+            }
+            .nav-cta {
+              padding: 6px 10px;
+              font-size: 14px;
+            }
+          }
+          
+          @media (max-width: 480px) {
+            .header-inner { 
+              height: 44px; 
+            }
+            .brand {
+              font-size: 16px;
+              line-height: 20px;
+              padding: 3px 6px;
+              margin-left: -30px;
+            }
+            .nav {
+              gap: 6px;
+            }
+            .nav-link {
+              padding: 5px 6px;
+              font-size: 13px;
+            }
+            .nav-cta {
+              padding: 5px 8px;
+              font-size: 13px;
+            }
+          }
         `}</style>
       </head>
             <body>
