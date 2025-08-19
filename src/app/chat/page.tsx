@@ -555,6 +555,24 @@ export default function ChatPage() {
                           m.content
                         )}
                       </div>
+                      {m.role === 'assistant' && (
+                        <button
+                          onClick={() => {
+                            navigator.clipboard.writeText(m.content).then(() => {
+                              // Optional: Add visual feedback here
+                            }).catch(err => {
+                              console.error('Failed to copy text: ', err);
+                            });
+                          }}
+                          className="copy-button"
+                          title="Copy response"
+                        >
+                          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                          </svg>
+                        </button>
+                      )}
                     </div>
                   </div>
                 ))}
@@ -598,12 +616,31 @@ export default function ChatPage() {
         .bubble { display: flex; }
         .bubble.assistant { justify-content: flex-start; }
         .bubble.user { justify-content: flex-end; }
-        .bubble-inner { max-width: min(780px, 85%); border: 1px solid var(--border); border-radius: 16px; padding: 12px 14px; }
+        .bubble-inner { max-width: min(780px, 85%); border: 1px solid var(--border); border-radius: 16px; padding: 12px 14px; position: relative; }
         .bubble.assistant .bubble-inner { background: #0e1530; }
         .bubble.user .bubble-inner { background: rgba(78,123,255,0.12); }
         .bubble-text { font-size: 14px; white-space: pre-wrap; line-height: 1.6; }
         @keyframes blurReveal { from { opacity: 0; filter: blur(10px); } to { opacity: 1; filter: blur(0); } }
         @keyframes blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
+        .copy-button { 
+          position: absolute; 
+          bottom: 8px; 
+          right: 8px; 
+          background: rgba(255, 255, 255, 0.1); 
+          border: 1px solid rgba(255, 255, 255, 0.2); 
+          border-radius: 6px; 
+          padding: 6px; 
+          color: #a8b3cf; 
+          cursor: pointer; 
+          transition: all 0.2s ease; 
+          opacity: 0.7;
+        }
+        .copy-button:hover { 
+          background: rgba(255, 255, 255, 0.15); 
+          color: #ffffff; 
+          opacity: 1; 
+          transform: translateY(-1px);
+        }
         .typing { display:flex; gap:6px; align-items:center; }
         .dot { width:6px; height:6px; border-radius:50%; background: var(--brand); animation: typing 1.4s infinite ease-in-out; }
         .dot:nth-child(2) { animation-delay: .2s }
