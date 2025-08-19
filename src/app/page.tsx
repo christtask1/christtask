@@ -80,11 +80,12 @@ export default function Home() {
             <span style={{ animation: 'blink 1s infinite' }}>|</span>
           </div>
 
-          <p className="muted" style={{
+          <p style={{
             marginTop: '26px',
             fontSize: '20px',
             maxWidth: '920px',
-            textAlign: 'center'
+            textAlign: 'center',
+            color: '#ffffff'
           }}>
             Simply ask it a question, and it counters with Scripture, morality, and proof.
           </p>
