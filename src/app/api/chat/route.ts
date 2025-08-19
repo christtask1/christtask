@@ -33,17 +33,34 @@ const customers = await stripe.customers.list({
   limit: 10
 })
 
-      let hasActiveSubscription = false
+let hasActiveSubscription = false
 for (const customer of customers.data) {
   const subscriptions = await stripe.subscriptions.list({
     customer: customer.id,
-    status: 'active'
+    status: 'all'  // Get all subscription statuses
   })
-  if (subscriptions.data.length > 0) {
-              hasActiveSubscription = true
-              break
-        }
-      }
+  
+  // Check if customer has any valid subscription (active or past_due within grace period)
+  const validSubscription = subscriptions.data.some(sub => {
+    // Always allow active subscriptions
+    if (sub.status === 'active') return true
+    
+    // For past_due: allow 7-day grace period after billing period ended
+    if (sub.status === 'past_due') {
+      const periodEnd = (sub as any).current_period_end * 1000 // Convert to JS timestamp
+      const gracePeriodEnd = periodEnd + (7 * 24 * 60 * 60 * 1000) // Add 7 days
+      return Date.now() <= gracePeriodEnd
+    }
+    
+    // Block all other statuses: 'canceled', 'unpaid', 'incomplete', etc.
+    return false
+  })
+  
+  if (validSubscription) {
+    hasActiveSubscription = true
+    break
+  }
+}
 
       if (!hasActiveSubscription) {
   return NextResponse.json({ error: 'Active subscription required to use the chatbot.', code: 'SUBSCRIPTION_REQUIRED' }, { status: 403 })
