@@ -11,6 +11,7 @@ const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY 
 function CardForm({
   clientSecret,
   country,
+  setCountry,
   plan,
   coupon,
   onClientSecret,
@@ -20,6 +21,7 @@ function CardForm({
 }: {
   clientSecret: string | null
   country: string
+  setCountry: (value: string) => void
   plan: string
   coupon: string
   onClientSecret: (secret: string) => void
@@ -36,276 +38,6 @@ function CardForm({
   const [showExpiryExample, setShowExpiryExample] = useState(false)
   const [showCvcExample, setShowCvcExample] = useState(false)
   
-
-  // Format card number with spaces
-  const formatCardNumber = (value: string) => {
-    const v = value.replace(/\s+/g, '').replace(/[^0-9]/gi, '')
-    const matches = v.match(/\d{4,16}/g)
-    const match = matches && matches[0] || ''
-    const parts = []
-    
-    for (let i = 0, len = match.length; i < len; i += 4) {
-      parts.push(match.substring(i, i + 4))
-    }
-    
-    if (parts.length) {
-      return parts.join(' ')
-    } else {
-      return v
-    }
-  }
-
-  // Format expiry date
-  const formatExpiryDate = (value: string) => {
-    const v = value.replace(/\s+/g, '').replace(/[^0-9]/gi, '')
-    if (v.length >= 4) {
-      return v.substring(0, 2) + '/' + v.substring(2, 4)
-    }
-    return v
-  }
-
-
-
-  const confirm = async () => {
-    if (!user && (!email || !password)) {
-      alert('Please enter your email and password')
-      return
-    }
-    
-    if (!cardNumber || !expiryDate || !cvc) {
-      setError('Please fill in all card details')
-      return
-    }
-    
-    setError(null) // Clear any previous errors
-    setLoading(true)
-    try {
-
-      let secret = clientSecret
-      if (!secret) {
-        // Create Stripe subscription via API route (no account creation yet)
-        const { data: { session } } = await supabase.auth.getSession()
-        const userId = session?.user?.id || undefined
-        const emailForStripe = session?.user?.email || email
-
-        const response = await fetch('/api/create-subscription', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            price_id: plan,
-            coupon: coupon || undefined,
-            user_id: userId,
-            user_email: emailForStripe
-          }),
-        })
-
-        if (!response.ok) {
-          const error = await response.text()
-          throw new Error(`Failed to create subscription: ${error}`)
-        }
-
-        const data = await response.json()
-        secret = data.client_secret
-        if (data.intent_type === 'setup') {
-          // When no payment is due, Stripe returns a SetupIntent client_secret
-          // For now, we'll redirect to loading since we don't have Stripe Elements
-          if (!user) {
-            try {
-              const { error: signUpError } = await supabase.auth.signUp({ email, password })
-              if (signUpError && !/registered/i.test(signUpError.message)) throw signUpError
-              if (signUpError && /registered/i.test(signUpError.message)) {
-                await supabase.auth.signInWithPassword({ email, password })
-              }
-            } catch (e: any) { 
-              setError(`Account creation failed: ${e.message}. Please contact support if this continues.`)
-              setLoading(false)
-              return
-            }
-          }
-          window.location.href = '/loading'
-          setLoading(false)
-          return
-        }
-        if (!secret) {
-          // Fallback: treat as success if no secret provided
-          if (!user) {
-            try {
-              const { error: signUpError } = await supabase.auth.signUp({ email, password })
-              if (signUpError && !/registered/i.test(signUpError.message)) throw signUpError
-              if (signUpError && /registered/i.test(signUpError.message)) {
-                await supabase.auth.signInWithPassword({ email, password })
-              }
-            } catch (e: any) { 
-              setError(`Account creation failed after payment: ${e.message}. Please contact support with your payment confirmation.`)
-              setLoading(false)
-              return
-            }
-          }
-          window.location.href = '/loading'
-          setLoading(false)
-          return
-        }
-        onClientSecret(secret)
-      }
-
-      // For now, we'll redirect to loading since we don't have Stripe Elements
-      // In a real implementation, you'd use the card details with Stripe API
-      if (!user) {
-        try {
-          const { error: signUpError } = await supabase.auth.signUp({ email, password })
-          if (signUpError && !/registered/i.test(signUpError.message)) throw signUpError
-          if (signUpError && /registered/i.test(signUpError.message)) {
-            await supabase.auth.signInWithPassword({ email, password })
-          }
-        } catch (e: any) { 
-          setError(`Account creation failed: ${e.message}. Please contact support.`)
-          setLoading(false)
-          return
-        }
-      }
-      window.location.href = '/loading'
-    } catch (err: any) {
-      console.error('Payment error:', err)
-      setError(err?.message || 'Unable to start payment')
-    }
-    setLoading(false)
-  }
-
-  return (
-    <div className="form-block">
-      <label className="label">Card details</label>
-      
-             <div className="card-inputs">
-         <div className="card-input-row">
-           <div className="card-input-group">
-                          <div className="floating-label-container">
-                                <input
-                  type="text"
-                  className="card-input floating-input"
-                  placeholder=" "
-                  value={cardNumber}
-                  onChange={(e) => setCardNumber(formatCardNumber(e.target.value))}
-                  onFocus={() => setShowCardExample(true)}
-                  onBlur={() => setShowCardExample(false)}
-                  maxLength={19}
-                  id="card-number"
-                />
-               <label htmlFor="card-number" className="floating-label">Card Number</label>
-               {showCardExample && !cardNumber && (
-                 <div className="input-example">
-                   1234 1234 1234 1234
-                 </div>
-               )}
-              </div>
-           </div>
-         </div>
-         
-         <div className="card-input-row">
-           <div className="card-input-group">
-             <div className="floating-label-container">
-                                                                <input
-                   type="text"
-                   className="card-input floating-input"
-                   placeholder=""
-                   value={expiryDate}
-                   onChange={(e) => setExpiryDate(formatExpiryDate(e.target.value))}
-                   onFocus={() => setShowExpiryExample(true)}
-                   onBlur={() => setShowExpiryExample(false)}
-                   maxLength={5}
-                   id="expiry-date"
-                 />
-                <label htmlFor="expiry-date" className="floating-label">Expiry Date</label>
-                {showExpiryExample && !expiryDate && (
-                  <div className="input-example">
-                    MM/YY
-                  </div>
-                )}
-             </div>
-           </div>
-           
-           <div className="card-input-group">
-             <div className="floating-label-container">
-                                                                <input
-                   type="text"
-                   className="card-input floating-input"
-                   placeholder=""
-                   value={cvc}
-                   onChange={(e) => setCvc(e.target.value)}
-                   onFocus={() => setShowCvcExample(true)}
-                   onBlur={() => setShowCvcExample(false)}
-                   maxLength={4}
-                   id="cvc"
-                 />
-                <label htmlFor="cvc" className="floating-label">Security Code</label>
-                {showCvcExample && !cvc && (
-                  <div className="input-example">
-                    123
-                  </div>
-                )}
-                <div className="card-icon cvc-icon">
-                  <svg width="32" height="20" viewBox="0 0 32 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect width="32" height="20" rx="2" fill="#f3f4f6"/>
-                    <rect x="2" y="2" width="28" height="16" rx="1" fill="#ffffff" stroke="#d1d5db" stroke-width="0.5"/>
-                    <rect x="4" y="4" width="24" height="2" rx="0.5" fill="#9ca3af"/>
-                    <rect x="4" y="8" width="12" height="1" rx="0.5" fill="#9ca3af"/>
-                    <rect x="4" y="10" width="8" height="1" rx="0.5" fill="#9ca3af"/>
-                    <text x="16" y="17" font-family="Arial" font-size="9" fill="#6b7280">123</text>
-                  </svg>
-                </div>
-             </div>
-           </div>
-         </div>
-       </div>
-      
-      {error && (
-        <div style={{
-          background: 'rgba(255,99,99,0.08)',
-          border: '1px solid rgba(255,99,99,0.25)',
-          color: '#ff8080',
-          padding: '12px',
-          borderRadius: 10,
-          marginTop: 12,
-          fontSize: 14
-        }}>
-          {error}
-        </div>
-      )}
-      <button className="btn" onClick={confirm} disabled={loading}>
-        {loading ? 'Processing…' : user ? 'Pay now' : 'Join Now →'}
-      </button>
-    </div>
-  )
-}
-
-export default function PaymentPage() {
-  const [clientSecret, setClientSecret] = useState<string | null>(null)
-  const [coupon, setCoupon] = useState('')
-  const [country, setCountry] = useState('GB')
-  const [plan, setPlan] = useState<string>('')
-  const [prices, setPrices] = useState<any[]>([])
-  const [loading, setLoading] = useState(true)
-  const [user, setUser] = useState<any>(null)
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const router = useRouter()
-  const [fxRates, setFxRates] = useState<Record<string, number> | null>(null)
-
-  // Check for existing session
-  useEffect(() => {
-    const getSession = async () => {
-      const { data } = await supabase.auth.getSession()
-      setUser(data.session?.user || null)
-    }
-    getSession()
-
-    // Listen for auth changes
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user || null)
-    })
-
-    return () => subscription.unsubscribe()
-  }, [])
-
   const COUNTRIES: { code: string; name: string }[] = [
     { code: 'AF', name: 'Afghanistan' },
     { code: 'AL', name: 'Albania' },
@@ -557,6 +289,292 @@ export default function PaymentPage() {
     { code: 'ZW', name: 'Zimbabwe' },
   ]
 
+  // Format card number with spaces
+  const formatCardNumber = (value: string) => {
+    const v = value.replace(/\s+/g, '').replace(/[^0-9]/gi, '')
+    const matches = v.match(/\d{4,16}/g)
+    const match = matches && matches[0] || ''
+    const parts = []
+    
+    for (let i = 0, len = match.length; i < len; i += 4) {
+      parts.push(match.substring(i, i + 4))
+    }
+    
+    if (parts.length) {
+      return parts.join(' ')
+    } else {
+      return v
+    }
+  }
+
+  // Format expiry date
+  const formatExpiryDate = (value: string) => {
+    const v = value.replace(/\s+/g, '').replace(/[^0-9]/gi, '')
+    if (v.length >= 4) {
+      return v.substring(0, 2) + '/' + v.substring(2, 4)
+    }
+    return v
+  }
+
+
+
+  const confirm = async () => {
+    if (!user && (!email || !password)) {
+      alert('Please enter your email and password')
+      return
+    }
+    
+    if (!cardNumber || !expiryDate || !cvc) {
+      setError('Please fill in all card details')
+      return
+    }
+    
+    setError(null) // Clear any previous errors
+    setLoading(true)
+    try {
+
+      let secret = clientSecret
+      if (!secret) {
+        // Create Stripe subscription via API route (no account creation yet)
+        const { data: { session } } = await supabase.auth.getSession()
+        const userId = session?.user?.id || undefined
+        const emailForStripe = session?.user?.email || email
+
+        const response = await fetch('/api/create-subscription', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            price_id: plan,
+            coupon: coupon || undefined,
+            user_id: userId,
+            user_email: emailForStripe
+          }),
+        })
+
+        if (!response.ok) {
+          const error = await response.text()
+          throw new Error(`Failed to create subscription: ${error}`)
+        }
+
+        const data = await response.json()
+        secret = data.client_secret
+        if (data.intent_type === 'setup') {
+          // When no payment is due, Stripe returns a SetupIntent client_secret
+          // For now, we'll redirect to loading since we don't have Stripe Elements
+          if (!user) {
+            try {
+              const { error: signUpError } = await supabase.auth.signUp({ email, password })
+              if (signUpError && !/registered/i.test(signUpError.message)) throw signUpError
+              if (signUpError && /registered/i.test(signUpError.message)) {
+                await supabase.auth.signInWithPassword({ email, password })
+              }
+            } catch (e: any) { 
+              setError(`Account creation failed: ${e.message}. Please contact support if this continues.`)
+              setLoading(false)
+              return
+            }
+          }
+          window.location.href = '/loading'
+          setLoading(false)
+          return
+        }
+        if (!secret) {
+          // Fallback: treat as success if no secret provided
+          if (!user) {
+            try {
+              const { error: signUpError } = await supabase.auth.signUp({ email, password })
+              if (signUpError && !/registered/i.test(signUpError.message)) throw signUpError
+              if (signUpError && /registered/i.test(signUpError.message)) {
+                await supabase.auth.signInWithPassword({ email, password })
+              }
+            } catch (e: any) { 
+              setError(`Account creation failed after payment: ${e.message}. Please contact support with your payment confirmation.`)
+              setLoading(false)
+              return
+            }
+          }
+          window.location.href = '/loading'
+          setLoading(false)
+          return
+        }
+        onClientSecret(secret)
+      }
+
+      // For now, we'll redirect to loading since we don't have Stripe Elements
+      // In a real implementation, you'd use the card details with Stripe API
+      if (!user) {
+        try {
+          const { error: signUpError } = await supabase.auth.signUp({ email, password })
+          if (signUpError && !/registered/i.test(signUpError.message)) throw signUpError
+          if (signUpError && /registered/i.test(signUpError.message)) {
+            await supabase.auth.signInWithPassword({ email, password })
+          }
+        } catch (e: any) { 
+          setError(`Account creation failed: ${e.message}. Please contact support.`)
+          setLoading(false)
+          return
+        }
+      }
+      window.location.href = '/loading'
+    } catch (err: any) {
+      console.error('Payment error:', err)
+      setError(err?.message || 'Unable to start payment')
+    }
+    setLoading(false)
+  }
+
+  return (
+    <div className="form-block">
+      <label className="label">Card details</label>
+      
+             <div className="card-inputs">
+         <div className="card-input-row">
+           <div className="card-input-group">
+                          <div className="floating-label-container">
+                                <input
+                  type="text"
+                  className="card-input floating-input"
+                  placeholder=" "
+                  value={cardNumber}
+                  onChange={(e) => setCardNumber(formatCardNumber(e.target.value))}
+                  onFocus={() => setShowCardExample(true)}
+                  onBlur={() => setShowCardExample(false)}
+                  maxLength={19}
+                  id="card-number"
+                />
+               <label htmlFor="card-number" className="floating-label">Card Number</label>
+               {showCardExample && !cardNumber && (
+                 <div className="input-example">
+                   1234 1234 1234 1234
+                 </div>
+               )}
+              </div>
+           </div>
+         </div>
+         
+         <div className="card-input-row">
+           <div className="card-input-group">
+             <div className="floating-label-container">
+                                                                <input
+                   type="text"
+                   className="card-input floating-input"
+                   placeholder=""
+                   value={expiryDate}
+                   onChange={(e) => setExpiryDate(formatExpiryDate(e.target.value))}
+                   onFocus={() => setShowExpiryExample(true)}
+                   onBlur={() => setShowExpiryExample(false)}
+                   maxLength={5}
+                   id="expiry-date"
+                 />
+                <label htmlFor="expiry-date" className="floating-label">Expiry Date</label>
+                {showExpiryExample && !expiryDate && (
+                  <div className="input-example">
+                    MM/YY
+                  </div>
+                )}
+             </div>
+           </div>
+           
+           <div className="card-input-group">
+             <div className="floating-label-container">
+                                                                <input
+                   type="text"
+                   className="card-input floating-input"
+                   placeholder=""
+                   value={cvc}
+                   onChange={(e) => setCvc(e.target.value)}
+                   onFocus={() => setShowCvcExample(true)}
+                   onBlur={() => setShowCvcExample(false)}
+                   maxLength={4}
+                   id="cvc"
+                 />
+                <label htmlFor="cvc" className="floating-label">Security Code</label>
+                {showCvcExample && !cvc && (
+                  <div className="input-example">
+                    123
+                  </div>
+                )}
+                <div className="card-icon cvc-icon">
+                  <svg width="32" height="20" viewBox="0 0 32 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="32" height="20" rx="2" fill="#f3f4f6"/>
+                    <rect x="2" y="2" width="28" height="16" rx="1" fill="#ffffff" stroke="#d1d5db" stroke-width="0.5"/>
+                    <rect x="4" y="4" width="24" height="2" rx="0.5" fill="#9ca3af"/>
+                    <rect x="4" y="8" width="12" height="1" rx="0.5" fill="#9ca3af"/>
+                    <rect x="4" y="10" width="8" height="1" rx="0.5" fill="#9ca3af"/>
+                    <text x="16" y="17" font-family="Arial" font-size="9" fill="#6b7280">123</text>
+                  </svg>
+                </div>
+             </div>
+           </div>
+         </div>
+       </div>
+       
+       <div className="form-block">
+         <label className="label">Country</label>
+         <div className="floating-label-container">
+           <select 
+             className="card-input floating-input" 
+             value={country} 
+             onChange={(e)=>setCountry(e.target.value)}
+             id="country"
+           >
+             {COUNTRIES.map(c => (
+               <option key={c.code} value={c.code}>{c.name}</option>
+             ))}
+           </select>
+           <label htmlFor="country" className="floating-label">Country</label>
+         </div>
+       </div>
+      
+      {error && (
+        <div style={{
+          background: 'rgba(255,99,99,0.08)',
+          border: '1px solid rgba(255,99,99,0.25)',
+          color: '#ff8080',
+          padding: '12px',
+          borderRadius: 10,
+          marginTop: 12,
+          fontSize: 14
+        }}>
+          {error}
+        </div>
+      )}
+      <button className="btn" onClick={confirm} disabled={loading}>
+        {loading ? 'Processing…' : user ? 'Pay now' : 'Join Now →'}
+      </button>
+    </div>
+  )
+}
+
+export default function PaymentPage() {
+  const [clientSecret, setClientSecret] = useState<string | null>(null)
+  const [coupon, setCoupon] = useState('')
+  const [country, setCountry] = useState('GB')
+  const [plan, setPlan] = useState<string>('')
+  const [prices, setPrices] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
+  const [user, setUser] = useState<any>(null)
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const router = useRouter()
+  const [fxRates, setFxRates] = useState<Record<string, number> | null>(null)
+
+  // Check for existing session
+  useEffect(() => {
+    const getSession = async () => {
+      const { data } = await supabase.auth.getSession()
+      setUser(data.session?.user || null)
+    }
+    getSession()
+
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user || null)
+    })
+
+    return () => subscription.unsubscribe()
+  }, [])
+
   // Map countries to primary currencies
   const COUNTRY_TO_CURRENCY: Record<string, string> = {
     GB: 'GBP', IE: 'EUR', FR: 'EUR', DE: 'EUR', ES: 'EUR', IT: 'EUR', PT: 'EUR', NL: 'EUR', BE: 'EUR', LU: 'EUR', AT: 'EUR',
@@ -750,14 +768,6 @@ export default function PaymentPage() {
               <label className="label">Coupon (optional)</label>
               <input className="input" value={coupon} onChange={(e)=>setCoupon(e.target.value)} placeholder="Enter coupon or promo code" />
             </div>
-            <div className="form-block">
-              <label className="label">Country</label>
-              <select className="select" value={country} onChange={(e)=>setCountry(e.target.value)}>
-                {COUNTRIES.map(c => (
-                  <option key={c.code} value={c.code}>{c.name}</option>
-                ))}
-              </select>
-            </div>
 
             {!user && (
               <div className="form-block">
@@ -798,6 +808,7 @@ export default function PaymentPage() {
             <CardForm
               clientSecret={clientSecret}
               country={country}
+              setCountry={setCountry}
               plan={plan}
               coupon={coupon}
               onClientSecret={setClientSecret}
