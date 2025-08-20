@@ -179,6 +179,7 @@ function CardForm({
          <div className="card-input-row">
            <div className="card-input-group">
                            <div className="floating-label-container">
+                             <div className="card-number-label">Card Number</div>
                                  <input
                    type="text"
                    className="card-input floating-input"
@@ -190,7 +191,6 @@ function CardForm({
                    maxLength={19}
                    id="card-number"
                  />
-                 <div className="card-number-label">Card Number</div>
                 <label htmlFor="card-number" className="floating-label">Card Number</label>
                 {showCardExample && (
                   <div className="input-example">
@@ -976,19 +976,15 @@ export default function PaymentPage() {
             opacity: 0.5;
           }
           
-          .card-number-label {
-            position: absolute;
-            left: 14px;
-            top: 8px;
-            color: var(--brand);
-            font-size: 12px;
-            font-weight: 600;
-            pointer-events: none;
-            background: #ffffff;
-            padding: 0 4px;
-            z-index: 2;
-            user-select: none;
-          }
+                     .card-number-label {
+             position: relative;
+             color: #000000;
+             font-size: 14px;
+             font-weight: 700;
+             margin-bottom: 8px;
+             display: block;
+             text-align: left;
+           }
          
          .input-example {
            position: absolute;
