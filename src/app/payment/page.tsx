@@ -753,20 +753,25 @@ export default function PaymentPage() {
         @media(min-width: 1024px) { .hero-title { font-size: 56px; } }
         @keyframes gradientShift { 0% { transform: translate3d(0,0,0) } 100% { transform: translate3d(-2%, -1%, 0) } }
 
-        .pay-card { 
-          background: #ffffff; 
-          border:1px solid var(--border); 
-          border-radius:16px 0 0 16px; 
-          padding:22px;
-          margin-right: -20px;
-          padding-right: 42px;
-          max-height: calc(100vh - 40px);
-          overflow-y: auto;
-          position: fixed;
-          right: 20px;
-          top: 20px;
-          width: 40%;
-        }
+                 .pay-card { 
+           background: #ffffff; 
+           border:1px solid var(--border); 
+           border-radius:16px 0 0 16px; 
+           padding:22px;
+           margin-right: -20px;
+           padding-right: 42px;
+           max-height: calc(100vh - 40px);
+           overflow-y: auto;
+           position: fixed;
+           right: 20px;
+           top: 20px;
+           width: 40%;
+         }
+         
+         .pay-card h3 {
+           color: #000000;
+           margin: 0 0 20px 0;
+         }
         .form-block { display:grid; gap:8px; margin-top:14px; }
         .label { font-weight:700; color: #000000; font-size:14px; }
         .input, .select { width:100%; background:#ffffff; color:#1e293b; border:1px solid #e2e8f0; border-radius:10px; padding:12px 14px; outline:none; }
