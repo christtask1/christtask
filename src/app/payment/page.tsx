@@ -208,20 +208,24 @@ function CardForm({
                     1234 5678 9012 3456
                   </div>
                 )}
-                <div className="card-logo">
-                  {cardNumber.length > 0 && (
-                    <div className={`card-icon ${detectCardType(cardNumber)}`}>
-                      {detectCardType(cardNumber) === 'visa' && '💳'}
-                      {detectCardType(cardNumber) === 'mastercard' && '💳'}
-                      {detectCardType(cardNumber) === 'amex' && '💳'}
-                      {detectCardType(cardNumber) === 'discover' && '💳'}
-                      {detectCardType(cardNumber) === 'jcb' && '💳'}
-                      {detectCardType(cardNumber) === 'diners' && '💳'}
-                      {detectCardType(cardNumber) === 'unionpay' && '💳'}
-                      {detectCardType(cardNumber) === 'generic' && '💳'}
-                    </div>
-                  )}
-                </div>
+                                 <div className="card-logo">
+                   <div className={`card-icon ${cardNumber.length > 0 ? detectCardType(cardNumber) : 'default'}`}>
+                     {cardNumber.length > 0 ? (
+                       <>
+                         {detectCardType(cardNumber) === 'visa' && '💳'}
+                         {detectCardType(cardNumber) === 'mastercard' && '💳'}
+                         {detectCardType(cardNumber) === 'amex' && '💳'}
+                         {detectCardType(cardNumber) === 'discover' && '💳'}
+                         {detectCardType(cardNumber) === 'jcb' && '💳'}
+                         {detectCardType(cardNumber) === 'diners' && '💳'}
+                         {detectCardType(cardNumber) === 'unionpay' && '💳'}
+                         {detectCardType(cardNumber) === 'generic' && '💳'}
+                       </>
+                     ) : (
+                       '💳'
+                     )}
+                   </div>
+                 </div>
               </div>
            </div>
          </div>
@@ -1087,11 +1091,17 @@ export default function PaymentPage() {
             border-color: #e60012;
           }
           
-          .card-icon.generic {
-            background: linear-gradient(135deg, #6b7280, #9ca3af);
-            color: #ffffff;
-            border-color: #6b7280;
-          }
+                     .card-icon.generic {
+             background: linear-gradient(135deg, #6b7280, #9ca3af);
+             color: #ffffff;
+             border-color: #6b7280;
+           }
+           
+           .card-icon.default {
+             background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+             color: #6b7280;
+             border-color: #d1d5db;
+           }
           
           @keyframes cardLogoAppear {
             from {
