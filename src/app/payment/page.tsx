@@ -906,10 +906,11 @@ export default function PaymentPage() {
            color: #000000 !important;
            border: 1px solid #e2e8f0;
            border-radius: 8px;
-           padding: 12px 14px;
+           padding: 16px 14px;
            outline: none;
-           font-size: 14px;
+           font-size: 16px;
            font-family: 'Courier New', monospace;
+           min-height: 50px;
          }
          
          .card-input:focus {
@@ -926,19 +927,18 @@ export default function PaymentPage() {
          }
          
          .floating-input {
-           padding-top: 20px;
-           padding-bottom: 8px;
+           padding: 16px 14px;
            position: relative;
            z-index: 3;
            color: #000000 !important;
            background: #ffffff !important;
+           min-height: 50px;
          }
          
          .floating-label {
            position: absolute;
            left: 14px;
-           top: 50%;
-           transform: translateY(-50%);
+           top: 16px;
            color: #9ca3af;
            font-size: 14px;
            font-weight: 500;
@@ -948,7 +948,6 @@ export default function PaymentPage() {
            padding: 0 4px;
            z-index: 1;
            user-select: none;
-           margin-top: -10px;
          }
          
          .floating-input:focus + .floating-label,
@@ -970,9 +969,8 @@ export default function PaymentPage() {
          
          .input-example {
            position: absolute;
-           top: 50%;
+           top: 16px;
            left: 14px;
-           transform: translateY(-50%);
            color: #9ca3af;
            font-size: 14px;
            font-family: 'Courier New', monospace;
