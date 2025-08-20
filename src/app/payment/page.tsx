@@ -916,7 +916,7 @@ export default function PaymentPage() {
          }
          
                    .floating-input {
-            padding: 18px 14px 14px 14px;
+            padding: 22px 14px 14px 14px;
             position: relative;
             z-index: 3;
             color: #000000 !important;
