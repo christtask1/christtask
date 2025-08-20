@@ -1029,17 +1029,20 @@ export default function PaymentPage() {
                    .floating-input:focus {
             border-color: var(--brand);
             box-shadow: 0 0 0 3px rgba(78, 123, 255, 0.1);
+            outline: 2px solid rgba(78, 123, 255, 0.35);
           }
           
           .floating-input:active {
             border-color: var(--brand);
             box-shadow: 0 0 0 4px rgba(78, 123, 255, 0.2);
+            outline: 2px solid rgba(78, 123, 255, 0.35);
             transition: all 0.1s ease;
           }
           
           .floating-input:focus:active {
             border-color: var(--brand);
             box-shadow: 0 0 0 4px rgba(78, 123, 255, 0.3);
+            outline: 2px solid rgba(78, 123, 255, 0.35);
             transition: all 0.1s ease;
           }
           
