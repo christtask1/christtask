@@ -94,7 +94,7 @@ function CardForm({
     return () => { if (timer) clearInterval(timer) }
   }, [cardNumber])
 
-yes  const confirm = async () => {
+  const confirm = async () => {
     if (!user && (!email || !password)) {
       alert('Please enter your email and password')
       return
@@ -178,13 +178,13 @@ yes  const confirm = async () => {
 
       // For now, we'll redirect to loading since we don't have Stripe Elements
       // In a real implementation, you'd use the card details with Stripe API
-        if (!user) {
-          try {
-            const { error: signUpError } = await supabase.auth.signUp({ email, password })
-            if (signUpError && !/registered/i.test(signUpError.message)) throw signUpError
-            if (signUpError && /registered/i.test(signUpError.message)) {
-              await supabase.auth.signInWithPassword({ email, password })
-            }
+      if (!user) {
+        try {
+          const { error: signUpError } = await supabase.auth.signUp({ email, password })
+          if (signUpError && !/registered/i.test(signUpError.message)) throw signUpError
+          if (signUpError && /registered/i.test(signUpError.message)) {
+            await supabase.auth.signInWithPassword({ email, password })
+          }
         } catch (e: any) { 
           setError(`Account creation failed: ${e.message}. Please contact support.`)
           setLoading(false)
