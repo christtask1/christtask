@@ -35,6 +35,7 @@ function CardForm({
   const [showCardExample, setShowCardExample] = useState(false)
   const [showExpiryExample, setShowExpiryExample] = useState(false)
   const [showCvcExample, setShowCvcExample] = useState(false)
+  const [rotatingBrand, setRotatingBrand] = useState<string>('visa')
 
   // Detect card type based on card number
   const detectCardType = (cardNumber: string) => {
@@ -77,6 +78,21 @@ function CardForm({
     }
     return v
   }
+
+  // Auto-cycle logos when input is empty so users see an animation without interaction
+  useEffect(() => {
+    let timer: any
+    if (!cardNumber) {
+      const brands = ['visa', 'mastercard', 'amex', 'discover', 'jcb', 'diners', 'unionpay']
+      let index = 0
+      setRotatingBrand(brands[index])
+      timer = setInterval(() => {
+        index = (index + 1) % brands.length
+        setRotatingBrand(brands[index])
+      }, 1500)
+    }
+    return () => { if (timer) clearInterval(timer) }
+  }, [cardNumber])
 
   const confirm = async () => {
     if (!user && (!email || !password)) {
@@ -209,7 +225,7 @@ function CardForm({
       </div>
                 )}
                                                    <div className="card-logo">
-                    <div className={`card-icon ${cardNumber.length > 0 ? detectCardType(cardNumber) : 'default'}`}>
+                    <div className={`card-icon ${cardNumber.length > 0 ? detectCardType(cardNumber) : rotatingBrand}`}>
                       {cardNumber.length > 0 ? (
                         <>
                           {detectCardType(cardNumber) === 'visa' && (
@@ -232,49 +248,108 @@ function CardForm({
                             </div>
                           )}
                           {detectCardType(cardNumber) === 'amex' && (
-                            <svg width="24" height="16" viewBox="0 0 24 16" fill="none">
-                              <rect width="24" height="16" rx="2" fill="#006FCF"/>
-                              <path d="M12 4L8 8L12 12L16 8L12 4Z" fill="white"/>
-                            </svg>
+                            <div className="logo-animation amex-logo">
+                              <svg width="24" height="16" viewBox="0 0 24 16" fill="none">
+                                <rect width="24" height="16" rx="2" fill="#006FCF"/>
+                                <path d="M12 4L8 8L12 12L16 8L12 4Z" fill="white"/>
+                              </svg>
+                            </div>
                           )}
                           {detectCardType(cardNumber) === 'discover' && (
-                            <svg width="24" height="16" viewBox="0 0 24 16" fill="none">
-                              <rect width="24" height="16" rx="2" fill="#FF6000"/>
-                              <circle cx="12" cy="8" r="3" fill="white"/>
-                            </svg>
+                            <div className="logo-animation discover-logo">
+                              <svg width="24" height="16" viewBox="0 0 24 16" fill="none">
+                                <rect width="24" height="16" rx="2" fill="#FF6000"/>
+                                <circle cx="12" cy="8" r="3" fill="white"/>
+                              </svg>
+                            </div>
                           )}
                           {detectCardType(cardNumber) === 'jcb' && (
-                            <svg width="24" height="16" viewBox="0 0 24 16" fill="none">
-                              <rect width="24" height="16" rx="2" fill="#0B4EA2"/>
-                              <text x="12" y="10" textAnchor="middle" fill="white" fontSize="8" fontWeight="bold">JCB</text>
-                            </svg>
+                            <div className="logo-animation jcb-logo">
+                              <svg width="24" height="16" viewBox="0 0 24 16" fill="none">
+                                <rect width="24" height="16" rx="2" fill="#0B4EA2"/>
+                                <text x="12" y="10" textAnchor="middle" fill="white" fontSize="8" fontWeight="bold">JCB</text>
+                              </svg>
+                            </div>
                           )}
                           {detectCardType(cardNumber) === 'diners' && (
-                            <svg width="24" height="16" viewBox="0 0 24 16" fill="none">
-                              <rect width="24" height="16" rx="2" fill="#0079BE"/>
-                              <text x="12" y="10" textAnchor="middle" fill="white" fontSize="8" fontWeight="bold">DC</text>
-                            </svg>
+                            <div className="logo-animation diners-logo">
+                              <svg width="24" height="16" viewBox="0 0 24 16" fill="none">
+                                <rect width="24" height="16" rx="2" fill="#0079BE"/>
+                                <text x="12" y="10" textAnchor="middle" fill="white" fontSize="8" fontWeight="bold">DC</text>
+                              </svg>
+                            </div>
                           )}
                           {detectCardType(cardNumber) === 'unionpay' && (
-                            <svg width="24" height="16" viewBox="0 0 24 16" fill="none">
-                              <rect width="24" height="16" rx="2" fill="#E60012"/>
-                              <text x="12" y="10" textAnchor="middle" fill="white" fontSize="8" fontWeight="bold">UP</text>
-                            </svg>
-                          )}
-                          {detectCardType(cardNumber) === 'generic' && (
-                            <svg width="24" height="16" viewBox="0 0 24 16" fill="none">
-                              <rect width="24" height="16" rx="2" fill="#6B7280"/>
-                              <rect x="4" y="6" width="16" height="4" rx="1" fill="white"/>
-                            </svg>
+                            <div className="logo-animation unionpay-logo">
+                              <svg width="24" height="16" viewBox="0 0 24 16" fill="none">
+                                <rect width="24" height="16" rx="2" fill="#E60012"/>
+                                <text x="12" y="10" textAnchor="middle" fill="white" fontSize="8" fontWeight="bold">UP</text>
+                              </svg>
+                            </div>
                           )}
                         </>
                       ) : (
-                        <div className="logo-animation default-logo">
-                          <svg width="40" height="24" viewBox="0 0 40 24" fill="none">
-                            <rect width="40" height="24" rx="3" fill="#F3F4F6" stroke="#D1D5DB" strokeWidth="1"/>
-                            <rect x="6" y="9" width="28" height="6" rx="1" fill="#9CA3AF"/>
-                          </svg>
-                        </div>
+                        <>
+                          {rotatingBrand === 'visa' && (
+                            <div className="logo-animation visa-logo">
+                              <svg width="40" height="24" viewBox="0 0 40 24" fill="none">
+                                <rect width="40" height="24" rx="3" fill="#1A1F71"/>
+                                <path d="M15.5 17.5L12.5 6.5H8.5L11.5 17.5H15.5Z" fill="white"/>
+                                <path d="M25.5 6.5L22.5 17.5H18.5L21.5 6.5H25.5Z" fill="white"/>
+                                <path d="M20.5 6.5L17.5 17.5H13.5L16.5 6.5H20.5Z" fill="white"/>
+                              </svg>
+                            </div>
+                          )}
+                          {rotatingBrand === 'mastercard' && (
+                            <div className="logo-animation mastercard-logo">
+                              <svg width="40" height="24" viewBox="0 0 40 24" fill="none">
+                                <rect width="40" height="24" rx="3" fill="#EB001B"/>
+                                <circle cx="13" cy="12" r="6" fill="#F79E1B"/>
+                                <circle cx="27" cy="12" r="6" fill="#EB001B"/>
+                              </svg>
+                            </div>
+                          )}
+                          {rotatingBrand === 'amex' && (
+                            <div className="logo-animation amex-logo">
+                              <svg width="24" height="16" viewBox="0 0 24 16" fill="none">
+                                <rect width="24" height="16" rx="2" fill="#006FCF"/>
+                                <path d="M12 4L8 8L12 12L16 8L12 4Z" fill="white"/>
+                              </svg>
+                            </div>
+                          )}
+                          {rotatingBrand === 'discover' && (
+                            <div className="logo-animation discover-logo">
+                              <svg width="24" height="16" viewBox="0 0 24 16" fill="none">
+                                <rect width="24" height="16" rx="2" fill="#FF6000"/>
+                                <circle cx="12" cy="8" r="3" fill="white"/>
+                              </svg>
+                            </div>
+                          )}
+                          {rotatingBrand === 'jcb' && (
+                            <div className="logo-animation jcb-logo">
+                              <svg width="24" height="16" viewBox="0 0 24 16" fill="none">
+                                <rect width="24" height="16" rx="2" fill="#0B4EA2"/>
+                                <text x="12" y="10" textAnchor="middle" fill="white" fontSize="8" fontWeight="bold">JCB</text>
+                              </svg>
+                            </div>
+                          )}
+                          {rotatingBrand === 'diners' && (
+                            <div className="logo-animation diners-logo">
+                              <svg width="24" height="16" viewBox="0 0 24 16" fill="none">
+                                <rect width="24" height="16" rx="2" fill="#0079BE"/>
+                                <text x="12" y="10" textAnchor="middle" fill="white" fontSize="8" fontWeight="bold">DC</text>
+                              </svg>
+                            </div>
+                          )}
+                          {rotatingBrand === 'unionpay' && (
+                            <div className="logo-animation unionpay-logo">
+                              <svg width="24" height="16" viewBox="0 0 24 16" fill="none">
+                                <rect width="24" height="16" rx="2" fill="#E60012"/>
+                                <text x="12" y="10" textAnchor="middle" fill="white" fontSize="8" fontWeight="bold">UP</text>
+                              </svg>
+                            </div>
+                          )}
+                        </>
                       )}
                     </div>
                   </div>
