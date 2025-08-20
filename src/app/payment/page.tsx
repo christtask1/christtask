@@ -142,47 +142,56 @@ function CardForm({
     <div className="form-block">
       <label className="label">Card details</label>
       
-      <div className="card-inputs">
-        <div className="card-input-row">
-          <div className="card-input-group">
-            <label className="card-label">Card Number</label>
-            <input
-              type="text"
-              className="card-input"
-              placeholder="1234 5678 9012 3456"
-              value={cardNumber}
-              onChange={(e) => setCardNumber(e.target.value)}
-              maxLength={19}
-            />
-          </div>
-        </div>
-        
-        <div className="card-input-row">
-          <div className="card-input-group">
-            <label className="card-label">Expiry Date</label>
-            <input
-              type="text"
-              className="card-input"
-              placeholder="MM/YY"
-              value={expiryDate}
-              onChange={(e) => setExpiryDate(e.target.value)}
-              maxLength={5}
-            />
-          </div>
-          
-          <div className="card-input-group">
-            <label className="card-label">CVC</label>
-            <input
-              type="text"
-              className="card-input"
-              placeholder="123"
-              value={cvc}
-              onChange={(e) => setCvc(e.target.value)}
-              maxLength={4}
-            />
-          </div>
-        </div>
-      </div>
+             <div className="card-inputs">
+         <div className="card-input-row">
+           <div className="card-input-group">
+             <div className="floating-label-container">
+               <input
+                 type="text"
+                 className="card-input floating-input"
+                 placeholder=" "
+                 value={cardNumber}
+                 onChange={(e) => setCardNumber(e.target.value)}
+                 maxLength={19}
+                 id="card-number"
+               />
+               <label htmlFor="card-number" className="floating-label">Card Number</label>
+             </div>
+           </div>
+         </div>
+         
+         <div className="card-input-row">
+           <div className="card-input-group">
+             <div className="floating-label-container">
+               <input
+                 type="text"
+                 className="card-input floating-input"
+                 placeholder=" "
+                 value={expiryDate}
+                 onChange={(e) => setExpiryDate(e.target.value)}
+                 maxLength={5}
+                 id="expiry-date"
+               />
+               <label htmlFor="expiry-date" className="floating-label">Expiry Date</label>
+             </div>
+           </div>
+           
+           <div className="card-input-group">
+             <div className="floating-label-container">
+               <input
+                 type="text"
+                 className="card-input floating-input"
+                 placeholder=" "
+                 value={cvc}
+                 onChange={(e) => setCvc(e.target.value)}
+                 maxLength={4}
+                 id="cvc"
+               />
+               <label htmlFor="cvc" className="floating-label">CVC</label>
+             </div>
+           </div>
+         </div>
+       </div>
       
       {error && (
         <div style={{
@@ -859,6 +868,37 @@ export default function PaymentPage() {
          
          .card-input::placeholder {
            color: #9ca3af;
+         }
+         
+         .floating-label-container {
+           position: relative;
+         }
+         
+         .floating-input {
+           padding-top: 20px;
+           padding-bottom: 8px;
+         }
+         
+         .floating-label {
+           position: absolute;
+           left: 14px;
+           top: 50%;
+           transform: translateY(-50%);
+           color: #9ca3af;
+           font-size: 14px;
+           font-weight: 500;
+           transition: all 0.2s ease;
+           pointer-events: none;
+           background: #ffffff;
+           padding: 0 4px;
+         }
+         
+         .floating-input:focus + .floating-label,
+         .floating-input:not(:placeholder-shown) + .floating-label {
+           top: 8px;
+           font-size: 12px;
+           color: var(--brand);
+           font-weight: 600;
          }
         .plan-grid { display:grid; grid-template-columns: 1fr; gap:12px; }
         @media(min-width:700px){ .plan-grid { grid-template-columns: 1fr 1fr; } }
