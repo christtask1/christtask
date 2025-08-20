@@ -987,11 +987,11 @@ export default function PaymentPage() {
          
          .input-example {
            position: absolute;
-           top: 24px;
+           top: 20px;
            left: 14px;
            color: #9ca3af;
            font-size: 14px;
-           font-family: 'Courier New', monospace;
+           font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
            pointer-events: none;
            z-index: 6;
            animation: fadeIn 0.3s ease-in;
