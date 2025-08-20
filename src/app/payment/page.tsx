@@ -876,7 +876,7 @@ export default function PaymentPage() {
                  .pay-card { 
            background: #ffffff; 
            border:1px solid var(--border); 
-           border-radius:16px 0 0 16px; 
+           border-radius:8px 0 0 8px; 
            padding:22px;
            margin-right: -20px;
            padding-right: 42px;
