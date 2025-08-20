@@ -891,6 +891,7 @@ export default function PaymentPage() {
            pointer-events: none;
            background: #ffffff;
            padding: 0 4px;
+           z-index: 1;
          }
          
          .floating-input:focus + .floating-label,
@@ -899,6 +900,11 @@ export default function PaymentPage() {
            font-size: 12px;
            color: var(--brand);
            font-weight: 600;
+         }
+         
+         .floating-input:focus {
+           border-color: var(--brand);
+           box-shadow: 0 0 0 3px rgba(78, 123, 255, 0.1);
          }
         .plan-grid { display:grid; grid-template-columns: 1fr; gap:12px; }
         @media(min-width:700px){ .plan-grid { grid-template-columns: 1fr 1fr; } }
