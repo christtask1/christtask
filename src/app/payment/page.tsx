@@ -770,7 +770,7 @@ export default function PaymentPage() {
         @keyframes gradientShift { 0% { transform: translate3d(0,0,0) } 100% { transform: translate3d(-2%, -1%, 0) } }
 
         .pay-card { 
-          background: linear-gradient(180deg, rgba(23,35,74,0.55), rgba(16,24,48,0.8)); 
+          background: #ffffff; 
           border:1px solid var(--border); 
           border-radius:16px 0 0 16px; 
           padding:22px;
@@ -785,7 +785,7 @@ export default function PaymentPage() {
         }
         .form-block { display:grid; gap:8px; margin-top:14px; }
         .label { font-weight:700; color: var(--text); font-size:14px; }
-        .input, .select { width:100%; background:#0e1530; color:var(--text); border:1px solid var(--border); border-radius:10px; padding:12px 14px; outline:none; }
+        .input, .select { width:100%; background:#ffffff; color:#1e293b; border:1px solid #e2e8f0; border-radius:10px; padding:12px 14px; outline:none; }
         .input::placeholder { color: var(--muted); }
         .card-shell { border:1px dashed var(--border); border-radius:12px; padding:14px; background:#0e1530; }
         .plan-grid { display:grid; grid-template-columns: 1fr; gap:12px; }
