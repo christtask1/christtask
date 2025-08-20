@@ -822,6 +822,7 @@ export default function PaymentPage() {
          
          .card-input-row {
            display: flex;
+           flex-direction: column;
            gap: 16px;
          }
          
