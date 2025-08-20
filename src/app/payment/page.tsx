@@ -1004,7 +1004,7 @@ export default function PaymentPage() {
            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
            pointer-events: none;
            z-index: 6;
-           animation: fadeIn 0.3s ease-in;
+           animation: fadeIn 0.2s ease-in;
          }
          
          .card-icon {
@@ -1022,8 +1022,8 @@ export default function PaymentPage() {
          }
          
          @keyframes fadeIn {
-           from { opacity: 0; transform: translateY(-50%) translateX(-10px); }
-           to { opacity: 1; transform: translateY(-50%) translateX(0); }
+           from { opacity: 0; }
+           to { opacity: 1; }
          }
          
                    .floating-input:focus {
