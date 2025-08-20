@@ -720,16 +720,7 @@ export default function PaymentPage() {
               email={email}
               password={password}
             />
-                         <div className="form-block">
-               <button
-                 type="button"
-                 className="btn secondary"
-                 onClick={() => router.push('/login?redirect=/payment')}
-                 style={{ width: '100%' }}
-               >
-                 Already have an account? Log in
-               </button>
-             </div>
+                         
              
              <div className="form-block">
                <p className="disclaimer">
