@@ -835,20 +835,84 @@ export default function PaymentPage() {
            height: 100vh;
            width: 100%;
            overflow: hidden;
-           background: linear-gradient(135deg, #f8fafc, #e2e8f0, #cbd5e1, #94a3b8);
+           background: linear-gradient(135deg, #f8fafc, #e2e8f0, #cbd5e1, #94a3b8, #64748b, #475569);
            border: none;
            border-radius: 0;
            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
            z-index: 5;
+           animation: baseGradientShift 30s ease-in-out infinite;
          }
         .left-hero::before {
           content: '';
           position: absolute;
           inset: 0;
-          background: radial-gradient(800px 600px at 20% 30%, rgba(34, 197, 94, 0.15), transparent 60%),
-                      radial-gradient(600px 500px at 80% 70%, rgba(59, 130, 246, 0.12), transparent 60%),
-                      linear-gradient(180deg, rgba(15, 23, 42, 0), rgba(15, 23, 42, 0.4));
+          background: 
+            radial-gradient(800px 600px at 20% 30%, rgba(34, 197, 94, 0.15), transparent 60%),
+            radial-gradient(600px 500px at 80% 70%, rgba(59, 130, 246, 0.12), transparent 60%),
+            linear-gradient(180deg, rgba(15, 23, 42, 0), rgba(15, 23, 42, 0.4));
           animation: gradientShift 20s ease-in-out infinite alternate;
+        }
+        
+        .left-hero::after {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: 
+            radial-gradient(1000px 800px at 10% 20%, rgba(168, 85, 247, 0.1), transparent 50%),
+            radial-gradient(800px 600px at 90% 80%, rgba(236, 72, 153, 0.08), transparent 50%),
+            radial-gradient(600px 400px at 50% 50%, rgba(34, 197, 94, 0.06), transparent 40%);
+          animation: gradientFlow 25s ease-in-out infinite;
+        }
+        
+        @keyframes gradientShift { 
+          0% { transform: translate3d(0,0,0) } 
+          100% { transform: translate3d(-2%, -1%, 0) } 
+        }
+        
+        @keyframes gradientFlow {
+          0% { 
+            transform: scale(1) rotate(0deg);
+            opacity: 0.8;
+          }
+          25% { 
+            transform: scale(1.1) rotate(1deg);
+            opacity: 1;
+          }
+          50% { 
+            transform: scale(1.05) rotate(-0.5deg);
+            opacity: 0.9;
+          }
+          75% { 
+            transform: scale(1.15) rotate(0.5deg);
+            opacity: 1;
+          }
+          100% { 
+            transform: scale(1) rotate(0deg);
+            opacity: 0.8;
+          }
+        }
+        
+        @keyframes baseGradientShift {
+          0% { 
+            background-position: 0% 50%;
+            filter: hue-rotate(0deg);
+          }
+          25% { 
+            background-position: 100% 50%;
+            filter: hue-rotate(5deg);
+          }
+          50% { 
+            background-position: 50% 100%;
+            filter: hue-rotate(10deg);
+          }
+          75% { 
+            background-position: 50% 0%;
+            filter: hue-rotate(5deg);
+          }
+          100% { 
+            background-position: 0% 50%;
+            filter: hue-rotate(0deg);
+          }
         }
                  .left-hero-inner { position: relative; z-index: 1; }
          .logo {
