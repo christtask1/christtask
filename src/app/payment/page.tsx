@@ -35,22 +35,7 @@ function CardForm({
   const [showCardExample, setShowCardExample] = useState(false)
   const [showExpiryExample, setShowExpiryExample] = useState(false)
   const [showCvcExample, setShowCvcExample] = useState(false)
-  const [rotatingBrand, setRotatingBrand] = useState<string>('visa')
 
-  // Detect card type based on card number
-  const detectCardType = (cardNumber: string) => {
-    const cleanNumber = cardNumber.replace(/\s/g, '')
-    
-    if (/^4/.test(cleanNumber)) return 'visa'
-    if (/^5[1-5]/.test(cleanNumber)) return 'mastercard'
-    if (/^3[47]/.test(cleanNumber)) return 'amex'
-    if (/^6/.test(cleanNumber)) return 'discover'
-    if (/^35/.test(cleanNumber)) return 'jcb'
-    if (/^30[0-5]/.test(cleanNumber) || /^3[89]/.test(cleanNumber)) return 'diners'
-    if (/^62/.test(cleanNumber)) return 'unionpay'
-    
-    return 'generic'
-  }
 
   // Format card number with spaces
   const formatCardNumber = (value: string) => {
@@ -79,20 +64,7 @@ function CardForm({
     return v
   }
 
-  // Auto-cycle logos when input is empty so users see an animation without interaction
-  useEffect(() => {
-    let timer: any
-    if (!cardNumber) {
-      const brands = ['visa', 'amex', 'mastercard']
-      let index = 0
-      setRotatingBrand(brands[index])
-      timer = setInterval(() => {
-        index = (index + 1) % brands.length
-        setRotatingBrand(brands[index])
-      }, 1500)
-    }
-    return () => { if (timer) clearInterval(timer) }
-  }, [cardNumber])
+
 
   const confirm = async () => {
     if (!user && (!email || !password)) {
@@ -224,77 +196,7 @@ function CardForm({
                     1234 5678 9012 3456
       </div>
                 )}
-                                                   <div className="card-logo">
-                    <div className={`card-icon ${cardNumber.length > 0 ? detectCardType(cardNumber) : rotatingBrand}`}>
-                      {cardNumber.length > 0 ? (
-                        <>
-                                                     {detectCardType(cardNumber) === 'visa' && (
-                             <div className="logo-animation visa-logo">
-                               <svg width="40" height="24" viewBox="0 0 40 24" fill="none">
-                                 <rect width="40" height="24" rx="3" fill="#1A1F71"/>
-                                 <path d="M8 6L12 18H16L20 6H18L15 14L12 6H10L7 14L4 6H8Z" fill="white"/>
-                                 <path d="M24 6L26 6L28 18H26L25 12L23 6H24Z" fill="white"/>
-                                 <path d="M32 6L34 6L36 18H34L33 12L31 6H32Z" fill="white"/>
-                               </svg>
-                             </div>
-                           )}
-                                                     {detectCardType(cardNumber) === 'mastercard' && (
-                             <div className="logo-animation mastercard-logo">
-                               <svg width="40" height="24" viewBox="0 0 40 24" fill="none">
-                                 <rect width="40" height="24" rx="3" fill="#EB001B"/>
-                                 <circle cx="16" cy="12" r="7" fill="#F79E1B"/>
-                                 <circle cx="24" cy="12" r="7" fill="#EB001B"/>
-                                 <path d="M20 5C18.5 5 17.2 5.8 16.5 7C17.2 8.2 18.5 9 20 9C21.5 9 22.8 8.2 23.5 7C22.8 5.8 21.5 5 20 5Z" fill="#EB001B"/>
-                               </svg>
-                             </div>
-                           )}
-                                                     {detectCardType(cardNumber) === 'amex' && (
-                             <div className="logo-animation amex-logo">
-                               <svg width="40" height="24" viewBox="0 0 40 24" fill="none">
-                                 <rect width="40" height="24" rx="3" fill="#006FCF"/>
-                                 <path d="M8 6L12 18H16L20 6H18L16 14L14 6H12L10 14L8 6Z" fill="white"/>
-                                 <path d="M22 6L24 6L26 18H24L23 12L22 6Z" fill="white"/>
-                                 <path d="M28 6L30 6L32 18H30L29 12L28 6Z" fill="white"/>
-                               </svg>
-                             </div>
-                           )}
-                        </>
-                      ) : (
-                        <>
-                                                     {rotatingBrand === 'visa' && (
-                             <div className="logo-animation visa-logo">
-                               <svg width="40" height="24" viewBox="0 0 40 24" fill="none">
-                                 <rect width="40" height="24" rx="3" fill="#1A1F71"/>
-                                 <path d="M8 6L12 18H16L20 6H18L15 14L12 6H10L7 14L4 6H8Z" fill="white"/>
-                                 <path d="M24 6L26 6L28 18H26L25 12L23 6H24Z" fill="white"/>
-                                 <path d="M32 6L34 6L36 18H34L33 12L31 6H32Z" fill="white"/>
-                               </svg>
-                             </div>
-                           )}
-                                                     {rotatingBrand === 'mastercard' && (
-                             <div className="logo-animation mastercard-logo">
-                               <svg width="40" height="24" viewBox="0 0 40 24" fill="none">
-                                 <rect width="40" height="24" rx="3" fill="#EB001B"/>
-                                 <circle cx="16" cy="12" r="7" fill="#F79E1B"/>
-                                 <circle cx="24" cy="12" r="7" fill="#EB001B"/>
-                                 <path d="M20 5C18.5 5 17.2 5.8 16.5 7C17.2 8.2 18.5 9 20 9C21.5 9 22.8 8.2 23.5 7C22.8 5.8 21.5 5 20 5Z" fill="#EB001B"/>
-                               </svg>
-                             </div>
-                           )}
-                                                     {rotatingBrand === 'amex' && (
-                             <div className="logo-animation amex-logo">
-                               <svg width="40" height="24" viewBox="0 0 40 24" fill="none">
-                                 <rect width="40" height="24" rx="3" fill="#006FCF"/>
-                                 <path d="M8 6L12 18H16L20 6H18L16 14L14 6H12L10 14L8 6Z" fill="white"/>
-                                 <path d="M22 6L24 6L26 18H26L24 6H22Z" fill="white"/>
-                                 <path d="M28 6L30 6L32 18H30L29 12L28 6Z" fill="white"/>
-                               </svg>
-                             </div>
-                           )}
-                        </>
-                      )}
-                    </div>
-                  </div>
+                                                   
               </div>
            </div>
          </div>
@@ -1095,192 +997,7 @@ export default function PaymentPage() {
             box-shadow: 0 0 0 3px rgba(78, 123, 255, 0.1);
           }
           
-          .card-logo {
-            position: absolute;
-            right: 16px;
-            top: 50%;
-            transform: translateY(-50%);
-            z-index: 4;
-            pointer-events: none;
-          }
           
-                                           .card-icon {
-              width: 48px;
-              height: 32px;
-              display: flex;
-              align-items: center;
-              justify-content: center;
-              border-radius: 4px;
-              background: #ffffff;
-              border: 1px solid #e2e8f0;
-              transition: all 0.3s ease;
-              animation: cardLogoAppear 0.4s ease-out;
-              overflow: hidden;
-              box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            }
-          
-          .card-icon.visa {
-            background: linear-gradient(135deg, #1a1f71, #00539c);
-            color: #ffffff;
-            border-color: #1a1f71;
-          }
-          
-          .card-icon.mastercard {
-            background: linear-gradient(135deg, #eb001b, #f79e1b);
-            color: #ffffff;
-            border-color: #eb001b;
-          }
-          
-          .card-icon.amex {
-            background: linear-gradient(135deg, #006fcf, #00a1e0);
-            color: #ffffff;
-            border-color: #006fcf;
-          }
-          
-          .card-icon.discover {
-            background: linear-gradient(135deg, #ff6000, #ff8c00);
-            color: #ffffff;
-            border-color: #ff6000;
-          }
-          
-          .card-icon.jcb {
-            background: linear-gradient(135deg, #0b4ea2, #00a0e9);
-            color: #ffffff;
-            border-color: #0b4ea2;
-          }
-          
-          .card-icon.diners {
-            background: linear-gradient(135deg, #0079be, #00a3e0);
-            color: #ffffff;
-            border-color: #0079be;
-          }
-          
-          .card-icon.unionpay {
-            background: linear-gradient(135deg, #e60012, #ff6b35);
-            color: #ffffff;
-            border-color: #e60012;
-          }
-          
-                     .card-icon.generic {
-             background: linear-gradient(135deg, #6b7280, #9ca3af);
-             color: #ffffff;
-             border-color: #6b7280;
-           }
-           
-           .card-icon.default {
-             background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
-             color: #6b7280;
-             border-color: #d1d5db;
-           }
-          
-                     @keyframes cardLogoAppear {
-             from {
-               opacity: 0;
-               transform: translateY(-50%) scale(0.8);
-             }
-             to {
-               opacity: 1;
-               transform: translateY(-50%) scale(1);
-             }
-           }
-           
-           /* Logo Animation Classes */
-           .logo-animation {
-             animation: logoSwap 0.4s ease-out;
-           }
-           
-           @keyframes logoSwap {
-             0% {
-               opacity: 0;
-               transform: scale(0.8) rotateY(-15deg);
-             }
-             50% {
-               opacity: 0.8;
-               transform: scale(1.1) rotateY(0deg);
-             }
-             100% {
-               opacity: 1;
-               transform: scale(1) rotateY(0deg);
-             }
-           }
-           
-           /* Individual logo entrance effects */
-           .visa-logo {
-             animation: logoSwap 0.4s ease-out, visaGlow 2s ease-in-out infinite alternate;
-           }
-           
-           .mastercard-logo {
-             animation: logoSwap 0.4s ease-out, mastercardGlow 2s ease-in-out infinite alternate;
-           }
-           
-           .amex-logo {
-             animation: logoSwap 0.4s ease-out, amexGlow 2s ease-in-out infinite alternate;
-           }
-           
-           .discover-logo {
-             animation: logoSwap 0.4s ease-out, discoverGlow 2s ease-in-out infinite alternate;
-           }
-           
-           .jcb-logo {
-             animation: logoSwap 0.4s ease-out, jcbGlow 2s ease-in-out infinite alternate;
-           }
-           
-           .diners-logo {
-             animation: logoSwap 0.4s ease-out, dinersGlow 2s ease-in-out infinite alternate;
-           }
-           
-           .unionpay-logo {
-             animation: logoSwap 0.4s ease-out, unionpayGlow 2s ease-in-out infinite alternate;
-           }
-           
-           .generic-logo {
-             animation: logoSwap 0.4s ease-out, genericGlow 2s ease-in-out infinite alternate;
-           }
-           
-           .default-logo {
-             animation: logoSwap 0.4s ease-out;
-           }
-           
-           /* Glow effects for each card type */
-           @keyframes visaGlow {
-             0%, 100% { filter: drop-shadow(0 0 2px rgba(26, 31, 113, 0.3)); }
-             50% { filter: drop-shadow(0 0 8px rgba(26, 31, 113, 0.6)); }
-           }
-           
-           @keyframes mastercardGlow {
-             0%, 100% { filter: drop-shadow(0 0 2px rgba(235, 0, 27, 0.3)); }
-             50% { filter: drop-shadow(0 0 8px rgba(235, 0, 27, 0.6)); }
-           }
-           
-           @keyframes amexGlow {
-             0%, 100% { filter: drop-shadow(0 0 2px rgba(0, 111, 207, 0.3)); }
-             50% { filter: drop-shadow(0 0 8px rgba(0, 111, 207, 0.6)); }
-           }
-           
-           @keyframes discoverGlow {
-             0%, 100% { filter: drop-shadow(0 0 2px rgba(255, 96, 0, 0.3)); }
-             50% { filter: drop-shadow(0 0 8px rgba(255, 96, 0, 0.6)); }
-           }
-           
-           @keyframes jcbGlow {
-             0%, 100% { filter: drop-shadow(0 0 2px rgba(11, 78, 162, 0.3)); }
-             50% { filter: drop-shadow(0 0 8px rgba(11, 78, 162, 0.6)); }
-           }
-           
-           @keyframes dinersGlow {
-             0%, 100% { filter: drop-shadow(0 0 2px rgba(0, 121, 190, 0.3)); }
-             50% { filter: drop-shadow(0 0 8px rgba(0, 121, 190, 0.6)); }
-           }
-           
-           @keyframes unionpayGlow {
-             0%, 100% { filter: drop-shadow(0 0 2px rgba(230, 0, 18, 0.3)); }
-             50% { filter: drop-shadow(0 0 8px rgba(230, 0, 18, 0.6)); }
-           }
-           
-           @keyframes genericGlow {
-             0%, 100% { filter: drop-shadow(0 0 2px rgba(107, 114, 128, 0.3)); }
-             50% { filter: drop-shadow(0 0 8px rgba(107, 114, 128, 0.6)); }
-           }
         .plan-grid { display:grid; grid-template-columns: 1fr; gap:12px; }
         @media(min-width:700px){ .plan-grid { grid-template-columns: 1fr 1fr; } }
         .plan-card { text-align:left; border:1px solid #e2e8f0; background:#ffffff; padding:16px; border-radius:12px; cursor:pointer; color:#000000; }
@@ -1316,9 +1033,7 @@ export default function PaymentPage() {
            cursor: pointer;
          }
          
-         .card-icon {
-           font-size: 20px;
-         }
+                    
          
          .secure-checkout {
            display: flex;
