@@ -618,16 +618,7 @@ export default function PaymentPage() {
           <div className="pay-card">
             <h3>Card Details</h3>
             
-            <div className="form-block">
-              <label className="label">Payment Method</label>
-              <div className="payment-method">
-                <input type="radio" id="card" name="payment" value="card" defaultChecked />
-                <label htmlFor="card" className="payment-label">
-                  <span className="card-icon">💳</span>
-                  Card
-                </label>
-              </div>
-            </div>
+            
 
             <div className="form-block">
               <div className="secure-checkout">
