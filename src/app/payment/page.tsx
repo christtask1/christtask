@@ -243,13 +243,13 @@ function CardForm({
                   </div>
                 )}
                 <div className="card-icon cvc-icon">
-                  <svg width="24" height="16" viewBox="0 0 24 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect width="24" height="16" rx="2" fill="#f3f4f6"/>
-                    <rect x="2" y="2" width="20" height="12" rx="1" fill="#ffffff" stroke="#d1d5db" stroke-width="0.5"/>
-                    <rect x="4" y="4" width="16" height="2" rx="0.5" fill="#9ca3af"/>
-                    <rect x="4" y="8" width="8" height="1" rx="0.5" fill="#9ca3af"/>
-                    <rect x="4" y="10" width="6" height="1" rx="0.5" fill="#9ca3af"/>
-                    <text x="18" y="13" font-family="Arial" font-size="8" fill="#6b7280">123</text>
+                  <svg width="32" height="20" viewBox="0 0 32 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="32" height="20" rx="2" fill="#f3f4f6"/>
+                    <rect x="2" y="2" width="28" height="16" rx="1" fill="#ffffff" stroke="#d1d5db" stroke-width="0.5"/>
+                    <rect x="4" y="4" width="24" height="2" rx="0.5" fill="#9ca3af"/>
+                    <rect x="4" y="8" width="12" height="1" rx="0.5" fill="#9ca3af"/>
+                    <rect x="4" y="10" width="8" height="1" rx="0.5" fill="#9ca3af"/>
+                    <text x="24" y="16" font-family="Arial" font-size="10" fill="#6b7280">123</text>
                   </svg>
                 </div>
              </div>
