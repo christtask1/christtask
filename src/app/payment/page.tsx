@@ -249,7 +249,7 @@ function CardForm({
                     <rect x="4" y="4" width="24" height="2" rx="0.5" fill="#9ca3af"/>
                     <rect x="4" y="8" width="12" height="1" rx="0.5" fill="#9ca3af"/>
                     <rect x="4" y="10" width="8" height="1" rx="0.5" fill="#9ca3af"/>
-                    <text x="20" y="17" font-family="Arial" font-size="9" fill="#6b7280">123</text>
+                    <text x="18" y="17" font-family="Arial" font-size="9" fill="#6b7280">123</text>
                   </svg>
                 </div>
              </div>
