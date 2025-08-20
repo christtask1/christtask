@@ -33,6 +33,33 @@ function CardForm({
   const [expiryDate, setExpiryDate] = useState('')
   const [cvc, setCvc] = useState('')
 
+  // Format card number with spaces
+  const formatCardNumber = (value: string) => {
+    const v = value.replace(/\s+/g, '').replace(/[^0-9]/gi, '')
+    const matches = v.match(/\d{4,16}/g)
+    const match = matches && matches[0] || ''
+    const parts = []
+    
+    for (let i = 0, len = match.length; i < len; i += 4) {
+      parts.push(match.substring(i, i + 4))
+    }
+    
+    if (parts.length) {
+      return parts.join(' ')
+    } else {
+      return v
+    }
+  }
+
+  // Format expiry date
+  const formatExpiryDate = (value: string) => {
+    const v = value.replace(/\s+/g, '').replace(/[^0-9]/gi, '')
+    if (v.length >= 2) {
+      return v.substring(0, 2) + '/' + v.substring(2, 4)
+    }
+    return v
+  }
+
   const confirm = async () => {
     if (!user && (!email || !password)) {
       alert('Please enter your email and password')
@@ -146,15 +173,15 @@ function CardForm({
          <div className="card-input-row">
            <div className="card-input-group">
              <div className="floating-label-container">
-               <input
-                 type="text"
-                 className="card-input floating-input"
-                 placeholder=" "
-                 value={cardNumber}
-                 onChange={(e) => setCardNumber(e.target.value)}
-                 maxLength={19}
-                 id="card-number"
-               />
+                               <input
+                  type="text"
+                  className="card-input floating-input"
+                  placeholder=" "
+                  value={cardNumber}
+                  onChange={(e) => setCardNumber(formatCardNumber(e.target.value))}
+                  maxLength={19}
+                  id="card-number"
+                />
                <label htmlFor="card-number" className="floating-label">Card Number</label>
              </div>
            </div>
@@ -163,15 +190,15 @@ function CardForm({
          <div className="card-input-row">
            <div className="card-input-group">
              <div className="floating-label-container">
-               <input
-                 type="text"
-                 className="card-input floating-input"
-                 placeholder=" "
-                 value={expiryDate}
-                 onChange={(e) => setExpiryDate(e.target.value)}
-                 maxLength={5}
-                 id="expiry-date"
-               />
+                               <input
+                  type="text"
+                  className="card-input floating-input"
+                  placeholder=" "
+                  value={expiryDate}
+                  onChange={(e) => setExpiryDate(formatExpiryDate(e.target.value))}
+                  maxLength={5}
+                  id="expiry-date"
+                />
                <label htmlFor="expiry-date" className="floating-label">Expiry Date</label>
              </div>
            </div>
@@ -877,6 +904,8 @@ export default function PaymentPage() {
          .floating-input {
            padding-top: 20px;
            padding-bottom: 8px;
+           position: relative;
+           z-index: 2;
          }
          
          .floating-label {
@@ -892,6 +921,7 @@ export default function PaymentPage() {
            background: #ffffff;
            padding: 0 4px;
            z-index: 1;
+           user-select: none;
          }
          
          .floating-input:focus + .floating-label,
