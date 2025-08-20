@@ -648,15 +648,15 @@ export default function PaymentPage() {
                 </div>
               )}
             </div>
-            <div className="form-block">
-              <h4 style={{ margin: 0 }}>What's included:</h4>
-              <ul className="muted" style={{ marginTop: 8, lineHeight: 1.9 }}>
-                <li>Complete apologetics training</li>
-                <li>Defend your faith confidently</li>
-                <li>Join 1000+ Christians</li>
-                <li>Access to all ChristTask features</li>
-              </ul>
-            </div>
+                         <div className="form-block">
+               <h4 style={{ margin: 0, color: '#000000' }}>What's included:</h4>
+               <ul style={{ marginTop: 8, lineHeight: 1.9, color: '#6b7280' }}>
+                 <li>Complete apologetics training</li>
+                 <li>Defend your faith confidently</li>
+                 <li>Join 1000+ Christians</li>
+                 <li>Access to all ChristTask features</li>
+               </ul>
+             </div>
             <div className="form-block">
               <label className="label">Coupon (optional)</label>
               <input className="input" value={coupon} onChange={(e)=>setCoupon(e.target.value)} placeholder="Enter coupon or promo code" />
@@ -784,19 +784,19 @@ export default function PaymentPage() {
           width: 40%;
         }
         .form-block { display:grid; gap:8px; margin-top:14px; }
-        .label { font-weight:700; color: var(--text); font-size:14px; }
+        .label { font-weight:700; color: #000000; font-size:14px; }
         .input, .select { width:100%; background:#ffffff; color:#1e293b; border:1px solid #e2e8f0; border-radius:10px; padding:12px 14px; outline:none; }
         .input::placeholder { color: var(--muted); }
         .card-shell { border:1px dashed var(--border); border-radius:12px; padding:14px; background:#0e1530; }
         .plan-grid { display:grid; grid-template-columns: 1fr; gap:12px; }
         @media(min-width:700px){ .plan-grid { grid-template-columns: 1fr 1fr; } }
-        .plan-card { text-align:left; border:1px solid var(--border); background:#0e1530; padding:16px; border-radius:12px; cursor:pointer; color:var(--text); }
+        .plan-card { text-align:left; border:1px solid #e2e8f0; background:#ffffff; padding:16px; border-radius:12px; cursor:pointer; color:#000000; }
         .plan-card:hover { border-color: var(--brand); box-shadow: 0 8px 24px rgba(78,123,255,0.18) }
         .plan-card.selected { border-color: var(--brand); outline: 2px solid rgba(78,123,255,0.35); }
         .plan-title { font-weight:800; margin-bottom:6px; }
         .plan-price { font-weight:800; font-size:20px; }
-        .plan-period { font-weight:600; font-size:12px; color: var(--muted); margin-left:6px; }
-        .plan-points { margin:10px 0 0; padding-left:18px; color: var(--muted); }
+        .plan-period { font-weight:600; font-size:12px; color: #6b7280; margin-left:6px; }
+        .plan-points { margin:10px 0 0; padding-left:18px; color: #6b7280; }
         @media (max-width: 900px) {
           .left-hero { 
             position: relative; 
