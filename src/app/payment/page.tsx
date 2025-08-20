@@ -705,7 +705,7 @@ export default function PaymentPage() {
     <Elements stripe={stripePromise}>
       <section className="section" data-page="payment">
         <div className="container grid grid-2" style={{ gap: 28, alignItems: 'start', paddingRight: 0 }}>
-                     <div className="card left-hero" style={{ padding: 28 }}>
+                     <div className="card left-hero" style={{ padding: 48 }}>
              <div className="left-hero-inner">
                <div className="logo">CT</div>
                <div className="brand-pill">CHRISTIAN APOLOGETICS</div>
@@ -830,14 +830,14 @@ export default function PaymentPage() {
       <style>{`
                  .left-hero {
            position: fixed;
-           top: 20px;
-           left: 20px;
-           height: calc(100vh - 40px);
-           width: calc(100% - 40px);
+           top: 0;
+           left: 0;
+           height: 100vh;
+           width: 100%;
            overflow: hidden;
            background: linear-gradient(135deg, #f8fafc, #e2e8f0, #cbd5e1, #94a3b8);
-           border:1px solid var(--border);
-           border-radius:16px;
+           border: none;
+           border-radius: 0;
            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
            z-index: 5;
          }
