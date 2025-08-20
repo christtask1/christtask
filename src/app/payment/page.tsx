@@ -176,7 +176,7 @@ function CardForm({
                                <input
                   type="text"
                   className="card-input floating-input"
-                  placeholder=" "
+                  placeholder="1234 5678 9012 3456"
                   value={cardNumber}
                   onChange={(e) => setCardNumber(formatCardNumber(e.target.value))}
                   maxLength={19}
@@ -193,7 +193,7 @@ function CardForm({
                                <input
                   type="text"
                   className="card-input floating-input"
-                  placeholder=" "
+                  placeholder="MM/YY"
                   value={expiryDate}
                   onChange={(e) => setExpiryDate(formatExpiryDate(e.target.value))}
                   maxLength={5}
@@ -205,15 +205,15 @@ function CardForm({
            
            <div className="card-input-group">
              <div className="floating-label-container">
-               <input
-                 type="text"
-                 className="card-input floating-input"
-                 placeholder=" "
-                 value={cvc}
-                 onChange={(e) => setCvc(e.target.value)}
-                 maxLength={4}
-                 id="cvc"
-               />
+                               <input
+                  type="text"
+                  className="card-input floating-input"
+                  placeholder="123"
+                  value={cvc}
+                  onChange={(e) => setCvc(e.target.value)}
+                  maxLength={4}
+                  id="cvc"
+                />
                <label htmlFor="cvc" className="floating-label">CVC</label>
              </div>
            </div>
@@ -933,6 +933,15 @@ export default function PaymentPage() {
            font-size: 12px;
            color: var(--brand);
            font-weight: 600;
+         }
+         
+         .floating-input::placeholder {
+           color: #9ca3af;
+           opacity: 1;
+         }
+         
+         .floating-input:focus::placeholder {
+           opacity: 0.5;
          }
          
          .floating-input:focus {
