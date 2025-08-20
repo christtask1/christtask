@@ -600,7 +600,7 @@ export default function PaymentPage() {
 
   return (
     <Elements stripe={stripePromise}>
-      <section className="section">
+      <section className="section" data-page="payment">
         <div className="container grid grid-2" style={{ gap: 28, alignItems: 'start' }}>
           <div className="card left-hero" style={{ padding: 28 }}>
             <div className="left-hero-inner">

@@ -147,6 +147,12 @@ export default function RootLayout({ children }: { children: any }) {
           body:has([data-page="chat"]) .site-footer {
             display: none !important;
           }
+          
+          /* Hide header and footer on payment page */
+          body:has([data-page="payment"]) .site-header,
+          body:has([data-page="payment"]) .site-footer {
+            display: none !important;
+          }
         `}</style>
       </body>
     </html>
