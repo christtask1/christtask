@@ -33,9 +33,7 @@ function CardForm({
   const [expiryDate, setExpiryDate] = useState('')
   const [cvc, setCvc] = useState('')
   const [showCardExample, setShowCardExample] = useState(false)
-  const [showExpiryExample, setShowExpiryExample] = useState(false)
-  const [showCvcExample, setShowCvcExample] = useState(false)
-
+  
 
   // Format card number with spaces
   const formatCardNumber = (value: string) => {
@@ -209,17 +207,10 @@ function CardForm({
                    placeholder="MM/YY"
                    value={expiryDate}
                    onChange={(e) => setExpiryDate(formatExpiryDate(e.target.value))}
-                   onFocus={() => setShowExpiryExample(true)}
-                   onBlur={() => setShowExpiryExample(false)}
                    maxLength={5}
                    id="expiry-date"
                  />
                 <label htmlFor="expiry-date" className="floating-label">Expiry Date</label>
-                {showExpiryExample && (
-                  <div className="input-example">
-                    MM/YY
-                  </div>
-                )}
              </div>
            </div>
            
@@ -231,17 +222,10 @@ function CardForm({
                    placeholder="123"
                    value={cvc}
                    onChange={(e) => setCvc(e.target.value)}
-                   onFocus={() => setShowCvcExample(true)}
-                   onBlur={() => setShowCvcExample(false)}
                    maxLength={4}
                    id="cvc"
                  />
                 <label htmlFor="cvc" className="floating-label">CVC</label>
-                {showCvcExample && (
-                  <div className="input-example">
-                    123
-                  </div>
-                )}
              </div>
            </div>
          </div>
