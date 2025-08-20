@@ -838,6 +838,8 @@ export default function PaymentPage() {
            background: linear-gradient(135deg, #f8fafc, #e2e8f0, #cbd5e1, #94a3b8);
            border:1px solid var(--border);
            border-radius:16px;
+           box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+           z-index: 5;
          }
         .left-hero::before {
           content: '';
@@ -886,6 +888,8 @@ export default function PaymentPage() {
            right: 20px;
            top: 10px;
            width: 35%;
+           box-shadow: -8px 0 24px rgba(0, 0, 0, 0.1);
+           z-index: 10;
          }
          
          .pay-card h3 {
