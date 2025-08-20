@@ -916,13 +916,13 @@ export default function PaymentPage() {
          }
          
                    .floating-input {
-            padding: 14px 14px;
+            padding: 18px 14px 14px 14px;
             position: relative;
             z-index: 3;
             color: #000000 !important;
             background: #ffffff !important;
             min-height: 48px;
-            width: 100%;
+            width: 90%;
             box-sizing: border-box;
             border-width: 2px;
           }
