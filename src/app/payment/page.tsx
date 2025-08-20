@@ -732,7 +732,7 @@ export default function PaymentPage() {
 
       <style>{`
         .left-hero {
-          position: sticky;
+          position: fixed;
           top: 20px;
           height: calc(100vh - 40px);
           overflow: hidden;
@@ -774,6 +774,12 @@ export default function PaymentPage() {
           padding:22px;
           margin-right: -20px;
           padding-right: 42px;
+          max-height: calc(100vh - 40px);
+          overflow-y: auto;
+          position: fixed;
+          right: 0;
+          top: 20px;
+          width: 40%;
         }
         .form-block { display:grid; gap:8px; margin-top:14px; }
         .label { font-weight:700; color: var(--text); font-size:14px; }
@@ -790,12 +796,23 @@ export default function PaymentPage() {
         .plan-period { font-weight:600; font-size:12px; color: var(--muted); margin-left:6px; }
         .plan-points { margin:10px 0 0; padding-left:18px; color: var(--muted); }
         @media (max-width: 900px) {
-          .left-hero { position: relative; top: 0; height: auto; }
+          .left-hero { 
+            position: relative; 
+            top: 0; 
+            height: auto; 
+            width: 100%;
+          }
           .hero-title { font-size: 36px; }
           .pay-card { 
+            position: relative;
+            right: auto;
+            top: auto;
+            width: 100%;
             margin-right: 0; 
             padding-right: 22px; 
             border-radius: 16px; 
+            max-height: none;
+            overflow-y: visible;
           }
         }
       `}</style>
