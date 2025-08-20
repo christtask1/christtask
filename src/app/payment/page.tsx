@@ -1031,6 +1031,20 @@ export default function PaymentPage() {
             box-shadow: 0 0 0 3px rgba(78, 123, 255, 0.1);
           }
           
+          .floating-input:active {
+            transform: scale(0.98);
+            border-color: var(--brand);
+            box-shadow: 0 0 0 4px rgba(78, 123, 255, 0.2);
+            transition: all 0.1s ease;
+          }
+          
+          .floating-input:focus:active {
+            transform: scale(0.98);
+            border-color: var(--brand);
+            box-shadow: 0 0 0 4px rgba(78, 123, 255, 0.3);
+            transition: all 0.1s ease;
+          }
+          
           
         .plan-grid { display:grid; grid-template-columns: 1fr; gap:12px; }
         @media(min-width:700px){ .plan-grid { grid-template-columns: 1fr 1fr; } }
