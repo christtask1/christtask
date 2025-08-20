@@ -232,9 +232,9 @@ function CardForm({
                             <div className="logo-animation visa-logo">
                               <svg width="40" height="24" viewBox="0 0 40 24" fill="none">
                                 <rect width="40" height="24" rx="3" fill="#1A1F71"/>
-                                <path d="M15.5 17.5L12.5 6.5H8.5L11.5 17.5H15.5Z" fill="white"/>
-                                <path d="M25.5 6.5L22.5 17.5H18.5L21.5 6.5H25.5Z" fill="white"/>
-                                <path d="M20.5 6.5L17.5 17.5H13.5L16.5 6.5H20.5Z" fill="white"/>
+                                <path d="M8 6L12 18H16L20 6H18L15 14L12 6H10L7 14L4 6H8Z" fill="white"/>
+                                <path d="M24 6L26 6L28 18H26L25 12L23 6H24Z" fill="white"/>
+                                <path d="M32 6L34 6L36 18H34L33 12L31 6H32Z" fill="white"/>
                               </svg>
                             </div>
                           )}
@@ -242,49 +242,55 @@ function CardForm({
                             <div className="logo-animation mastercard-logo">
                               <svg width="40" height="24" viewBox="0 0 40 24" fill="none">
                                 <rect width="40" height="24" rx="3" fill="#EB001B"/>
-                                <circle cx="13" cy="12" r="6" fill="#F79E1B"/>
-                                <circle cx="27" cy="12" r="6" fill="#EB001B"/>
+                                <circle cx="16" cy="12" r="7" fill="#F79E1B"/>
+                                <circle cx="24" cy="12" r="7" fill="#EB001B"/>
+                                <path d="M20 5C18.5 5 17.2 5.8 16.5 7C17.2 8.2 18.5 9 20 9C21.5 9 22.8 8.2 23.5 7C22.8 5.8 21.5 5 20 5Z" fill="#EB001B"/>
                               </svg>
                             </div>
                           )}
                           {detectCardType(cardNumber) === 'amex' && (
                             <div className="logo-animation amex-logo">
-                              <svg width="24" height="16" viewBox="0 0 24 16" fill="none">
-                                <rect width="24" height="16" rx="2" fill="#006FCF"/>
-                                <path d="M12 4L8 8L12 12L16 8L12 4Z" fill="white"/>
+                              <svg width="40" height="24" viewBox="0 0 40 24" fill="none">
+                                <rect width="40" height="24" rx="3" fill="#006FCF"/>
+                                <path d="M8 6L12 18H16L20 6H18L16 14L14 6H12L10 14L8 6Z" fill="white"/>
+                                <path d="M22 6L24 6L26 18H24L23 12L22 6Z" fill="white"/>
+                                <path d="M28 6L30 6L32 18H30L29 12L28 6Z" fill="white"/>
                               </svg>
                             </div>
                           )}
                         </>
                       ) : (
                         <>
-                          {rotatingBrand === 'visa' && (
-                            <div className="logo-animation visa-logo">
-                              <svg width="40" height="24" viewBox="0 0 40 24" fill="none">
-                                <rect width="40" height="24" rx="3" fill="#1A1F71"/>
-                                <path d="M15.5 17.5L12.5 6.5H8.5L11.5 17.5H15.5Z" fill="white"/>
-                                <path d="M25.5 6.5L22.5 17.5H18.5L21.5 6.5H25.5Z" fill="white"/>
-                                <path d="M20.5 6.5L17.5 17.5H13.5L16.5 6.5H20.5Z" fill="white"/>
-                              </svg>
-                            </div>
-                          )}
-                          {rotatingBrand === 'mastercard' && (
-                            <div className="logo-animation mastercard-logo">
-                              <svg width="40" height="24" viewBox="0 0 40 24" fill="none">
-                                <rect width="40" height="24" rx="3" fill="#EB001B"/>
-                                <circle cx="13" cy="12" r="6" fill="#F79E1B"/>
-                                <circle cx="27" cy="12" r="6" fill="#EB001B"/>
-                              </svg>
-                            </div>
-                          )}
-                          {rotatingBrand === 'amex' && (
-                            <div className="logo-animation amex-logo">
-                              <svg width="24" height="16" viewBox="0 0 24 16" fill="none">
-                                <rect width="24" height="16" rx="2" fill="#006FCF"/>
-                                <path d="M12 4L8 8L12 12L16 8L12 4Z" fill="white"/>
-                              </svg>
-                            </div>
-                          )}
+                                                     {rotatingBrand === 'visa' && (
+                             <div className="logo-animation visa-logo">
+                               <svg width="40" height="24" viewBox="0 0 40 24" fill="none">
+                                 <rect width="40" height="24" rx="3" fill="#1A1F71"/>
+                                 <path d="M8 6L12 18H16L20 6H18L15 14L12 6H10L7 14L4 6H8Z" fill="white"/>
+                                 <path d="M24 6L26 6L28 18H26L25 12L23 6H24Z" fill="white"/>
+                                 <path d="M32 6L34 6L36 18H34L33 12L31 6H32Z" fill="white"/>
+                               </svg>
+                             </div>
+                           )}
+                                                     {rotatingBrand === 'mastercard' && (
+                             <div className="logo-animation mastercard-logo">
+                               <svg width="40" height="24" viewBox="0 0 40 24" fill="none">
+                                 <rect width="40" height="24" rx="3" fill="#EB001B"/>
+                                 <circle cx="16" cy="12" r="7" fill="#F79E1B"/>
+                                 <circle cx="24" cy="12" r="7" fill="#EB001B"/>
+                                 <path d="M20 5C18.5 5 17.2 5.8 16.5 7C17.2 8.2 18.5 9 20 9C21.5 9 22.8 8.2 23.5 7C22.8 5.8 21.5 5 20 5Z" fill="#EB001B"/>
+                               </svg>
+                             </div>
+                           )}
+                                                     {rotatingBrand === 'amex' && (
+                             <div className="logo-animation amex-logo">
+                               <svg width="40" height="24" viewBox="0 0 40 24" fill="none">
+                                 <rect width="40" height="24" rx="3" fill="#006FCF"/>
+                                 <path d="M8 6L12 18H16L20 6H18L16 14L14 6H12L10 14L8 6Z" fill="white"/>
+                                 <path d="M22 6L24 6L26 18H24L23 12L22 6Z" fill="white"/>
+                                 <path d="M28 6L30 6L32 18H30L29 12L28 6Z" fill="white"/>
+                               </svg>
+                             </div>
+                           )}
                         </>
                       )}
                     </div>
