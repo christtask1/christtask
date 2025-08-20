@@ -36,6 +36,21 @@ function CardForm({
   const [showExpiryExample, setShowExpiryExample] = useState(false)
   const [showCvcExample, setShowCvcExample] = useState(false)
 
+  // Detect card type based on card number
+  const detectCardType = (cardNumber: string) => {
+    const cleanNumber = cardNumber.replace(/\s/g, '')
+    
+    if (/^4/.test(cleanNumber)) return 'visa'
+    if (/^5[1-5]/.test(cleanNumber)) return 'mastercard'
+    if (/^3[47]/.test(cleanNumber)) return 'amex'
+    if (/^6/.test(cleanNumber)) return 'discover'
+    if (/^35/.test(cleanNumber)) return 'jcb'
+    if (/^30[0-5]/.test(cleanNumber) || /^3[89]/.test(cleanNumber)) return 'diners'
+    if (/^62/.test(cleanNumber)) return 'unionpay'
+    
+    return 'generic'
+  }
+
   // Format card number with spaces
   const formatCardNumber = (value: string) => {
     const v = value.replace(/\s+/g, '').replace(/[^0-9]/gi, '')
@@ -175,25 +190,39 @@ function CardForm({
              <div className="card-inputs">
          <div className="card-input-row">
            <div className="card-input-group">
-             <div className="floating-label-container">
-                                                                <input
-                   type="text"
-                   className="card-input floating-input"
-                   placeholder="1234 5678 9012 3456"
-                   value={cardNumber}
-                   onChange={(e) => setCardNumber(formatCardNumber(e.target.value))}
-                   onFocus={() => setShowCardExample(true)}
-                   onBlur={() => setShowCardExample(false)}
-                   maxLength={19}
-                   id="card-number"
-                 />
+                           <div className="floating-label-container">
+                <input
+                  type="text"
+                  className="card-input floating-input"
+                  placeholder="1234 5678 9012 3456"
+                  value={cardNumber}
+                  onChange={(e) => setCardNumber(formatCardNumber(e.target.value))}
+                  onFocus={() => setShowCardExample(true)}
+                  onBlur={() => setShowCardExample(false)}
+                  maxLength={19}
+                  id="card-number"
+                />
                 <label htmlFor="card-number" className="floating-label">Card Number</label>
                 {showCardExample && (
                   <div className="input-example">
                     1234 5678 9012 3456
                   </div>
                 )}
-             </div>
+                <div className="card-logo">
+                  {cardNumber.length > 0 && (
+                    <div className={`card-icon ${detectCardType(cardNumber)}`}>
+                      {detectCardType(cardNumber) === 'visa' && '💳'}
+                      {detectCardType(cardNumber) === 'mastercard' && '💳'}
+                      {detectCardType(cardNumber) === 'amex' && '💳'}
+                      {detectCardType(cardNumber) === 'discover' && '💳'}
+                      {detectCardType(cardNumber) === 'jcb' && '💳'}
+                      {detectCardType(cardNumber) === 'diners' && '💳'}
+                      {detectCardType(cardNumber) === 'unionpay' && '💳'}
+                      {detectCardType(cardNumber) === 'generic' && '💳'}
+                    </div>
+                  )}
+                </div>
+              </div>
            </div>
          </div>
          
@@ -988,10 +1017,92 @@ export default function PaymentPage() {
            to { opacity: 1; transform: translateY(-50%) translateX(0); }
          }
          
-         .floating-input:focus {
-           border-color: var(--brand);
-           box-shadow: 0 0 0 3px rgba(78, 123, 255, 0.1);
-         }
+                   .floating-input:focus {
+            border-color: var(--brand);
+            box-shadow: 0 0 0 3px rgba(78, 123, 255, 0.1);
+          }
+          
+          .card-logo {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 4;
+            pointer-events: none;
+          }
+          
+          .card-icon {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            border-radius: 6px;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s ease;
+            animation: cardLogoAppear 0.4s ease-out;
+          }
+          
+          .card-icon.visa {
+            background: linear-gradient(135deg, #1a1f71, #00539c);
+            color: #ffffff;
+            border-color: #1a1f71;
+          }
+          
+          .card-icon.mastercard {
+            background: linear-gradient(135deg, #eb001b, #f79e1b);
+            color: #ffffff;
+            border-color: #eb001b;
+          }
+          
+          .card-icon.amex {
+            background: linear-gradient(135deg, #006fcf, #00a1e0);
+            color: #ffffff;
+            border-color: #006fcf;
+          }
+          
+          .card-icon.discover {
+            background: linear-gradient(135deg, #ff6000, #ff8c00);
+            color: #ffffff;
+            border-color: #ff6000;
+          }
+          
+          .card-icon.jcb {
+            background: linear-gradient(135deg, #0b4ea2, #00a0e9);
+            color: #ffffff;
+            border-color: #0b4ea2;
+          }
+          
+          .card-icon.diners {
+            background: linear-gradient(135deg, #0079be, #00a3e0);
+            color: #ffffff;
+            border-color: #0079be;
+          }
+          
+          .card-icon.unionpay {
+            background: linear-gradient(135deg, #e60012, #ff6b35);
+            color: #ffffff;
+            border-color: #e60012;
+          }
+          
+          .card-icon.generic {
+            background: linear-gradient(135deg, #6b7280, #9ca3af);
+            color: #ffffff;
+            border-color: #6b7280;
+          }
+          
+          @keyframes cardLogoAppear {
+            from {
+              opacity: 0;
+              transform: translateY(-50%) scale(0.8);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(-50%) scale(1);
+            }
+          }
         .plan-grid { display:grid; grid-template-columns: 1fr; gap:12px; }
         @media(min-width:700px){ .plan-grid { grid-template-columns: 1fr 1fr; } }
         .plan-card { text-align:left; border:1px solid #e2e8f0; background:#ffffff; padding:16px; border-radius:12px; cursor:pointer; color:#000000; }
