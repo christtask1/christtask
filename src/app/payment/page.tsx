@@ -1061,6 +1061,14 @@ export default function PaymentPage() {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
           }
           
+          .floating-input select option {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+          }
+          
+          select.floating-input {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+          }
+          
           
         .plan-grid { display:grid; grid-template-columns: 1fr; gap:12px; }
         @media(min-width:700px){ .plan-grid { grid-template-columns: 1fr 1fr; } }
