@@ -734,7 +734,9 @@ export default function PaymentPage() {
         .left-hero {
           position: fixed;
           top: 20px;
+          left: 20px;
           height: calc(100vh - 40px);
+          width: 55%;
           overflow: hidden;
           background: linear-gradient(135deg, #0f172a, #1e293b, #334155, #475569);
           border:1px solid var(--border);
@@ -777,7 +779,7 @@ export default function PaymentPage() {
           max-height: calc(100vh - 40px);
           overflow-y: auto;
           position: fixed;
-          right: 0;
+          right: 20px;
           top: 20px;
           width: 40%;
         }
@@ -799,6 +801,7 @@ export default function PaymentPage() {
           .left-hero { 
             position: relative; 
             top: 0; 
+            left: 0;
             height: auto; 
             width: 100%;
           }
