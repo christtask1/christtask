@@ -833,7 +833,7 @@ export default function PaymentPage() {
            top: 20px;
            left: 20px;
            height: calc(100vh - 40px);
-           width: 55%;
+           width: 60%;
            overflow: hidden;
            background: linear-gradient(135deg, #f8fafc, #e2e8f0, #cbd5e1, #94a3b8);
            border:1px solid var(--border);
@@ -885,7 +885,7 @@ export default function PaymentPage() {
            position: fixed;
            right: 20px;
            top: 20px;
-           width: 40%;
+           width: 35%;
          }
          
          .pay-card h3 {
