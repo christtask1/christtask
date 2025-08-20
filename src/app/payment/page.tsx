@@ -650,7 +650,7 @@ export default function PaymentPage() {
             </div>
                          <div className="form-block">
                <h4 style={{ margin: 0, color: '#000000' }}>What's included:</h4>
-               <ul style={{ marginTop: 8, lineHeight: 1.9, color: '#6b7280' }}>
+               <ul style={{ marginTop: 8, lineHeight: 1.9, color: '#000000' }}>
                  <li>Complete apologetics training</li>
                  <li>Defend your faith confidently</li>
                  <li>Join 1000+ Christians</li>
