@@ -32,6 +32,9 @@ function CardForm({
   const [cardNumber, setCardNumber] = useState('')
   const [expiryDate, setExpiryDate] = useState('')
   const [cvc, setCvc] = useState('')
+  const [showCardExample, setShowCardExample] = useState(false)
+  const [showExpiryExample, setShowExpiryExample] = useState(false)
+  const [showCvcExample, setShowCvcExample] = useState(false)
 
   // Format card number with spaces
   const formatCardNumber = (value: string) => {
@@ -173,16 +176,23 @@ function CardForm({
          <div className="card-input-row">
            <div className="card-input-group">
              <div className="floating-label-container">
-                               <input
+                                               <input
                   type="text"
                   className="card-input floating-input"
-                  placeholder="1234 5678 9012 3456"
+                  placeholder=""
                   value={cardNumber}
                   onChange={(e) => setCardNumber(formatCardNumber(e.target.value))}
+                  onFocus={() => setShowCardExample(true)}
+                  onBlur={() => setShowCardExample(false)}
                   maxLength={19}
                   id="card-number"
                 />
-               <label htmlFor="card-number" className="floating-label">Card Number</label>
+                <label htmlFor="card-number" className="floating-label">Card Number</label>
+                {showCardExample && (
+                  <div className="input-example">
+                    1234 5678 9012 3456
+                  </div>
+                )}
              </div>
            </div>
          </div>
@@ -190,31 +200,45 @@ function CardForm({
          <div className="card-input-row">
            <div className="card-input-group">
              <div className="floating-label-container">
-                               <input
+                                               <input
                   type="text"
                   className="card-input floating-input"
-                  placeholder="MM/YY"
+                  placeholder=""
                   value={expiryDate}
                   onChange={(e) => setExpiryDate(formatExpiryDate(e.target.value))}
+                  onFocus={() => setShowExpiryExample(true)}
+                  onBlur={() => setShowExpiryExample(false)}
                   maxLength={5}
                   id="expiry-date"
                 />
-               <label htmlFor="expiry-date" className="floating-label">Expiry Date</label>
+                <label htmlFor="expiry-date" className="floating-label">Expiry Date</label>
+                {showExpiryExample && (
+                  <div className="input-example">
+                    MM/YY
+                  </div>
+                )}
              </div>
            </div>
            
            <div className="card-input-group">
              <div className="floating-label-container">
-                               <input
+                                               <input
                   type="text"
                   className="card-input floating-input"
-                  placeholder="123"
+                  placeholder=""
                   value={cvc}
                   onChange={(e) => setCvc(e.target.value)}
+                  onFocus={() => setShowCvcExample(true)}
+                  onBlur={() => setShowCvcExample(false)}
                   maxLength={4}
                   id="cvc"
                 />
-               <label htmlFor="cvc" className="floating-label">CVC</label>
+                <label htmlFor="cvc" className="floating-label">CVC</label>
+                {showCvcExample && (
+                  <div className="input-example">
+                    123
+                  </div>
+                )}
              </div>
            </div>
          </div>
@@ -905,7 +929,7 @@ export default function PaymentPage() {
            padding-top: 20px;
            padding-bottom: 8px;
            position: relative;
-           z-index: 2;
+           z-index: 3;
            color: #000000 !important;
            background: #ffffff !important;
          }
@@ -942,6 +966,24 @@ export default function PaymentPage() {
          
          .floating-input:focus::placeholder {
            opacity: 0.5;
+         }
+         
+         .input-example {
+           position: absolute;
+           top: 50%;
+           left: 14px;
+           transform: translateY(-50%);
+           color: #9ca3af;
+           font-size: 14px;
+           font-family: 'Courier New', monospace;
+           pointer-events: none;
+           z-index: 0;
+           animation: fadeIn 0.3s ease-in;
+         }
+         
+         @keyframes fadeIn {
+           from { opacity: 0; transform: translateY(-50%) translateX(-10px); }
+           to { opacity: 1; transform: translateY(-50%) translateX(0); }
          }
          
          .floating-input:focus {
