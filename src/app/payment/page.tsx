@@ -879,7 +879,7 @@ export default function PaymentPage() {
          .card-input {
            width: 100%;
            background: #ffffff;
-           color: #1e293b;
+           color: #000000 !important;
            border: 1px solid #e2e8f0;
            border-radius: 8px;
            padding: 12px 14px;
@@ -906,6 +906,8 @@ export default function PaymentPage() {
            padding-bottom: 8px;
            position: relative;
            z-index: 2;
+           color: #000000 !important;
+           background: #ffffff !important;
          }
          
          .floating-label {
@@ -922,6 +924,7 @@ export default function PaymentPage() {
            padding: 0 4px;
            z-index: 1;
            user-select: none;
+           margin-top: -10px;
          }
          
          .floating-input:focus + .floating-label,
