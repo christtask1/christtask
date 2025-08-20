@@ -604,11 +604,12 @@ export default function PaymentPage() {
         <div className="container grid grid-2" style={{ gap: 28, alignItems: 'start', paddingRight: 0 }}>
           <div className="card left-hero" style={{ padding: 28 }}>
             <div className="left-hero-inner">
+              <div className="brand-pill">CHRISTIAN APOLOGETICS</div>
               <h1 className="hero-title">
-                Master Apologetics <span className="accent">Today</span>
+                Start Your <span className="accent">Transformation</span> Today
               </h1>
               <p className="muted" style={{ marginTop: 10, maxWidth: 640 }}>
-                Be equipped to defend Christianity and never stay silent during accusations. Together with 1000+ Christians.
+                Get your personalized apologetics training and transformation plan based on biblical truth and 2000+ years of Christian wisdom.
               </p>
             </div>
           </div>
@@ -735,7 +736,7 @@ export default function PaymentPage() {
           top: 20px;
           height: calc(100vh - 40px);
           overflow: hidden;
-          background: linear-gradient(120deg, rgba(36,48,88,0.65), rgba(16,24,48,0.9));
+          background: linear-gradient(135deg, #0f172a, #1e293b, #334155, #475569);
           border:1px solid var(--border);
           border-radius:16px;
         }
@@ -743,16 +744,28 @@ export default function PaymentPage() {
           content: '';
           position: absolute;
           inset: 0;
-          background: radial-gradient(1200px 600px at 10% 20%, rgba(110,140,255,0.18), transparent 60%),
-                      radial-gradient(900px 500px at 80% 60%, rgba(100,90,255,0.16), transparent 60%),
-                      linear-gradient(180deg, rgba(10,14,30,0), rgba(10,14,30,0.35));
-          animation: gradientShift 14s ease-in-out infinite alternate;
+          background: radial-gradient(800px 600px at 20% 30%, rgba(34, 197, 94, 0.15), transparent 60%),
+                      radial-gradient(600px 500px at 80% 70%, rgba(59, 130, 246, 0.12), transparent 60%),
+                      linear-gradient(180deg, rgba(15, 23, 42, 0), rgba(15, 23, 42, 0.4));
+          animation: gradientShift 20s ease-in-out infinite alternate;
         }
         .left-hero-inner { position: relative; z-index: 1; }
+        .brand-pill {
+          display: inline-block;
+          background: rgba(34, 197, 94, 0.15);
+          border: 1px solid rgba(34, 197, 94, 0.3);
+          color: #22c55e;
+          padding: 8px 16px;
+          border-radius: 20px;
+          font-size: 12px;
+          font-weight: 600;
+          letter-spacing: 0.5px;
+          margin-bottom: 24px;
+        }
         .hero-title { font-size: 44px; line-height: 1.05; letter-spacing: var(--tracking-tight); margin: 4px 0 8px; }
-        .hero-title .accent { color: #b191ff; text-shadow: 0 6px 30px rgba(177,145,255,0.25); }
+        .hero-title .accent { color: #22c55e; text-shadow: 0 6px 30px rgba(34, 197, 94, 0.25); }
         @media(min-width: 1024px) { .hero-title { font-size: 56px; } }
-        @keyframes gradientShift { 0% { transform: translate3d(0,0,0) } 100% { transform: translate3d(-4%, -3%, 0) } }
+        @keyframes gradientShift { 0% { transform: translate3d(0,0,0) } 100% { transform: translate3d(-2%, -1%, 0) } }
 
         .pay-card { 
           background: linear-gradient(180deg, rgba(23,35,74,0.55), rgba(16,24,48,0.8)); 
