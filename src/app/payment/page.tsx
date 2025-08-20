@@ -236,12 +236,22 @@ function CardForm({
                    maxLength={4}
                    id="cvc"
                  />
-                <label htmlFor="cvc" className="floating-label">CVC</label>
+                <label htmlFor="cvc" className="floating-label">Security Code</label>
                 {showCvcExample && !cvc && (
                   <div className="input-example">
                     123
                   </div>
                 )}
+                <div className="card-icon cvc-icon">
+                  <svg width="24" height="16" viewBox="0 0 24 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect width="24" height="16" rx="2" fill="#f3f4f6"/>
+                    <rect x="2" y="2" width="20" height="12" rx="1" fill="#ffffff" stroke="#d1d5db" stroke-width="0.5"/>
+                    <rect x="4" y="4" width="16" height="2" rx="0.5" fill="#9ca3af"/>
+                    <rect x="4" y="8" width="8" height="1" rx="0.5" fill="#9ca3af"/>
+                    <rect x="4" y="10" width="6" height="1" rx="0.5" fill="#9ca3af"/>
+                    <text x="18" y="13" font-family="Arial" font-size="8" fill="#6b7280">123</text>
+                  </svg>
+                </div>
              </div>
            </div>
          </div>
@@ -995,6 +1005,20 @@ export default function PaymentPage() {
            pointer-events: none;
            z-index: 6;
            animation: fadeIn 0.3s ease-in;
+         }
+         
+         .card-icon {
+           position: absolute;
+           right: 14px;
+           top: 50%;
+           transform: translateY(-50%);
+           z-index: 4;
+         }
+         
+         .cvc-icon {
+           right: 14px;
+           top: 50%;
+           transform: translateY(-50%);
          }
          
          @keyframes fadeIn {
