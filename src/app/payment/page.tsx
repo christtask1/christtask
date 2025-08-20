@@ -601,7 +601,7 @@ export default function PaymentPage() {
   return (
     <Elements stripe={stripePromise}>
       <section className="section" data-page="payment">
-        <div className="container grid grid-2" style={{ gap: 28, alignItems: 'start' }}>
+        <div className="container grid grid-2" style={{ gap: 28, alignItems: 'start', paddingRight: 0 }}>
           <div className="card left-hero" style={{ padding: 28 }}>
             <div className="left-hero-inner">
               <h1 className="hero-title">
@@ -754,7 +754,14 @@ export default function PaymentPage() {
         @media(min-width: 1024px) { .hero-title { font-size: 56px; } }
         @keyframes gradientShift { 0% { transform: translate3d(0,0,0) } 100% { transform: translate3d(-4%, -3%, 0) } }
 
-        .pay-card { background: linear-gradient(180deg, rgba(23,35,74,0.55), rgba(16,24,48,0.8)); border:1px solid var(--border); border-radius:16px; padding:22px; }
+        .pay-card { 
+          background: linear-gradient(180deg, rgba(23,35,74,0.55), rgba(16,24,48,0.8)); 
+          border:1px solid var(--border); 
+          border-radius:16px 0 0 16px; 
+          padding:22px;
+          margin-right: -20px;
+          padding-right: 42px;
+        }
         .form-block { display:grid; gap:8px; margin-top:14px; }
         .label { font-weight:700; color: var(--text); font-size:14px; }
         .input, .select { width:100%; background:#0e1530; color:var(--text); border:1px solid var(--border); border-radius:10px; padding:12px 14px; outline:none; }
@@ -772,6 +779,11 @@ export default function PaymentPage() {
         @media (max-width: 900px) {
           .left-hero { position: relative; top: 0; height: auto; }
           .hero-title { font-size: 36px; }
+          .pay-card { 
+            margin-right: 0; 
+            padding-right: 22px; 
+            border-radius: 16px; 
+          }
         }
       `}</style>
     </Elements>
