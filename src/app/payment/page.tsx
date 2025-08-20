@@ -58,7 +58,7 @@ function CardForm({
   // Format expiry date
   const formatExpiryDate = (value: string) => {
     const v = value.replace(/\s+/g, '').replace(/[^0-9]/gi, '')
-    if (v.length >= 2) {
+    if (v.length >= 4) {
       return v.substring(0, 2) + '/' + v.substring(2, 4)
     }
     return v
