@@ -970,7 +970,7 @@ export default function PaymentPage() {
          
          .input-example {
            position: absolute;
-           top: 34px;
+           top: 16px;
            left: 14px;
            color: #9ca3af;
            font-size: 14px;
