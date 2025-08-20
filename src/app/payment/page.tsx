@@ -1032,14 +1032,12 @@ export default function PaymentPage() {
           }
           
           .floating-input:active {
-            transform: scale(0.98);
             border-color: var(--brand);
             box-shadow: 0 0 0 4px rgba(78, 123, 255, 0.2);
             transition: all 0.1s ease;
           }
           
           .floating-input:focus:active {
-            transform: scale(0.98);
             border-color: var(--brand);
             box-shadow: 0 0 0 4px rgba(78, 123, 255, 0.3);
             transition: all 0.1s ease;
