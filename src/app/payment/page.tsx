@@ -620,13 +620,46 @@ export default function PaymentPage() {
             
             
 
-            <div className="form-block">
-              <div className="secure-checkout">
-                <span className="lock-icon">🔒</span>
-                <span className="secure-text">Secure, fast checkout with Link</span>
-                <span className="dropdown">▼</span>
-              </div>
-            </div>
+                         <div className="form-block">
+               <label className="label">Choose your plan</label>
+               {loading ? (
+                 <div style={{ padding: '20px', textAlign: 'center', color: 'var(--muted)' }}>
+                   Loading subscription plans...
+                 </div>
+               ) : (
+                 <div className="plan-grid">
+                   {prices.map((price) => {
+                     const displayCurrency = (COUNTRY_TO_CURRENCY[country] || price.currency || 'GBP').toUpperCase()
+                     const displayAmountMinor = convertMinorUnits(price.unit_amount, price.currency, displayCurrency)
+                     return (
+                     <button
+                       key={price.id}
+                       type="button"
+                       className={`plan-card ${plan === price.id ? 'selected' : ''}`}
+                       onClick={() => setPlan(price.id)}
+                     >
+                       <div className="plan-title">{price.product_name}</div>
+                       <div className="plan-price">
+                         {formatPrice(displayAmountMinor, displayCurrency)}
+                         <span className="plan-period">/{price.product_name.includes('Weekly') ? 'week' : price.product_name.includes('Monthly') ? 'month' : 'one-time'}</span>
+                       </div>
+                       <ul className="plan-points">
+                         <li>Full access</li>
+                         <li>Cancel anytime</li>
+                       </ul>
+                     </button>
+                   )})}
+                 </div>
+               )}
+             </div>
+
+             <div className="form-block">
+               <div className="secure-checkout">
+                 <span className="lock-icon">🔒</span>
+                 <span className="secure-text">Secure, fast checkout with Link</span>
+                 <span className="dropdown">▼</span>
+               </div>
+             </div>
 
             <div className="form-block">
               <label className="label">Coupon (optional)</label>
