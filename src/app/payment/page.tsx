@@ -956,7 +956,7 @@ export default function PaymentPage() {
          .floating-label {
            position: absolute;
            left: 14px;
-           top: 24px;
+           top: 20px;
            color: #9ca3af;
            font-size: 14px;
            font-weight: 500;
@@ -970,7 +970,7 @@ export default function PaymentPage() {
          
          .floating-input:focus + .floating-label,
          .floating-input:not(:placeholder-shown) + .floating-label {
-           top: 14px;
+           top: 10px;
            font-size: 12px;
            color: var(--brand);
            font-weight: 600;
@@ -997,7 +997,7 @@ export default function PaymentPage() {
          
          .input-example {
            position: absolute;
-           top: 20px;
+           top: 28px;
            left: 14px;
            color: #9ca3af;
            font-size: 14px;
