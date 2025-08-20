@@ -602,19 +602,19 @@ export default function PaymentPage() {
     <Elements stripe={stripePromise}>
       <section className="section">
         <div className="container grid grid-2" style={{ gap: 28, alignItems: 'start' }}>
-          <div className="card" style={{ padding: 28 }}>
-            <span className="pill">Secure checkout</span>
-            <h2 style={{ marginTop: 10 }}>Complete your subscription</h2>
-            <p className="muted" style={{ marginTop: 6 }}>Enter any valid promotion code, choose your country, and pay securely with your card.</p>
-            <ul className="muted" style={{ marginTop: 14, lineHeight: 1.9 }}>
-              <li>256‑bit SSL, PCI‑compliant processing</li>
-              <li>Cancel anytime from your account</li>
-              <li>Instant access after payment</li>
-            </ul>
+          <div className="card left-hero" style={{ padding: 28 }}>
+            <div className="left-hero-inner">
+              <h1 className="hero-title">
+                Master Apologetics <span className="accent">Today</span>
+              </h1>
+              <p className="muted" style={{ marginTop: 10, maxWidth: 640 }}>
+                Be equipped to defend Christianity and never stay silent during accusations. Together with 1000+ Christians.
+              </p>
+            </div>
           </div>
 
           <div className="pay-card">
-            <h3>Payment details</h3>
+            <h3>Choose Your Plan</h3>
             <div className="form-block">
               <label className="label">Choose your plan</label>
               {loading ? (
@@ -646,6 +646,15 @@ export default function PaymentPage() {
                   )})}
                 </div>
               )}
+            </div>
+            <div className="form-block">
+              <h4 style={{ margin: 0 }}>What's included:</h4>
+              <ul className="muted" style={{ marginTop: 8, lineHeight: 1.9 }}>
+                <li>Complete apologetics training</li>
+                <li>Defend your faith confidently</li>
+                <li>Join 1000+ Christians</li>
+                <li>Access to all ChristTask features</li>
+              </ul>
             </div>
             <div className="form-block">
               <label className="label">Coupon (optional)</label>
@@ -721,6 +730,30 @@ export default function PaymentPage() {
       </section>
 
       <style>{`
+        .left-hero {
+          position: sticky;
+          top: 20px;
+          height: calc(100vh - 40px);
+          overflow: hidden;
+          background: linear-gradient(120deg, rgba(36,48,88,0.65), rgba(16,24,48,0.9));
+          border:1px solid var(--border);
+          border-radius:16px;
+        }
+        .left-hero::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: radial-gradient(1200px 600px at 10% 20%, rgba(110,140,255,0.18), transparent 60%),
+                      radial-gradient(900px 500px at 80% 60%, rgba(100,90,255,0.16), transparent 60%),
+                      linear-gradient(180deg, rgba(10,14,30,0), rgba(10,14,30,0.35));
+          animation: gradientShift 14s ease-in-out infinite alternate;
+        }
+        .left-hero-inner { position: relative; z-index: 1; }
+        .hero-title { font-size: 44px; line-height: 1.05; letter-spacing: var(--tracking-tight); margin: 4px 0 8px; }
+        .hero-title .accent { color: #b191ff; text-shadow: 0 6px 30px rgba(177,145,255,0.25); }
+        @media(min-width: 1024px) { .hero-title { font-size: 56px; } }
+        @keyframes gradientShift { 0% { transform: translate3d(0,0,0) } 100% { transform: translate3d(-4%, -3%, 0) } }
+
         .pay-card { background: linear-gradient(180deg, rgba(23,35,74,0.55), rgba(16,24,48,0.8)); border:1px solid var(--border); border-radius:16px; padding:22px; }
         .form-block { display:grid; gap:8px; margin-top:14px; }
         .label { font-weight:700; color: var(--text); font-size:14px; }
@@ -736,6 +769,10 @@ export default function PaymentPage() {
         .plan-price { font-weight:800; font-size:20px; }
         .plan-period { font-weight:600; font-size:12px; color: var(--muted); margin-left:6px; }
         .plan-points { margin:10px 0 0; padding-left:18px; color: var(--muted); }
+        @media (max-width: 900px) {
+          .left-hero { position: relative; top: 0; height: auto; }
+          .hero-title { font-size: 36px; }
+        }
       `}</style>
     </Elements>
   )
