@@ -162,13 +162,13 @@ function CardForm({
 
       // For now, we'll redirect to loading since we don't have Stripe Elements
       // In a real implementation, you'd use the card details with Stripe API
-      if (!user) {
-        try {
-          const { error: signUpError } = await supabase.auth.signUp({ email, password })
-          if (signUpError && !/registered/i.test(signUpError.message)) throw signUpError
-          if (signUpError && /registered/i.test(signUpError.message)) {
-            await supabase.auth.signInWithPassword({ email, password })
-          }
+        if (!user) {
+          try {
+            const { error: signUpError } = await supabase.auth.signUp({ email, password })
+            if (signUpError && !/registered/i.test(signUpError.message)) throw signUpError
+            if (signUpError && /registered/i.test(signUpError.message)) {
+              await supabase.auth.signInWithPassword({ email, password })
+            }
         } catch (e: any) { 
           setError(`Account creation failed: ${e.message}. Please contact support.`)
           setLoading(false)
@@ -206,26 +206,72 @@ function CardForm({
                 {showCardExample && (
                   <div className="input-example">
                     1234 5678 9012 3456
-                  </div>
+      </div>
                 )}
-                                 <div className="card-logo">
-                   <div className={`card-icon ${cardNumber.length > 0 ? detectCardType(cardNumber) : 'default'}`}>
-                     {cardNumber.length > 0 ? (
-                       <>
-                         {detectCardType(cardNumber) === 'visa' && '💳'}
-                         {detectCardType(cardNumber) === 'mastercard' && '💳'}
-                         {detectCardType(cardNumber) === 'amex' && '💳'}
-                         {detectCardType(cardNumber) === 'discover' && '💳'}
-                         {detectCardType(cardNumber) === 'jcb' && '💳'}
-                         {detectCardType(cardNumber) === 'diners' && '💳'}
-                         {detectCardType(cardNumber) === 'unionpay' && '💳'}
-                         {detectCardType(cardNumber) === 'generic' && '💳'}
-                       </>
-                     ) : (
-                       '💳'
-                     )}
-                   </div>
-                 </div>
+                                                   <div className="card-logo">
+                    <div className={`card-icon ${cardNumber.length > 0 ? detectCardType(cardNumber) : 'default'}`}>
+                      {cardNumber.length > 0 ? (
+                        <>
+                          {detectCardType(cardNumber) === 'visa' && (
+                            <svg width="40" height="24" viewBox="0 0 40 24" fill="none">
+                              <rect width="40" height="24" rx="3" fill="#1A1F71"/>
+                              <path d="M15.5 17.5L12.5 6.5H8.5L11.5 17.5H15.5Z" fill="white"/>
+                              <path d="M25.5 6.5L22.5 17.5H18.5L21.5 6.5H25.5Z" fill="white"/>
+                              <path d="M20.5 6.5L17.5 17.5H13.5L16.5 6.5H20.5Z" fill="white"/>
+                            </svg>
+                          )}
+                          {detectCardType(cardNumber) === 'mastercard' && (
+                            <svg width="40" height="24" viewBox="0 0 40 24" fill="none">
+                              <rect width="40" height="24" rx="3" fill="#EB001B"/>
+                              <circle cx="13" cy="12" r="6" fill="#F79E1B"/>
+                              <circle cx="27" cy="12" r="6" fill="#EB001B"/>
+                            </svg>
+                          )}
+                          {detectCardType(cardNumber) === 'amex' && (
+                            <svg width="24" height="16" viewBox="0 0 24 16" fill="none">
+                              <rect width="24" height="16" rx="2" fill="#006FCF"/>
+                              <path d="M12 4L8 8L12 12L16 8L12 4Z" fill="white"/>
+                            </svg>
+                          )}
+                          {detectCardType(cardNumber) === 'discover' && (
+                            <svg width="24" height="16" viewBox="0 0 24 16" fill="none">
+                              <rect width="24" height="16" rx="2" fill="#FF6000"/>
+                              <circle cx="12" cy="8" r="3" fill="white"/>
+                            </svg>
+                          )}
+                          {detectCardType(cardNumber) === 'jcb' && (
+                            <svg width="24" height="16" viewBox="0 0 24 16" fill="none">
+                              <rect width="24" height="16" rx="2" fill="#0B4EA2"/>
+                              <text x="12" y="10" textAnchor="middle" fill="white" fontSize="8" fontWeight="bold">JCB</text>
+                            </svg>
+                          )}
+                          {detectCardType(cardNumber) === 'diners' && (
+                            <svg width="24" height="16" viewBox="0 0 24 16" fill="none">
+                              <rect width="24" height="16" rx="2" fill="#0079BE"/>
+                              <text x="12" y="10" textAnchor="middle" fill="white" fontSize="8" fontWeight="bold">DC</text>
+                            </svg>
+                          )}
+                          {detectCardType(cardNumber) === 'unionpay' && (
+                            <svg width="24" height="16" viewBox="0 0 24 16" fill="none">
+                              <rect width="24" height="16" rx="2" fill="#E60012"/>
+                              <text x="12" y="10" textAnchor="middle" fill="white" fontSize="8" fontWeight="bold">UP</text>
+                            </svg>
+                          )}
+                          {detectCardType(cardNumber) === 'generic' && (
+                            <svg width="24" height="16" viewBox="0 0 24 16" fill="none">
+                              <rect width="24" height="16" rx="2" fill="#6B7280"/>
+                              <rect x="4" y="6" width="16" height="4" rx="1" fill="white"/>
+                            </svg>
+                          )}
+                        </>
+                      ) : (
+                        <svg width="40" height="24" viewBox="0 0 40 24" fill="none">
+                          <rect width="40" height="24" rx="3" fill="#F3F4F6" stroke="#D1D5DB" strokeWidth="1"/>
+                          <rect x="6" y="9" width="28" height="6" rx="1" fill="#9CA3AF"/>
+                        </svg>
+                      )}
+                    </div>
+                  </div>
               </div>
            </div>
          </div>
@@ -718,45 +764,45 @@ export default function PaymentPage() {
                  Get your personalized apologetics training and transformation plan based on biblical truth and 2000+ years of Christian wisdom.
                </p>
              </div>
-           </div>
+          </div>
 
           <div className="pay-card">
             <h3>Card Details</h3>
             
             
 
-                         <div className="form-block">
-               <label className="label">Choose your plan</label>
-               {loading ? (
-                 <div style={{ padding: '20px', textAlign: 'center', color: 'var(--muted)' }}>
-                   Loading subscription plans...
-                 </div>
-               ) : (
-                 <div className="plan-grid">
-                   {prices.map((price) => {
-                     const displayCurrency = (COUNTRY_TO_CURRENCY[country] || price.currency || 'GBP').toUpperCase()
-                     const displayAmountMinor = convertMinorUnits(price.unit_amount, price.currency, displayCurrency)
-                     return (
-                     <button
-                       key={price.id}
-                       type="button"
-                       className={`plan-card ${plan === price.id ? 'selected' : ''}`}
-                       onClick={() => setPlan(price.id)}
-                     >
-                       <div className="plan-title">{price.product_name}</div>
-                       <div className="plan-price">
-                         {formatPrice(displayAmountMinor, displayCurrency)}
-                         <span className="plan-period">/{price.product_name.includes('Weekly') ? 'week' : price.product_name.includes('Monthly') ? 'month' : 'one-time'}</span>
-                       </div>
-                       <ul className="plan-points">
-                         <li>Full access</li>
-                         <li>Cancel anytime</li>
-                       </ul>
-                     </button>
-                   )})}
-                 </div>
-               )}
-             </div>
+            <div className="form-block">
+              <label className="label">Choose your plan</label>
+              {loading ? (
+                <div style={{ padding: '20px', textAlign: 'center', color: 'var(--muted)' }}>
+                  Loading subscription plans...
+                </div>
+              ) : (
+                <div className="plan-grid">
+                  {prices.map((price) => {
+                    const displayCurrency = (COUNTRY_TO_CURRENCY[country] || price.currency || 'GBP').toUpperCase()
+                    const displayAmountMinor = convertMinorUnits(price.unit_amount, price.currency, displayCurrency)
+                    return (
+                    <button
+                      key={price.id}
+                      type="button"
+                      className={`plan-card ${plan === price.id ? 'selected' : ''}`}
+                      onClick={() => setPlan(price.id)}
+                    >
+                      <div className="plan-title">{price.product_name}</div>
+                      <div className="plan-price">
+                        {formatPrice(displayAmountMinor, displayCurrency)}
+                        <span className="plan-period">/{price.product_name.includes('Weekly') ? 'week' : price.product_name.includes('Monthly') ? 'month' : 'one-time'}</span>
+                      </div>
+                      <ul className="plan-points">
+                        <li>Full access</li>
+                        <li>Cancel anytime</li>
+                      </ul>
+                    </button>
+                  )})}
+                </div>
+              )}
+            </div>
 
              <div className="form-block">
                <div className="secure-checkout">
@@ -827,11 +873,11 @@ export default function PaymentPage() {
             />
                          
              
-             <div className="form-block">
+            <div className="form-block">
                <p className="disclaimer">
                  By providing your card information, you allow ChristTask to charge your card for future payments in accordance with our terms.
                </p>
-             </div>
+            </div>
           </div>
         </div>
       </section>
@@ -905,7 +951,7 @@ export default function PaymentPage() {
         .label { font-weight:700; color: #000000; font-size:14px; }
         .input, .select { width:100%; background:#ffffff; color:#1e293b; border:1px solid #e2e8f0; border-radius:10px; padding:12px 14px; outline:none; }
         .input::placeholder { color: var(--muted); }
-                 .card-shell { border:1px dashed var(--border); border-radius:12px; padding:14px; background:#0e1530; }
+        .card-shell { border:1px dashed var(--border); border-radius:12px; padding:14px; background:#0e1530; }
          
          .card-inputs {
            display: flex;
@@ -1035,19 +1081,20 @@ export default function PaymentPage() {
             pointer-events: none;
           }
           
-          .card-icon {
-            width: 32px;
-            height: 32px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            border-radius: 6px;
-            background: #ffffff;
-            border: 1px solid #e2e8f0;
-            transition: all 0.3s ease;
-            animation: cardLogoAppear 0.4s ease-out;
-          }
+                                           .card-icon {
+              width: 48px;
+              height: 32px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              border-radius: 4px;
+              background: #ffffff;
+              border: 1px solid #e2e8f0;
+              transition: all 0.3s ease;
+              animation: cardLogoAppear 0.4s ease-out;
+              overflow: hidden;
+              box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            }
           
           .card-icon.visa {
             background: linear-gradient(135deg, #1a1f71, #00539c);
