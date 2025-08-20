@@ -880,11 +880,11 @@ export default function PaymentPage() {
            padding:22px;
            margin-right: -20px;
            padding-right: 42px;
-           max-height: calc(100vh - 40px);
+           max-height: calc(100vh - 20px);
            overflow-y: auto;
            position: fixed;
            right: 20px;
-           top: 20px;
+           top: 10px;
            width: 35%;
          }
          
