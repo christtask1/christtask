@@ -353,7 +353,7 @@ export default function ChatPage() {
             </button>
           )}
           <div style={{ color: 'var(--muted)', fontSize: 12 }}>
-            Signed in: {userEmail || 'Anonymous'}
+          Signed in: {userEmail || 'Anonymous'}
           </div>
         </div>
       </aside>
@@ -378,7 +378,7 @@ export default function ChatPage() {
         {isBibleOpen && (
           <div
             ref={biblePanelRef}
-            style={{
+                  style={{
               position: isBibleFullscreen ? 'fixed' : 'relative',
               inset: isBibleFullscreen ? 0 : 'auto',
               zIndex: isBibleFullscreen ? 450 : 'auto',
@@ -392,38 +392,38 @@ export default function ChatPage() {
             <div className="card" style={{ padding: 16, marginBottom: 0, display: 'flex', flexDirection: 'column', gap: 12, height: isBibleFullscreen ? '100%' : '100%', flex: 1 }}>
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 12, flexWrap: 'wrap' }}>
                 <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-                  <button
-                    type="button"
+                <button
+                  type="button"
                     onClick={() => setIsBookPickerOpen(true)}
-                    style={{
+                  style={{
                       background: 'rgba(122,162,255,0.12)',
-                      border: '1px solid var(--border)',
-                      color: '#eef1f8',
-                      padding: '8px 12px',
-                      borderRadius: 10,
-                      cursor: 'pointer'
-                    }}
-                  >
+                    border: '1px solid var(--border)',
+                    color: '#eef1f8',
+                    padding: '8px 12px',
+                    borderRadius: 10,
+                    cursor: 'pointer'
+                  }}
+                >
                     Books
-                  </button>
+                </button>
                   <div className="muted" style={{ fontSize: 13 }}>
                     {selectedBook ? `${selectedBook.name} • Chapters: ${selectedBook.chapters}` : 'Choose a book'}
                   </div>
-                </div>
+              </div>
                 <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-                  {selectedBook && (
-                    <select
-                      value={selectedChapter}
-                      onChange={(e) => handleChangeChapter(Number(e.target.value))}
-                      style={{ background: '#0e1530', color: '#eef1f8', border: '1px solid var(--border)', borderRadius: 8, padding: '8px 10px' }}
-                    >
-                      {Array.from({ length: selectedBook.chapters }, (_, i) => i + 1).map((ch) => (
-                        <option key={ch} value={ch}>Chapter {ch}</option>
-                      ))}
-                    </select>
-                  )}
-                  <button
-                    type="button"
+                {selectedBook && (
+                  <select
+                    value={selectedChapter}
+                    onChange={(e) => handleChangeChapter(Number(e.target.value))}
+                    style={{ background: '#0e1530', color: '#eef1f8', border: '1px solid var(--border)', borderRadius: 8, padding: '8px 10px' }}
+                  >
+                    {Array.from({ length: selectedBook.chapters }, (_, i) => i + 1).map((ch) => (
+                      <option key={ch} value={ch}>Chapter {ch}</option>
+                    ))}
+                  </select>
+                )}
+                <button
+                  type="button"
                     onClick={() => setIsBibleFullscreen((v) => !v)}
                     className="btn secondary"
                     style={{ padding: '8px 12px', borderRadius: 10 }}
@@ -433,13 +433,13 @@ export default function ChatPage() {
                   <button
                     type="button"
                     onClick={() => { setIsBibleOpen(false); setIsBibleFullscreen(false) }}
-                    className="btn secondary"
-                    style={{ padding: '8px 12px', borderRadius: 10 }}
-                  >
-                    Close
-                  </button>
-                </div>
+                  className="btn secondary"
+                  style={{ padding: '8px 12px', borderRadius: 10 }}
+                >
+                  Close
+                </button>
               </div>
+            </div>
 
               <div style={{ flex: 1, minHeight: 200, display: 'flex' }}>
                 <div style={{
@@ -575,12 +575,12 @@ export default function ChatPage() {
         )}
 
 {!isBibleOpen && (
-          <div className="card" style={{ padding: 0, flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0 }}>
-            <div className="claude-chat" style={{ flex: 1, overflowY: 'auto', padding: 18 }}>
-              <div className="stream">
-                {messages.map((m, idx) => (
-                  <div key={idx} className={`bubble ${m.role}`}>
-                    <div className="bubble-inner">
+        <div className="card" style={{ padding: 0, flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0 }}>
+          <div className="claude-chat" style={{ flex: 1, overflowY: 'auto', padding: 18 }}>
+            <div className="stream">
+              {messages.map((m, idx) => (
+                <div key={idx} className={`bubble ${m.role}`}>
+                  <div className="bubble-inner">
                       <div className="bubble-text">
                         {m.role === 'assistant' ? (
                           <TypingText text={m.content} delay={0} />
@@ -606,26 +606,26 @@ export default function ChatPage() {
                           </svg>
                         </button>
                       )}
+                  </div>
+                </div>
+              ))}
+              {isTyping && (
+                <div className="bubble assistant">
+                  <div className="bubble-inner">
+                    <div className="typing">
+                      <span className="dot" />
+                      <span className="dot" />
+                      <span className="dot" />
                     </div>
                   </div>
-                ))}
-                {isTyping && (
-                  <div className="bubble assistant">
-                    <div className="bubble-inner">
-                      <div className="typing">
-                        <span className="dot" />
-                        <span className="dot" />
-                        <span className="dot" />
-                      </div>
-                    </div>
-                  </div>
-                )}
-                <div ref={bottomRef} />
-              </div>
+                </div>
+              )}
+              <div ref={bottomRef} />
             </div>
+          </div>
 
-            {/* Input rail */}
-            <div className="input-rail">
+          {/* Input rail */}
+          <div className="input-rail">
               <form onSubmit={onSend} style={{ display: 'flex', gap: 10, width: '100%' }}>
                 <input
                   className="input fancy"
