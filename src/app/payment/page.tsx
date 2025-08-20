@@ -1009,14 +1009,14 @@ export default function PaymentPage() {
          
          .card-icon {
            position: absolute;
-           right: 14px;
+           right: 8px;
            top: 50%;
            transform: translateY(-50%);
            z-index: 4;
          }
          
          .cvc-icon {
-           right: 14px;
+           right: 8px;
            top: 50%;
            transform: translateY(-50%);
          }
