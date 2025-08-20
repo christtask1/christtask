@@ -33,6 +33,8 @@ function CardForm({
   const [expiryDate, setExpiryDate] = useState('')
   const [cvc, setCvc] = useState('')
   const [showCardExample, setShowCardExample] = useState(false)
+  const [showExpiryExample, setShowExpiryExample] = useState(false)
+  const [showCvcExample, setShowCvcExample] = useState(false)
   
 
   // Format card number with spaces
@@ -204,13 +206,20 @@ function CardForm({
                                                                 <input
                    type="text"
                    className="card-input floating-input"
-                   placeholder="MM/YY"
+                   placeholder=""
                    value={expiryDate}
                    onChange={(e) => setExpiryDate(formatExpiryDate(e.target.value))}
+                   onFocus={() => setShowExpiryExample(true)}
+                   onBlur={() => setShowExpiryExample(false)}
                    maxLength={5}
                    id="expiry-date"
                  />
                 <label htmlFor="expiry-date" className="floating-label">Expiry Date</label>
+                {showExpiryExample && !expiryDate && (
+                  <div className="input-example">
+                    MM/YY
+                  </div>
+                )}
              </div>
            </div>
            
@@ -219,13 +228,20 @@ function CardForm({
                                                                 <input
                    type="text"
                    className="card-input floating-input"
-                   placeholder="123"
+                   placeholder=""
                    value={cvc}
                    onChange={(e) => setCvc(e.target.value)}
+                   onFocus={() => setShowCvcExample(true)}
+                   onBlur={() => setShowCvcExample(false)}
                    maxLength={4}
                    id="cvc"
                  />
                 <label htmlFor="cvc" className="floating-label">CVC</label>
+                {showCvcExample && !cvc && (
+                  <div className="input-example">
+                    123
+                  </div>
+                )}
              </div>
            </div>
          </div>
@@ -951,12 +967,12 @@ export default function PaymentPage() {
          }
          
          .floating-input::placeholder {
-           color: #9ca3af;
-           opacity: 1;
+           color: transparent;
+           opacity: 0;
          }
          
                    .floating-input:focus::placeholder {
-            opacity: 0.5;
+            opacity: 0;
           }
           
                      .card-number-label {
