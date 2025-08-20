@@ -176,17 +176,17 @@ function CardForm({
          <div className="card-input-row">
            <div className="card-input-group">
              <div className="floating-label-container">
-                                               <input
-                  type="text"
-                  className="card-input floating-input"
-                  placeholder=""
-                  value={cardNumber}
-                  onChange={(e) => setCardNumber(formatCardNumber(e.target.value))}
-                  onFocus={() => setShowCardExample(true)}
-                  onBlur={() => setShowCardExample(false)}
-                  maxLength={19}
-                  id="card-number"
-                />
+                                                                <input
+                   type="text"
+                   className="card-input floating-input"
+                   placeholder="1234 5678 9012 3456"
+                   value={cardNumber}
+                   onChange={(e) => setCardNumber(formatCardNumber(e.target.value))}
+                   onFocus={() => setShowCardExample(true)}
+                   onBlur={() => setShowCardExample(false)}
+                   maxLength={19}
+                   id="card-number"
+                 />
                 <label htmlFor="card-number" className="floating-label">Card Number</label>
                 {showCardExample && (
                   <div className="input-example">
@@ -200,17 +200,17 @@ function CardForm({
          <div className="card-input-row">
            <div className="card-input-group">
              <div className="floating-label-container">
-                                               <input
-                  type="text"
-                  className="card-input floating-input"
-                  placeholder=""
-                  value={expiryDate}
-                  onChange={(e) => setExpiryDate(formatExpiryDate(e.target.value))}
-                  onFocus={() => setShowExpiryExample(true)}
-                  onBlur={() => setShowExpiryExample(false)}
-                  maxLength={5}
-                  id="expiry-date"
-                />
+                                                                <input
+                   type="text"
+                   className="card-input floating-input"
+                   placeholder="MM/YY"
+                   value={expiryDate}
+                   onChange={(e) => setExpiryDate(formatExpiryDate(e.target.value))}
+                   onFocus={() => setShowExpiryExample(true)}
+                   onBlur={() => setShowExpiryExample(false)}
+                   maxLength={5}
+                   id="expiry-date"
+                 />
                 <label htmlFor="expiry-date" className="floating-label">Expiry Date</label>
                 {showExpiryExample && (
                   <div className="input-example">
@@ -222,17 +222,17 @@ function CardForm({
            
            <div className="card-input-group">
              <div className="floating-label-container">
-                                               <input
-                  type="text"
-                  className="card-input floating-input"
-                  placeholder=""
-                  value={cvc}
-                  onChange={(e) => setCvc(e.target.value)}
-                  onFocus={() => setShowCvcExample(true)}
-                  onBlur={() => setShowCvcExample(false)}
-                  maxLength={4}
-                  id="cvc"
-                />
+                                                                <input
+                   type="text"
+                   className="card-input floating-input"
+                   placeholder="123"
+                   value={cvc}
+                   onChange={(e) => setCvc(e.target.value)}
+                   onFocus={() => setShowCvcExample(true)}
+                   onBlur={() => setShowCvcExample(false)}
+                   maxLength={4}
+                   id="cvc"
+                 />
                 <label htmlFor="cvc" className="floating-label">CVC</label>
                 {showCvcExample && (
                   <div className="input-example">
@@ -886,9 +886,10 @@ export default function PaymentPage() {
            gap: 16px;
          }
          
-         .card-input-group {
-           flex: 1;
-         }
+                   .card-input-group {
+            flex: 1;
+            min-width: 300px;
+          }
          
          .card-label {
            display: block;
@@ -900,18 +901,19 @@ export default function PaymentPage() {
            letter-spacing: 0.5px;
          }
          
-         .card-input {
-           width: 100%;
-           background: #ffffff;
-           color: #000000 !important;
-           border: 1px solid #e2e8f0;
-           border-radius: 8px;
-           padding: 16px 14px;
-           outline: none;
-           font-size: 16px;
-           font-family: 'Courier New', monospace;
-           min-height: 50px;
-         }
+                   .card-input {
+            width: 100%;
+            background: #ffffff;
+            color: #000000 !important;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 16px 14px;
+            outline: none;
+            font-size: 16px;
+            font-family: 'Courier New', monospace;
+            min-height: 60px;
+            box-sizing: border-box;
+          }
          
          .card-input:focus {
            border-color: var(--brand);
@@ -926,14 +928,16 @@ export default function PaymentPage() {
            position: relative;
          }
          
-         .floating-input {
-           padding: 16px 14px;
-           position: relative;
-           z-index: 3;
-           color: #000000 !important;
-           background: #ffffff !important;
-           min-height: 50px;
-         }
+                   .floating-input {
+            padding: 16px 14px;
+            position: relative;
+            z-index: 3;
+            color: #000000 !important;
+            background: #ffffff !important;
+            min-height: 60px;
+            width: 100%;
+            box-sizing: border-box;
+          }
          
          .floating-label {
            position: absolute;
