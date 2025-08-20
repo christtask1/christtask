@@ -921,9 +921,10 @@ export default function PaymentPage() {
             z-index: 3;
             color: #000000 !important;
             background: #ffffff !important;
-            min-height: 60px;
+            min-height: 48px;
             width: 100%;
             box-sizing: border-box;
+            border-width: 2px;
           }
          
          .floating-label {
