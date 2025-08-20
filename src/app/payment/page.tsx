@@ -602,61 +602,41 @@ export default function PaymentPage() {
     <Elements stripe={stripePromise}>
       <section className="section" data-page="payment">
         <div className="container grid grid-2" style={{ gap: 28, alignItems: 'start', paddingRight: 0 }}>
-          <div className="card left-hero" style={{ padding: 28 }}>
-            <div className="left-hero-inner">
-              <div className="brand-pill">CHRISTIAN APOLOGETICS</div>
-              <h1 className="hero-title">
-                Start Your <span className="accent">Transformation</span> Today
-              </h1>
-              <p className="muted" style={{ marginTop: 10, maxWidth: 640 }}>
-                Get your personalized apologetics training and transformation plan based on biblical truth and 2000+ years of Christian wisdom.
-              </p>
-            </div>
-          </div>
+                     <div className="card left-hero" style={{ padding: 28 }}>
+             <div className="left-hero-inner">
+               <div className="logo">CT</div>
+               <div className="brand-pill">CHRISTIAN APOLOGETICS</div>
+               <h1 className="hero-title">
+                 Start Your <span className="accent">Transformation</span> Today
+               </h1>
+               <p className="muted" style={{ marginTop: 10, maxWidth: 640 }}>
+                 Get your personalized apologetics training and transformation plan based on biblical truth and 2000+ years of Christian wisdom.
+               </p>
+             </div>
+           </div>
 
           <div className="pay-card">
-            <h3>Choose Your Plan</h3>
+            <h3>Card Details</h3>
+            
             <div className="form-block">
-              <label className="label">Choose your plan</label>
-              {loading ? (
-                <div style={{ padding: '20px', textAlign: 'center', color: 'var(--muted)' }}>
-                  Loading subscription plans...
-                </div>
-              ) : (
-                <div className="plan-grid">
-                  {prices.map((price) => {
-                    const displayCurrency = (COUNTRY_TO_CURRENCY[country] || price.currency || 'GBP').toUpperCase()
-                    const displayAmountMinor = convertMinorUnits(price.unit_amount, price.currency, displayCurrency)
-                    return (
-                    <button
-                      key={price.id}
-                      type="button"
-                      className={`plan-card ${plan === price.id ? 'selected' : ''}`}
-                      onClick={() => setPlan(price.id)}
-                    >
-                      <div className="plan-title">{price.product_name}</div>
-                      <div className="plan-price">
-                        {formatPrice(displayAmountMinor, displayCurrency)}
-                        <span className="plan-period">/{price.product_name.includes('Weekly') ? 'week' : price.product_name.includes('Monthly') ? 'month' : 'one-time'}</span>
-                      </div>
-                      <ul className="plan-points">
-                        <li>Full access</li>
-                        <li>Cancel anytime</li>
-                      </ul>
-                    </button>
-                  )})}
-                </div>
-              )}
+              <label className="label">Payment Method</label>
+              <div className="payment-method">
+                <input type="radio" id="card" name="payment" value="card" defaultChecked />
+                <label htmlFor="card" className="payment-label">
+                  <span className="card-icon">💳</span>
+                  Card
+                </label>
+              </div>
             </div>
-                         <div className="form-block">
-               <h4 style={{ margin: 0, color: '#000000' }}>What's included:</h4>
-               <ul style={{ marginTop: 8, lineHeight: 1.9, color: '#000000' }}>
-                 <li>Complete apologetics training</li>
-                 <li>Defend your faith confidently</li>
-                 <li>Join 1000+ Christians</li>
-                 <li>Access to all ChristTask features</li>
-               </ul>
-             </div>
+
+            <div className="form-block">
+              <div className="secure-checkout">
+                <span className="lock-icon">🔒</span>
+                <span className="secure-text">Secure, fast checkout with Link</span>
+                <span className="dropdown">▼</span>
+              </div>
+            </div>
+
             <div className="form-block">
               <label className="label">Coupon (optional)</label>
               <input className="input" value={coupon} onChange={(e)=>setCoupon(e.target.value)} placeholder="Enter coupon or promo code" />
@@ -716,32 +696,38 @@ export default function PaymentPage() {
               email={email}
               password={password}
             />
-            <div className="form-block">
-              <button
-                type="button"
-                className="btn secondary"
-                onClick={() => router.push('/login?redirect=/payment')}
-                style={{ width: '100%' }}
-              >
-                Already have an account? Log in
-              </button>
-            </div>
+                         <div className="form-block">
+               <button
+                 type="button"
+                 className="btn secondary"
+                 onClick={() => router.push('/login?redirect=/payment')}
+                 style={{ width: '100%' }}
+               >
+                 Already have an account? Log in
+               </button>
+             </div>
+             
+             <div className="form-block">
+               <p className="disclaimer">
+                 By providing your card information, you allow ChristTask to charge your card for future payments in accordance with our terms.
+               </p>
+             </div>
           </div>
         </div>
       </section>
 
       <style>{`
-        .left-hero {
-          position: fixed;
-          top: 20px;
-          left: 20px;
-          height: calc(100vh - 40px);
-          width: 55%;
-          overflow: hidden;
-          background: linear-gradient(135deg, #0f172a, #1e293b, #334155, #475569);
-          border:1px solid var(--border);
-          border-radius:16px;
-        }
+                 .left-hero {
+           position: fixed;
+           top: 20px;
+           left: 20px;
+           height: calc(100vh - 40px);
+           width: 55%;
+           overflow: hidden;
+           background: linear-gradient(135deg, #f8fafc, #e2e8f0, #cbd5e1, #94a3b8);
+           border:1px solid var(--border);
+           border-radius:16px;
+         }
         .left-hero::before {
           content: '';
           position: absolute;
@@ -751,21 +737,28 @@ export default function PaymentPage() {
                       linear-gradient(180deg, rgba(15, 23, 42, 0), rgba(15, 23, 42, 0.4));
           animation: gradientShift 20s ease-in-out infinite alternate;
         }
-        .left-hero-inner { position: relative; z-index: 1; }
-        .brand-pill {
-          display: inline-block;
-          background: rgba(34, 197, 94, 0.15);
-          border: 1px solid rgba(34, 197, 94, 0.3);
-          color: #22c55e;
-          padding: 8px 16px;
-          border-radius: 20px;
-          font-size: 12px;
-          font-weight: 600;
-          letter-spacing: 0.5px;
-          margin-bottom: 24px;
-        }
-        .hero-title { font-size: 44px; line-height: 1.05; letter-spacing: var(--tracking-tight); margin: 4px 0 8px; }
-        .hero-title .accent { color: #22c55e; text-shadow: 0 6px 30px rgba(34, 197, 94, 0.25); }
+                 .left-hero-inner { position: relative; z-index: 1; }
+         .logo {
+           font-size: 48px;
+           font-weight: 900;
+           color: #ffffff;
+           margin-bottom: 24px;
+           text-shadow: 0 4px 20px rgba(255, 255, 255, 0.3);
+         }
+         .brand-pill {
+           display: inline-block;
+           background: rgba(255, 255, 255, 0.15);
+           border: 1px solid rgba(255, 255, 255, 0.3);
+           color: #ffffff;
+           padding: 8px 16px;
+           border-radius: 20px;
+           font-size: 12px;
+           font-weight: 600;
+           letter-spacing: 0.5px;
+           margin-bottom: 24px;
+         }
+                 .hero-title { font-size: 44px; line-height: 1.05; letter-spacing: var(--tracking-tight); margin: 4px 0 8px; color: #1e293b; }
+         .hero-title .accent { color: #22c55e; text-shadow: 0 4px 20px rgba(34, 197, 94, 0.3); }
         @media(min-width: 1024px) { .hero-title { font-size: 56px; } }
         @keyframes gradientShift { 0% { transform: translate3d(0,0,0) } 100% { transform: translate3d(-2%, -1%, 0) } }
 
@@ -796,8 +789,72 @@ export default function PaymentPage() {
         .plan-title { font-weight:800; margin-bottom:6px; }
         .plan-price { font-weight:800; font-size:20px; }
         .plan-period { font-weight:600; font-size:12px; color: #6b7280; margin-left:6px; }
-        .plan-points { margin:10px 0 0; padding-left:18px; color: #6b7280; }
-        @media (max-width: 900px) {
+                 .plan-points { margin:10px 0 0; padding-left:18px; color: #6b7280; }
+         
+         .payment-method {
+           display: flex;
+           align-items: center;
+           gap: 12px;
+           padding: 16px;
+           border: 1px solid #e2e8f0;
+           border-radius: 12px;
+           background: #ffffff;
+         }
+         
+         .payment-method input[type="radio"] {
+           width: 18px;
+           height: 18px;
+           accent-color: var(--brand);
+         }
+         
+         .payment-label {
+           display: flex;
+           align-items: center;
+           gap: 8px;
+           font-weight: 600;
+           color: #000000;
+           cursor: pointer;
+         }
+         
+         .card-icon {
+           font-size: 20px;
+         }
+         
+         .secure-checkout {
+           display: flex;
+           align-items: center;
+           gap: 8px;
+           padding: 12px 16px;
+           background: #f0fdf4;
+           border: 1px solid #bbf7d0;
+           border-radius: 8px;
+           color: #166534;
+           font-size: 14px;
+           font-weight: 500;
+         }
+         
+         .lock-icon {
+           font-size: 16px;
+         }
+         
+         .secure-text {
+           flex: 1;
+         }
+         
+         .dropdown {
+           font-size: 12px;
+           color: #6b7280;
+         }
+         
+         .disclaimer {
+           font-size: 12px;
+           color: #6b7280;
+           line-height: 1.5;
+           margin: 0;
+           text-align: center;
+         }
+         
+         @media (max-width: 900px) {
           .left-hero { 
             position: relative; 
             top: 0; 
