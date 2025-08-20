@@ -178,26 +178,24 @@ function CardForm({
              <div className="card-inputs">
          <div className="card-input-row">
            <div className="card-input-group">
-                           <div className="floating-label-container">
-                             <div className="card-number-label">Card Number</div>
-                                 <input
-                   type="text"
-                   className="card-input floating-input"
-                   placeholder="1234 5678 9012 3456"
-                   value={cardNumber}
-                   onChange={(e) => setCardNumber(formatCardNumber(e.target.value))}
-                   onFocus={() => setShowCardExample(true)}
-                   onBlur={() => setShowCardExample(false)}
-                   maxLength={19}
-                   id="card-number"
-                 />
-                <label htmlFor="card-number" className="floating-label">Card Number</label>
-                {showCardExample && (
-                  <div className="input-example">
-                    1234 5678 9012 3456
-      </div>
-                )}
-                                                   
+                          <div className="floating-label-container">
+                                <input
+                  type="text"
+                  className="card-input floating-input"
+                  placeholder=" "
+                  value={cardNumber}
+                  onChange={(e) => setCardNumber(formatCardNumber(e.target.value))}
+                  onFocus={() => setShowCardExample(true)}
+                  onBlur={() => setShowCardExample(false)}
+                  maxLength={19}
+                  id="card-number"
+                />
+               <label htmlFor="card-number" className="floating-label">Card Number</label>
+               {showCardExample && !cardNumber && (
+                 <div className="input-example">
+                   1234 1234 1234 1234
+                 </div>
+               )}
               </div>
            </div>
          </div>
@@ -955,7 +953,7 @@ export default function PaymentPage() {
            pointer-events: none;
            background: #ffffff;
            padding: 0 4px;
-           z-index: 1;
+           z-index: 5;
            user-select: none;
          }
          
@@ -988,13 +986,13 @@ export default function PaymentPage() {
          
          .input-example {
            position: absolute;
-           top: 16px;
+           top: 34px;
            left: 14px;
            color: #9ca3af;
            font-size: 14px;
            font-family: 'Courier New', monospace;
            pointer-events: none;
-           z-index: 0;
+           z-index: 6;
            animation: fadeIn 0.3s ease-in;
          }
          
