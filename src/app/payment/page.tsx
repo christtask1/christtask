@@ -83,7 +83,7 @@ function CardForm({
   useEffect(() => {
     let timer: any
     if (!cardNumber) {
-      const brands = ['visa', 'mastercard', 'amex', 'discover', 'jcb', 'diners', 'unionpay']
+      const brands = ['visa', 'amex', 'mastercard']
       let index = 0
       setRotatingBrand(brands[index])
       timer = setInterval(() => {
@@ -94,7 +94,7 @@ function CardForm({
     return () => { if (timer) clearInterval(timer) }
   }, [cardNumber])
 
-  const confirm = async () => {
+yes  const confirm = async () => {
     if (!user && (!email || !password)) {
       alert('Please enter your email and password')
       return
@@ -255,38 +255,6 @@ function CardForm({
                               </svg>
                             </div>
                           )}
-                          {detectCardType(cardNumber) === 'discover' && (
-                            <div className="logo-animation discover-logo">
-                              <svg width="24" height="16" viewBox="0 0 24 16" fill="none">
-                                <rect width="24" height="16" rx="2" fill="#FF6000"/>
-                                <circle cx="12" cy="8" r="3" fill="white"/>
-                              </svg>
-                            </div>
-                          )}
-                          {detectCardType(cardNumber) === 'jcb' && (
-                            <div className="logo-animation jcb-logo">
-                              <svg width="24" height="16" viewBox="0 0 24 16" fill="none">
-                                <rect width="24" height="16" rx="2" fill="#0B4EA2"/>
-                                <text x="12" y="10" textAnchor="middle" fill="white" fontSize="8" fontWeight="bold">JCB</text>
-                              </svg>
-                            </div>
-                          )}
-                          {detectCardType(cardNumber) === 'diners' && (
-                            <div className="logo-animation diners-logo">
-                              <svg width="24" height="16" viewBox="0 0 24 16" fill="none">
-                                <rect width="24" height="16" rx="2" fill="#0079BE"/>
-                                <text x="12" y="10" textAnchor="middle" fill="white" fontSize="8" fontWeight="bold">DC</text>
-                              </svg>
-                            </div>
-                          )}
-                          {detectCardType(cardNumber) === 'unionpay' && (
-                            <div className="logo-animation unionpay-logo">
-                              <svg width="24" height="16" viewBox="0 0 24 16" fill="none">
-                                <rect width="24" height="16" rx="2" fill="#E60012"/>
-                                <text x="12" y="10" textAnchor="middle" fill="white" fontSize="8" fontWeight="bold">UP</text>
-                              </svg>
-                            </div>
-                          )}
                         </>
                       ) : (
                         <>
@@ -314,38 +282,6 @@ function CardForm({
                               <svg width="24" height="16" viewBox="0 0 24 16" fill="none">
                                 <rect width="24" height="16" rx="2" fill="#006FCF"/>
                                 <path d="M12 4L8 8L12 12L16 8L12 4Z" fill="white"/>
-                              </svg>
-                            </div>
-                          )}
-                          {rotatingBrand === 'discover' && (
-                            <div className="logo-animation discover-logo">
-                              <svg width="24" height="16" viewBox="0 0 24 16" fill="none">
-                                <rect width="24" height="16" rx="2" fill="#FF6000"/>
-                                <circle cx="12" cy="8" r="3" fill="white"/>
-                              </svg>
-                            </div>
-                          )}
-                          {rotatingBrand === 'jcb' && (
-                            <div className="logo-animation jcb-logo">
-                              <svg width="24" height="16" viewBox="0 0 24 16" fill="none">
-                                <rect width="24" height="16" rx="2" fill="#0B4EA2"/>
-                                <text x="12" y="10" textAnchor="middle" fill="white" fontSize="8" fontWeight="bold">JCB</text>
-                              </svg>
-                            </div>
-                          )}
-                          {rotatingBrand === 'diners' && (
-                            <div className="logo-animation diners-logo">
-                              <svg width="24" height="16" viewBox="0 0 24 16" fill="none">
-                                <rect width="24" height="16" rx="2" fill="#0079BE"/>
-                                <text x="12" y="10" textAnchor="middle" fill="white" fontSize="8" fontWeight="bold">DC</text>
-                              </svg>
-                            </div>
-                          )}
-                          {rotatingBrand === 'unionpay' && (
-                            <div className="logo-animation unionpay-logo">
-                              <svg width="24" height="16" viewBox="0 0 24 16" fill="none">
-                                <rect width="24" height="16" rx="2" fill="#E60012"/>
-                                <text x="12" y="10" textAnchor="middle" fill="white" fontSize="8" fontWeight="bold">UP</text>
                               </svg>
                             </div>
                           )}
