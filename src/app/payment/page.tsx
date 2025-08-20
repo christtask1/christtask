@@ -213,19 +213,23 @@ function CardForm({
                       {cardNumber.length > 0 ? (
                         <>
                           {detectCardType(cardNumber) === 'visa' && (
-                            <svg width="40" height="24" viewBox="0 0 40 24" fill="none">
-                              <rect width="40" height="24" rx="3" fill="#1A1F71"/>
-                              <path d="M15.5 17.5L12.5 6.5H8.5L11.5 17.5H15.5Z" fill="white"/>
-                              <path d="M25.5 6.5L22.5 17.5H18.5L21.5 6.5H25.5Z" fill="white"/>
-                              <path d="M20.5 6.5L17.5 17.5H13.5L16.5 6.5H20.5Z" fill="white"/>
-                            </svg>
+                            <div className="logo-animation visa-logo">
+                              <svg width="40" height="24" viewBox="0 0 40 24" fill="none">
+                                <rect width="40" height="24" rx="3" fill="#1A1F71"/>
+                                <path d="M15.5 17.5L12.5 6.5H8.5L11.5 17.5H15.5Z" fill="white"/>
+                                <path d="M25.5 6.5L22.5 17.5H18.5L21.5 6.5H25.5Z" fill="white"/>
+                                <path d="M20.5 6.5L17.5 17.5H13.5L16.5 6.5H20.5Z" fill="white"/>
+                              </svg>
+                            </div>
                           )}
                           {detectCardType(cardNumber) === 'mastercard' && (
-                            <svg width="40" height="24" viewBox="0 0 40 24" fill="none">
-                              <rect width="40" height="24" rx="3" fill="#EB001B"/>
-                              <circle cx="13" cy="12" r="6" fill="#F79E1B"/>
-                              <circle cx="27" cy="12" r="6" fill="#EB001B"/>
-                            </svg>
+                            <div className="logo-animation mastercard-logo">
+                              <svg width="40" height="24" viewBox="0 0 40 24" fill="none">
+                                <rect width="40" height="24" rx="3" fill="#EB001B"/>
+                                <circle cx="13" cy="12" r="6" fill="#F79E1B"/>
+                                <circle cx="27" cy="12" r="6" fill="#EB001B"/>
+                              </svg>
+                            </div>
                           )}
                           {detectCardType(cardNumber) === 'amex' && (
                             <svg width="24" height="16" viewBox="0 0 24 16" fill="none">
@@ -265,10 +269,12 @@ function CardForm({
                           )}
                         </>
                       ) : (
-                        <svg width="40" height="24" viewBox="0 0 40 24" fill="none">
-                          <rect width="40" height="24" rx="3" fill="#F3F4F6" stroke="#D1D5DB" strokeWidth="1"/>
-                          <rect x="6" y="9" width="28" height="6" rx="1" fill="#9CA3AF"/>
-                        </svg>
+                        <div className="logo-animation default-logo">
+                          <svg width="40" height="24" viewBox="0 0 40 24" fill="none">
+                            <rect width="40" height="24" rx="3" fill="#F3F4F6" stroke="#D1D5DB" strokeWidth="1"/>
+                            <rect x="6" y="9" width="28" height="6" rx="1" fill="#9CA3AF"/>
+                          </svg>
+                        </div>
                       )}
                     </div>
                   </div>
@@ -1150,16 +1156,114 @@ export default function PaymentPage() {
              border-color: #d1d5db;
            }
           
-          @keyframes cardLogoAppear {
-            from {
-              opacity: 0;
-              transform: translateY(-50%) scale(0.8);
-            }
-            to {
-              opacity: 1;
-              transform: translateY(-50%) scale(1);
-            }
-          }
+                     @keyframes cardLogoAppear {
+             from {
+               opacity: 0;
+               transform: translateY(-50%) scale(0.8);
+             }
+             to {
+               opacity: 1;
+               transform: translateY(-50%) scale(1);
+             }
+           }
+           
+           /* Logo Animation Classes */
+           .logo-animation {
+             animation: logoSwap 0.4s ease-out;
+           }
+           
+           @keyframes logoSwap {
+             0% {
+               opacity: 0;
+               transform: scale(0.8) rotateY(-15deg);
+             }
+             50% {
+               opacity: 0.8;
+               transform: scale(1.1) rotateY(0deg);
+             }
+             100% {
+               opacity: 1;
+               transform: scale(1) rotateY(0deg);
+             }
+           }
+           
+           /* Individual logo entrance effects */
+           .visa-logo {
+             animation: logoSwap 0.4s ease-out, visaGlow 2s ease-in-out infinite alternate;
+           }
+           
+           .mastercard-logo {
+             animation: logoSwap 0.4s ease-out, mastercardGlow 2s ease-in-out infinite alternate;
+           }
+           
+           .amex-logo {
+             animation: logoSwap 0.4s ease-out, amexGlow 2s ease-in-out infinite alternate;
+           }
+           
+           .discover-logo {
+             animation: logoSwap 0.4s ease-out, discoverGlow 2s ease-in-out infinite alternate;
+           }
+           
+           .jcb-logo {
+             animation: logoSwap 0.4s ease-out, jcbGlow 2s ease-in-out infinite alternate;
+           }
+           
+           .diners-logo {
+             animation: logoSwap 0.4s ease-out, dinersGlow 2s ease-in-out infinite alternate;
+           }
+           
+           .unionpay-logo {
+             animation: logoSwap 0.4s ease-out, unionpayGlow 2s ease-in-out infinite alternate;
+           }
+           
+           .generic-logo {
+             animation: logoSwap 0.4s ease-out, genericGlow 2s ease-in-out infinite alternate;
+           }
+           
+           .default-logo {
+             animation: logoSwap 0.4s ease-out;
+           }
+           
+           /* Glow effects for each card type */
+           @keyframes visaGlow {
+             0%, 100% { filter: drop-shadow(0 0 2px rgba(26, 31, 113, 0.3)); }
+             50% { filter: drop-shadow(0 0 8px rgba(26, 31, 113, 0.6)); }
+           }
+           
+           @keyframes mastercardGlow {
+             0%, 100% { filter: drop-shadow(0 0 2px rgba(235, 0, 27, 0.3)); }
+             50% { filter: drop-shadow(0 0 8px rgba(235, 0, 27, 0.6)); }
+           }
+           
+           @keyframes amexGlow {
+             0%, 100% { filter: drop-shadow(0 0 2px rgba(0, 111, 207, 0.3)); }
+             50% { filter: drop-shadow(0 0 8px rgba(0, 111, 207, 0.6)); }
+           }
+           
+           @keyframes discoverGlow {
+             0%, 100% { filter: drop-shadow(0 0 2px rgba(255, 96, 0, 0.3)); }
+             50% { filter: drop-shadow(0 0 8px rgba(255, 96, 0, 0.6)); }
+           }
+           
+           @keyframes jcbGlow {
+             0%, 100% { filter: drop-shadow(0 0 2px rgba(11, 78, 162, 0.3)); }
+             50% { filter: drop-shadow(0 0 8px rgba(11, 78, 162, 0.6)); }
+           }
+           
+           @keyframes dinersGlow {
+             0%, 100% { filter: drop-shadow(0 0 2px rgba(0, 121, 190, 0.3)); }
+             50% { filter: drop-shadow(0 0 8px rgba(0, 121, 190, 0.6)); }
+           }
+           
+           @keyframes unionpayGlow {
+             0%, 100% { filter: drop-shadow(0 0 2px rgba(230, 0, 18, 0.3)); }
+             50% { filter: drop-shadow(0 0 8px rgba(230, 0, 18, 0.6)); }
+           }
+           
+           @keyframes genericGlow {
+             0%, 100% { filter: drop-shadow(0 0 2px rgba(107, 114, 128, 0.3)); }
+             50% { filter: drop-shadow(0 0 8px rgba(107, 114, 128, 0.6)); }
+           }
         .plan-grid { display:grid; grid-template-columns: 1fr; gap:12px; }
         @media(min-width:700px){ .plan-grid { grid-template-columns: 1fr 1fr; } }
         .plan-card { text-align:left; border:1px solid #e2e8f0; background:#ffffff; padding:16px; border-radius:12px; cursor:pointer; color:#000000; }
