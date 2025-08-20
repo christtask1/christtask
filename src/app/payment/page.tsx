@@ -179,17 +179,18 @@ function CardForm({
          <div className="card-input-row">
            <div className="card-input-group">
                            <div className="floating-label-container">
-                <input
-                  type="text"
-                  className="card-input floating-input"
-                  placeholder="1234 5678 9012 3456"
-                  value={cardNumber}
-                  onChange={(e) => setCardNumber(formatCardNumber(e.target.value))}
-                  onFocus={() => setShowCardExample(true)}
-                  onBlur={() => setShowCardExample(false)}
-                  maxLength={19}
-                  id="card-number"
-                />
+                                 <input
+                   type="text"
+                   className="card-input floating-input"
+                   placeholder="1234 5678 9012 3456"
+                   value={cardNumber}
+                   onChange={(e) => setCardNumber(formatCardNumber(e.target.value))}
+                   onFocus={() => setShowCardExample(true)}
+                   onBlur={() => setShowCardExample(false)}
+                   maxLength={19}
+                   id="card-number"
+                 />
+                 <div className="card-number-label">Card Number</div>
                 <label htmlFor="card-number" className="floating-label">Card Number</label>
                 {showCardExample && (
                   <div className="input-example">
@@ -971,9 +972,23 @@ export default function PaymentPage() {
            opacity: 1;
          }
          
-         .floating-input:focus::placeholder {
-           opacity: 0.5;
-         }
+                   .floating-input:focus::placeholder {
+            opacity: 0.5;
+          }
+          
+          .card-number-label {
+            position: absolute;
+            left: 14px;
+            top: 8px;
+            color: var(--brand);
+            font-size: 12px;
+            font-weight: 600;
+            pointer-events: none;
+            background: #ffffff;
+            padding: 0 4px;
+            z-index: 2;
+            user-select: none;
+          }
          
          .input-example {
            position: absolute;
