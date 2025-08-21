@@ -431,6 +431,9 @@ function CardForm({
         <div className="card-input-row">
           <div className="card-input-group">
             <div className="floating-label-container">
+              <div className="card-input-label">
+                {country === 'US' ? 'ZIP code' : 'Post code'}
+              </div>
               <div className="stripe-card-element">
                 <CardElement
                   options={{
@@ -445,6 +448,7 @@ function CardForm({
                       },
                     },
                     hidePostalCode: shouldHidePostalCode(country),
+                    locale: country === 'US' ? 'en' : 'auto',
                   }}
                 />
               </div>
@@ -1779,6 +1783,19 @@ export default function PaymentPage() {
         
         .stripe-card-element .StripeElement--complete {
           border-color: #22c55e;
+        }
+        
+        .stripe-card-element .StripeElement--complete {
+          border-color: #22c55e;
+        }
+        
+        .card-input-label {
+          font-weight: 600;
+          color: #000000;
+          font-size: 14px;
+          margin-bottom: 8px;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
         }
       `}</style>
     </Elements>
