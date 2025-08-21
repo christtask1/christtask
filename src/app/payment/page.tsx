@@ -1293,6 +1293,39 @@ export default function PaymentPage() {
           font-weight: 600;
         }
         
+        /* Special handling for select elements to prevent label overlap */
+        select.floating-input:not([size]) + .floating-label {
+          top: 10px;
+          font-size: 12px;
+          color: var(--brand);
+          font-weight: 600;
+        }
+        
+        /* Ensure select elements have proper padding to avoid text overlap */
+        select.floating-input {
+          padding: 32px 14px 14px 14px;
+          min-height: 56px;
+        }
+        
+        /* Mobile-specific adjustments for floating labels */
+        @media (max-width: 767px) {
+          .floating-label {
+            top: 18px;
+            font-size: 13px;
+          }
+          
+          .floating-input:focus + .floating-label,
+          .floating-input:not(:placeholder-shown) + .floating-label,
+          select.floating-input + .floating-label {
+            top: 8px;
+            font-size: 11px;
+          }
+          
+          select.floating-input {
+            padding: 30px 14px 12px 14px;
+          }
+        }
+        
         .floating-input::placeholder {
           color: transparent;
           opacity: 0;
