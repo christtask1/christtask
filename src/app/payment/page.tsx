@@ -712,9 +712,6 @@ export default function PaymentPage() {
                <h1 className="hero-title">
                  Start Your <span className="accent">Transformation</span> Today
                </h1>
-               <p className="muted" style={{ marginTop: 10, maxWidth: 640 }}>
-                 Get your personalized apologetics training and transformation plan based on biblical truth and 2000+ years of Christian wisdom.
-               </p>
              </div>
           </div>
 
