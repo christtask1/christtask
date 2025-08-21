@@ -1722,12 +1722,14 @@ export default function PaymentPage() {
           min-height: 56px;
           display: flex;
           align-items: center;
+          transition: all 0.3s var(--ease-out-cubic);
         }
         
         .stripe-card-element:focus-within {
           border-color: var(--brand);
           box-shadow: 0 0 0 3px rgba(78, 123, 255, 0.1);
           outline: 2px solid rgba(78, 123, 255, 0.35);
+          transform: translateY(-1px);
         }
         
         .stripe-card-element .StripeElement {
