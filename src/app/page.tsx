@@ -1,5 +1,7 @@
 'use client'
 
+// Main homepage component for ChristTask - helping users defend their faith with Scripture
+
 import { useState, useEffect } from 'react'
 import dynamic from 'next/dynamic'
 
