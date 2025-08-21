@@ -711,15 +711,7 @@ export default function PaymentPage() {
                <div className="brand-pill">CHRISTIAN APOLOGETICS</div>
              </div>
              
-             {/* Flowing Line Elements */}
-             <div className="flowing-element-1"></div>
-             <div className="flowing-element-2"></div>
-             <div className="flowing-element-3"></div>
-             
-             {/* Organic Shape Elements */}
-             <div className="organic-shape-1"></div>
-             <div className="organic-shape-2"></div>
-             <div className="organic-shape-3"></div>
+
           </div>
 
           <div className="pay-card">
@@ -858,13 +850,43 @@ export default function PaymentPage() {
           height: 100vh;
           width: 100%;
           overflow: hidden;
-          background: linear-gradient(135deg, #f8fafc, #e2e8f0, #cbd5e1, #94a3b8, #64748b, #475569);
-          background-size: 400% 400%;
+          background: 
+            radial-gradient(ellipse 800px 600px at 20% 30%, rgba(64, 224, 208, 0.15), transparent 50%),
+            radial-gradient(ellipse 600px 800px at 80% 70%, rgba(0, 191, 255, 0.12), transparent 50%),
+            radial-gradient(ellipse 1000px 700px at 50% 50%, rgba(72, 209, 204, 0.08), transparent 60%),
+            radial-gradient(ellipse 700px 1000px at 10% 80%, rgba(0, 128, 128, 0.1), transparent 50%),
+            radial-gradient(ellipse 900px 500px at 90% 20%, rgba(64, 224, 208, 0.06), transparent 50%);
+          background-size: 200% 200%;
           border: none;
           border-radius: 0;
           box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
           z-index: 5;
-          animation: baseGradientShift 15s ease-in-out infinite;
+          animation: silkyGradientDrift 10s ease-in-out infinite;
+        }
+        
+        /* Subtle vignette overlay */
+        .left-hero::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: radial-gradient(ellipse 100% 100% at 50% 50%, transparent 0%, rgba(0, 0, 0, 0.03) 70%, rgba(0, 0, 0, 0.08) 100%);
+          pointer-events: none;
+          z-index: 1;
+        }
+        
+        /* Second layer of animated gradients for depth */
+        .left-hero::after {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: 
+            radial-gradient(ellipse 1200px 900px at 30% 40%, rgba(0, 255, 255, 0.04), transparent 60%),
+            radial-gradient(ellipse 800px 1200px at 70% 60%, rgba(64, 224, 208, 0.03), transparent 70%),
+            radial-gradient(ellipse 1400px 600px at 50% 20%, rgba(0, 191, 255, 0.02), transparent 80%);
+          background-size: 150% 150%;
+          animation: secondaryGradientFloat 12s ease-in-out infinite reverse;
+          pointer-events: none;
+          z-index: 2;
         }
         .left-hero::before {
           content: '';
@@ -907,70 +929,7 @@ export default function PaymentPage() {
           animation: flowingLines 25s linear infinite, organicShapes 20s ease-in-out infinite alternate;
         }
         
-        /* Additional flowing elements */
-        .left-hero .flowing-element-1 {
-          position: absolute;
-          top: 20%;
-          left: 10%;
-          width: 200px;
-          height: 2px;
-          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-          animation: flowLine1 15s linear infinite;
-        }
-        
-        .left-hero .flowing-element-2 {
-          position: absolute;
-          top: 60%;
-          right: 15%;
-          width: 150px;
-          height: 1px;
-          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-          animation: flowLine2 12s linear infinite reverse;
-        }
-        
-        .left-hero .flowing-element-3 {
-          position: absolute;
-          bottom: 30%;
-          left: 50%;
-          width: 100px;
-          height: 1.5px;
-          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
-          animation: flowLine3 18s linear infinite;
-        }
-        
-        /* Additional organic flowing shapes */
-        .left-hero .organic-shape-1 {
-          position: absolute;
-          top: 15%;
-          right: 25%;
-          width: 80px;
-          height: 80px;
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          border-radius: 50%;
-          animation: organicFloat1 22s ease-in-out infinite;
-        }
-        
-        .left-hero .organic-shape-2 {
-          position: absolute;
-          bottom: 20%;
-          right: 10%;
-          width: 120px;
-          height: 60px;
-          border: 1px solid rgba(255, 255, 255, 0.08);
-          border-radius: 60px 60px 0 0;
-          animation: organicFloat2 28s ease-in-out infinite reverse;
-        }
-        
-        .left-hero .organic-shape-3 {
-          position: absolute;
-          top: 70%;
-          left: 20%;
-          width: 60px;
-          height: 120px;
-          border: 1px solid rgba(255, 255, 255, 0.06);
-          border-radius: 0 0 60px 60px;
-          animation: organicFloat3 25s ease-in-out infinite;
-        }
+
         
         @keyframes gradientShift { 
            0% { 
@@ -1010,26 +969,45 @@ export default function PaymentPage() {
            }
          }
          
-         @keyframes baseGradientShift {
+         @keyframes silkyGradientDrift {
            0% { 
-             background-position: 0% 50%;
-             filter: hue-rotate(0deg);
+             background-position: 0% 0%;
+             filter: hue-rotate(0deg) saturate(1);
            }
            25% { 
-             background-position: 100% 50%;
-             filter: hue-rotate(3deg);
+             background-position: 100% 0%;
+             filter: hue-rotate(2deg) saturate(1.05);
            }
            50% { 
-             background-position: 50% 100%;
-             filter: hue-rotate(6deg);
+             background-position: 100% 100%;
+             filter: hue-rotate(4deg) saturate(1.1);
            }
            75% { 
-             background-position: 50% 0%;
-             filter: hue-rotate(3deg);
+             background-position: 0% 100%;
+             filter: hue-rotate(2deg) saturate(1.05);
            }
            100% { 
-             background-position: 0% 50%;
-             filter: hue-rotate(0deg);
+             background-position: 0% 0%;
+             filter: hue-rotate(0deg) saturate(1);
+           }
+         }
+         
+         @keyframes secondaryGradientFloat {
+           0% { 
+             background-position: 0% 0%;
+             filter: hue-rotate(0deg) saturate(1);
+           }
+           33% { 
+             background-position: 100% 0%;
+             filter: hue-rotate(1deg) saturate(1.02);
+           }
+           66% { 
+             background-position: 100% 100%;
+             filter: hue-rotate(2deg) saturate(1.04);
+           }
+           100% { 
+             background-position: 0% 0%;
+             filter: hue-rotate(0deg) saturate(1);
            }
          }
          
@@ -1061,110 +1039,7 @@ export default function PaymentPage() {
            }
          }
          
-         @keyframes flowLine1 {
-           0% {
-             transform: translateX(-100%) rotate(45deg);
-             opacity: 0;
-           }
-           20% {
-             opacity: 1;
-           }
-           80% {
-             opacity: 1;
-           }
-           100% {
-             transform: translateX(200px) rotate(45deg);
-             opacity: 0;
-           }
-         }
-         
-         @keyframes flowLine2 {
-           0% {
-             transform: translateX(100%) rotate(-45deg);
-             opacity: 0;
-           }
-           20% {
-             opacity: 1;
-           }
-           80% {
-             opacity: 1;
-           }
-           100% {
-             transform: translateX(-200px) rotate(-45deg);
-             opacity: 0;
-           }
-         }
-         
-         @keyframes flowLine3 {
-           0% {
-             transform: translateY(-100%) rotate(135deg);
-             opacity: 0;
-           }
-           20% {
-             opacity: 1;
-           }
-           80% {
-             opacity: 1;
-           }
-           100% {
-             transform: translateY(200px) rotate(135deg);
-             opacity: 0;
-           }
-         }
-         
-         /* Organic shapes floating animations */
-         @keyframes organicFloat1 {
-           0% {
-             transform: translateY(0px) rotate(0deg) scale(1);
-             opacity: 0.6;
-           }
-           33% {
-             transform: translateY(-20px) rotate(120deg) scale(1.1);
-             opacity: 0.8;
-           }
-           66% {
-             transform: translateY(10px) rotate(240deg) scale(0.9);
-             opacity: 0.7;
-           }
-           100% {
-             transform: translateY(0px) rotate(360deg) scale(1);
-             opacity: 0.6;
-           }
-         }
-         
-         @keyframes organicFloat2 {
-           0% {
-             transform: translateX(0px) rotate(0deg) scale(1);
-             opacity: 0.5;
-           }
-           50% {
-             transform: translateX(-15px) rotate(180deg) scale(1.2);
-             opacity: 0.7;
-           }
-           100% {
-             transform: translateX(0px) rotate(360deg) scale(1);
-             opacity: 0.5;
-           }
-         }
-         
-         @keyframes organicFloat3 {
-           0% {
-             transform: translateY(0px) rotate(0deg) scale(1);
-             opacity: 0.4;
-           }
-           25% {
-             transform: translateY(-25px) rotate(90deg) scale(1.3);
-             opacity: 0.6;
-           }
-           75% {
-             transform: translateY(15px) rotate(270deg) scale(0.8);
-             opacity: 0.5;
-           }
-           100% {
-             transform: translateY(0px) rotate(360deg) scale(1);
-             opacity: 0.4;
-           }
-         }
+
                  .left-hero-inner { position: relative; z-index: 1; }
          .logo {
            font-size: 48px;
