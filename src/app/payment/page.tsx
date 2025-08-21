@@ -708,7 +708,6 @@ export default function PaymentPage() {
                      <div className="card left-hero" style={{ padding: 48 }}>
              <div className="left-hero-inner">
                <div className="logo">ChristTask</div>
-               <div className="brand-pill">CHRISTIAN APOLOGETICS</div>
                <div className="bottom-text">Master Apologetics Today</div>
              </div>
              
