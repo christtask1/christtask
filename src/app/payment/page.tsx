@@ -707,7 +707,7 @@ export default function PaymentPage() {
         <div className="container grid grid-2" style={{ gap: 28, alignItems: 'start', paddingRight: 0 }}>
                      <div className="card left-hero" style={{ padding: 48 }}>
              <div className="left-hero-inner">
-               <div className="logo">CT</div>
+               <div className="logo">ChristTask</div>
                <div className="brand-pill">CHRISTIAN APOLOGETICS</div>
              </div>
              
