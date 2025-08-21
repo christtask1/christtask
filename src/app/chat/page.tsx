@@ -387,7 +387,7 @@ export default function ChatPage() {
         right: 0,
         background: 'linear-gradient(180deg, rgba(23,35,74,0.95), rgba(16,24,48,0.98))',
         borderTop: '1px solid var(--border)',
-        padding: '8px 16px',
+        padding: '6px 12px',
         display: 'none', // Hidden by default
         zIndex: 400,
         backdropFilter: 'blur(20px)',
@@ -401,18 +401,18 @@ export default function ChatPage() {
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
-              gap: 2,
+              gap: 1,
               background: 'transparent',
               border: 'none',
               color: isBibleOpen ? '#7aa2ff' : '#a8b3cf',
-              padding: '6px 10px',
-              borderRadius: 10,
+              padding: '4px 8px',
+              borderRadius: 8,
               cursor: 'pointer',
               transition: 'all 0.2s ease'
             }}
           >
-            <div style={{ fontSize: 18 }}>📖</div>
-            <div style={{ fontSize: 11, fontWeight: 500 }}>Bible</div>
+            <div style={{ fontSize: 16 }}>📖</div>
+            <div style={{ fontSize: 10, fontWeight: 500 }}>Bible</div>
           </button>
           
           <button
@@ -422,18 +422,18 @@ export default function ChatPage() {
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
-              gap: 2,
+              gap: 1,
               background: 'transparent',
               border: 'none',
               color: isForumOpen ? '#7aa2ff' : '#a8b3cf',
-              padding: '6px 10px',
-              borderRadius: 10,
+              padding: '4px 8px',
+              borderRadius: 8,
               cursor: 'pointer',
               transition: 'all 0.2s ease'
             }}
           >
-            <div style={{ fontSize: 18 }}>💬</div>
-            <div style={{ fontSize: 11, fontWeight: 500 }}>Forum</div>
+            <div style={{ fontSize: 16 }}>💬</div>
+            <div style={{ fontSize: 10, fontWeight: 500 }}>Forum</div>
           </button>
           
           <button
@@ -443,18 +443,18 @@ export default function ChatPage() {
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
-              gap: 2,
+              gap: 1,
               background: 'transparent',
               border: 'none',
               color: !isBibleOpen && !isForumOpen ? '#7aa2ff' : '#a8b3cf',
-              padding: '6px 10px',
-              borderRadius: 10,
+              padding: '4px 8px',
+              borderRadius: 8,
               cursor: 'pointer',
               transition: 'all 0.2s ease'
             }}
           >
-            <div style={{ fontSize: 18 }}>🤖</div>
-            <div style={{ fontSize: 11, fontWeight: 500 }}>AI Chat</div>
+            <div style={{ fontSize: 16 }}>🤖</div>
+            <div style={{ fontSize: 10, fontWeight: 500 }}>AI Chat</div>
           </button>
         </div>
       </nav>
@@ -894,7 +894,7 @@ export default function ChatPage() {
           
           /* Add bottom padding to main content to account for bottom nav */
           .section {
-            padding-bottom: 80px;
+            padding-bottom: 70px;
           }
         }
       `}</style>
