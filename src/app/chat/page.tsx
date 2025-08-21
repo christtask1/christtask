@@ -81,6 +81,7 @@ export default function ChatPage() {
   const [isBibleOpen, setIsBibleOpen] = useState<boolean>(false)
   const [isBibleFullscreen, setIsBibleFullscreen] = useState<boolean>(false)
   const [isBookPickerOpen, setIsBookPickerOpen] = useState<boolean>(false)
+  const [isForumOpen, setIsForumOpen] = useState<boolean>(false)
   const [activeTestament, setActiveTestament] = useState<'OT' | 'NT'>('OT')
   const [selectedBook, setSelectedBook] = useState<{ name: string; chapters: number } | null>(null)
   const [selectedChapter, setSelectedChapter] = useState<number>(1)
@@ -239,13 +240,23 @@ export default function ChatPage() {
   const goToBible = () => {
     setIsBibleOpen(true)
     setIsSidebarOpen(false)
+    setIsForumOpen(false)
     setTimeout(() => {
       biblePanelRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }, 60)
+  }
+  const goToForum = () => {
+    setIsForumOpen(true)
+    setIsBibleOpen(false)
+    setIsSidebarOpen(false)
+    setTimeout(() => {
+      chatTopRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }, 60)
   }
   const goToChat = () => {
     setIsBibleOpen(false)
     setIsSidebarOpen(false)
+    setIsForumOpen(false)
     setTimeout(() => {
       chatTopRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
     }, 60)
@@ -313,7 +324,7 @@ export default function ChatPage() {
         <nav style={{ display: 'grid', gap: 8 }}>
           {[
             { key: 'bible', label: 'Bible', onClick: goToBible },
-            { key: 'forum', label: 'Forum', onClick: () => {} },
+            { key: 'forum', label: 'Forum', onClick: goToForum },
             { key: 'ai', label: 'AI Chat', onClick: goToChat, active: !isBibleOpen },
           ].map((item) => (
             <button
@@ -406,7 +417,7 @@ export default function ChatPage() {
           
           <button
             type="button"
-            onClick={() => {}}
+            onClick={goToForum}
             style={{
               display: 'flex',
               flexDirection: 'column',
@@ -414,7 +425,7 @@ export default function ChatPage() {
               gap: 4,
               background: 'transparent',
               border: 'none',
-              color: '#a8b3cf',
+              color: isForumOpen ? '#7aa2ff' : '#a8b3cf',
               padding: '8px 12px',
               borderRadius: 12,
               cursor: 'pointer',
@@ -435,7 +446,7 @@ export default function ChatPage() {
               gap: 4,
               background: 'transparent',
               border: 'none',
-              color: !isBibleOpen ? '#7aa2ff' : '#a8b3cf',
+              color: !isBibleOpen && !isForumOpen ? '#7aa2ff' : '#a8b3cf',
               padding: '8px 12px',
               borderRadius: 12,
               cursor: 'pointer',
@@ -664,7 +675,84 @@ export default function ChatPage() {
           </div>
         )}
 
-{!isBibleOpen && (
+        {isForumOpen && (
+          <div className="card" style={{ padding: 0, flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0 }}>
+            <div style={{ 
+              flex: 1, 
+              display: 'flex', 
+              flexDirection: 'column', 
+              alignItems: 'center', 
+              justifyContent: 'center', 
+              padding: '40px 20px',
+              textAlign: 'center'
+            }}>
+              <div style={{ fontSize: '64px', marginBottom: '24px' }}>🚧</div>
+              <h2 style={{ 
+                fontSize: '32px', 
+                fontWeight: '700', 
+                margin: '0 0 16px 0',
+                background: 'linear-gradient(135deg, #7aa2ff, #bb86fc)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text'
+              }}>
+                Forum Coming Soon
+              </h2>
+              <p style={{ 
+                fontSize: '18px', 
+                color: '#a8b3cf', 
+                margin: '0 0 32px 0',
+                maxWidth: '500px',
+                lineHeight: '1.6'
+              }}>
+                We're building an amazing community forum where you can discuss apologetics, 
+                share insights, and connect with fellow believers. Stay tuned for updates!
+              </p>
+              <div style={{ 
+                display: 'flex', 
+                gap: '16px', 
+                flexWrap: 'wrap', 
+                justifyContent: 'center' 
+              }}>
+                <div style={{
+                  background: 'rgba(122, 162, 255, 0.1)',
+                  border: '1px solid rgba(122, 162, 255, 0.3)',
+                  borderRadius: '12px',
+                  padding: '16px 24px',
+                  textAlign: 'center'
+                }}>
+                  <div style={{ fontSize: '24px', marginBottom: '8px' }}>💬</div>
+                  <div style={{ fontWeight: '600', marginBottom: '4px' }}>Community Discussions</div>
+                  <div style={{ fontSize: '14px', color: '#a8b3cf' }}>Share insights & ask questions</div>
+                </div>
+                <div style={{
+                  background: 'rgba(187, 134, 252, 0.1)',
+                  border: '1px solid rgba(187, 134, 252, 0.3)',
+                  borderRadius: '12px',
+                  padding: '16px 24px',
+                  textAlign: 'center'
+                }}>
+                  <div style={{ fontSize: '24px', marginBottom: '8px' }}>🤝</div>
+                  <div style={{ fontWeight: '600', marginBottom: '4px' }}>Study Groups</div>
+                  <div style={{ fontSize: '14px', color: '#a8b3cf' }}>Form small groups & learn together</div>
+                </div>
+                <div style={{
+                  background: 'rgba(34, 197, 94, 0.1)',
+                  border: '1px solid rgba(34, 197, 94, 0.3)',
+                  borderRadius: '12px',
+                  padding: '16px 24px',
+                  textAlign: 'center'
+                }}>
+                  <div style={{ fontSize: '24px', marginBottom: '8px' }}>📚</div>
+                  <div style={{ fontWeight: '600', marginBottom: '4px' }}>Resource Sharing</div>
+                  <div style={{ fontSize: '14px', color: '#a8b3cf' }}>Share books, articles & videos</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {!isBibleOpen && !isForumOpen && (
         <div className="card" style={{ padding: 0, flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0 }}>
           <div className="claude-chat" style={{ flex: 1, overflowY: 'auto', padding: 18 }}>
             <div className="stream">
