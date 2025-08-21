@@ -894,7 +894,12 @@ export default function ChatPage() {
           
           /* Add bottom padding to main content to account for bottom nav */
           .section {
-            padding-bottom: 70px;
+            padding-bottom: 100px;
+          }
+          
+          /* Ensure chatbot input is visible above bottom navigation */
+          .input-rail {
+            margin-bottom: 20px;
           }
         }
       `}</style>
