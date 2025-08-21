@@ -301,6 +301,7 @@ export default function ChatPage() {
         <nav style={{ display: 'grid', gap: 8 }}>
           {[
             { key: 'bible', label: 'Bible', onClick: goToBible },
+            { key: 'forum', label: 'Forum', onClick: () => {} },
             { key: 'ai', label: 'AI Chat', onClick: goToChat, active: !isBibleOpen },
           ].map((item) => (
             <button
