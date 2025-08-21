@@ -1,6 +1,6 @@
 'use client'
 
-// Main homepage component for ChristTask - helping users defend their faith with Scripture
+// ChristTask homepage - helping users defend their faith with Scripture and AI assistance
 
 import { useState, useEffect } from 'react'
 import dynamic from 'next/dynamic'
