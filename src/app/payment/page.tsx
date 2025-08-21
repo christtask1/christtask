@@ -38,6 +38,12 @@ function CardForm({
   const stripe = useStripe()
   const elements = useElements()
   
+  // Function to determine if postcode should be hidden for a country
+  const shouldHidePostalCode = (countryCode: string): boolean => {
+    const countriesWithoutPostalCodes = ['IE', 'HK', 'SG', 'KY', 'BM', 'VG', 'TC', 'AI', 'AW', 'CW', 'SX']
+    return countriesWithoutPostalCodes.includes(countryCode)
+  }
+  
   const COUNTRIES: { code: string; name: string }[] = [
     { code: 'AF', name: 'Afghanistan' },
     { code: 'AL', name: 'Albania' },
@@ -438,6 +444,7 @@ function CardForm({
                         },
                       },
                     },
+                    hidePostalCode: shouldHidePostalCode(country),
                   }}
                 />
               </div>
@@ -461,6 +468,32 @@ function CardForm({
           </select>
           <label htmlFor="country" className="floating-label">Country</label>
         </div>
+        {shouldHidePostalCode(country) && (
+          <div style={{
+            fontSize: '13px',
+            color: '#6b7280',
+            marginTop: '8px',
+            padding: '8px 12px',
+            background: 'rgba(122, 162, 255, 0.1)',
+            border: '1px solid rgba(122, 162, 255, 0.2)',
+            borderRadius: '8px'
+          }}>
+            ℹ️ Postcode field will be hidden for {COUNTRIES.find(c => c.code === country)?.name} - not required for payments
+          </div>
+        )}
+        {!shouldHidePostalCode(country) && (
+          <div style={{
+            fontSize: '13px',
+            color: '#6b7280',
+            marginTop: '8px',
+            padding: '8px 12px',
+            background: 'rgba(34, 197, 94, 0.1)',
+            border: '1px solid rgba(34, 197, 94, 0.2)',
+            borderRadius: '8px'
+          }}>
+            📮 Postcode required for {COUNTRIES.find(c => c.code === country)?.name} - helps ensure payment success
+          </div>
+        )}
       </div>
       
       {error && (
