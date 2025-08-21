@@ -1324,6 +1324,11 @@ export default function PaymentPage() {
           select.floating-input {
             padding: 30px 14px 12px 14px;
           }
+          
+          /* Hide country label on mobile to prevent overlap */
+          select.floating-input + .floating-label {
+            display: none;
+          }
         }
         
         .floating-input::placeholder {
