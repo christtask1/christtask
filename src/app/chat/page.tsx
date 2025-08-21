@@ -267,10 +267,21 @@ export default function ChatPage() {
       overflow: 'hidden',
       position: 'relative'
     }}>
+      {/* Desktop Sidebar - Hidden on Mobile */}
       <div
         aria-hidden
         onMouseEnter={openSidebar}
-        style={{ position: 'fixed', left: 0, top: 0, bottom: 0, width: 12, zIndex: 250, background: 'transparent' }}
+        style={{ 
+          position: 'fixed', 
+          left: 0, 
+          top: 0, 
+          bottom: 0, 
+          width: 12, 
+          zIndex: 250, 
+          background: 'transparent',
+          display: 'none' // Hidden by default
+        }}
+        className="desktop-sidebar-trigger"
       />
 
       <aside
@@ -296,6 +307,7 @@ export default function ChatPage() {
           flexDirection: 'column',
           gap: 12
         }}
+        className="desktop-sidebar"
       >
         <div style={{ fontWeight: 800, letterSpacing: '0.2px' }}>ChristTask</div>
         <nav style={{ display: 'grid', gap: 8 }}>
@@ -355,6 +367,86 @@ export default function ChatPage() {
           </div>
         </div>
       </aside>
+
+      {/* Mobile Bottom Navigation - Only visible on mobile */}
+      <nav className="mobile-bottom-nav" style={{
+        position: 'fixed',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        background: 'linear-gradient(180deg, rgba(23,35,74,0.95), rgba(16,24,48,0.98))',
+        borderTop: '1px solid var(--border)',
+        padding: '12px 20px',
+        display: 'none', // Hidden by default
+        zIndex: 400,
+        backdropFilter: 'blur(20px)',
+        boxShadow: '0 -4px 20px rgba(0,0,0,0.3)'
+      }}>
+        <div style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center' }}>
+          <button
+            type="button"
+            onClick={goToBible}
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: 4,
+              background: 'transparent',
+              border: 'none',
+              color: isBibleOpen ? '#7aa2ff' : '#a8b3cf',
+              padding: '8px 12px',
+              borderRadius: 12,
+              cursor: 'pointer',
+              transition: 'all 0.2s ease'
+            }}
+          >
+            <div style={{ fontSize: 20 }}>📖</div>
+            <div style={{ fontSize: 12, fontWeight: 500 }}>Bible</div>
+          </button>
+          
+          <button
+            type="button"
+            onClick={() => {}}
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: 4,
+              background: 'transparent',
+              border: 'none',
+              color: '#a8b3cf',
+              padding: '8px 12px',
+              borderRadius: 12,
+              cursor: 'pointer',
+              transition: 'all 0.2s ease'
+            }}
+          >
+            <div style={{ fontSize: 20 }}>💬</div>
+            <div style={{ fontSize: 12, fontWeight: 500 }}>Forum</div>
+          </button>
+          
+          <button
+            type="button"
+            onClick={goToChat}
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: 4,
+              background: 'transparent',
+              border: 'none',
+              color: !isBibleOpen ? '#7aa2ff' : '#a8b3cf',
+              padding: '8px 12px',
+              borderRadius: 12,
+              cursor: 'pointer',
+              transition: 'all 0.2s ease'
+            }}
+          >
+            <div style={{ fontSize: 20 }}>🤖</div>
+            <div style={{ fontSize: 12, fontWeight: 500 }}>AI Chat</div>
+          </button>
+        </div>
+      </nav>
 
       <div style={{
         flex: 1,
@@ -679,6 +771,44 @@ export default function ChatPage() {
         .input-rail { position: sticky; bottom: 0; background: linear-gradient(180deg, rgba(4,4,6,0), rgba(4,4,6,0.8) 40%); padding: 12px 12px 0 12px; border-top: 1px solid var(--border); }
         .input.fancy { flex: 1; border-radius: 999px; border: 1px solid var(--border); background: #0e1530; color: #eef1f8; padding: 12px 16px; outline: none; font-size: 16px; }
         @media(min-width: 900px){ .input.fancy { padding: 14px 18px; } }
+        .stripe-card-element .StripeElement--complete {
+          border-color: #22c55e;
+        }
+        
+        /* Desktop Sidebar - Show on larger screens */
+        @media (min-width: 768px) {
+          .desktop-sidebar-trigger {
+            display: block !important;
+          }
+          
+          .desktop-sidebar {
+            display: flex !important;
+          }
+          
+          .mobile-bottom-nav {
+            display: none !important;
+          }
+        }
+        
+        /* Mobile Bottom Navigation - Show on mobile */
+        @media (max-width: 767px) {
+          .desktop-sidebar-trigger {
+            display: none !important;
+          }
+          
+          .desktop-sidebar {
+            display: none !important;
+          }
+          
+          .mobile-bottom-nav {
+            display: block !important;
+          }
+          
+          /* Add bottom padding to main content to account for bottom nav */
+          .section {
+            padding-bottom: 100px;
+          }
+        }
       `}</style>
     </div>
   )
