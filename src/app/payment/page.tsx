@@ -823,21 +823,40 @@ export default function PaymentPage() {
       </section>
 
       <style>{`
-                 .left-hero {
-           position: fixed;
-           top: 0;
-           left: 0;
-           height: 100vh;
-           width: 100%;
-           overflow: hidden;
-           background: linear-gradient(135deg, #f8fafc, #e2e8f0, #cbd5e1, #94a3b8, #64748b, #475569);
-           background-size: 400% 400%;
-           border: none;
-           border-radius: 0;
-           box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-           z-index: 5;
-           animation: baseGradientShift 15s ease-in-out infinite;
-         }
+        :root {
+          --color-black: #000000;
+          --color-white: #ffffff;
+          --color-dark: #121212;
+          --color-gray-light: #7d828e;
+          --color-gray-medium: #758084;
+          --color-gray-dark: #333e47;
+          --color-green-dark: #233137;
+          --color-green-light: #d1ebf2;
+          --color-primary-100: #f2f5f5;
+          --color-bg-secondary: #9aaeb5;
+          --color-text-secondary: #515255;
+          --color-bg-subtle: #fafafa;
+          --color-border-primary-muted: rgba(242, 242, 242, 0.5);
+          --color-border-base: #e8e8e8;
+          --ease-in-out-sine: cubic-bezier(0.445, 0.05, 0.55, 0.95);
+          --ease-out-cubic: cubic-bezier(0.215, 0.61, 0.355, 1);
+        }
+        
+        .left-hero {
+          position: fixed;
+          top: 0;
+          left: 0;
+          height: 100vh;
+          width: 100%;
+          overflow: hidden;
+          background: linear-gradient(135deg, #f8fafc, #e2e8f0, #cbd5e1, #94a3b8, #64748b, #475569);
+          background-size: 400% 400%;
+          border: none;
+          border-radius: 0;
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+          z-index: 5;
+          animation: baseGradientShift 15s ease-in-out infinite;
+        }
         .left-hero::before {
           content: '';
           position: absolute;
@@ -945,22 +964,28 @@ export default function PaymentPage() {
         @media(min-width: 1024px) { .hero-title { font-size: 56px; } }
         @keyframes gradientShift { 0% { transform: translate3d(0,0,0) } 100% { transform: translate3d(-2%, -1%, 0) } }
 
-                 .pay-card { 
-           background: #ffffff; 
-           border:1px solid var(--border); 
-           border-radius:8px 0 0 8px; 
-           padding:22px;
-           margin-right: -20px;
-           padding-right: 42px;
-           max-height: calc(100vh - 20px);
-           overflow-y: auto;
-           position: fixed;
-           right: 20px;
-           top: 10px;
-           width: 35%;
-           box-shadow: -8px 0 24px rgba(0, 0, 0, 0.1);
-           z-index: 10;
-         }
+                         .pay-card { 
+          background: var(--color-white); 
+          border: 0.666667px solid var(--color-border-primary-muted);
+          border-radius: 20.4587px;
+          padding: 24px;
+          margin-right: -20px;
+          padding-right: 42px;
+          max-height: calc(100vh - 20px);
+          overflow-y: auto;
+          position: fixed;
+          right: 20px;
+          top: 10px;
+          width: 35%;
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+          z-index: 10;
+          transition: all 0.3s var(--ease-out-cubic);
+        }
+        
+        .pay-card:hover {
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+          transform: translateY(-2px);
+        }
          
          .pay-card h3 {
            color: #000000;
@@ -968,8 +993,28 @@ export default function PaymentPage() {
          }
         .form-block { display:grid; gap:8px; margin-top:14px; }
         .label { font-weight:700; color: #000000; font-size:14px; }
-        .input, .select { width:100%; background:#ffffff; color:#1e293b; border:1px solid #e2e8f0; border-radius:10px; padding:12px 14px; outline:none; }
-        .input::placeholder { color: var(--muted); }
+        .input, .select { 
+          width: 100%; 
+          background: var(--color-white); 
+          color: var(--color-dark); 
+          border: 0.666667px solid var(--color-border-primary-muted); 
+          border-radius: 12px; 
+          padding: 16px 20px; 
+          outline: none;
+          font-family: inherit;
+          font-size: 16px;
+          transition: all 0.3s var(--ease-out-cubic);
+        }
+        
+        .input:focus, .select:focus {
+          border-color: var(--color-green-dark);
+          box-shadow: 0 0 0 3px rgba(35, 49, 55, 0.1);
+          transform: translateY(-1px);
+        }
+        
+        .input::placeholder { 
+          color: var(--color-gray-light); 
+        }
         .card-shell { border:1px dashed var(--border); border-radius:12px; padding:14px; background:#0e1530; }
          
          .card-inputs {
@@ -1146,9 +1191,46 @@ export default function PaymentPage() {
           
         .plan-grid { display:grid; grid-template-columns: 1fr; gap:12px; }
         @media(min-width:700px){ .plan-grid { grid-template-columns: 1fr 1fr; } }
-        .plan-card { text-align:left; border:1px solid #e2e8f0; background:#ffffff; padding:16px; border-radius:12px; cursor:pointer; color:#000000; }
-        .plan-card:hover { border-color: var(--brand); box-shadow: 0 8px 24px rgba(78,123,255,0.18) }
-        .plan-card.selected { border-color: var(--brand); outline: 2px solid rgba(78,123,255,0.35); }
+        .plan-card { 
+          text-align: left; 
+          border: 0.666667px solid var(--color-border-primary-muted); 
+          background: var(--color-white); 
+          padding: 20px; 
+          border-radius: 16px; 
+          cursor: pointer; 
+          color: var(--color-dark);
+          transition: all 0.3s var(--ease-out-cubic);
+          position: relative;
+          overflow: hidden;
+        }
+        
+        .plan-card::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(135deg, transparent, rgba(35, 49, 55, 0.02), transparent);
+          opacity: 0;
+          transition: opacity 0.3s var(--ease-out-cubic);
+        }
+        
+        .plan-card:hover::before {
+          opacity: 1;
+        }
+        
+        .plan-card:hover { 
+          border-color: var(--color-green-dark); 
+          box-shadow: 0 8px 24px rgba(35, 49, 55, 0.15);
+          transform: translateY(-2px);
+        }
+        
+        .plan-card.selected { 
+          border-color: var(--color-green-dark); 
+          outline: 2px solid rgba(35, 49, 55, 0.3);
+          background: var(--color-primary-100);
+        }
         .plan-title { font-weight:800; margin-bottom:6px; }
         .plan-price { font-weight:800; font-size:20px; }
         .plan-period { font-weight:600; font-size:12px; color: #6b7280; margin-left:6px; }
@@ -1181,18 +1263,26 @@ export default function PaymentPage() {
          
                     
          
-         .secure-checkout {
-           display: flex;
-           align-items: center;
-           gap: 8px;
-           padding: 12px 16px;
-           background: #f0fdf4;
-           border: 1px solid #bbf7d0;
-           border-radius: 8px;
-           color: #166534;
-           font-size: 14px;
-           font-weight: 500;
-         }
+        .secure-checkout {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          padding: 16px 20px;
+          background: var(--color-primary-100);
+          border: 0.666667px solid var(--color-border-primary-muted);
+          border-radius: 12px;
+          color: var(--color-green-dark);
+          font-size: 14px;
+          font-weight: 500;
+          transition: all 0.3s var(--ease-out-cubic);
+          cursor: pointer;
+        }
+        
+        .secure-checkout:hover {
+          background: var(--color-bg-subtle);
+          transform: translateY(-1px);
+          box-shadow: 0 4px 16px rgba(35, 49, 55, 0.1);
+        }
          
          .lock-icon {
            font-size: 16px;
@@ -1207,13 +1297,57 @@ export default function PaymentPage() {
            color: #6b7280;
          }
          
-         .disclaimer {
-           font-size: 12px;
-           color: #6b7280;
-           line-height: 1.5;
-           margin: 0;
-           text-align: center;
-         }
+                 .disclaimer {
+          font-size: 12px;
+          color: var(--color-text-secondary);
+          line-height: 1.5;
+          margin: 0;
+          text-align: center;
+        }
+        
+        /* Enhanced button styles for payment page */
+        .pay-card .btn {
+          background: var(--color-green-dark);
+          color: var(--color-white);
+          border: none;
+          border-radius: 12px;
+          padding: 18px 28px;
+          font-size: 16px;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.3s var(--ease-out-cubic);
+          position: relative;
+          overflow: hidden;
+          width: 100%;
+        }
+        
+        .pay-card .btn::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: -100%;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+          transition: left 0.5s var(--ease-out-cubic);
+        }
+        
+        .pay-card .btn:hover::before {
+          left: 100%;
+        }
+        
+        .pay-card .btn:hover {
+          background: var(--color-green-dark);
+          transform: translateY(-2px);
+          box-shadow: 0 8px 24px rgba(35, 49, 55, 0.3);
+        }
+        
+        .pay-card .btn:disabled {
+          background: var(--color-gray-light);
+          cursor: not-allowed;
+          transform: none;
+          box-shadow: none;
+        }
          
                   @media (max-width: 900px) {
            .left-hero { 
