@@ -679,7 +679,7 @@ export default function ChatPage() {
         .dot:nth-child(2) { animation-delay: .2s }
         .dot:nth-child(3) { animation-delay: .4s }
         .input-rail { position: sticky; bottom: 0; background: linear-gradient(180deg, rgba(4,4,6,0), rgba(4,4,6,0.8) 40%); padding: 12px 12px 0 12px; border-top: 1px solid var(--border); }
-        .input.fancy { flex: 1; border-radius: 999px; border: 1px solid var(--border); background: #0e1530; color: #eef1f8; padding: 12px 16px; outline: none; }
+        .input.fancy { flex: 1; border-radius: 999px; border: 1px solid var(--border); background: #0e1530; color: #eef1f8; padding: 12px 16px; outline: none; font-size: 16px; }
         @media(min-width: 900px){ .input.fancy { padding: 14px 18px; } }
       `}</style>
     </div>
