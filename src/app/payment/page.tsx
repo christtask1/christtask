@@ -843,11 +843,37 @@ export default function PaymentPage() {
           --ease-out-cubic: cubic-bezier(0.215, 0.61, 0.355, 1);
         }
         
+        /* Mobile-first responsive design */
+        .section {
+          padding: 20px;
+          min-height: 100vh;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        
+        .container {
+          width: 100%;
+          max-width: 1200px;
+          margin: 0 auto;
+        }
+        
+        .grid {
+          display: grid;
+          gap: 20px;
+        }
+        
+        .grid-2 {
+          grid-template-columns: 1fr;
+        }
+        
+        /* Left hero section - mobile optimized */
         .left-hero {
-          position: fixed;
+          position: relative;
           top: 0;
           left: 0;
-          height: 100vh;
+          height: auto;
+          min-height: 200px;
           width: 100%;
           overflow: hidden;
           background: 
@@ -858,10 +884,12 @@ export default function PaymentPage() {
             radial-gradient(ellipse 900px 500px at 90% 20%, rgba(64, 224, 208, 0.06), transparent 50%);
           background-size: 200% 200%;
           border: none;
-          border-radius: 0;
+          border-radius: 16px;
           box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
           z-index: 5;
           animation: silkyGradientDrift 10s ease-in-out infinite;
+          padding: 40px 20px;
+          margin-bottom: 20px;
         }
         
         /* Subtle vignette overlay */
@@ -872,6 +900,7 @@ export default function PaymentPage() {
           background: radial-gradient(ellipse 100% 100% at 50% 50%, transparent 0%, rgba(0, 0, 0, 0.03) 70%, rgba(0, 0, 0, 0.08) 100%);
           pointer-events: none;
           z-index: 1;
+          border-radius: 16px;
         }
         
         /* Second layer of animated gradients for depth */
@@ -887,7 +916,9 @@ export default function PaymentPage() {
           animation: secondaryGradientFloat 12s ease-in-out infinite reverse;
           pointer-events: none;
           z-index: 2;
+          border-radius: 16px;
         }
+        
         .left-hero::before {
           content: '';
           position: absolute;
@@ -897,6 +928,7 @@ export default function PaymentPage() {
             radial-gradient(600px 500px at 80% 70%, rgba(34, 197, 94, 0.2), transparent 60%),
             linear-gradient(180deg, rgba(15, 23, 42, 0), rgba(15, 23, 42, 0.3));
           animation: gradientShift 12s ease-in-out infinite alternate;
+          border-radius: 16px;
         }
         
         .left-hero::after {
@@ -908,6 +940,7 @@ export default function PaymentPage() {
             radial-gradient(800px 600px at 90% 80%, rgba(168, 85, 247, 0.12), transparent 50%),
             radial-gradient(600px 400px at 50% 50%, rgba(59, 130, 246, 0.1), transparent 40%);
           animation: gradientFlow 18s ease-in-out infinite;
+          border-radius: 16px;
         }
         
         /* Flowing Lines Animation */
@@ -927,9 +960,8 @@ export default function PaymentPage() {
             radial-gradient(300px 400px at 80% 70%, rgba(255, 255, 255, 0.04) 0%, transparent 50%),
             radial-gradient(500px 200px at 50% 20%, rgba(255, 255, 255, 0.03) 0%, transparent 50%);
           animation: flowingLines 25s linear infinite, organicShapes 20s ease-in-out infinite alternate;
+          border-radius: 16px;
         }
-        
-
         
         @keyframes gradientShift { 
            0% { 
@@ -1039,63 +1071,76 @@ export default function PaymentPage() {
            }
          }
          
-
-                 .left-hero-inner { 
+        .left-hero-inner { 
           position: relative; 
           z-index: 1; 
           height: 100%;
           display: flex;
           flex-direction: column;
           justify-content: space-between;
+          align-items: center;
+          text-align: center;
         }
         
         .bottom-text {
-          position: absolute;
-          bottom: 48px;
-          left: 48px;
-          font-size: 24px;
+          position: relative;
+          bottom: auto;
+          left: auto;
+          font-size: 18px;
           font-weight: 600;
           color: rgba(255, 255, 255, 0.9);
           text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
           z-index: 3;
+          margin-top: 20px;
         }
-         .logo {
-           font-size: 48px;
-           font-weight: 900;
-           color: #ffffff;
-           margin-bottom: 24px;
-           text-shadow: 0 4px 20px rgba(255, 255, 255, 0.3);
-         }
-         .brand-pill {
-           display: inline-block;
-           background: rgba(255, 255, 255, 0.15);
-           border: 1px solid rgba(255, 255, 255, 0.3);
-           color: #ffffff;
-           padding: 8px 16px;
-           border-radius: 20px;
-           font-size: 12px;
-           font-weight: 600;
-           letter-spacing: 0.5px;
-           margin-bottom: 24px;
-         }
-                 .hero-title { font-size: 44px; line-height: 1.05; letter-spacing: var(--tracking-tight); margin: 4px 0 8px; color: #1e293b; }
-         .hero-title .accent { color: #22c55e; text-shadow: 0 4px 20px rgba(34, 197, 94, 0.3); }
-        @media(min-width: 1024px) { .hero-title { font-size: 56px; } }
-        @keyframes gradientShift { 0% { transform: translate3d(0,0,0) } 100% { transform: translate3d(-2%, -1%, 0) } }
-
-                         .pay-card { 
+        
+        .logo {
+          font-size: 32px;
+          font-weight: 900;
+          color: #ffffff;
+          margin-bottom: 16px;
+          text-shadow: 0 4px 20px rgba(255, 255, 255, 0.3);
+        }
+        
+        .brand-pill {
+          display: inline-block;
+          background: rgba(255, 255, 255, 0.15);
+          border: 1px solid rgba(255, 255, 255, 0.3);
+          color: #ffffff;
+          padding: 8px 16px;
+          border-radius: 20px;
+          font-size: 12px;
+          font-weight: 600;
+          letter-spacing: 0.5px;
+          margin-bottom: 24px;
+        }
+        
+        .hero-title { 
+          font-size: 28px; 
+          line-height: 1.05; 
+          letter-spacing: var(--tracking-tight); 
+          margin: 4px 0 8px; 
+          color: #1e293b; 
+        }
+        
+        .hero-title .accent { 
+          color: #22c55e; 
+          text-shadow: 0 4px 20px rgba(34, 197, 94, 0.3); 
+        }
+        
+        /* Payment card - mobile optimized */
+        .pay-card { 
           background: var(--color-white); 
           border: 0.666667px solid var(--color-border-primary-muted);
-          border-radius: 20.4587px;
-          padding: 24px;
-          margin-right: -20px;
-          padding-right: 42px;
-          max-height: calc(100vh - 20px);
-          overflow-y: auto;
-          position: fixed;
-          right: 20px;
-          top: 10px;
-          width: 35%;
+          border-radius: 20px;
+          padding: 24px 20px;
+          margin: 0;
+          max-height: none;
+          overflow-y: visible;
+          position: relative;
+          right: auto;
+          top: auto;
+          width: 100%;
           box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
           z-index: 10;
           transition: all 0.3s var(--ease-out-cubic);
@@ -1104,25 +1149,40 @@ export default function PaymentPage() {
         .pay-card:hover {
           box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
           transform: translateY(-2px);
-        }
+         }
          
          .pay-card h3 {
            color: #000000;
            margin: 0 0 20px 0;
+           font-size: 24px;
+           text-align: center;
          }
-        .form-block { display:grid; gap:8px; margin-top:14px; }
-        .label { font-weight:700; color: #000000; font-size:14px; }
+        
+        .form-block { 
+          display: grid; 
+          gap: 12px; 
+          margin-top: 20px; 
+        }
+        
+        .label { 
+          font-weight: 700; 
+          color: #000000; 
+          font-size: 16px; 
+        }
+        
         .input, .select { 
           width: 100%; 
           background: var(--color-white); 
           color: var(--color-dark); 
           border: 0.666667px solid var(--color-border-primary-muted); 
           border-radius: 12px; 
-          padding: 16px 20px; 
+          padding: 18px 20px; 
           outline: none;
           font-family: inherit;
           font-size: 16px;
           transition: all 0.3s var(--ease-out-cubic);
+          min-height: 56px;
+          box-sizing: border-box;
         }
         
         .input:focus, .select:focus {
@@ -1134,187 +1194,198 @@ export default function PaymentPage() {
         .input::placeholder { 
           color: var(--color-gray-light); 
         }
-        .card-shell { border:1px dashed var(--border); border-radius:12px; padding:14px; background:#0e1530; }
+        
+        .card-shell { 
+          border: 1px dashed var(--border); 
+          border-radius: 12px; 
+          padding: 14px; 
+          background: #0e1530; 
+        }
          
-         .card-inputs {
-           display: flex;
-           flex-direction: column;
-           gap: 16px;
-         }
-         
-         .card-input-row {
-           display: flex;
-           flex-direction: column;
-           gap: 16px;
-         }
-         
-                   .card-input-group {
-            flex: 1;
-            min-width: 300px;
-          }
-         
-         .card-label {
-           display: block;
-           font-weight: 600;
-           color: #000000;
-           font-size: 12px;
-           margin-bottom: 6px;
-           text-transform: uppercase;
-           letter-spacing: 0.5px;
-         }
-         
-                   .card-input {
-            width: 100%;
-            background: #ffffff;
-            color: #000000 !important;
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            padding: 16px 14px;
-            outline: none;
-            font-size: 16px;
-            font-family: 'Courier New', monospace;
-            min-height: 60px;
-            box-sizing: border-box;
-          }
-         
-         .card-input:focus {
-           border-color: var(--brand);
-           box-shadow: 0 0 0 3px rgba(78, 123, 255, 0.1);
-         }
-         
-         .card-input::placeholder {
-           color: #9ca3af;
-         }
-         
-         .floating-label-container {
-           position: relative;
-         }
-         
-                   .floating-input {
-            padding: 32px 14px 14px 14px;
-            position: relative;
-            z-index: 3;
-            color: #000000 !important;
-            background: #ffffff !important;
-            min-height: 48px;
-            width: 90%;
-            box-sizing: border-box;
-            border-width: 2px;
-          }
-         
-         .floating-label {
-           position: absolute;
-           left: 14px;
-           top: 20px;
-           color: #9ca3af;
-           font-size: 14px;
-           font-weight: 500;
-           transition: all 0.2s ease;
-           pointer-events: none;
-           background: #ffffff;
-           padding: 0 4px;
-           z-index: 5;
-           user-select: none;
-         }
-         
-         .floating-input:focus + .floating-label,
-         .floating-input:not(:placeholder-shown) + .floating-label {
-           top: 10px;
-           font-size: 12px;
-           color: var(--brand);
-           font-weight: 600;
-         }
-         
-         .floating-input::placeholder {
-           color: transparent;
-           opacity: 0;
-         }
-         
-                   .floating-input:focus::placeholder {
-            opacity: 0;
-          }
-          
-                     .card-number-label {
-             position: relative;
-             color: #000000;
-             font-size: 14px;
-             font-weight: 700;
-             margin-bottom: 8px;
-             display: block;
-             text-align: left;
-           }
-         
-         .input-example {
-           position: absolute;
-           top: 28px;
-           left: 14px;
-           color: #9ca3af;
-           font-size: 14px;
-           font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-           pointer-events: none;
-           z-index: 6;
-           animation: fadeIn 0.2s ease-in;
-         }
-         
-         .card-icon {
-           position: absolute;
-           left: calc(90% - 40px);
-           top: 50%;
-           transform: translateY(-50%);
-           z-index: 4;
-         }
-         
-         .cvc-icon {
-           left: calc(90% - 40px);
-           top: 50%;
-           transform: translateY(-50%);
-         }
-         
-         @keyframes fadeIn {
-           from { opacity: 0; }
-           to { opacity: 1; }
-         }
-         
-                   .floating-input:focus {
-            border-color: var(--brand);
-            box-shadow: 0 0 0 3px rgba(78, 123, 255, 0.1);
-            outline: 2px solid rgba(78, 123, 255, 0.35);
-          }
-          
-          .floating-input:active {
-            border-color: var(--brand);
-            box-shadow: 0 0 0 4px rgba(78, 123, 255, 0.2);
-            outline: 2px solid rgba(78, 123, 255, 0.35);
-            transition: all 0.1s ease;
-          }
-          
-          .floating-input:focus:active {
-            border-color: var(--brand);
-            box-shadow: 0 0 0 4px rgba(78, 123, 255, 0.3);
-            outline: 2px solid rgba(78, 123, 255, 0.35);
-            transition: all 0.1s ease;
-          }
-          
-          .floating-input select {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-          }
-          
-          .floating-input select option {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-          }
-          
-          select.floating-input {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
-          }
-          
-          
-        .plan-grid { display:grid; grid-template-columns: 1fr; gap:12px; }
-        @media(min-width:700px){ .plan-grid { grid-template-columns: 1fr 1fr; } }
+        .card-inputs {
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
+        }
+        
+        .card-input-row {
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
+        }
+        
+        .card-input-group {
+          flex: 1;
+          min-width: 0;
+          width: 100%;
+        }
+        
+        .card-label {
+          display: block;
+          font-weight: 600;
+          color: #000000;
+          font-size: 12px;
+          margin-bottom: 6px;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+        }
+        
+        .card-input {
+          width: 100%;
+          background: #ffffff;
+          color: #000000 !important;
+          border: 1px solid #e2e8f0;
+          border-radius: 8px;
+          padding: 18px 14px;
+          outline: none;
+          font-size: 16px;
+          font-family: 'Courier New', monospace;
+          min-height: 56px;
+          box-sizing: border-box;
+        }
+        
+        .card-input:focus {
+          border-color: var(--brand);
+          box-shadow: 0 0 0 3px rgba(78, 123, 255, 0.1);
+        }
+        
+        .card-input::placeholder {
+          color: #9ca3af;
+        }
+        
+        .floating-label-container {
+          position: relative;
+          width: 100%;
+        }
+        
+        .floating-input {
+          padding: 32px 14px 14px 14px;
+          position: relative;
+          z-index: 3;
+          color: #000000 !important;
+          background: #ffffff !important;
+          min-height: 56px;
+          width: 100%;
+          box-sizing: border-box;
+          border-width: 2px;
+        }
+        
+        .floating-label {
+          position: absolute;
+          left: 14px;
+          top: 20px;
+          color: #9ca3af;
+          font-size: 14px;
+          font-weight: 500;
+          transition: all 0.2s ease;
+          pointer-events: none;
+          background: #ffffff;
+          padding: 0 4px;
+          z-index: 5;
+          user-select: none;
+        }
+        
+        .floating-input:focus + .floating-label,
+        .floating-input:not(:placeholder-shown) + .floating-label {
+          top: 10px;
+          font-size: 12px;
+          color: var(--brand);
+          font-weight: 600;
+        }
+        
+        .floating-input::placeholder {
+          color: transparent;
+          opacity: 0;
+        }
+        
+        .floating-input:focus::placeholder {
+          opacity: 0;
+        }
+        
+        .card-number-label {
+          position: relative;
+          color: #000000;
+          font-size: 14px;
+          font-weight: 700;
+          margin-bottom: 8px;
+          display: block;
+          text-align: left;
+        }
+        
+        .input-example {
+          position: absolute;
+          top: 28px;
+          left: 14px;
+          color: #9ca3af;
+          font-size: 14px;
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+          pointer-events: none;
+          z-index: 6;
+          animation: fadeIn 0.2s ease-in;
+        }
+        
+        .card-icon {
+          position: absolute;
+          right: 14px;
+          top: 50%;
+          transform: translateY(-50%);
+          z-index: 4;
+        }
+        
+        .cvc-icon {
+          right: 14px;
+          top: 50%;
+          transform: translateY(-50%);
+        }
+        
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+        
+        .floating-input:focus {
+          border-color: var(--brand);
+          box-shadow: 0 0 0 3px rgba(78, 123, 255, 0.1);
+          outline: 2px solid rgba(78, 123, 255, 0.35);
+        }
+        
+        .floating-input:active {
+          border-color: var(--brand);
+          box-shadow: 0 0 0 4px rgba(78, 123, 255, 0.2);
+          outline: 2px solid rgba(78, 123, 255, 0.35);
+          transition: all 0.1s ease;
+        }
+        
+        .floating-input:focus:active {
+          border-color: var(--brand);
+          box-shadow: 0 0 0 4px rgba(78, 123, 255, 0.3);
+          outline: 2px solid rgba(78, 123, 255, 0.35);
+          transition: all 0.1s ease;
+        }
+        
+        .floating-input select {
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
+        
+        .floating-input select option {
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+        }
+        
+        select.floating-input {
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif !important;
+        }
+        
+        .plan-grid { 
+          display: grid; 
+          grid-template-columns: 1fr; 
+          gap: 16px; 
+        }
+        
         .plan-card { 
           text-align: left; 
           border: 0.666667px solid var(--color-border-primary-muted); 
           background: var(--color-white); 
-          padding: 20px; 
+          padding: 24px 20px; 
           border-radius: 16px; 
           cursor: pointer; 
           color: var(--color-dark);
@@ -1350,38 +1421,57 @@ export default function PaymentPage() {
           outline: 2px solid rgba(35, 49, 55, 0.3);
           background: var(--color-primary-100);
         }
-        .plan-title { font-weight:800; margin-bottom:6px; }
-        .plan-price { font-weight:800; font-size:20px; }
-        .plan-period { font-weight:600; font-size:12px; color: #6b7280; margin-left:6px; }
-                 .plan-points { margin:10px 0 0; padding-left:18px; color: #6b7280; }
-         
-         .payment-method {
-           display: flex;
-           align-items: center;
-           gap: 12px;
-           padding: 16px;
-           border: 1px solid #e2e8f0;
-           border-radius: 12px;
-           background: #ffffff;
-         }
-         
-         .payment-method input[type="radio"] {
-           width: 18px;
-           height: 18px;
-           accent-color: var(--brand);
-         }
-         
-         .payment-label {
-           display: flex;
-           align-items: center;
-           gap: 8px;
-           font-weight: 600;
-           color: #000000;
-           cursor: pointer;
-         }
-         
-                    
-         
+        
+        .plan-title { 
+          font-weight: 800; 
+          margin-bottom: 8px; 
+          font-size: 18px;
+        }
+        
+        .plan-price { 
+          font-weight: 800; 
+          font-size: 24px; 
+        }
+        
+        .plan-period { 
+          font-weight: 600; 
+          font-size: 14px; 
+          color: #6b7280; 
+          margin-left: 6px; 
+        }
+        
+        .plan-points { 
+          margin: 12px 0 0; 
+          padding-left: 18px; 
+          color: #6b7280; 
+          font-size: 14px;
+        }
+        
+        .payment-method {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          padding: 16px;
+          border: 1px solid #e2e8f0;
+          border-radius: 12px;
+          background: #ffffff;
+        }
+        
+        .payment-method input[type="radio"] {
+          width: 18px;
+          height: 18px;
+          accent-color: var(--brand);
+        }
+        
+        .payment-label {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          font-weight: 600;
+          color: #000000;
+          cursor: pointer;
+        }
+        
         .secure-checkout {
           display: flex;
           align-items: center;
@@ -1401,7 +1491,7 @@ export default function PaymentPage() {
           background: var(--color-bg-subtle);
           transform: translateY(-1px);
           box-shadow: 0 4px 16px rgba(35, 49, 55, 0.1);
-        }
+         }
          
          .lock-icon {
            font-size: 16px;
@@ -1416,13 +1506,13 @@ export default function PaymentPage() {
            color: #6b7280;
          }
          
-                 .disclaimer {
-          font-size: 12px;
-          color: var(--color-text-secondary);
-          line-height: 1.5;
-          margin: 0;
-          text-align: center;
-        }
+         .disclaimer {
+           font-size: 12px;
+           color: var(--color-text-secondary);
+           line-height: 1.5;
+           margin: 0;
+           text-align: center;
+         }
         
         /* Enhanced button styles for payment page */
         .pay-card .btn {
@@ -1430,14 +1520,18 @@ export default function PaymentPage() {
           color: var(--color-white);
           border: none;
           border-radius: 12px;
-          padding: 18px 28px;
-          font-size: 16px;
+          padding: 20px 28px;
+          font-size: 18px;
           font-weight: 600;
           cursor: pointer;
           transition: all 0.3s var(--ease-out-cubic);
           position: relative;
           overflow: hidden;
           width: 100%;
+          min-height: 60px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
         
         .pay-card .btn::before {
@@ -1467,33 +1561,183 @@ export default function PaymentPage() {
           transform: none;
           box-shadow: none;
         }
-         
-                  @media (max-width: 900px) {
-           .left-hero { 
-             position: relative; 
-             top: 0; 
-             left: 0;
-             height: auto; 
-             width: 100%;
-           }
-           .hero-title { font-size: 36px; }
-           .pay-card { 
-             position: relative;
-             right: auto;
-             top: auto;
-             width: 100%;
-             margin-right: 0; 
-             padding-right: 22px; 
-             border-radius: 16px; 
-             max-height: none;
-             overflow-y: visible;
-           }
-           
-           .card-input-row {
-             flex-direction: column;
-             gap: 12px;
-           }
-         }
+        
+        /* Tablet styles */
+        @media (min-width: 768px) {
+          .section {
+            padding: 40px 20px;
+          }
+          
+          .grid-2 {
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+          }
+          
+          .left-hero {
+            min-height: 300px;
+            padding: 60px 40px;
+          }
+          
+          .logo {
+            font-size: 40px;
+          }
+          
+          .bottom-text {
+            font-size: 20px;
+          }
+          
+          .hero-title {
+            font-size: 32px;
+          }
+          
+          .pay-card {
+            padding: 32px 28px;
+          }
+          
+          .pay-card h3 {
+            font-size: 28px;
+          }
+          
+          .plan-grid {
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+          }
+          
+          .plan-card {
+            padding: 28px 24px;
+          }
+          
+          .plan-title {
+            font-size: 20px;
+          }
+          
+          .plan-price {
+            font-size: 28px;
+          }
+        }
+        
+        /* Desktop styles */
+        @media (min-width: 1024px) {
+          .section {
+            padding: 60px 40px;
+          }
+          
+          .left-hero {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100vh;
+            width: 100%;
+            min-height: 100vh;
+            padding: 48px;
+            border-radius: 0;
+            margin-bottom: 0;
+          }
+          
+          .left-hero-inner {
+            align-items: flex-start;
+            text-align: left;
+            justify-content: space-between;
+          }
+          
+          .logo {
+            font-size: 48px;
+            margin-bottom: 24px;
+          }
+          
+          .bottom-text {
+            position: absolute;
+            bottom: 48px;
+            left: 48px;
+            font-size: 24px;
+            margin-top: 0;
+          }
+          
+          .hero-title {
+            font-size: 44px;
+          }
+          
+          .pay-card {
+            position: fixed;
+            right: 20px;
+            top: 10px;
+            width: 35%;
+            max-height: calc(100vh - 20px);
+            overflow-y: auto;
+            margin-right: -20px;
+            padding-right: 42px;
+            border-radius: 20.4587px;
+          }
+          
+          .pay-card h3 {
+            text-align: left;
+            font-size: 24px;
+          }
+          
+          .plan-grid {
+            grid-template-columns: 1fr;
+            gap: 12px;
+          }
+          
+          .plan-card {
+            padding: 20px;
+          }
+          
+          .plan-title {
+            font-size: 18px;
+          }
+          
+          .plan-price {
+            font-size: 20px;
+          }
+        }
+        
+        /* Large desktop styles */
+        @media (min-width: 1200px) {
+          .hero-title {
+            font-size: 56px;
+          }
+          
+          .pay-card {
+            width: 400px;
+            right: 40px;
+          }
+        }
+        
+        /* Touch device optimizations */
+        @media (hover: none) and (pointer: coarse) {
+          .card-input,
+          .floating-input,
+          .input,
+          .select {
+            min-height: 60px;
+            font-size: 16px;
+          }
+          
+          .btn {
+            min-height: 60px;
+            font-size: 18px;
+          }
+          
+          .plan-card {
+            padding: 28px 24px;
+          }
+          
+          .form-block {
+            gap: 16px;
+            margin-top: 24px;
+          }
+        }
+        
+        /* High DPI displays */
+        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+          .card-input,
+          .floating-input,
+          .input,
+          .select {
+            border-width: 0.5px;
+          }
+        }
       `}</style>
     </Elements>
   )
