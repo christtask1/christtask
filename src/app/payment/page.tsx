@@ -709,6 +709,7 @@ export default function PaymentPage() {
              <div className="left-hero-inner">
                <div className="logo">ChristTask</div>
                <div className="brand-pill">CHRISTIAN APOLOGETICS</div>
+               <div className="bottom-text">Master Apologetics Today</div>
              </div>
              
 
@@ -1040,7 +1041,25 @@ export default function PaymentPage() {
          }
          
 
-                 .left-hero-inner { position: relative; z-index: 1; }
+                 .left-hero-inner { 
+          position: relative; 
+          z-index: 1; 
+          height: 100%;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+        }
+        
+        .bottom-text {
+          position: absolute;
+          bottom: 48px;
+          left: 48px;
+          font-size: 24px;
+          font-weight: 600;
+          color: rgba(255, 255, 255, 0.9);
+          text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+          z-index: 3;
+        }
          .logo {
            font-size: 48px;
            font-weight: 900;
