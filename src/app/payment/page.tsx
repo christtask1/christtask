@@ -709,8 +709,17 @@ export default function PaymentPage() {
              <div className="left-hero-inner">
                <div className="logo">CT</div>
                <div className="brand-pill">CHRISTIAN APOLOGETICS</div>
-
              </div>
+             
+             {/* Flowing Line Elements */}
+             <div className="flowing-element-1"></div>
+             <div className="flowing-element-2"></div>
+             <div className="flowing-element-3"></div>
+             
+             {/* Organic Shape Elements */}
+             <div className="organic-shape-1"></div>
+             <div className="organic-shape-2"></div>
+             <div className="organic-shape-3"></div>
           </div>
 
           <div className="pay-card">
@@ -879,6 +888,90 @@ export default function PaymentPage() {
           animation: gradientFlow 18s ease-in-out infinite;
         }
         
+        /* Flowing Lines Animation */
+        .left-hero::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: 
+            /* Flowing line 1 */
+            linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%),
+            /* Flowing line 2 */
+            linear-gradient(-45deg, transparent 20%, rgba(255, 255, 255, 0.08) 40%, transparent 60%),
+            /* Flowing line 3 */
+            linear-gradient(135deg, transparent 10%, rgba(255, 255, 255, 0.06) 30%, transparent 50%),
+            /* Organic shapes */
+            radial-gradient(400px 300px at 20% 30%, rgba(255, 255, 255, 0.05) 0%, transparent 50%),
+            radial-gradient(300px 400px at 80% 70%, rgba(255, 255, 255, 0.04) 0%, transparent 50%),
+            radial-gradient(500px 200px at 50% 20%, rgba(255, 255, 255, 0.03) 0%, transparent 50%);
+          animation: flowingLines 25s linear infinite, organicShapes 20s ease-in-out infinite alternate;
+        }
+        
+        /* Additional flowing elements */
+        .left-hero .flowing-element-1 {
+          position: absolute;
+          top: 20%;
+          left: 10%;
+          width: 200px;
+          height: 2px;
+          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+          animation: flowLine1 15s linear infinite;
+        }
+        
+        .left-hero .flowing-element-2 {
+          position: absolute;
+          top: 60%;
+          right: 15%;
+          width: 150px;
+          height: 1px;
+          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+          animation: flowLine2 12s linear infinite reverse;
+        }
+        
+        .left-hero .flowing-element-3 {
+          position: absolute;
+          bottom: 30%;
+          left: 50%;
+          width: 100px;
+          height: 1.5px;
+          background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.25), transparent);
+          animation: flowLine3 18s linear infinite;
+        }
+        
+        /* Additional organic flowing shapes */
+        .left-hero .organic-shape-1 {
+          position: absolute;
+          top: 15%;
+          right: 25%;
+          width: 80px;
+          height: 80px;
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: 50%;
+          animation: organicFloat1 22s ease-in-out infinite;
+        }
+        
+        .left-hero .organic-shape-2 {
+          position: absolute;
+          bottom: 20%;
+          right: 10%;
+          width: 120px;
+          height: 60px;
+          border: 1px solid rgba(255, 255, 255, 0.08);
+          border-radius: 60px 60px 0 0;
+          animation: organicFloat2 28s ease-in-out infinite reverse;
+        }
+        
+        .left-hero .organic-shape-3 {
+          position: absolute;
+          top: 70%;
+          left: 20%;
+          width: 60px;
+          height: 120px;
+          border: 1px solid rgba(255, 255, 255, 0.06);
+          border-radius: 0 0 60px 60px;
+          animation: organicFloat3 25s ease-in-out infinite;
+        }
+        
         @keyframes gradientShift { 
            0% { 
              transform: translate3d(0,0,0) scale(1);
@@ -937,6 +1030,139 @@ export default function PaymentPage() {
            100% { 
              background-position: 0% 50%;
              filter: hue-rotate(0deg);
+           }
+         }
+         
+         /* Flowing Lines Keyframes */
+         @keyframes flowingLines {
+           0% {
+             background-position: 0% 0%, 100% 100%, 50% 50%;
+           }
+           50% {
+             background-position: 100% 100%, 0% 0%, 100% 0%;
+           }
+           100% {
+             background-position: 0% 0%, 100% 100%, 50% 50%;
+           }
+         }
+         
+         @keyframes organicShapes {
+           0% {
+             background-position: 20% 30%, 80% 70%, 50% 20%;
+             opacity: 0.8;
+           }
+           50% {
+             background-position: 80% 70%, 20% 30%, 80% 80%;
+             opacity: 1;
+           }
+           100% {
+             background-position: 20% 30%, 80% 70%, 50% 20%;
+             opacity: 0.8;
+           }
+         }
+         
+         @keyframes flowLine1 {
+           0% {
+             transform: translateX(-100%) rotate(45deg);
+             opacity: 0;
+           }
+           20% {
+             opacity: 1;
+           }
+           80% {
+             opacity: 1;
+           }
+           100% {
+             transform: translateX(200px) rotate(45deg);
+             opacity: 0;
+           }
+         }
+         
+         @keyframes flowLine2 {
+           0% {
+             transform: translateX(100%) rotate(-45deg);
+             opacity: 0;
+           }
+           20% {
+             opacity: 1;
+           }
+           80% {
+             opacity: 1;
+           }
+           100% {
+             transform: translateX(-200px) rotate(-45deg);
+             opacity: 0;
+           }
+         }
+         
+         @keyframes flowLine3 {
+           0% {
+             transform: translateY(-100%) rotate(135deg);
+             opacity: 0;
+           }
+           20% {
+             opacity: 1;
+           }
+           80% {
+             opacity: 1;
+           }
+           100% {
+             transform: translateY(200px) rotate(135deg);
+             opacity: 0;
+           }
+         }
+         
+         /* Organic shapes floating animations */
+         @keyframes organicFloat1 {
+           0% {
+             transform: translateY(0px) rotate(0deg) scale(1);
+             opacity: 0.6;
+           }
+           33% {
+             transform: translateY(-20px) rotate(120deg) scale(1.1);
+             opacity: 0.8;
+           }
+           66% {
+             transform: translateY(10px) rotate(240deg) scale(0.9);
+             opacity: 0.7;
+           }
+           100% {
+             transform: translateY(0px) rotate(360deg) scale(1);
+             opacity: 0.6;
+           }
+         }
+         
+         @keyframes organicFloat2 {
+           0% {
+             transform: translateX(0px) rotate(0deg) scale(1);
+             opacity: 0.5;
+           }
+           50% {
+             transform: translateX(-15px) rotate(180deg) scale(1.2);
+             opacity: 0.7;
+           }
+           100% {
+             transform: translateX(0px) rotate(360deg) scale(1);
+             opacity: 0.5;
+           }
+         }
+         
+         @keyframes organicFloat3 {
+           0% {
+             transform: translateY(0px) rotate(0deg) scale(1);
+             opacity: 0.4;
+           }
+           25% {
+             transform: translateY(-25px) rotate(90deg) scale(1.3);
+             opacity: 0.6;
+           }
+           75% {
+             transform: translateY(15px) rotate(270deg) scale(0.8);
+             opacity: 0.5;
+           }
+           100% {
+             transform: translateY(0px) rotate(360deg) scale(1);
+             opacity: 0.4;
            }
          }
                  .left-hero-inner { position: relative; z-index: 1; }
