@@ -440,6 +440,7 @@ function CardForm({
                         },
                       },
                     },
+                    hidePostalCode: true,
                   }}
                 />
               </div>
