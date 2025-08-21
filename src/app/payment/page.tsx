@@ -709,9 +709,7 @@ export default function PaymentPage() {
              <div className="left-hero-inner">
                <div className="logo">CT</div>
                <div className="brand-pill">CHRISTIAN APOLOGETICS</div>
-               <h1 className="hero-title">
-                 Start Your <span className="accent">Transformation</span> Today
-               </h1>
+
              </div>
           </div>
 
