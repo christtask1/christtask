@@ -300,9 +300,6 @@ export default function ChatPage() {
         <div style={{ fontWeight: 800, letterSpacing: '0.2px' }}>ChristTask</div>
         <nav style={{ display: 'grid', gap: 8 }}>
           {[
-            { key: 'new', label: 'New' },
-            { key: 'documents', label: 'Documents' },
-            { key: 'library', label: 'Library' },
             { key: 'bible', label: 'Bible', onClick: goToBible },
             { key: 'ai', label: 'AI Chat', onClick: goToChat, active: !isBibleOpen },
           ].map((item) => (

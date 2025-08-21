@@ -1,0 +1,33 @@
+[33mb592e9a[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m Remove mobile backgrounds and ensure payment form is completely stagnant
+[33m13126d7[m Fix mobile payment form: lock viewport scrolling and center payment form perfectly
+[33m208e674[m update the payment page on mobile
+[33m32fe688[m Fix mobile payment form centering: use transform translate for perfect center alignment - Replace complex margin calculations with reliable CSS transform
+[33m744867c[m Fix mobile background: set body to white, no black background - Clean white mobile experience with centered payment form
+[33me79cab4[m Restore animated background for desktop, hide only on mobile - Keep beautiful gradients on desktop, clean white background on mobile
+[33m427df16[m Remove animated background, keep only payment section centered - Clean, simple design with payment form perfectly centered on mobile
+[33m648ce8b[m Fix mobile payment form movement: replace transform with margin-based centering - Form now stays perfectly still when scrolling, only content scrolls
+[33m36b7020[m Fix mobile payment form: make it actually smaller and properly centered - Use transform centering and reduce width/height for compact mobile design
+[33m96f46b3[m Make mobile payment form smaller: reduce width, height, and margins for better mobile proportions - More compact design with improved spacing
+[33m214a52a[m Simplify mobile payment form positioning: remove complex transforms, use simple fixed positioning for stability - Form now stays in place and only allows scrolling within content
+[33m238969e[m Fix mobile payment form size changes: prevent shrinking when tapping - Add transform-origin, fixed dimensions, and prevent any scaling transformations
+[33mda5e690[m Fix mobile payment form: prevent movement when tapping, only allow scrolling - Add touch-action controls, overscroll behavior, and transform stability
+[33mf9aa5c4[m Fix mobile payment form: make it truly fixed and prevent dragging - Use fixed positioning with center alignment and disable touch actions
+[33maaa59f4[m Fix mobile payment form centering - Use CSS transform and auto margins for perfect center alignment on all mobile devices
+[33m17ad9b5[m Fix mobile layout: animation covers entire screen with no black sections - Background fills 100vh, payment form positioned below with proper z-index layering
+[33mf7fedb2[m Fix mobile layout: animated background shows behind payment form with glassmorphism effect - Add backdrop blur and semi-transparent backgrounds for better mobile UX
+[33m1fe95bc[m Make payment page fully responsive for phones and tablets - Add mobile-first design, touch-friendly elements, and responsive breakpoints for all screen sizes
+[33me134fee[m Remove 'CHRISTIAN APOLOGETICS' text from payment page
+[33m0676db6[m Add 'Master Apologetics Today' text to bottom left of payment page hero section
+[33m4735a51[m Replace 'CT' logo with 'ChristTask' on payment page
+[33mb386fdb[m Create soft glossy blue-teal animated gradient background - Layered radial gradients with smooth 10-12s motion, subtle vignette, and silky smooth transitions
+[33m48c873e[m Add flowing line animations inspired by qoves.com - Dynamic flowing lines, organic shapes, and smooth animations for a premium animated background
+[33m5b8c761[m Enhance payment page with modern design system inspired by qoves.com - Add CSS custom properties, improved spacing, enhanced hover effects, and refined visual hierarchy
+[33m8bc1f61[m Remove 'Start Your Transformation Today' heading from payment page
+[33ma4a9335[m Remove descriptive text from payment page hero section
+[33mfaa4690[m update payment page
+[33m8ab04a5[m Add beautiful animated gradient background with flowing colors and dynamic effects
+[33mba22939[m Make left section fill entire screen from edge to edge and top to bottom, positioned underneath payment section
+[33mf35bf72[m Extend left section to fill entire screen width underneath payment section
+[33md89068d[m Add underlay effect with shadows and z-index layering for payment page sections
+[33m7d02e74[m Reduce payment section corner rounding for subtler appearance
+[33mc268766[m Increase payment section height by reducing top and bottom margins
