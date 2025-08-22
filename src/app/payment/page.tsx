@@ -1905,9 +1905,21 @@ export default function PaymentPage() {
         .floating-input:not(:placeholder-shown) + .floating-label {
           top: 6px;
         }
-
         
-
+        /* Make country select specifically slimmer */
+        select.floating-input {
+          padding: 20px 14px 10px 14px;
+          min-height: 44px;
+        }
+        
+        /* Ensure country label positioning works with slimmer height */
+        select.floating-input + .floating-label {
+          top: 14px;
+        }
+        
+        select.floating-input:focus + .floating-label {
+          top: 6px;
+        }
       `}</style>
     </Elements>
   )
