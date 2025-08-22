@@ -507,7 +507,7 @@ function CardForm({
                 }}
               />
               <span className="cvc-icon-inside" title="3-digit security code on the back of your card">
-                💳 123
+                [123]
               </span>
             </div>
           </div>
