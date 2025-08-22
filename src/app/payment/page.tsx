@@ -452,7 +452,7 @@ function CardForm({
         <div className="card-input-row">
           <div className="card-input-group">
             <div className="floating-label-container">
-              <div className="stripe-card-element">
+              <div className={`stripe-card-element ${showCardExample ? 'focused' : ''}`}>
                 <CardNumberElement
                   options={{
                     style: {
@@ -468,7 +468,7 @@ function CardForm({
                   }}
                 />
               </div>
-              <label className="floating-label" onClick={() => setShowCardExample(true)}>
+              <label className={`floating-label ${showCardExample ? 'focused' : ''}`} onClick={() => setShowCardExample(!showCardExample)}>
                 {showCardExample ? 'Example: 4242 4242 4242 4242' : 'Card Number'}
               </label>
             </div>
@@ -478,7 +478,7 @@ function CardForm({
         <div className="card-input-row">
           <div className="card-input-group">
             <div className="floating-label-container">
-              <div className="stripe-card-element">
+              <div className={`stripe-card-element ${showExpiryExample ? 'focused' : ''}`}>
                 <CardExpiryElement
                   options={{
                     style: {
@@ -494,7 +494,7 @@ function CardForm({
                   }}
                 />
               </div>
-              <label className="floating-label" onClick={() => setShowExpiryExample(true)}>
+              <label className={`floating-label ${showExpiryExample ? 'focused' : ''}`} onClick={() => setShowExpiryExample(!showExpiryExample)}>
                 {showExpiryExample ? 'Example: MM/YY' : 'Expiry Date'}
               </label>
             </div>
@@ -502,7 +502,7 @@ function CardForm({
           
           <div className="card-input-group">
             <div className="floating-label-container">
-              <div className="stripe-card-element">
+              <div className={`stripe-card-element ${showCvcExample ? 'focused' : ''}`}>
                 <CardCvcElement
                   options={{
                     style: {
@@ -518,7 +518,7 @@ function CardForm({
                   }}
                 />
               </div>
-              <label className="floating-label" onClick={() => setShowCvcExample(true)}>
+              <label className={`floating-label ${showCvcExample ? 'focused' : ''}`} onClick={() => setShowCvcExample(!showCvcExample)}>
                 {showCvcExample ? 'Example: 123' : 'CVC'}
               </label>
             </div>
@@ -1348,22 +1348,7 @@ export default function PaymentPage() {
           transition: all 0.3s var(--ease-out-cubic);
         }
         
-        .stripe-card-element:focus-within {
-          border-color: var(--brand);
-          box-shadow: 0 0 0 3px rgba(78, 123, 255, 0.1);
-          outline: 2px solid rgba(78, 123, 255, 0.35);
-          transform: translateY(-1px);
-        }
         
-        .stripe-card-element:focus-within + .floating-label,
-        .stripe-card-element:has(:focus) + .floating-label {
-          top: -8px;
-          font-size: 12px;
-          color: var(--brand);
-          font-weight: 600;
-          background: white;
-          pointer-events: auto;
-        }
         
         .floating-input:focus + .floating-label,
         .floating-input:not(:placeholder-shown) + .floating-label {
@@ -1898,6 +1883,22 @@ export default function PaymentPage() {
           margin-bottom: 8px;
           text-transform: uppercase;
           letter-spacing: 0.5px;
+        }
+        
+        .stripe-card-element.focused {
+          border-color: var(--brand);
+          box-shadow: 0 0 0 3px rgba(78, 123, 255, 0.1);
+          outline: 2px solid rgba(78, 123, 255, 0.35);
+          transform: translateY(-1px);
+        }
+        
+        .floating-label.focused {
+          top: -8px;
+          font-size: 12px;
+          color: var(--brand);
+          font-weight: 600;
+          background: white;
+          pointer-events: auto;
         }
         
 
