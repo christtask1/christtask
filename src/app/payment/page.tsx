@@ -1890,6 +1890,21 @@ export default function PaymentPage() {
           pointer-events: none;
           opacity: 0.7;
         }
+        
+        /* Slimmer input boxes for Country and Postal code */
+        .floating-input {
+          padding: 20px 14px 10px 14px;
+          min-height: 44px;
+        }
+        
+        .floating-label {
+          top: 14px;
+        }
+        
+        .floating-input:focus + .floating-label,
+        .floating-input:not(:placeholder-shown) + .floating-label {
+          top: 6px;
+        }
 
         
 
