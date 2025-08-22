@@ -16,6 +16,8 @@ const CardBrandLogos: React.FC<CardBrandLogosProps> = ({ cardBrand, isAnimating 
             width="48" 
             height="16"
             style={{ objectFit: 'contain' }}
+            onError={(e) => console.error('Failed to load VISA logo:', e)}
+            onLoad={() => console.log('VISA logo loaded successfully')}
           />
         );
       
@@ -27,39 +29,31 @@ const CardBrandLogos: React.FC<CardBrandLogosProps> = ({ cardBrand, isAnimating 
             width="48" 
             height="16"
             style={{ objectFit: 'contain' }}
+            onError={(e) => console.error('Failed to load Mastercard logo:', e)}
+            onLoad={() => console.log('Mastercard logo loaded successfully')}
           />
         );
       
       case 'amex':
-        return (
-          <img 
-            src="/images/card-logos/amex.png" 
-            alt="American Express" 
-            width="48" 
-            height="16"
-            style={{ objectFit: 'contain' }}
-          />
-        );
-      
       case 'discover':
-        return (
-          <img 
-            src="/images/card-logos/discover.png" 
-            alt="Discover" 
-            width="48" 
-            height="16"
-            style={{ objectFit: 'contain' }}
-          />
-        );
+        // Don't show anything for brands we don't have logos for
+        return null;
       
       default:
         return null;
     }
   };
 
+  // Only render if we have a logo for this brand
+  const logo = getLogo(cardBrand);
+  
+  if (!logo) {
+    return null; // Don't render anything if no logo
+  }
+
   return (
     <div className={`card-brand-icon ${isAnimating ? 'animating' : ''}`}>
-      {getLogo(cardBrand)}
+      {logo}
     </div>
   );
 };

@@ -40,11 +40,11 @@ function CardForm({
   const stripe = useStripe()
   const elements = useElements()
 
-  // Card brand animation cycle
+  // Card brand animation cycle - only cycle through brands we have logos for
   useEffect(() => {
     if (userHasTyped) return // Stop animation when user types
 
-    const brands = ['visa', 'mastercard', 'amex', 'discover']
+    const brands = ['visa', 'mastercard'] // Only brands we have logos for
     let currentIndex = 0
 
     const interval = setInterval(() => {
