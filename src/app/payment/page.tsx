@@ -820,19 +820,28 @@ export default function PaymentPage() {
               <input className="input" value={coupon} onChange={(e)=>setCoupon(e.target.value)} placeholder="Enter coupon or promo code" />
             </div>
 
-            {!user && (
-              <div className="form-block">
-                <label className="label">Email</label>
-                <input 
-                  className="input" 
-                  type="email" 
-                  placeholder="Enter your email" 
-                  value={email} 
-                  onChange={(e) => setEmail(e.target.value)} 
-                  required 
-                />
-              </div>
-            )}
+                         {!user && (
+               <div className="form-block">
+                 <h3 style={{ 
+                   fontSize: '20px', 
+                   fontWeight: '700', 
+                   color: '#000000', 
+                   margin: '0 0 16px 0',
+                   textAlign: 'center'
+                 }}>
+                   Create Your Account
+                 </h3>
+                 <label className="label">Email</label>
+                 <input 
+                   className="input" 
+                   type="email" 
+                   placeholder="Enter your email" 
+                   value={email} 
+                   onChange={(e) => setEmail(e.target.value)} 
+                   required 
+                 />
+               </div>
+             )}
 
             {!user && (
               <div className="form-block">
