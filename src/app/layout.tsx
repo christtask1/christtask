@@ -1,4 +1,4 @@
-import { Analytics } from '@vercel/analytics/react'
+
 
 export const metadata = { 
   title: 'ChristTask', 
@@ -143,7 +143,7 @@ export default function RootLayout({ children }: { children: any }) {
           </div>
         </footer>
 
-        <Analytics />
+
 
         <style>{`
           /* Hide header and footer on chat page only */
