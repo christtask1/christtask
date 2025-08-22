@@ -528,6 +528,25 @@ function CardForm({
             </div>
           </div>
           
+          <div className="card-input-row">
+            <div className="card-input-group">
+              <label className="label">Country</label>
+              <div className="floating-label-container">
+                <select 
+                  className="card-input floating-input" 
+                  value={country} 
+                  onChange={(e)=>setCountry(e.target.value)}
+                  id="country"
+                >
+                  {COUNTRIES.map(c => (
+                    <option key={c.code} value={c.code}>{c.name}</option>
+                  ))}
+                </select>
+                <label htmlFor="country" className="floating-label">Country</label>
+              </div>
+            </div>
+          </div>
+          
           {shouldShowPostalCode(country) && (
             <div className="card-input-row">
               <div className="card-input-group">
@@ -546,40 +565,22 @@ function CardForm({
               </div>
             </div>
           )}
+          
+          {!shouldShowPostalCode(country) && (
+            <div style={{
+              fontSize: '13px',
+              color: '#6b7280',
+              marginTop: '8px',
+              padding: '8px 12px',
+              background: 'rgba(122, 162, 255, 0.1)',
+              border: '1px solid rgba(122, 162, 255, 0.2)',
+              borderRadius: '8px'
+            }}>
+              ℹ️ Postal code not required for {COUNTRIES.find(c => c.code === country)?.name}
+            </div>
+          )}
         </div>
       </div>
-      
-      <div className="form-block">
-        <label className="label">Country</label>
-        <div className="floating-label-container">
-          <select 
-            className="card-input floating-input" 
-            value={country} 
-            onChange={(e)=>setCountry(e.target.value)}
-            id="country"
-          >
-            {COUNTRIES.map(c => (
-              <option key={c.code} value={c.code}>{c.name}</option>
-            ))}
-          </select>
-          <label htmlFor="country" className="floating-label">Country</label>
-        </div>
-
-      </div>
-      
-      {!shouldShowPostalCode(country) && (
-        <div style={{
-          fontSize: '13px',
-          color: '#6b7280',
-          marginTop: '8px',
-          padding: '8px 12px',
-          background: 'rgba(122, 162, 255, 0.1)',
-          border: '1px solid rgba(122, 162, 255, 0.2)',
-          borderRadius: '8px'
-        }}>
-          ℹ️ Postal code not required for {COUNTRIES.find(c => c.code === country)?.name}
-        </div>
-      )}
       
       {error && (
         <div style={{
