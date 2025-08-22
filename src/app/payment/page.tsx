@@ -453,7 +453,7 @@ function CardForm({
           <div className="card-input-group">
             <label className="label">Card number</label>
             <div className="floating-label-container">
-              <div className="stripe-card-element">
+              <div className="stripe-card-element" onClick={() => setShowCardExample(true)}>
                 <CardNumberElement
                   options={{
                     style: {
@@ -469,6 +469,11 @@ function CardForm({
                   }}
                 />
               </div>
+              {showCardExample && (
+                <div className="example-text">
+                  Example: 4242 4242 4242 4242
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -477,7 +482,7 @@ function CardForm({
           <div className="card-input-group">
             <label className="label">Expiry date</label>
             <div className="floating-label-container">
-              <div className="stripe-card-element">
+              <div className="stripe-card-element" onClick={() => setShowExpiryExample(true)}>
                 <CardExpiryElement
                   options={{
                     style: {
@@ -493,13 +498,18 @@ function CardForm({
                   }}
                 />
               </div>
+              {showExpiryExample && (
+                <div className="example-text">
+                  Example: MM/YY
+                </div>
+              )}
             </div>
           </div>
           
           <div className="card-input-group">
             <label className="label">CVC</label>
             <div className="floating-label-container">
-              <div className="stripe-card-element">
+              <div className="stripe-card-element" onClick={() => setShowCvcExample(true)}>
                 <CardCvcElement
                   options={{
                     style: {
@@ -515,6 +525,11 @@ function CardForm({
                   }}
                 />
               </div>
+              {showCvcExample && (
+                <div className="example-text">
+                  Example: 123
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -1867,6 +1882,19 @@ export default function PaymentPage() {
           margin-bottom: 8px;
           text-transform: uppercase;
           letter-spacing: 0.5px;
+        }
+        
+        .example-text {
+          font-size: 12px;
+          color: #6b7280;
+          margin-top: 4px;
+          font-style: italic;
+          animation: fadeIn 0.3s ease-in;
+        }
+        
+        @keyframes fadeIn {
+          from { opacity: 0; transform: translateY(-5px); }
+          to { opacity: 1; transform: translateY(0); }
         }
       `}</style>
     </Elements>
