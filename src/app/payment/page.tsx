@@ -490,7 +490,12 @@ function CardForm({
           </div>
           
           <div className="card-input-group">
-            <label className="label">CVC</label>
+            <label className="label">
+              CVC
+              <span className="cvc-icon" title="3-digit security code on the back of your card">
+                💳 123
+              </span>
+            </label>
             <div className="stripe-card-element">
               <CardCvcElement
                 options={{
@@ -1870,6 +1875,14 @@ export default function PaymentPage() {
           letter-spacing: 0.5px;
         }
         
+        .cvc-icon {
+          margin-left: 8px;
+          font-size: 12px;
+          color: #6b7280;
+          font-weight: 400;
+          cursor: help;
+          opacity: 0.8;
+        }
 
         
 
