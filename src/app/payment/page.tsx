@@ -43,17 +43,7 @@ function CardForm({
     return countriesWithPostalCodes.includes(countryCode)
   }
 
-  // Function to detect card brand based on card number
-  const detectCardBrand = (cardNumber: string): string => {
-    const cleanNumber = cardNumber.replace(/\s/g, '')
-    
-    if (cleanNumber.startsWith('4')) return 'visa'
-    if (cleanNumber.startsWith('5')) return 'mastercard'
-    if (cleanNumber.startsWith('34') || cleanNumber.startsWith('37')) return 'amex'
-    if (cleanNumber.startsWith('6')) return 'discover'
-    
-    return 'generic'
-  }
+
 
   
   const COUNTRIES: { code: string; name: string }[] = [
@@ -478,10 +468,9 @@ function CardForm({
                      },
                    }}
                    onChange={(event) => {
-                     if (event.complete) {
-                       const cardNumber = event.value.replace(/\s/g, '')
-                       const brand = detectCardBrand(cardNumber)
-                       setCardBrand(brand)
+                     if (event.brand) {
+                       // Stripe provides the card brand directly
+                       setCardBrand(event.brand)
                      }
                    }}
                  />
@@ -498,7 +487,7 @@ function CardForm({
                        <circle cx="16" cy="8" r="6" fill="#F79E1B"/>
                        <circle cx="32" cy="8" r="6" fill="#F79E1B"/>
                        <text x="24" y="12" textAnchor="middle" fill="white" fontSize="8" fontWeight="bold" fontFamily="Arial">mastercard</text>
-                     </svg>
+                   </svg>
                    )}
                    {cardBrand === 'amex' && (
                      <svg width="48" height="16" viewBox="0 0 48 16" fill="none">
