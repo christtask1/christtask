@@ -32,10 +32,29 @@ function CardForm({
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [postalCode, setPostalCode] = useState('')
-  const [cardBrand, setCardBrand] = useState('generic')
+  const [cardBrand, setCardBrand] = useState('visa')
+  const [isAnimating, setIsAnimating] = useState(true)
+  const [userHasTyped, setUserHasTyped] = useState(false)
   
   const stripe = useStripe()
   const elements = useElements()
+
+  // Card brand animation cycle
+  useEffect(() => {
+    if (userHasTyped) return // Stop animation when user types
+
+    const brands = ['visa', 'mastercard', 'amex', 'discover']
+    let currentIndex = 0
+
+    const interval = setInterval(() => {
+      if (!userHasTyped) {
+        currentIndex = (currentIndex + 1) % brands.length
+        setCardBrand(brands[currentIndex])
+      }
+    }, 3000)
+
+    return () => clearInterval(interval)
+  }, [userHasTyped])
   
   // Function to determine if postal code should be shown for a country
   const shouldShowPostalCode = (countryCode: string): boolean => {
@@ -468,13 +487,19 @@ function CardForm({
                      },
                    }}
                    onChange={(event) => {
+                     // User has started typing - pause animation
+                     if (!userHasTyped) {
+                       setUserHasTyped(true)
+                       setIsAnimating(false)
+                     }
+                     
                      if (event.brand) {
                        // Stripe provides the card brand directly
                        setCardBrand(event.brand)
                      }
                    }}
                  />
-                 <div className="card-brand-icon">
+                 <div className={`card-brand-icon ${isAnimating ? 'animating' : ''}`}>
                    {cardBrand === 'visa' && (
                      <svg width="48" height="16" viewBox="0 0 48 16" fill="none">
                        <rect width="48" height="16" rx="2" fill="#1A1F71"/>
@@ -1943,6 +1968,17 @@ export default function PaymentPage() {
          
          .card-brand-icon svg {
            display: block;
+           transition: all 0.5s ease;
+         }
+         
+         .card-brand-icon.animating svg {
+           animation: cardBrandFade 0.5s ease-in-out;
+         }
+         
+         @keyframes cardBrandFade {
+           0% { opacity: 1; transform: scale(1); }
+           50% { opacity: 0.3; transform: scale(0.9); }
+           100% { opacity: 1; transform: scale(1); }
          }
         
         .cvc-icon-inside {
