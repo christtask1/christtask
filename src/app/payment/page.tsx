@@ -31,9 +31,6 @@ function CardForm({
 }) {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [showCardExample, setShowCardExample] = useState(false)
-  const [showExpiryExample, setShowExpiryExample] = useState(false)
-  const [showCvcExample, setShowCvcExample] = useState(false)
   const [postalCode, setPostalCode] = useState('')
   
   const stripe = useStripe()
@@ -451,76 +448,64 @@ function CardForm({
       <div className="card-inputs">
         <div className="card-input-row">
           <div className="card-input-group">
-            <div className="floating-label-container">
-              <div className={`stripe-card-element ${showCardExample ? 'focused' : ''}`}>
-                <CardNumberElement
-                  options={{
-                    style: {
-                      base: {
-                        fontSize: '16px',
-                        color: '#000000',
-                        fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-                        '::placeholder': {
-                          color: '#9ca3af',
-                        },
+            <label className="label">Card number</label>
+            <div className="stripe-card-element">
+              <CardNumberElement
+                options={{
+                  style: {
+                    base: {
+                      fontSize: '16px',
+                      color: '#000000',
+                      fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+                      '::placeholder': {
+                        color: '#9ca3af',
                       },
                     },
-                  }}
-                />
-              </div>
-              <label className={`floating-label ${showCardExample ? 'focused' : ''}`} onClick={() => setShowCardExample(!showCardExample)}>
-                {showCardExample ? 'Example: 4242 4242 4242 4242' : 'Card Number'}
-              </label>
+                  },
+                }}
+              />
             </div>
           </div>
         </div>
         
         <div className="card-input-row">
           <div className="card-input-group">
-            <div className="floating-label-container">
-              <div className={`stripe-card-element ${showExpiryExample ? 'focused' : ''}`}>
-                <CardExpiryElement
-                  options={{
-                    style: {
-                      base: {
-                        fontSize: '16px',
-                        color: '#000000',
-                        fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-                        '::placeholder': {
-                          color: '#9ca3af',
-                        },
+            <label className="label">Expiry date</label>
+            <div className="stripe-card-element">
+              <CardExpiryElement
+                options={{
+                  style: {
+                    base: {
+                      fontSize: '16px',
+                      color: '#000000',
+                      fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+                      '::placeholder': {
+                        color: '#9ca3af',
                       },
                     },
-                  }}
-                />
-              </div>
-              <label className={`floating-label ${showExpiryExample ? 'focused' : ''}`} onClick={() => setShowExpiryExample(!showExpiryExample)}>
-                {showExpiryExample ? 'Example: MM/YY' : 'Expiry Date'}
-              </label>
+                  },
+                }}
+              />
             </div>
           </div>
           
           <div className="card-input-group">
-            <div className="floating-label-container">
-              <div className={`stripe-card-element ${showCvcExample ? 'focused' : ''}`}>
-                <CardCvcElement
-                  options={{
-                    style: {
-                      base: {
-                        fontSize: '16px',
-                        color: '#000000',
-                        fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-                        '::placeholder': {
-                          color: '#9ca3af',
-                        },
+            <label className="label">CVC</label>
+            <div className="stripe-card-element">
+              <CardCvcElement
+                options={{
+                  style: {
+                    base: {
+                      fontSize: '16px',
+                      color: '#000000',
+                      fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+                      '::placeholder': {
+                        color: '#9ca3af',
                       },
                     },
-                  }}
-                />
-              </div>
-              <label className={`floating-label ${showCvcExample ? 'focused' : ''}`} onClick={() => setShowCvcExample(!showCvcExample)}>
-                {showCvcExample ? 'Example: 123' : 'CVC'}
-              </label>
+                  },
+                }}
+              />
             </div>
           </div>
         </div>
@@ -1885,21 +1870,7 @@ export default function PaymentPage() {
           letter-spacing: 0.5px;
         }
         
-        .stripe-card-element.focused {
-          border-color: var(--brand);
-          box-shadow: 0 0 0 3px rgba(78, 123, 255, 0.1);
-          outline: 2px solid rgba(78, 123, 255, 0.35);
-          transform: translateY(-1px);
-        }
-        
-        .floating-label.focused {
-          top: -8px;
-          font-size: 12px;
-          color: var(--brand);
-          font-weight: 600;
-          background: white;
-          pointer-events: auto;
-        }
+
         
 
       `}</style>
