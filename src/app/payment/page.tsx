@@ -41,8 +41,8 @@ function CardForm({
   
   // Function to determine if postal code should be shown for a country
   const shouldShowPostalCode = (countryCode: string): boolean => {
-    const countriesWithoutPostalCodes = ['IE', 'HK', 'SG', 'KY', 'BM', 'VG', 'TC', 'AI', 'AW', 'CW', 'SX']
-    return !countriesWithoutPostalCodes.includes(countryCode)
+    const countriesWithPostalCodes = ['US', 'GB', 'CA']
+    return countriesWithPostalCodes.includes(countryCode)
   }
 
   
