@@ -5,6 +5,7 @@ import { loadStripe } from '@stripe/stripe-js'
 import { Elements, useElements, useStripe, CardNumberElement, CardExpiryElement, CardCvcElement } from '@stripe/react-stripe-js'
 import { useRouter } from 'next/navigation'
 import { supabase } from '../../lib/supabaseClient'
+import CardBrandLogos from '../../components/CardBrandLogos'
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || '')
 
@@ -499,35 +500,7 @@ function CardForm({
                      }
                    }}
                  />
-                 <div className={`card-brand-icon ${isAnimating ? 'animating' : ''}`}>
-                   {cardBrand === 'visa' && (
-                     <svg width="48" height="16" viewBox="0 0 48 16" fill="none">
-                       <rect width="48" height="16" rx="2" fill="#1A1F71"/>
-                       <text x="24" y="12" textAnchor="middle" fill="white" fontSize="10" fontWeight="bold" fontFamily="Arial">VISA</text>
-                     </svg>
-                   )}
-                   {cardBrand === 'mastercard' && (
-                     <svg width="48" height="16" viewBox="0 0 48 16" fill="none">
-                       <rect width="48" height="16" rx="2" fill="#EB001B"/>
-                       <circle cx="16" cy="8" r="6" fill="#F79E1B"/>
-                       <circle cx="32" cy="8" r="6" fill="#F79E1B"/>
-                       <text x="24" y="12" textAnchor="middle" fill="white" fontSize="8" fontWeight="bold" fontFamily="Arial">mastercard</text>
-                   </svg>
-                   )}
-                   {cardBrand === 'amex' && (
-                     <svg width="48" height="16" viewBox="0 0 48 16" fill="none">
-                       <rect width="48" height="16" rx="2" fill="#006FCF"/>
-                       <text x="24" y="11" textAnchor="middle" fill="white" fontSize="9" fontWeight="bold" fontFamily="Arial">AM EX</text>
-                     </svg>
-                   )}
-                   {cardBrand === 'discover' && (
-                     <svg width="48" height="16" viewBox="0 0 48 16" fill="none">
-                       <rect width="48" height="16" rx="2" fill="#FF6000"/>
-                       <circle cx="12" cy="8" r="4" fill="white"/>
-                       <text x="24" y="12" textAnchor="middle" fill="white" fontSize="8" fontWeight="bold" fontFamily="Arial">discover</text>
-                     </svg>
-                   )}
-                 </div>
+                 <CardBrandLogos cardBrand={cardBrand} isAnimating={isAnimating} />
                </div>
              </div>
            </div>
