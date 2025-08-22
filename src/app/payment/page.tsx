@@ -32,6 +32,7 @@ function CardForm({
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [postalCode, setPostalCode] = useState('')
+  const [cardBrand, setCardBrand] = useState('generic')
   
   const stripe = useStripe()
   const elements = useElements()
@@ -40,6 +41,18 @@ function CardForm({
   const shouldShowPostalCode = (countryCode: string): boolean => {
     const countriesWithPostalCodes = ['US', 'GB', 'CA']
     return countriesWithPostalCodes.includes(countryCode)
+  }
+
+  // Function to detect card brand based on card number
+  const detectCardBrand = (cardNumber: string): string => {
+    const cleanNumber = cardNumber.replace(/\s/g, '')
+    
+    if (cleanNumber.startsWith('4')) return 'visa'
+    if (cleanNumber.startsWith('5')) return 'mastercard'
+    if (cleanNumber.startsWith('34') || cleanNumber.startsWith('37')) return 'amex'
+    if (cleanNumber.startsWith('6')) return 'discover'
+    
+    return 'generic'
   }
 
   
@@ -447,27 +460,63 @@ function CardForm({
       
       <div className="card-details-container">
         <div className="card-inputs">
-          <div className="card-input-row">
-            <div className="card-input-group">
-              <label className="label">Card number</label>
-              <div className="stripe-card-element">
-                <CardNumberElement
-                  options={{
-                    style: {
-                      base: {
-                        fontSize: '16px',
-                        color: '#000000',
-                        fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-                        '::placeholder': {
-                          color: '#9ca3af',
-                        },
-                      },
-                    },
-                  }}
-                />
-              </div>
-            </div>
-          </div>
+                     <div className="card-input-row">
+             <div className="card-input-group">
+               <label className="label">Card number</label>
+               <div className="stripe-card-element card-number-container">
+                 <CardNumberElement
+                   options={{
+                     style: {
+                       base: {
+                         fontSize: '16px',
+                         color: '#000000',
+                         fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+                         '::placeholder': {
+                           color: '#9ca3af',
+                         },
+                       },
+                     },
+                   }}
+                   onChange={(event) => {
+                     if (event.complete) {
+                       const cardNumber = event.value.replace(/\s/g, '')
+                       const brand = detectCardBrand(cardNumber)
+                       setCardBrand(brand)
+                     }
+                   }}
+                 />
+                 <div className="card-brand-icon">
+                   {cardBrand === 'visa' && (
+                     <svg width="48" height="16" viewBox="0 0 48 16" fill="none">
+                       <rect width="48" height="16" rx="2" fill="#1A1F71"/>
+                       <text x="24" y="12" textAnchor="middle" fill="white" fontSize="10" fontWeight="bold" fontFamily="Arial">VISA</text>
+                     </svg>
+                   )}
+                   {cardBrand === 'mastercard' && (
+                     <svg width="48" height="16" viewBox="0 0 48 16" fill="none">
+                       <rect width="48" height="16" rx="2" fill="#EB001B"/>
+                       <circle cx="16" cy="8" r="6" fill="#F79E1B"/>
+                       <circle cx="32" cy="8" r="6" fill="#F79E1B"/>
+                       <text x="24" y="12" textAnchor="middle" fill="white" fontSize="8" fontWeight="bold" fontFamily="Arial">mastercard</text>
+                     </svg>
+                   )}
+                   {cardBrand === 'amex' && (
+                     <svg width="48" height="16" viewBox="0 0 48 16" fill="none">
+                       <rect width="48" height="16" rx="2" fill="#006FCF"/>
+                       <text x="24" y="11" textAnchor="middle" fill="white" fontSize="9" fontWeight="bold" fontFamily="Arial">AM EX</text>
+                     </svg>
+                   )}
+                   {cardBrand === 'discover' && (
+                     <svg width="48" height="16" viewBox="0 0 48 16" fill="none">
+                       <rect width="48" height="16" rx="2" fill="#FF6000"/>
+                       <circle cx="12" cy="8" r="4" fill="white"/>
+                       <text x="24" y="12" textAnchor="middle" fill="white" fontSize="8" fontWeight="bold" fontFamily="Arial">discover</text>
+                     </svg>
+                   )}
+                 </div>
+               </div>
+             </div>
+           </div>
           
           <div className="card-input-row">
             <div className="card-input-group">
@@ -1885,9 +1934,27 @@ export default function PaymentPage() {
           opacity: 0.8;
         }
         
-        .cvc-container {
-          position: relative;
-        }
+                 .cvc-container {
+           position: relative;
+         }
+         
+         .card-number-container {
+           position: relative;
+         }
+         
+         .card-brand-icon {
+           position: absolute;
+           right: 14px;
+           top: 50%;
+           transform: translateY(-50%);
+           z-index: 4;
+           transition: all 0.3s ease;
+           opacity: 1;
+         }
+         
+         .card-brand-icon svg {
+           display: block;
+         }
         
         .cvc-icon-inside {
           position: absolute;
