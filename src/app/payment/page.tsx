@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { loadStripe } from '@stripe/stripe-js'
-import { Elements, CardElement, useElements, useStripe } from '@stripe/react-stripe-js'
+import { Elements, useElements, useStripe, CardNumberElement, CardExpiryElement, CardCvcElement } from '@stripe/react-stripe-js'
 import { useRouter } from 'next/navigation'
 import { supabase } from '../../lib/supabaseClient'
 
@@ -34,10 +34,16 @@ function CardForm({
   const [showCardExample, setShowCardExample] = useState(false)
   const [showExpiryExample, setShowExpiryExample] = useState(false)
   const [showCvcExample, setShowCvcExample] = useState(false)
+  const [postalCode, setPostalCode] = useState('')
   
   const stripe = useStripe()
   const elements = useElements()
   
+  // Function to determine if postal code should be shown for a country
+  const shouldShowPostalCode = (countryCode: string): boolean => {
+    const countriesWithoutPostalCodes = ['IE', 'HK', 'SG', 'KY', 'BM', 'VG', 'TC', 'AI', 'AW', 'CW', 'SX']
+    return !countriesWithoutPostalCodes.includes(countryCode)
+  }
 
   
   const COUNTRIES: { code: string; name: string }[] = [
@@ -377,10 +383,29 @@ function CardForm({
 
       // Now process the actual payment
       if (secret) {
+        // Get the individual elements
+        const cardNumberElement = elements.getElement(CardNumberElement)
+        const cardExpiryElement = elements.getElement(CardExpiryElement)
+        const cardCvcElement = elements.getElement(CardCvcElement)
+
+        if (!cardNumberElement || !cardExpiryElement || !cardCvcElement) {
+          setError('Card details not found. Please check your input.')
+          setLoading(false)
+          return
+        }
+
         const { error: paymentError } = await stripe.confirmPayment({
           elements,
           confirmParams: {
             return_url: `${window.location.origin}/loading`,
+            payment_method_data: {
+              billing_details: {
+                address: {
+                  country: country,
+                  ...(shouldShowPostalCode(country) && { postal_code: postalCode }),
+                },
+              },
+            },
           },
         })
 
@@ -426,9 +451,10 @@ function CardForm({
       <div className="card-inputs">
         <div className="card-input-row">
           <div className="card-input-group">
+            <label className="label">Card number</label>
             <div className="floating-label-container">
               <div className="stripe-card-element">
-                <CardElement
+                <CardNumberElement
                   options={{
                     style: {
                       base: {
@@ -440,13 +466,77 @@ function CardForm({
                         },
                       },
                     },
-                    hidePostalCode: true,
                   }}
                 />
               </div>
             </div>
           </div>
         </div>
+        
+        <div className="card-input-row">
+          <div className="card-input-group">
+            <label className="label">Expiry date</label>
+            <div className="floating-label-container">
+              <div className="stripe-card-element">
+                <CardExpiryElement
+                  options={{
+                    style: {
+                      base: {
+                        fontSize: '16px',
+                        color: '#000000',
+                        fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+                        '::placeholder': {
+                          color: '#9ca3af',
+                        },
+                      },
+                    },
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+          
+          <div className="card-input-group">
+            <label className="label">CVC</label>
+            <div className="floating-label-container">
+              <div className="stripe-card-element">
+                <CardCvcElement
+                  options={{
+                    style: {
+                      base: {
+                        fontSize: '16px',
+                        color: '#000000',
+                        fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+                        '::placeholder': {
+                          color: '#9ca3af',
+                        },
+                      },
+                    },
+                  }}
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        {shouldShowPostalCode(country) && (
+          <div className="card-input-row">
+            <div className="card-input-group">
+              <label className="label">{country === 'US' ? 'ZIP code' : 'Postal code'}</label>
+              <div className="floating-label-container">
+                <input
+                  type="text"
+                  className="card-input floating-input"
+                  placeholder="Enter postal code"
+                  id="postalCode"
+                  value={postalCode}
+                  onChange={(e) => setPostalCode(e.target.value)}
+                />
+                <label htmlFor="postalCode" className="floating-label">Postal code</label>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
       
       <div className="form-block">
@@ -466,6 +556,20 @@ function CardForm({
         </div>
 
       </div>
+      
+      {!shouldShowPostalCode(country) && (
+        <div style={{
+          fontSize: '13px',
+          color: '#6b7280',
+          marginTop: '8px',
+          padding: '8px 12px',
+          background: 'rgba(122, 162, 255, 0.1)',
+          border: '1px solid rgba(122, 162, 255, 0.2)',
+          borderRadius: '8px'
+        }}>
+          ℹ️ Postal code not required for {COUNTRIES.find(c => c.code === country)?.name}
+        </div>
+      )}
       
       {error && (
         <div style={{
