@@ -445,92 +445,94 @@ function CardForm({
     <div className="form-block">
       <label className="label">Card details</label>
       
-      <div className="card-inputs">
-        <div className="card-input-row">
-          <div className="card-input-group">
-            <label className="label">Card number</label>
-            <div className="stripe-card-element">
-              <CardNumberElement
-                options={{
-                  style: {
-                    base: {
-                      fontSize: '16px',
-                      color: '#000000',
-                      fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-                      '::placeholder': {
-                        color: '#9ca3af',
-                      },
-                    },
-                  },
-                }}
-              />
-            </div>
-          </div>
-        </div>
-        
-        <div className="card-input-row">
-          <div className="card-input-group">
-            <label className="label">Expiry date</label>
-            <div className="stripe-card-element">
-              <CardExpiryElement
-                options={{
-                  style: {
-                    base: {
-                      fontSize: '16px',
-                      color: '#000000',
-                      fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-                      '::placeholder': {
-                        color: '#9ca3af',
-                      },
-                    },
-                  },
-                }}
-              />
-            </div>
-          </div>
-          
-          <div className="card-input-group">
-            <label className="label">CVC</label>
-            <div className="stripe-card-element cvc-container">
-              <CardCvcElement
-                options={{
-                  style: {
-                    base: {
-                      fontSize: '16px',
-                      color: '#000000',
-                      fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
-                      '::placeholder': {
-                        color: '#9ca3af',
-                      },
-                    },
-                  },
-                }}
-              />
-              <span className="cvc-icon-inside" title="3-digit security code on the back of your card">
-                [123]
-              </span>
-            </div>
-          </div>
-        </div>
-        
-        {shouldShowPostalCode(country) && (
+      <div className="card-details-container">
+        <div className="card-inputs">
           <div className="card-input-row">
             <div className="card-input-group">
-              <label className="label">{country === 'US' ? 'ZIP code' : 'Postal code'}</label>
-              <div className="floating-label-container">
-                <input
-                  type="text"
-                  className="card-input floating-input"
-                  placeholder="Enter postal code"
-                  id="postalCode"
-                  value={postalCode}
-                  onChange={(e) => setPostalCode(e.target.value)}
+              <label className="label">Card number</label>
+              <div className="stripe-card-element">
+                <CardNumberElement
+                  options={{
+                    style: {
+                      base: {
+                        fontSize: '16px',
+                        color: '#000000',
+                        fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+                        '::placeholder': {
+                          color: '#9ca3af',
+                        },
+                      },
+                    },
+                  }}
                 />
-                <label htmlFor="postalCode" className="floating-label">Postal code</label>
               </div>
             </div>
           </div>
-        )}
+          
+          <div className="card-input-row">
+            <div className="card-input-group">
+              <label className="label">Expiry date</label>
+              <div className="stripe-card-element">
+                <CardExpiryElement
+                  options={{
+                    style: {
+                      base: {
+                        fontSize: '16px',
+                        color: '#000000',
+                        fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+                        '::placeholder': {
+                          color: '#9ca3af',
+                        },
+                      },
+                    },
+                  }}
+                />
+              </div>
+            </div>
+            
+            <div className="card-input-group">
+              <label className="label">CVC</label>
+              <div className="stripe-card-element cvc-container">
+                <CardCvcElement
+                  options={{
+                    style: {
+                      base: {
+                        fontSize: '16px',
+                        color: '#000000',
+                        fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
+                        '::placeholder': {
+                          color: '#9ca3af',
+                        },
+                      },
+                    },
+                  }}
+                />
+                <span className="cvc-icon-inside" title="3-digit security code on the back of your card">
+                  [123]
+                </span>
+              </div>
+            </div>
+          </div>
+          
+          {shouldShowPostalCode(country) && (
+            <div className="card-input-row">
+              <div className="card-input-group">
+                <label className="label">{country === 'US' ? 'ZIP code' : 'Postal code'}</label>
+                <div className="floating-label-container">
+                  <input
+                    type="text"
+                    className="card-input floating-input"
+                    placeholder="Enter postal code"
+                    id="postalCode"
+                    value={postalCode}
+                    onChange={(e) => setPostalCode(e.target.value)}
+                  />
+                  <label htmlFor="postalCode" className="floating-label">Postal code</label>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
       
       <div className="form-block">
@@ -1919,6 +1921,25 @@ export default function PaymentPage() {
         
         select.floating-input:focus + .floating-label {
           top: 6px;
+        }
+        
+        /* Box within box effect - outer container */
+        .card-details-container {
+          background: #f8f9fa;
+          border: 1px solid #e9ecef;
+          border-radius: 12px;
+          padding: 20px;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+          margin-top: 8px;
+        }
+        
+        /* Adjust spacing for inputs inside the container */
+        .card-details-container .card-inputs {
+          gap: 12px;
+        }
+        
+        .card-details-container .card-input-row {
+          gap: 12px;
         }
       `}</style>
     </Elements>
