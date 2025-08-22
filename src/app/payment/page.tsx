@@ -1680,6 +1680,90 @@ export default function PaymentPage() {
           box-shadow: none;
         }
         
+        /* Mobile-only visual refresh */
+        @media (max-width: 767px) {
+          .left-hero {
+            display: none;
+          }
+          
+          .section {
+            padding: 16px 12px;
+          }
+          
+          .pay-card {
+            padding: 20px 16px;
+            border-radius: 16px;
+            box-shadow: 0 10px 32px rgba(0,0,0,0.12);
+          }
+          
+          .pay-card::before {
+            content: '';
+            position: absolute;
+            inset: 0 0 auto 0;
+            height: 6px;
+            background: linear-gradient(90deg, #233137, #7aa2ff, #233137);
+            opacity: 0.9;
+            border-top-left-radius: 16px;
+            border-top-right-radius: 16px;
+          }
+          
+          .pay-card h3 {
+            font-size: 20px;
+            margin-bottom: 12px;
+          }
+          
+          .plan-grid {
+            gap: 12px;
+          }
+          
+          .plan-card {
+            padding: 16px 14px;
+            border-radius: 14px;
+          }
+          
+          .plan-card.selected {
+            border-color: #233137;
+            background: #f5f7ff;
+          }
+          
+          .plan-title {
+            font-size: 16px;
+          }
+          
+          .plan-price {
+            font-size: 22px;
+          }
+          
+          .label {
+            font-size: 14px;
+          }
+          
+          .input, .select {
+            min-height: 52px;
+            font-size: 16px;
+            padding: 16px 14px;
+          }
+          
+          .stripe-card-element {
+            min-height: 52px;
+            padding: 16px 14px;
+          }
+          
+          .secure-checkout {
+            padding: 14px 16px;
+            font-size: 13px;
+          }
+          
+          .disclaimer {
+            font-size: 11px;
+          }
+          
+          .pay-card .btn {
+            min-height: 56px;
+            font-size: 17px;
+          }
+        }
+        
         /* Tablet styles */
         @media (min-width: 768px) {
           .section {
