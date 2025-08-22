@@ -451,9 +451,8 @@ function CardForm({
       <div className="card-inputs">
         <div className="card-input-row">
           <div className="card-input-group">
-            <label className="label">Card number</label>
             <div className="floating-label-container">
-              <div className="stripe-card-element" onClick={() => setShowCardExample(true)}>
+              <div className="stripe-card-element">
                 <CardNumberElement
                   options={{
                     style: {
@@ -469,20 +468,17 @@ function CardForm({
                   }}
                 />
               </div>
-              {showCardExample && (
-                <div className="example-text">
-                  Example: 4242 4242 4242 4242
-                </div>
-              )}
+              <label className="floating-label" onClick={() => setShowCardExample(true)}>
+                {showCardExample ? 'Example: 4242 4242 4242 4242' : 'Card Number'}
+              </label>
             </div>
           </div>
         </div>
         
         <div className="card-input-row">
           <div className="card-input-group">
-            <label className="label">Expiry date</label>
             <div className="floating-label-container">
-              <div className="stripe-card-element" onClick={() => setShowExpiryExample(true)}>
+              <div className="stripe-card-element">
                 <CardExpiryElement
                   options={{
                     style: {
@@ -498,18 +494,15 @@ function CardForm({
                   }}
                 />
               </div>
-              {showExpiryExample && (
-                <div className="example-text">
-                  Example: MM/YY
-                </div>
-              )}
+              <label className="floating-label" onClick={() => setShowExpiryExample(true)}>
+                {showExpiryExample ? 'Example: MM/YY' : 'Expiry Date'}
+              </label>
             </div>
           </div>
           
           <div className="card-input-group">
-            <label className="label">CVC</label>
             <div className="floating-label-container">
-              <div className="stripe-card-element" onClick={() => setShowCvcExample(true)}>
+              <div className="stripe-card-element">
                 <CardCvcElement
                   options={{
                     style: {
@@ -525,11 +518,9 @@ function CardForm({
                   }}
                 />
               </div>
-              {showCvcExample && (
-                <div className="example-text">
-                  Example: 123
-                </div>
-              )}
+              <label className="floating-label" onClick={() => setShowCvcExample(true)}>
+                {showCvcExample ? 'Example: 123' : 'CVC'}
+              </label>
             </div>
           </div>
         </div>
@@ -1333,16 +1324,45 @@ export default function PaymentPage() {
         .floating-label {
           position: absolute;
           left: 14px;
-          top: 20px;
+          top: 18px;
+          font-size: 16px;
           color: #9ca3af;
-          font-size: 14px;
-          font-weight: 500;
-          transition: all 0.2s ease;
           pointer-events: none;
-          background: #ffffff;
+          transition: all 0.3s ease;
+          background: transparent;
           padding: 0 4px;
-          z-index: 5;
-          user-select: none;
+        }
+        
+        .floating-label-container {
+          position: relative;
+        }
+        
+        .stripe-card-element {
+          border: 1px solid #e2e8f0;
+          border-radius: 8px;
+          padding: 18px 14px;
+          background: #ffffff;
+          min-height: 56px;
+          display: flex;
+          align-items: center;
+          transition: all 0.3s var(--ease-out-cubic);
+        }
+        
+        .stripe-card-element:focus-within {
+          border-color: var(--brand);
+          box-shadow: 0 0 0 3px rgba(78, 123, 255, 0.1);
+          outline: 2px solid rgba(78, 123, 255, 0.35);
+          transform: translateY(-1px);
+        }
+        
+        .stripe-card-element:focus-within + .floating-label,
+        .stripe-card-element:has(:focus) + .floating-label {
+          top: -8px;
+          font-size: 12px;
+          color: var(--brand);
+          font-weight: 600;
+          background: white;
+          pointer-events: auto;
         }
         
         .floating-input:focus + .floating-label,
@@ -1871,10 +1891,6 @@ export default function PaymentPage() {
           border-color: #22c55e;
         }
         
-        .stripe-card-element .StripeElement--complete {
-          border-color: #22c55e;
-        }
-        
         .card-input-label {
           font-weight: 600;
           color: #000000;
@@ -1884,18 +1900,7 @@ export default function PaymentPage() {
           letter-spacing: 0.5px;
         }
         
-        .example-text {
-          font-size: 12px;
-          color: #6b7280;
-          margin-top: 4px;
-          font-style: italic;
-          animation: fadeIn 0.3s ease-in;
-        }
-        
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(-5px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
+
       `}</style>
     </Elements>
   )
