@@ -1,6 +1,7 @@
 'use client'
 
 // ChristTask homepage - helping users defend their faith with Scripture and AI assistance
+// Back to beautiful box within box design - payment page restored to perfect state
 
 import { useState, useEffect } from 'react'
 import dynamic from 'next/dynamic'
