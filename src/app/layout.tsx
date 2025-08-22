@@ -1,3 +1,4 @@
+import { Analytics } from '@vercel/analytics/react'
 
 export const metadata = { 
   title: 'ChristTask', 
@@ -123,7 +124,7 @@ export default function RootLayout({ children }: { children: any }) {
           }
         `}</style>
       </head>
-            <body>
+      <body>
         <header className="site-header">
           <div className="container header-inner">
             <a href="/" className="brand">ChristTask</a>
@@ -141,6 +142,8 @@ export default function RootLayout({ children }: { children: any }) {
             <a href="/payment" className="link">Subscribe</a>
           </div>
         </footer>
+
+        <Analytics />
 
         <style>{`
           /* Hide header and footer on chat page only */

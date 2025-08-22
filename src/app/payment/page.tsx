@@ -5,6 +5,7 @@ import { loadStripe } from '@stripe/stripe-js'
 import { Elements, useElements, useStripe, CardNumberElement, CardExpiryElement, CardCvcElement } from '@stripe/react-stripe-js'
 import { useRouter } from 'next/navigation'
 import { supabase } from '../../lib/supabaseClient'
+import { track } from '@vercel/analytics'
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || '')
 
@@ -309,6 +310,13 @@ function CardForm({
       return
     }
     
+    // Track payment attempt
+    track('Payment Started', { 
+      plan: plan, 
+      userType: user ? 'existing' : 'new',
+      country: country 
+    })
+    
     setError(null)
     setLoading(true)
     
@@ -420,6 +428,13 @@ function CardForm({
           return
         }
 
+        // Track successful payment
+        track('Payment Completed', { 
+          plan: plan, 
+          userType: user ? 'existing' : 'new',
+          country: country 
+        })
+        
         // Payment successful - create account if needed
         if (!user) {
           try {
@@ -787,12 +802,21 @@ export default function PaymentPage() {
                     const displayCurrency = (COUNTRY_TO_CURRENCY[country] || price.currency || 'GBP').toUpperCase()
                     const displayAmountMinor = convertMinorUnits(price.unit_amount, price.currency, displayCurrency)
                     return (
-                    <button
-                      key={price.id}
-                      type="button"
-                      className={`plan-card ${plan === price.id ? 'selected' : ''}`}
-                      onClick={() => setPlan(price.id)}
-                    >
+                                         <button
+                       key={price.id}
+                       type="button"
+                       className={`plan-card ${plan === price.id ? 'selected' : ''}`}
+                       onClick={() => {
+                         setPlan(price.id)
+                         // Track plan selection
+                         track('Plan Selected', { 
+                           planId: price.id, 
+                           planName: price.product_name,
+                           currency: price.currency,
+                           amount: price.unit_amount
+                         })
+                       }}
+                     >
                       <div className="plan-title">{price.product_name}</div>
                       <div className="plan-price">
                         {formatPrice(displayAmountMinor, displayCurrency)}
