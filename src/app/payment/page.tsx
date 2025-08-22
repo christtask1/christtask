@@ -490,13 +490,8 @@ function CardForm({
           </div>
           
           <div className="card-input-group">
-            <label className="label">
-              CVC
-              <span className="cvc-icon" title="3-digit security code on the back of your card">
-                💳 123
-              </span>
-            </label>
-            <div className="stripe-card-element">
+            <label className="label">CVC</label>
+            <div className="stripe-card-element cvc-container">
               <CardCvcElement
                 options={{
                   style: {
@@ -511,6 +506,9 @@ function CardForm({
                   },
                 }}
               />
+              <span className="cvc-icon-inside" title="3-digit security code on the back of your card">
+                💳 123
+              </span>
             </div>
           </div>
         </div>
@@ -1425,12 +1423,6 @@ export default function PaymentPage() {
           z-index: 4;
         }
         
-        .cvc-icon {
-          right: 14px;
-          top: 50%;
-          transform: translateY(-50%);
-        }
-        
         @keyframes fadeIn {
           from { opacity: 0; }
           to { opacity: 1; }
@@ -1882,6 +1874,21 @@ export default function PaymentPage() {
           font-weight: 400;
           cursor: help;
           opacity: 0.8;
+        }
+        
+        .cvc-container {
+          position: relative;
+        }
+        
+        .cvc-icon-inside {
+          position: absolute;
+          right: 14px;
+          top: 50%;
+          transform: translateY(-50%);
+          font-size: 14px;
+          color: #9ca3af;
+          pointer-events: none;
+          opacity: 0.7;
         }
 
         
