@@ -5,7 +5,6 @@ import { loadStripe } from '@stripe/stripe-js'
 import { Elements, useElements, useStripe, CardNumberElement, CardExpiryElement, CardCvcElement } from '@stripe/react-stripe-js'
 import { useRouter } from 'next/navigation'
 import { supabase } from '../../lib/supabaseClient'
-import CardBrandLogos from '../../components/CardBrandLogos'
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || '')
 
@@ -33,29 +32,11 @@ function CardForm({
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [postalCode, setPostalCode] = useState('')
-  const [cardBrand, setCardBrand] = useState('visa')
-  const [isAnimating, setIsAnimating] = useState(true)
-  const [userHasTyped, setUserHasTyped] = useState(false)
   
   const stripe = useStripe()
   const elements = useElements()
 
-  // Card brand animation cycle - only cycle through brands we have logos for
-  useEffect(() => {
-    if (userHasTyped) return // Stop animation when user types
 
-    const brands = ['visa', 'mastercard'] // Only brands we have logos for
-    let currentIndex = 0
-
-    const interval = setInterval(() => {
-      if (!userHasTyped) {
-        currentIndex = (currentIndex + 1) % brands.length
-        setCardBrand(brands[currentIndex])
-      }
-    }, 3000)
-
-    return () => clearInterval(interval)
-  }, [userHasTyped])
   
   // Function to determine if postal code should be shown for a country
   const shouldShowPostalCode = (countryCode: string): boolean => {
@@ -487,21 +468,11 @@ function CardForm({
                        },
                      },
                    }}
-                   onChange={(event) => {
-                     // User has started typing - pause animation
-                     if (!userHasTyped) {
-                       setUserHasTyped(true)
-                       setIsAnimating(false)
-                     }
-                     
-                     if (event.brand) {
-                       // Stripe provides the card brand directly
-                       setCardBrand(event.brand)
-                     }
-                   }}
-                 />
-                 <CardBrandLogos cardBrand={cardBrand} isAnimating={isAnimating} />
-               </div>
+                                       onChange={(event) => {
+                      // Handle card input changes if needed
+                    }}
+                                   />
+                </div>
              </div>
            </div>
           
@@ -1929,30 +1900,7 @@ export default function PaymentPage() {
            position: relative;
          }
          
-         .card-brand-icon {
-           position: absolute;
-           right: 14px;
-           top: 50%;
-           transform: translateY(-50%);
-           z-index: 4;
-           transition: all 0.3s ease;
-           opacity: 1;
-         }
          
-         .card-brand-icon svg {
-           display: block;
-           transition: all 0.5s ease;
-         }
-         
-         .card-brand-icon.animating svg {
-           animation: cardBrandFade 0.5s ease-in-out;
-         }
-         
-         @keyframes cardBrandFade {
-           0% { opacity: 1; transform: scale(1); }
-           50% { opacity: 0.3; transform: scale(0.9); }
-           100% { opacity: 1; transform: scale(1); }
-         }
         
         .cvc-icon-inside {
           position: absolute;
