@@ -888,7 +888,7 @@ export default function ChatPage() {
           display: inline-block;
         }
 
-        .loading-message-base { color: #6b7280; }
+        .loading-message-base { color: #4b5563; }
 
         .loading-message-glow {
           position: absolute;
