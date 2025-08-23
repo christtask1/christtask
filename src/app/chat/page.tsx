@@ -37,32 +37,15 @@ function TypingText({ text, delay = 0 }: { text: string; delay?: number }) {
 
 // GPT-5 style loading animation with white glow sweep
 function LoadingAnimation() {
-  const [currentMessageIndex, setCurrentMessageIndex] = useState(0)
-  
-  const messages = [
-    "Analyzing your text..."
-  ]
-
-  useEffect(() => {
-    // Cycle through messages every 3 seconds
-    const messageInterval = setInterval(() => {
-      setCurrentMessageIndex((prev) => (prev + 1) % messages.length)
-    }, 3000)
-
-    return () => {
-      clearInterval(messageInterval)
-    }
-  }, [messages.length])
-
   return (
     <div className="loading-animation">
       <div className="loading-message">
-        <span className="loading-message-base">{messages[currentMessageIndex]}</span>
+        <span className="loading-message-base">Analyzing your text...</span>
         <span 
           className="loading-message-glow"
           aria-hidden="true"
         >
-          {messages[currentMessageIndex]}
+          Analyzing your text...
         </span>
       </div>
     </div>
