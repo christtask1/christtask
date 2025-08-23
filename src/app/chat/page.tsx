@@ -911,7 +911,7 @@ export default function ChatPage() {
         }
 
         @keyframes shimmer {
-          0% { background-position: 0% 0; }
+          0% { background-position: -200% 0; }
           100% { background-position: 200% 0; }
         }
         .input-rail { position: sticky; bottom: 0; background: linear-gradient(180deg, rgba(4,4,6,0), rgba(4,4,6,0.8) 40%); padding: 12px 12px 0 12px; border-top: 1px solid var(--border); }
