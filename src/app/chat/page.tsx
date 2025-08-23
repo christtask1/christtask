@@ -35,6 +35,49 @@ function TypingText({ text, delay = 0 }: { text: string; delay?: number }) {
   )
 }
 
+// GPT-5 style loading animation with white glow sweep
+function LoadingAnimation() {
+  const [currentMessageIndex, setCurrentMessageIndex] = useState(0)
+  const [glowPosition, setGlowPosition] = useState(0)
+  
+  const messages = [
+    "Analyzing your text...",
+    "Searching Scripture...",
+    "Preparing a biblical response..."
+  ]
+
+  useEffect(() => {
+    // Cycle through messages every 2 seconds
+    const messageInterval = setInterval(() => {
+      setCurrentMessageIndex((prev) => (prev + 1) % messages.length)
+    }, 2000)
+
+    // Animate glow sweep continuously
+    const glowInterval = setInterval(() => {
+      setGlowPosition((prev) => (prev + 1) % 100)
+    }, 50) // Smooth 50ms updates for glow animation
+
+    return () => {
+      clearInterval(messageInterval)
+      clearInterval(glowInterval)
+    }
+  }, [messages.length])
+
+  return (
+    <div className="loading-animation">
+      <div className="loading-message">
+        {messages[currentMessageIndex]}
+        <div 
+          className="glow-sweep"
+          style={{
+            '--glow-position': `${glowPosition}%`
+          } as React.CSSProperties}
+        />
+      </div>
+    </div>
+  )
+}
+
 // Minimal book metadata for Old and New Testament (book name + number of chapters)
 const OLD_TESTAMENT: Array<{ name: string; chapters: number }> = [
   { name: 'Genesis', chapters: 50 }, { name: 'Exodus', chapters: 40 }, { name: 'Leviticus', chapters: 27 },
@@ -790,11 +833,7 @@ export default function ChatPage() {
               {isTyping && (
                 <div className="bubble assistant">
                   <div className="bubble-inner">
-                    <div className="typing">
-                      <span className="dot" />
-                      <span className="dot" />
-                      <span className="dot" />
-                    </div>
+                    <LoadingAnimation />
                   </div>
                 </div>
               )}
@@ -856,6 +895,52 @@ export default function ChatPage() {
         .dot { width:6px; height:6px; border-radius:50%; background: var(--brand); animation: typing 1.4s infinite ease-in-out; }
         .dot:nth-child(2) { animation-delay: .2s }
         .dot:nth-child(3) { animation-delay: .4s }
+        
+        /* GPT-5 Style Loading Animation */
+        .loading-animation {
+          display: flex;
+          align-items: center;
+          justify-content: flex-start;
+          min-height: 24px;
+        }
+        
+        .loading-message {
+          position: relative;
+          font-size: 14px;
+          color: #eef1f8;
+          font-weight: 500;
+          overflow: hidden;
+          white-space: nowrap;
+        }
+        
+        .glow-sweep {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: linear-gradient(90deg, 
+            transparent 0%, 
+            rgba(255, 255, 255, 0.8) 20%, 
+            rgba(255, 255, 255, 1) 50%, 
+            rgba(255, 255, 255, 0.8) 80%, 
+            transparent 100%
+          );
+          background-size: 200% 100%;
+          background-position: calc(var(--glow-position) * 2 - 100%) 0;
+          animation: glowSweep 2s ease-in-out infinite;
+          pointer-events: none;
+          z-index: 1;
+        }
+        
+        @keyframes glowSweep {
+          0% {
+            background-position: -100% 0;
+          }
+          100% {
+            background-position: 200% 0;
+          }
+        }
         .input-rail { position: sticky; bottom: 0; background: linear-gradient(180deg, rgba(4,4,6,0), rgba(4,4,6,0.8) 40%); padding: 12px 12px 0 12px; border-top: 1px solid var(--border); }
         .input.fancy { flex: 1; border-radius: 999px; border: 1px solid var(--border); background: #0e1530; color: #eef1f8; padding: 12px 16px; outline: none; font-size: 16px; }
         @media(min-width: 900px){ .input.fancy { padding: 14px 18px; } }
