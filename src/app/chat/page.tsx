@@ -906,7 +906,7 @@ export default function ChatPage() {
           -webkit-background-clip: text;
           background-clip: text;
           -webkit-text-fill-color: transparent;
-          animation: shimmer 2s linear infinite;
+          animation: shimmer 4s linear infinite;
           pointer-events: none;
         }
 
