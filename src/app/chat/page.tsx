@@ -902,17 +902,17 @@ export default function ChatPage() {
             rgba(255, 255, 255, 0) 100%
           );
           background-size: 200% 100%;
-          background-position: 200% 0;
+          background-position: 0% 0;
           -webkit-background-clip: text;
           background-clip: text;
           -webkit-text-fill-color: transparent;
-          animation: shimmer 5s linear infinite;
+          animation: shimmer 3s linear infinite;
           pointer-events: none;
         }
 
         @keyframes shimmer {
-          0% { background-position: 200% 0; }
-          100% { background-position: -200% 0; }
+          0% { background-position: 0% 0; }
+          100% { background-position: 200% 0; }
         }
         .input-rail { position: sticky; bottom: 0; background: linear-gradient(180deg, rgba(4,4,6,0), rgba(4,4,6,0.8) 40%); padding: 12px 12px 0 12px; border-top: 1px solid var(--border); }
         .input.fancy { flex: 1; border-radius: 999px; border: 1px solid var(--border); background: #0e1530; color: #eef1f8; padding: 12px 16px; outline: none; font-size: 16px; }
