@@ -907,7 +907,7 @@ export default function ChatPage() {
           display: inline-block;
         }
 
-        .loading-message-base { color: #eef1f8; }
+        .loading-message-base { color: #a8b3cf; }
 
         .loading-message-glow {
           position: absolute;
