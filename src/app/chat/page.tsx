@@ -66,13 +66,16 @@ function LoadingAnimation() {
   return (
     <div className="loading-animation">
       <div className="loading-message">
-        {messages[currentMessageIndex]}
-        <div 
-          className="glow-sweep"
+        <span className="loading-message-base">{messages[currentMessageIndex]}</span>
+        <span 
+          className="loading-message-glow"
           style={{
             '--glow-position': `${glowPosition}%`
           } as React.CSSProperties}
-        />
+          aria-hidden="true"
+        >
+          {messages[currentMessageIndex]}
+        </span>
       </div>
     </div>
   )
@@ -911,28 +914,27 @@ export default function ChatPage() {
           font-weight: 500;
           overflow: hidden;
           white-space: nowrap;
+          display: inline-block;
         }
-        
-        .glow-sweep {
+
+        .loading-message-base { color: #eef1f8; }
+
+        .loading-message-glow {
           position: absolute;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background: linear-gradient(90deg, 
-            transparent 0%, 
-            rgba(255, 255, 255, 0.1) 20%, 
-            rgba(255, 255, 255, 0.6) 50%, 
-            rgba(255, 255, 255, 0.1) 80%, 
-            transparent 100%
+          inset: 0;
+          color: transparent;
+          background: linear-gradient(90deg,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0.15) 25%,
+            rgba(255, 255, 255, 0.8) 50%,
+            rgba(255, 255, 255, 0.15) 75%,
+            rgba(255, 255, 255, 0) 100%
           );
           background-size: 200% 100%;
           background-position: calc(var(--glow-position) * 2 - 100%) 0;
           -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
           background-clip: text;
           pointer-events: none;
-          z-index: 1;
         }
         
         @keyframes glowSweep {
