@@ -40,9 +40,7 @@ function LoadingAnimation() {
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0)
   
   const messages = [
-    "Analyzing your text...",
-    "Searching Scripture...",
-    "Preparing a biblical response..."
+    "Analyzing your text..."
   ]
 
   useEffect(() => {
@@ -907,7 +905,7 @@ export default function ChatPage() {
           display: inline-block;
         }
 
-        .loading-message-base { color: #8b95a5; }
+        .loading-message-base { color: #6b7280; }
 
         .loading-message-glow {
           position: absolute;
@@ -925,7 +923,7 @@ export default function ChatPage() {
           -webkit-background-clip: text;
           background-clip: text;
           -webkit-text-fill-color: transparent;
-          animation: shimmer 8s linear infinite;
+          animation: shimmer 5s linear infinite;
           pointer-events: none;
         }
 
