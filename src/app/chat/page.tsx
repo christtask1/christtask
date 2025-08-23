@@ -38,7 +38,6 @@ function TypingText({ text, delay = 0 }: { text: string; delay?: number }) {
 // GPT-5 style loading animation with white glow sweep
 function LoadingAnimation() {
   const [currentMessageIndex, setCurrentMessageIndex] = useState(0)
-  const [glowPosition, setGlowPosition] = useState(0)
   
   const messages = [
     "Analyzing your text...",
@@ -52,14 +51,8 @@ function LoadingAnimation() {
       setCurrentMessageIndex((prev) => (prev + 1) % messages.length)
     }, 2000)
 
-    // Animate glow sweep continuously
-    const glowInterval = setInterval(() => {
-      setGlowPosition((prev) => (prev + 1) % 100)
-    }, 50) // Smooth glow animation
-
     return () => {
       clearInterval(messageInterval)
-      clearInterval(glowInterval)
     }
   }, [messages.length])
 
@@ -69,9 +62,6 @@ function LoadingAnimation() {
         <span className="loading-message-base">{messages[currentMessageIndex]}</span>
         <span 
           className="loading-message-glow"
-          style={{
-            '--glow-position': `${glowPosition}%`
-          } as React.CSSProperties}
           aria-hidden="true"
         >
           {messages[currentMessageIndex]}
@@ -925,25 +915,23 @@ export default function ChatPage() {
           color: transparent;
           background: linear-gradient(90deg,
             rgba(255, 255, 255, 0) 0%,
-            rgba(255, 255, 255, 0.15) 25%,
-            rgba(255, 255, 255, 0.8) 50%,
-            rgba(255, 255, 255, 0.15) 75%,
+            rgba(255, 255, 255, 0.2) 35%,
+            rgba(255, 255, 255, 0.9) 50%,
+            rgba(255, 255, 255, 0.2) 65%,
             rgba(255, 255, 255, 0) 100%
           );
-          background-size: 200% 100%;
-          background-position: calc(var(--glow-position) * 2 - 100%) 0;
+          background-size: 300% 100%;
+          background-position: -200% 0;
           -webkit-background-clip: text;
           background-clip: text;
+          -webkit-text-fill-color: transparent;
+          animation: shimmer 2.8s ease-in-out infinite;
           pointer-events: none;
         }
-        
-        @keyframes glowSweep {
-          0% {
-            background-position: -100% 0;
-          }
-          100% {
-            background-position: 200% 0;
-          }
+
+        @keyframes shimmer {
+          0% { background-position: -200% 0; }
+          100% { background-position: 200% 0; }
         }
         .input-rail { position: sticky; bottom: 0; background: linear-gradient(180deg, rgba(4,4,6,0), rgba(4,4,6,0.8) 40%); padding: 12px 12px 0 12px; border-top: 1px solid var(--border); }
         .input.fancy { flex: 1; border-radius: 999px; border: 1px solid var(--border); background: #0e1530; color: #eef1f8; padding: 12px 16px; outline: none; font-size: 16px; }
