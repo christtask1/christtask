@@ -46,10 +46,10 @@ function LoadingAnimation() {
   ]
 
   useEffect(() => {
-    // Cycle through messages every 4 seconds
+    // Cycle through messages every 3 seconds
     const messageInterval = setInterval(() => {
       setCurrentMessageIndex((prev) => (prev + 1) % messages.length)
-    }, 4000)
+    }, 3000)
 
     return () => {
       clearInterval(messageInterval)
@@ -925,7 +925,7 @@ export default function ChatPage() {
           -webkit-background-clip: text;
           background-clip: text;
           -webkit-text-fill-color: transparent;
-          animation: shimmer 9.5s cubic-bezier(0.4, 0.0, 0.2, 1) infinite;
+          animation: shimmer 12s linear infinite;
           pointer-events: none;
         }
 
