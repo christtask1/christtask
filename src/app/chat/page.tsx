@@ -915,17 +915,17 @@ export default function ChatPage() {
           color: transparent;
           background: linear-gradient(90deg,
             rgba(255, 255, 255, 0) 0%,
-            rgba(255, 255, 255, 0.4) 35%,
+            rgba(255, 255, 255, 0.4) 45%,
             rgba(255, 255, 255, 1) 50%,
-            rgba(255, 255, 255, 0.4) 65%,
+            rgba(255, 255, 255, 0.4) 55%,
             rgba(255, 255, 255, 0) 100%
           );
           background-size: 300% 100%;
-          background-position: -200% 0;
+          background-position: 200% 0;
           -webkit-background-clip: text;
           background-clip: text;
           -webkit-text-fill-color: transparent;
-          animation: shimmer 4.5s cubic-bezier(0.4, 0.0, 0.2, 1) infinite;
+          animation: shimmer 6.5s cubic-bezier(0.4, 0.0, 0.2, 1) infinite;
           pointer-events: none;
         }
 
