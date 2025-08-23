@@ -54,8 +54,8 @@ function LoadingAnimation() {
 
     // Animate glow sweep continuously
     const glowInterval = setInterval(() => {
-      setGlowPosition((prev) => (prev + 1) % 100)
-    }, 50) // Smooth 50ms updates for glow animation
+      setGlowPosition((prev) => (prev + 0.5) % 100)
+    }, 30) // Slower, smoother glow animation
 
     return () => {
       clearInterval(messageInterval)
@@ -921,14 +921,17 @@ export default function ChatPage() {
           height: 100%;
           background: linear-gradient(90deg, 
             transparent 0%, 
-            rgba(255, 255, 255, 0.8) 20%, 
-            rgba(255, 255, 255, 1) 50%, 
-            rgba(255, 255, 255, 0.8) 80%, 
+            rgba(255, 255, 255, 0.3) 20%, 
+            rgba(255, 255, 255, 0.8) 50%, 
+            rgba(255, 255, 255, 0.3) 80%, 
             transparent 100%
           );
           background-size: 200% 100%;
           background-position: calc(var(--glow-position) * 2 - 100%) 0;
-          animation: glowSweep 2s ease-in-out infinite;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          animation: glowSweep 3s ease-in-out infinite;
           pointer-events: none;
           z-index: 1;
         }
