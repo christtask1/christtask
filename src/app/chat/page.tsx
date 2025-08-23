@@ -896,9 +896,9 @@ export default function ChatPage() {
           color: transparent;
           background: linear-gradient(90deg,
             rgba(255, 255, 255, 0) 0%,
-            rgba(255, 255, 255, 0.4) 48%,
+            rgba(255, 255, 255, 0.3) 45%,
             rgba(255, 255, 255, 1) 50%,
-            rgba(255, 255, 255, 0.4) 52%,
+            rgba(255, 255, 255, 0.3) 55%,
             rgba(255, 255, 255, 0) 100%
           );
           background-size: 200% 100%;
