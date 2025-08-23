@@ -902,7 +902,7 @@ export default function ChatPage() {
             rgba(255, 255, 255, 0) 100%
           );
           background-size: 200% 100%;
-          background-position: 0% 0;
+          background-position: -200% 0;
           -webkit-background-clip: text;
           background-clip: text;
           -webkit-text-fill-color: transparent;
