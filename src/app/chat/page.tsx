@@ -46,10 +46,10 @@ function LoadingAnimation() {
   ]
 
   useEffect(() => {
-    // Cycle through messages every 2 seconds
+    // Cycle through messages every 4 seconds
     const messageInterval = setInterval(() => {
       setCurrentMessageIndex((prev) => (prev + 1) % messages.length)
-    }, 2000)
+    }, 4000)
 
     return () => {
       clearInterval(messageInterval)
@@ -915,9 +915,9 @@ export default function ChatPage() {
           color: transparent;
           background: linear-gradient(90deg,
             rgba(255, 255, 255, 0) 0%,
-            rgba(255, 255, 255, 0.2) 35%,
-            rgba(255, 255, 255, 0.9) 50%,
-            rgba(255, 255, 255, 0.2) 65%,
+            rgba(255, 255, 255, 0.4) 35%,
+            rgba(255, 255, 255, 1) 50%,
+            rgba(255, 255, 255, 0.4) 65%,
             rgba(255, 255, 255, 0) 100%
           );
           background-size: 300% 100%;
