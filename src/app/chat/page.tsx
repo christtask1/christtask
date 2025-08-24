@@ -815,19 +815,53 @@ export default function ChatPage() {
 
           {/* Input rail */}
           <div className="input-rail">
-              <form onSubmit={onSend} style={{ display: 'flex', gap: 10, width: '100%' }}>
+            <div className="input-container">
+              <div className="input-left-buttons">
+                <button type="button" className="add-button" title="Add">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                  </svg>
+                </button>
+                <button type="button" className="attachment-button" title="Attach file">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"></path>
+                  </svg>
+                </button>
+              </div>
+              
+              <form onSubmit={onSend} className="input-form">
                 <input
-                  className="input fancy"
-                  placeholder="Ask anything..."
+                  className="input-field"
+                  placeholder="Reply to ChristTask..."
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                 />
-                <button className="btn" type="submit" disabled={sending || !input.trim()}>
-                  {sending ? 'Sending…' : 'Send'}
-                </button>
               </form>
+              
+              <div className="input-right-elements">
+                <div className="model-selector">
+                  <span>ChristTask AI</span>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <polyline points="6,9 12,15 18,9"></polyline>
+                  </svg>
+                </div>
+                <button 
+                  type="submit" 
+                  className="send-button" 
+                  onClick={onSend}
+                  disabled={sending || !input.trim()}
+                  title="Send message"
+                >
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <line x1="22" y1="2" x2="11" y2="13"></line>
+                    <polygon points="22,2 15,22 11,13 2,9 22,2"></polygon>
+                  </svg>
+                </button>
+              </div>
             </div>
           </div>
+        </div>
         )}
 
         {/* extra spacing for small screens */}
@@ -913,8 +947,83 @@ export default function ChatPage() {
           100% { background-position: -200% 0; }
         }
         .input-rail { position: sticky; bottom: 0; background: transparent; padding: 16px 80px; border-top: 1px solid rgba(255,255,255,0.1); margin-bottom: 60px; }
-        .input.fancy { flex: 1; border-radius: 8px; border: 1px solid rgba(255,255,255,0.15); background: transparent; color: #eef1f8; padding: 12px 16px; outline: none; font-size: 16px; }
-        @media(min-width: 900px){ .input.fancy { padding: 14px 18px; } }
+        .input-container {
+          display: flex;
+          align-items: center;
+          background: #f5f5f5; /* Light beige background */
+          border-radius: 10px;
+          padding: 8px 12px;
+          gap: 10px;
+          border: 1px solid #e0e0e0;
+        }
+        .input-left-buttons {
+          display: flex;
+          gap: 8px;
+          align-items: center;
+        }
+        .input-field {
+          flex: 1;
+          border: none;
+          outline: none;
+          font-size: 14px;
+          color: #333;
+          padding: 0;
+          background: transparent;
+        }
+        .input-right-elements {
+          display: flex;
+          gap: 10px;
+          align-items: center;
+        }
+        .model-selector {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          background: #e0e0e0;
+          border-radius: 8px;
+          padding: 6px 10px;
+          font-size: 12px;
+          color: #555;
+        }
+        .send-button {
+          background: #7aa2ff;
+          color: white;
+          border: none;
+          border-radius: 8px;
+          padding: 8px 12px;
+          cursor: pointer;
+          transition: background 0.2s ease;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 40px;
+          height: 40px;
+          box-shadow: 0 2px 8px rgba(122, 162, 255, 0.3);
+        }
+        .send-button:hover:not(:disabled) {
+          background: #6a95ff;
+        }
+        .send-button:disabled {
+          background: #ccc;
+          cursor: not-allowed;
+          color: #888;
+        }
+        .add-button, .attachment-button {
+          background: #e0e0e0;
+          border: none;
+          border-radius: 8px;
+          padding: 8px;
+          cursor: pointer;
+          transition: background 0.2s ease;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 40px;
+          height: 40px;
+        }
+        .add-button:hover, .attachment-button:hover {
+          background: #d0d0d0;
+        }
         .stripe-card-element .StripeElement--complete {
           border-color: #22c55e;
         }
