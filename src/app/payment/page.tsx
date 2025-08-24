@@ -424,7 +424,7 @@ function CardForm({
         }
 
 
-        
+
         // Payment successful - create account if needed
         if (!user) {
           try {
@@ -473,11 +473,11 @@ function CardForm({
                        },
                      },
                    }}
-                                       onChange={(event) => {
+                   onChange={(event) => {
                       // Handle card input changes if needed
                     }}
                                    />
-                </div>
+               </div>
              </div>
            </div>
           
@@ -570,20 +570,20 @@ function CardForm({
               </div>
             </div>
           )}
-          
-          {!shouldShowPostalCode(country) && (
-            <div style={{
-              fontSize: '13px',
-              color: '#6b7280',
-              marginTop: '8px',
-              padding: '8px 12px',
-              background: 'rgba(122, 162, 255, 0.1)',
-              border: '1px solid rgba(122, 162, 255, 0.2)',
-              borderRadius: '8px'
-            }}>
-              ℹ️ Postal code not required for {COUNTRIES.find(c => c.code === country)?.name}
-            </div>
-          )}
+      
+      {!shouldShowPostalCode(country) && (
+        <div style={{
+          fontSize: '13px',
+          color: '#6b7280',
+          marginTop: '8px',
+          padding: '8px 12px',
+          background: 'rgba(122, 162, 255, 0.1)',
+          border: '1px solid rgba(122, 162, 255, 0.2)',
+          borderRadius: '8px'
+        }}>
+          ℹ️ Postal code not required for {COUNTRIES.find(c => c.code === country)?.name}
+        </div>
+      )}
         </div>
       </div>
       
@@ -792,14 +792,14 @@ export default function PaymentPage() {
                     const displayCurrency = (COUNTRY_TO_CURRENCY[country] || price.currency || 'GBP').toUpperCase()
                     const displayAmountMinor = convertMinorUnits(price.unit_amount, price.currency, displayCurrency)
                     return (
-                                         <button
-                       key={price.id}
-                       type="button"
-                       className={`plan-card ${plan === price.id ? 'selected' : ''}`}
+                    <button
+                      key={price.id}
+                      type="button"
+                      className={`plan-card ${plan === price.id ? 'selected' : ''}`}
                                                onClick={() => {
                           setPlan(price.id)
                         }}
-                     >
+                    >
                       <div className="plan-title">{price.product_name}</div>
                       <div className="plan-price">
                         {formatPrice(displayAmountMinor, displayCurrency)}
@@ -828,8 +828,8 @@ export default function PaymentPage() {
               <input className="input" value={coupon} onChange={(e)=>setCoupon(e.target.value)} placeholder="Enter coupon or promo code" />
             </div>
 
-                         {!user && (
-               <div className="form-block">
+            {!user && (
+              <div className="form-block">
                  <h3 style={{ 
                    fontSize: '20px', 
                    fontWeight: '700', 
@@ -839,17 +839,17 @@ export default function PaymentPage() {
                  }}>
                    Create Your Account
                  </h3>
-                 <label className="label">Email</label>
-                 <input 
-                   className="input" 
-                   type="email" 
-                   placeholder="Enter your email" 
-                   value={email} 
-                   onChange={(e) => setEmail(e.target.value)} 
-                   required 
-                 />
-               </div>
-             )}
+                <label className="label">Email</label>
+                <input 
+                  className="input" 
+                  type="email" 
+                  placeholder="Enter your email" 
+                  value={email} 
+                  onChange={(e) => setEmail(e.target.value)} 
+                  required 
+                />
+              </div>
+            )}
 
             {!user && (
               <div className="form-block">

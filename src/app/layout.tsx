@@ -124,7 +124,7 @@ export default function RootLayout({ children }: { children: any }) {
           }
         `}</style>
       </head>
-      <body>
+            <body>
         <header className="site-header">
           <div className="container header-inner">
             <a href="/" className="brand">ChristTask</a>
