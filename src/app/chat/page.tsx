@@ -895,7 +895,7 @@ export default function ChatPage() {
         .loading-message-base { color: #4b5563; }
 
         .loading-message-glow {
-          position: fixed;
+          position: absolute;
           inset: 0;
           color: transparent;
           background: linear-gradient(90deg,
