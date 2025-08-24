@@ -912,7 +912,7 @@ export default function ChatPage() {
           0% { background-position: 200% 0; }
           100% { background-position: -200% 0; }
         }
-        .input-rail { position: sticky; bottom: 0; background: linear-gradient(180deg, rgba(4,4,6,0), rgba(4,4,6,0.8) 40%); padding: 12px 12px 0 12px; border-top: 1px solid var(--border); }
+        .input-rail { position: sticky; bottom: 0; background: linear-gradient(180deg, rgba(4,4,6,0), rgba(4,4,6,0.8) 40%); padding: 12px 12px 0 12px; border-top: 1px solid var(--border); margin-bottom: 60px; }
         .input.fancy { flex: 1; border-radius: 999px; border: 1px solid var(--border); background: #0e1530; color: #eef1f8; padding: 12px 16px; outline: none; font-size: 16px; }
         @media(min-width: 900px){ .input.fancy { padding: 14px 18px; } }
         .stripe-card-element .StripeElement--complete {
