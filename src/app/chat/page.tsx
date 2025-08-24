@@ -838,10 +838,10 @@ export default function ChatPage() {
         .bubble { display: flex; }
         .bubble.assistant { justify-content: flex-start; }
         .bubble.user { justify-content: flex-end; }
-        .bubble-inner { max-width: min(780px, 85%); border: 1px solid var(--border); border-radius: 16px; padding: 12px 14px; position: relative; }
-        .bubble.assistant .bubble-inner { background: #0e1530; }
-        .bubble.user .bubble-inner { background: rgba(78,123,255,0.12); }
-        .bubble-text { font-size: 14px; white-space: pre-wrap; line-height: 1.6; }
+        .bubble-inner { max-width: min(780px, 85%); padding: 8px 0; position: relative; }
+        .bubble.assistant .bubble-inner { background: transparent; }
+        .bubble.user .bubble-inner { background: transparent; }
+        .bubble-text { font-size: 14px; white-space: pre-wrap; line-height: 1.6; color: #eef1f8; }
         @keyframes blurReveal { from { opacity: 0; filter: blur(10px); } to { opacity: 1; filter: blur(0); } }
         @keyframes blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
         .copy-button { 
@@ -912,8 +912,8 @@ export default function ChatPage() {
           0% { background-position: 200% 0; }
           100% { background-position: -200% 0; }
         }
-        .input-rail { position: sticky; bottom: 0; background: linear-gradient(180deg, rgba(4,4,6,0), rgba(4,4,6,0.8) 40%); padding: 12px 12px 0 12px; border-top: 1px solid var(--border); margin-bottom: 60px; }
-        .input.fancy { flex: 1; border-radius: 999px; border: 1px solid var(--border); background: #0e1530; color: #eef1f8; padding: 12px 16px; outline: none; font-size: 16px; }
+        .input-rail { position: sticky; bottom: 0; background: rgba(4,4,6,0.95); padding: 16px 0; border-top: 1px solid rgba(255,255,255,0.1); margin-bottom: 60px; }
+        .input.fancy { flex: 1; border-radius: 8px; border: 1px solid rgba(255,255,255,0.2); background: rgba(255,255,255,0.05); color: #eef1f8; padding: 12px 16px; outline: none; font-size: 16px; }
         @media(min-width: 900px){ .input.fancy { padding: 14px 18px; } }
         .stripe-card-element .StripeElement--complete {
           border-color: #22c55e;
