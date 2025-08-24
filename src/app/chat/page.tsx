@@ -307,7 +307,7 @@ export default function ChatPage() {
           width: 12, 
           zIndex: 250, 
           background: 'transparent',
-          display: 'none' // Hidden by default
+          display: 'block' // Make trigger area visible
         }}
         className="desktop-sidebar-trigger"
       />
@@ -889,7 +889,7 @@ export default function ChatPage() {
         .loading-message-base { color: #4b5563; }
 
         .loading-message-glow {
-          position: absolute;
+          position: fixed;
           inset: 0;
           color: transparent;
           background: linear-gradient(90deg,
@@ -912,9 +912,19 @@ export default function ChatPage() {
           0% { background-position: 200% 0; }
           100% { background-position: -200% 0; }
         }
-         .input-rail { position: sticky; bottom: 0; background: transparent; padding: 16px 80px; border-top: 1px solid rgba(255,255,255,0.1); margin-bottom: 60px; }
-         .input.fancy { flex: 1; border-radius: 8px; border: 1px solid rgba(255,255,255,0.15); background: transparent; color: #eef1f8; padding: 12px 16px; outline: none; font-size: 16px; }
-         @media(min-width: 900px){ .input.fancy { padding: 14px 18px; } }
+        
+        /* Sidebar hover detection */
+        .desktop-sidebar-trigger:hover {
+          background: rgba(255, 255, 255, 0.05);
+        }
+        
+        .desktop-sidebar {
+          transition: width 160ms ease, padding 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+        }
+        
+        .input-rail { position: sticky; bottom: 0; background: transparent; padding: 16px 80px; border-top: 1px solid rgba(255,255,255,0.1); margin-bottom: 60px; }
+        .input.fancy { flex: 1; border-radius: 8px; border: 1px solid rgba(255,255,255,0.15); background: transparent; color: #eef1f8; padding: 12px 16px; outline: none; font-size: 16px; }
+        @media(min-width: 900px){ .input.fancy { padding: 14px 18px; } }
       `}</style>
     </div>
   )
