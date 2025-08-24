@@ -405,7 +405,7 @@ export default function ChatPage() {
         background: 'linear-gradient(180deg, rgba(23,35,74,0.95), rgba(16,24,48,0.98))',
         borderTop: '1px solid var(--border)',
         padding: '6px 12px',
-        display: 'none', // Hidden by default
+        display: 'flex', // Show by default on mobile
         zIndex: 400,
         backdropFilter: 'blur(20px)',
         boxShadow: '0 -4px 20px rgba(0,0,0,0.3)'
@@ -920,6 +920,13 @@ export default function ChatPage() {
         
         .desktop-sidebar {
           transition: width 160ms ease, padding 160ms ease, border-color 160ms ease, box-shadow 160ms ease;
+        }
+        
+        /* Mobile navigation - hide on desktop */
+        @media(min-width: 900px) {
+          .mobile-bottom-nav {
+            display: none !important;
+          }
         }
         
         .input-rail { position: sticky; bottom: 0; background: transparent; padding: 16px 20px; border-top: 1px solid rgba(255,255,255,0.1); margin-bottom: 60px; }
