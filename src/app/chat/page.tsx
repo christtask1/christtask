@@ -805,10 +805,8 @@ export default function ChatPage() {
                 </div>
               ))}
               {isTyping && (
-                <div className="bubble assistant">
-                  <div className="bubble-inner">
-                    <LoadingAnimation />
-                  </div>
+                <div className="loading-animation">
+                  <LoadingAnimation />
                 </div>
               )}
               <div ref={bottomRef} />
