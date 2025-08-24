@@ -410,7 +410,7 @@ export default function ChatPage() {
         backdropFilter: 'blur(20px)',
         boxShadow: '0 -4px 20px rgba(0,0,0,0.3)'
       }}>
-        <div style={{ display: 'flex', justifyContent: 'space-around', alignItems: 'center' }}>
+        <div style={{ display: 'flex', width: '100%' }}>
           <button
             type="button"
             onClick={goToBible}
@@ -418,11 +418,13 @@ export default function ChatPage() {
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
+              justifyContent: 'center',
+              flex: 1,
               gap: 1,
               background: 'transparent',
               border: 'none',
               color: isBibleOpen ? '#7aa2ff' : '#a8b3cf',
-              padding: '4px 8px',
+              padding: '8px 4px',
               borderRadius: 8,
               cursor: 'pointer',
               transition: 'all 0.2s ease'
@@ -439,11 +441,13 @@ export default function ChatPage() {
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
+              justifyContent: 'center',
+              flex: 1,
               gap: 1,
               background: 'transparent',
               border: 'none',
               color: isForumOpen ? '#7aa2ff' : '#a8b3cf',
-              padding: '4px 8px',
+              padding: '8px 4px',
               borderRadius: 8,
               cursor: 'pointer',
               transition: 'all 0.2s ease'
@@ -460,11 +464,13 @@ export default function ChatPage() {
               display: 'flex',
               flexDirection: 'column',
               alignItems: 'center',
+              justifyContent: 'center',
+              flex: 1,
               gap: 1,
               background: 'transparent',
               border: 'none',
               color: !isBibleOpen && !isForumOpen ? '#7aa2ff' : '#a8b3cf',
-              padding: '4px 8px',
+              padding: '8px 4px',
               borderRadius: 8,
               cursor: 'pointer',
               transition: 'all 0.2s ease'
