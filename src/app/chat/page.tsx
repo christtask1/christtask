@@ -799,17 +799,47 @@ export default function ChatPage() {
                       </div>
                                              {m.role === 'assistant' && (
                          <div style={{ display: 'flex', gap: '4px', position: 'absolute', bottom: '6px', right: '6px' }}>
-                           <button
-                             onClick={() => {
-                               const utterance = new SpeechSynthesisUtterance(m.content);
-                               utterance.voice = speechSynthesis.getVoices().find(voice => 
-                                 voice.name.includes('Google') || voice.name.includes('Natural') || voice.name.includes('Premium')
-                               ) || speechSynthesis.getVoices()[0];
-                               utterance.rate = 0.9;
-                               utterance.pitch = 1;
-                               utterance.volume = 0.8;
-                               speechSynthesis.speak(utterance);
-                             }}
+                                                       <button
+                              onClick={() => {
+                                const utterance = new SpeechSynthesisUtterance(m.content);
+                                
+                                // Get all available voices
+                                const voices = speechSynthesis.getVoices();
+                                
+                                // Prioritize British voices for more realistic speech
+                                let selectedVoice = voices.find(voice => 
+                                  voice.name.includes('British') || 
+                                  voice.name.includes('UK') ||
+                                  voice.name.includes('England') ||
+                                  voice.name.includes('Scotland') ||
+                                  voice.name.includes('Wales')
+                                );
+                                
+                                // Fallback to high-quality voices if no British accent found
+                                if (!selectedVoice) {
+                                  selectedVoice = voices.find(voice => 
+                                    voice.name.includes('Google') || 
+                                    voice.name.includes('Natural') || 
+                                    voice.name.includes('Premium') ||
+                                    voice.name.includes('Enhanced') ||
+                                    voice.name.includes('HD')
+                                  );
+                                }
+                                
+                                // Final fallback to any available voice
+                                if (!selectedVoice && voices.length > 0) {
+                                  selectedVoice = voices[0];
+                                }
+                                
+                                if (selectedVoice) {
+                                  utterance.voice = selectedVoice;
+                                  // Optimize for natural speech
+                                  utterance.rate = 0.85; // Slightly slower for clarity
+                                  utterance.pitch = 1.0; // Natural pitch
+                                  utterance.volume = 0.9; // Good volume
+                                  speechSynthesis.speak(utterance);
+                                }
+                              }}
                              className="speak-button"
                              title="Listen to response"
                            >
