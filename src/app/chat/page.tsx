@@ -816,6 +816,9 @@ export default function ChatPage() {
                                 // Get all available voices
                                 const voices = speechSynthesis.getVoices();
                                 
+                                // Debug: Log all available voices
+                                console.log('Available voices:', voices.map(v => v.name));
+                                
                                 // Prioritize British voices for more realistic speech
                                 let selectedVoice = voices.find(voice => 
                                   voice.name.includes('British') || 
@@ -825,15 +828,28 @@ export default function ChatPage() {
                                   voice.name.includes('Wales')
                                 );
                                 
+                                // Debug: Log what voice was selected
+                                if (selectedVoice) {
+                                  console.log('Selected British voice:', selectedVoice.name);
+                                } else {
+                                  console.log('No British voice found, falling back to high-quality voices');
+                                }
+                                
                                 // Fallback to high-quality voices if no British accent found
                                 if (!selectedVoice) {
                                   selectedVoice = voices.find(voice => 
                                     voice.name.includes('Google') || 
                                     voice.name.includes('Natural') || 
-                                    voice.name.includes('Premium') ||
+                                    voice.name.includes('UK') ||
                                     voice.name.includes('Enhanced') ||
                                     voice.name.includes('HD')
                                   );
+                                  
+                                  if (selectedVoice) {
+                                    console.log('Selected high-quality voice:', selectedVoice.name);
+                                  } else {
+                                    console.log('No high-quality voice found, using fallback');
+                                  }
                                 }
                                 
                                 // Final fallback to any available voice
