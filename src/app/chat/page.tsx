@@ -846,7 +846,12 @@ export default function ChatPage() {
         .bubble.user { justify-content: flex-end; }
         .bubble-inner { max-width: min(780px, 85%); padding: 8px 0; position: relative; }
         .bubble.assistant .bubble-inner { background: transparent; }
-        .bubble.user .bubble-inner { background: transparent; }
+        .bubble.user .bubble-inner { 
+          background: rgba(122, 162, 255, 0.1); 
+          border: 1px solid rgba(122, 162, 255, 0.2);
+          border-radius: 12px;
+          padding: 12px 16px;
+        }
         .bubble-text { font-size: 14px; white-space: pre-wrap; line-height: 1.6; color: #eef1f8; }
         @keyframes blurReveal { from { opacity: 0; filter: blur(10px); } to { opacity: 1; filter: blur(0); } }
         @keyframes blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
