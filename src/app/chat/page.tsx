@@ -808,74 +808,7 @@ export default function ChatPage() {
                         )}
                       </div>
                                                                                            {m.role === 'assistant' && (
-                          <div style={{ display: 'flex', gap: '4px', marginTop: '8px', justifyContent: 'flex-end' }}>
-                                                       <button
-                              onClick={() => {
-                                const utterance = new SpeechSynthesisUtterance(m.content);
-                                
-                                // Get all available voices
-                                const voices = speechSynthesis.getVoices();
-                                
-                                // Debug: Log all available voices
-                                console.log('Available voices:', voices.map(v => v.name));
-                                
-                                // Prioritize British voices for more realistic speech
-                                let selectedVoice = voices.find(voice => 
-                                  voice.name.includes('British') || 
-                                  voice.name.includes('UK') ||
-                                  voice.name.includes('England') ||
-                                  voice.name.includes('Scotland') ||
-                                  voice.name.includes('Wales')
-                                );
-                                
-                                // Debug: Log what voice was selected
-                                if (selectedVoice) {
-                                  console.log('Selected British voice:', selectedVoice.name);
-                                } else {
-                                  console.log('No British voice found, falling back to high-quality voices');
-                                }
-                                
-                                // Fallback to high-quality voices if no British accent found
-                                if (!selectedVoice) {
-                                  selectedVoice = voices.find(voice => 
-                                    voice.name.includes('Google') || 
-                                    voice.name.includes('Natural') || 
-                                    voice.name.includes('UK') ||
-                                    voice.name.includes('Enhanced') ||
-                                    voice.name.includes('HD')
-                                  );
-                                  
-                                  if (selectedVoice) {
-                                    console.log('Selected high-quality voice:', selectedVoice.name);
-                                  } else {
-                                    console.log('No high-quality voice found, using fallback');
-                                  }
-                                }
-                                
-                                // Final fallback to any available voice
-                                if (!selectedVoice && voices.length > 0) {
-                                  selectedVoice = voices[0];
-                                }
-                                
-                                                                 if (selectedVoice) {
-                                   utterance.voice = selectedVoice;
-                                   // Optimize for natural speech
-                                   utterance.rate = 1.1; // Slightly faster for better pace
-                                   utterance.pitch = 1.0; // Natural pitch
-                                   utterance.volume = 0.9; // Good volume
-                                   speechSynthesis.speak(utterance);
-                                 }
-                              }}
-                             className="speak-button"
-                             title="Listen to response"
-                           >
-                             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                               <path d="M9 18V5l12-2v13"/>
-                               <circle cx="6" cy="18" r="3"/>
-                               <path d="M23 22v-6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v6"/>
-                               <path d="M8 22v-4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v4"/>
-                             </svg>
-                           </button>
+                                                     <div style={{ display: 'flex', gap: '4px', marginTop: '8px', justifyContent: 'flex-end' }}>
                            <button
                              onClick={() => {
                                navigator.clipboard.writeText(m.content).then(() => {
@@ -942,22 +875,22 @@ export default function ChatPage() {
         .bubble-text { font-size: 14px; white-space: pre-wrap; line-height: 1.6; color: #eef1f8; }
         @keyframes blurReveal { from { opacity: 0; filter: blur(10px); } to { opacity: 1; filter: blur(0); } }
         @keyframes blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
-        .speak-button, .copy-button { 
-          background: rgba(255, 255, 255, 0.1); 
-          border: 1px solid rgba(255, 255, 255, 0.2); 
-          border-radius: 4px; 
-          padding: 4px; 
-          color: #a8b3cf; 
-          cursor: pointer; 
-          transition: all 0.2s ease; 
-          opacity: 0.7;
-        }
-        .speak-button:hover, .copy-button:hover { 
-          background: rgba(255, 255, 255, 0.15); 
-          color: #ffffff; 
-          opacity: 1; 
-          transform: translateY(-1px);
-        }
+                 .copy-button { 
+           background: rgba(255, 255, 255, 0.1); 
+           border: 1px solid rgba(255, 255, 255, 0.2); 
+           border-radius: 4px; 
+           padding: 4px; 
+           color: #a8b3cf; 
+           cursor: pointer; 
+           transition: all 0.2s ease; 
+           opacity: 0.7;
+         }
+         .copy-button:hover { 
+           background: rgba(255, 255, 255, 0.15); 
+           color: #ffffff; 
+           opacity: 1; 
+           transform: translateY(-1px);
+         }
         .typing { display:flex; gap:6px; align-items:center; }
         .dot { width:6px; height:6px; border-radius:50%; background: var(--brand); animation: typing 1.4s infinite ease-in-out; }
         .dot:nth-child(2) { animation-delay: .2s }
