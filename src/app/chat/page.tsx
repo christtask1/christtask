@@ -110,6 +110,7 @@ export default function ChatPage() {
   const bottomRef = useRef<HTMLDivElement | null>(null)
   const chatTopRef = useRef<HTMLDivElement | null>(null)
   const biblePanelRef = useRef<HTMLDivElement | null>(null)
+  const chatContainerRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
     const init = async () => {
@@ -120,7 +121,15 @@ export default function ChatPage() {
   }, [])
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
+    // Scroll to bottom of chat container when messages change
+    if (chatContainerRef.current) {
+      // Small delay to ensure content is rendered before scrolling
+      setTimeout(() => {
+        if (chatContainerRef.current) {
+          chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight
+        }
+      }, 100)
+    }
   }, [messages])
 
   const onSend = async (e: React.FormEvent) => {
@@ -785,7 +794,7 @@ export default function ChatPage() {
 
         {!isBibleOpen && !isForumOpen && (
         <div className="card" style={{ padding: 0, flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0 }}>
-          <div className="claude-chat" style={{ flex: 1, overflowY: 'auto', padding: 18 }}>
+          <div ref={chatContainerRef} className="claude-chat" style={{ flex: 1, overflowY: 'auto', padding: 18 }}>
             <div className="stream">
               {messages.map((m, idx) => (
                 <div key={idx} className={`bubble ${m.role}`}>
