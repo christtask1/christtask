@@ -797,24 +797,47 @@ export default function ChatPage() {
                           m.content
                         )}
                       </div>
-                      {m.role === 'assistant' && (
-                        <button
-                          onClick={() => {
-                            navigator.clipboard.writeText(m.content).then(() => {
-                              // Optional: Add visual feedback here
-                            }).catch(err => {
-                              console.error('Failed to copy text: ', err);
-                            });
-                          }}
-                          className="copy-button"
-                          title="Copy response"
-                        >
-                          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                          </svg>
-                        </button>
-                      )}
+                                             {m.role === 'assistant' && (
+                         <div style={{ display: 'flex', gap: '4px', position: 'absolute', bottom: '6px', right: '6px' }}>
+                           <button
+                             onClick={() => {
+                               const utterance = new SpeechSynthesisUtterance(m.content);
+                               utterance.voice = speechSynthesis.getVoices().find(voice => 
+                                 voice.name.includes('Google') || voice.name.includes('Natural') || voice.name.includes('Premium')
+                               ) || speechSynthesis.getVoices()[0];
+                               utterance.rate = 0.9;
+                               utterance.pitch = 1;
+                               utterance.volume = 0.8;
+                               speechSynthesis.speak(utterance);
+                             }}
+                             className="speak-button"
+                             title="Listen to response"
+                           >
+                             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                               <path d="M9 18V5l12-2v13"/>
+                               <circle cx="6" cy="18" r="3"/>
+                               <path d="M23 22v-6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v6"/>
+                               <path d="M8 22v-4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v4"/>
+                             </svg>
+                           </button>
+                           <button
+                             onClick={() => {
+                               navigator.clipboard.writeText(m.content).then(() => {
+                                 // Optional: Add visual feedback here
+                               }).catch(err => {
+                                 console.error('Failed to copy text: ', err);
+                               });
+                             }}
+                             className="copy-button"
+                             title="Copy response"
+                           >
+                             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                               <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                               <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                             </svg>
+                           </button>
+                         </div>
+                       )}
                   </div>
                 </div>
               ))}
@@ -863,10 +886,7 @@ export default function ChatPage() {
         .bubble-text { font-size: 14px; white-space: pre-wrap; line-height: 1.6; color: #eef1f8; }
         @keyframes blurReveal { from { opacity: 0; filter: blur(10px); } to { opacity: 1; filter: blur(0); } }
         @keyframes blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
-        .copy-button { 
-          position: absolute; 
-          bottom: 6px; 
-          right: 6px; 
+        .speak-button, .copy-button { 
           background: rgba(255, 255, 255, 0.1); 
           border: 1px solid rgba(255, 255, 255, 0.2); 
           border-radius: 4px; 
@@ -876,7 +896,7 @@ export default function ChatPage() {
           transition: all 0.2s ease; 
           opacity: 0.7;
         }
-        .copy-button:hover { 
+        .speak-button:hover, .copy-button:hover { 
           background: rgba(255, 255, 255, 0.15); 
           color: #ffffff; 
           opacity: 1; 
