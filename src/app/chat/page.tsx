@@ -831,14 +831,14 @@ export default function ChatPage() {
                                   selectedVoice = voices[0];
                                 }
                                 
-                                if (selectedVoice) {
-                                  utterance.voice = selectedVoice;
-                                  // Optimize for natural speech
-                                  utterance.rate = 0.85; // Slightly slower for clarity
-                                  utterance.pitch = 1.0; // Natural pitch
-                                  utterance.volume = 0.9; // Good volume
-                                  speechSynthesis.speak(utterance);
-                                }
+                                                                 if (selectedVoice) {
+                                   utterance.voice = selectedVoice;
+                                   // Optimize for natural speech
+                                   utterance.rate = 1.1; // Slightly faster for better pace
+                                   utterance.pitch = 1.0; // Natural pitch
+                                   utterance.volume = 0.9; // Good volume
+                                   speechSynthesis.speak(utterance);
+                                 }
                               }}
                              className="speak-button"
                              title="Listen to response"
