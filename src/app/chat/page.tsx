@@ -122,6 +122,7 @@ export default function ChatPage() {
 
   useEffect(() => {
     // Scroll to bottom of chat container when messages change
+    // This ensures users can see new messages without manual scrolling
     if (chatContainerRef.current) {
       // Small delay to ensure content is rendered before scrolling
       setTimeout(() => {
