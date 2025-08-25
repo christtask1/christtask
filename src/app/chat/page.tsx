@@ -797,8 +797,8 @@ export default function ChatPage() {
                           m.content
                         )}
                       </div>
-                                             {m.role === 'assistant' && (
-                         <div style={{ display: 'flex', gap: '4px', position: 'absolute', bottom: '6px', right: '6px' }}>
+                                                                                           {m.role === 'assistant' && (
+                          <div style={{ display: 'flex', gap: '4px', marginTop: '8px', justifyContent: 'flex-end' }}>
                                                        <button
                               onClick={() => {
                                 const utterance = new SpeechSynthesisUtterance(m.content);
@@ -905,7 +905,7 @@ export default function ChatPage() {
         .bubble { display: flex; }
         .bubble.assistant { justify-content: flex-start; }
         .bubble.user { justify-content: flex-end; }
-        .bubble-inner { max-width: min(780px, 85%); padding: 8px 0; position: relative; }
+                 .bubble-inner { max-width: min(780px, 85%); padding: 8px 0 16px 0; position: relative; }
         .bubble.assistant .bubble-inner { background: transparent; }
         .bubble.user .bubble-inner { 
           background: rgba(122, 162, 255, 0.1); 
