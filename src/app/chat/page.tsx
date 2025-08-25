@@ -430,7 +430,10 @@ export default function ChatPage() {
               transition: 'all 0.2s ease'
             }}
           >
-            <div style={{ fontSize: 16 }}>📖</div>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+              <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+            </svg>
             <div style={{ fontSize: 10, fontWeight: 500 }}>Bible</div>
           </button>
           
@@ -453,7 +456,9 @@ export default function ChatPage() {
               transition: 'all 0.2s ease'
             }}
           >
-            <div style={{ fontSize: 16 }}>💬</div>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+            </svg>
             <div style={{ fontSize: 10, fontWeight: 500 }}>Forum</div>
           </button>
           
@@ -476,7 +481,10 @@ export default function ChatPage() {
               transition: 'all 0.2s ease'
             }}
           >
-            <div style={{ fontSize: 16 }}>🤖</div>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M9 12l2 2 4-4"/>
+              <path d="M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+            </svg>
             <div style={{ fontSize: 10, fontWeight: 500 }}>AI Chat</div>
           </button>
         </div>
