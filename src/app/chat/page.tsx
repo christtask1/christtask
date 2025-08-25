@@ -40,13 +40,13 @@ function LoadingAnimation() {
   return (
     <div className="loading-animation">
       <div className="loading-message">
-        <span className="loading-message-base">Analyzing your text...</span>
-        <span 
-          className="loading-message-glow"
-          aria-hidden="true"
-        >
-          Analyzing your text...
-        </span>
+                 <span className="loading-message-base">Preparing thoughtful response...</span>
+         <span 
+           className="loading-message-glow"
+           aria-hidden="true"
+         >
+           Preparing thoughtful response...
+         </span>
       </div>
     </div>
   )
