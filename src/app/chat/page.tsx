@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { createTestSession } from '../../lib/auth'
 
 // Component for typing animation effect like demo box
 function TypingText({ text, delay = 0 }: { text: string; delay?: number }) {
@@ -113,15 +112,8 @@ export default function ChatPage() {
   const chatContainerRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
-    const init = async () => {
-      // For now, create a test session (in production, you'd check real auth)
-      const testEmail = 'test@example.com'
-      const sessionToken = createTestSession(testEmail)
-      document.cookie = `session-token=${sessionToken}; path=/`
-      
-      setUserEmail(testEmail)
-    }
-    init()
+    // Set a default user email for display
+    setUserEmail('User')
   }, [])
 
   useEffect(() => {

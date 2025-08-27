@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { getAuthUser } from '../../../lib/auth'
 import { allowRequest } from '../../../lib/ratelimit'
 
 // Simplified version without subscription checking for now
@@ -13,16 +12,8 @@ export async function POST(request: NextRequest) {
     }
 
     // Try to identify user (optional). Do not block if unauthenticated.
-   // Require authenticated user for chatbot access
-const user = await getAuthUser(request)
-console.log('Debug - User from getAuthUser():', user)
-if (!user) {
-  console.log('Debug - No user found, returning 401')
-  return NextResponse.json({ error: 'Please log in to use the chatbot.', code: 'LOGIN_REQUIRED' }, { status: 401 })
-}
-
-// TODO: Add Whop subscription checking here later
-// For now, allow all authenticated users to access the chatbot
+   // Allow all users to access the chatbot (no authentication required)
+const user = null // No user authentication for now
     
     const { message, question, conversation_history = [] } = await request.json()
     
@@ -43,7 +34,6 @@ if (!user) {
         'Accept': 'application/json',
         // Add any auth headers your backend needs
         // 'Authorization': `Bearer ${process.env.RAG_API_KEY}`
-        ...(user ? { 'X-User-Id': user.id, 'X-User-Email': user.email || '' } : {}),
       },
       body: JSON.stringify({
         question: message ?? question,
