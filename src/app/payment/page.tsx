@@ -1,8 +1,6 @@
 export default function PaymentPage() {
   return (
     <div>
-      <h1>Subscribe to ChristTask</h1>
-      
       <h2>Weekly Plan - $5.99/week</h2>
       <div
         data-whop-checkout-plan-id="plan_ySRIwkPeJwJer"
