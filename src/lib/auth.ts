@@ -1,54 +1,55 @@
 import { cookies } from 'next/headers'
-import { createClient } from '@supabase/supabase-js'
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL as string
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string
+// Simple session-based auth system (temporary replacement for Supabase)
+export interface User {
+  id: string
+  email: string
+  name?: string
+}
 
-export type AuthUser = { id: string; email?: string | null }
+// Simple session storage (in production, you'd use a proper session store)
+const sessions = new Map<string, User>()
 
-export async function getAuthUser(request?: Request): Promise<AuthUser | null> {
+export async function getAuthUser(request: Request): Promise<User | null> {
   try {
-    let accessToken: string | null = null
-
-    // Try to get token from Authorization header first (more reliable)
-    if (request) {
-      const authHeader = request.headers.get('Authorization')
-      if (authHeader?.startsWith('Bearer ')) {
-        accessToken = authHeader.substring(7)
-        console.log('Debug - Found Authorization header token')
-      }
-    }
-
-    // Fallback to cookies if no Authorization header
-    if (!accessToken) {
-      const cookieStore = await cookies()
-      const allCookies = Object.fromEntries(cookieStore.getAll().map(cookie => [cookie.name, cookie.value]))
-      console.log('Debug - All cookies:', Object.keys(allCookies))
-      
-      accessToken =
-        cookieStore.get('sb-access-token')?.value ||
-        cookieStore.get('supabase-auth-token')?.value ||
-        null
-      
-      console.log('Debug - Found cookie token:', !!accessToken)
-    }
+    const cookieStore = await cookies()
     
-    if (!accessToken) return null
-
-    const supabase = createClient(supabaseUrl, supabaseAnonKey, {
-      auth: { persistSession: false, detectSessionInUrl: false },
-    })
-
-    const { data, error } = await supabase.auth.getUser(accessToken)
-    if (error) {
-      console.log('Debug - Supabase auth error:', error.message)
+    // Get session token from cookies
+    const sessionToken = cookieStore.get('session-token')?.value
+    
+    if (!sessionToken) {
       return null
     }
-    return data.user ? { id: data.user.id, email: data.user.email } : null
-  } catch (e) {
-    console.log('Debug - Auth error:', e)
+    
+    // Check if session exists
+    const user = sessions.get(sessionToken)
+    if (!user) {
+      return null
+    }
+    
+    return user
+  } catch (error) {
+    console.error('Auth error:', error)
     return null
   }
+}
+
+// Helper function to create a session (for testing)
+export function createTestSession(email: string): string {
+  const sessionToken = `test-session-${Date.now()}`
+  const user: User = {
+    id: `user-${Date.now()}`,
+    email: email,
+    name: 'Test User'
+  }
+  
+  sessions.set(sessionToken, user)
+  return sessionToken
+}
+
+// Helper function to validate a session token
+export function validateSessionToken(token: string): User | null {
+  return sessions.get(token) || null
 }
 
 

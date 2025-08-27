@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { supabase } from '../../lib/supabaseClient'
+import { createTestSession } from '../../lib/auth'
 
 // Component for typing animation effect like demo box
 function TypingText({ text, delay = 0 }: { text: string; delay?: number }) {
@@ -114,8 +114,12 @@ export default function ChatPage() {
 
   useEffect(() => {
     const init = async () => {
-      const { data } = await supabase.auth.getSession()
-      setUserEmail(data.session?.user?.email || '')
+      // For now, create a test session (in production, you'd check real auth)
+      const testEmail = 'test@example.com'
+      const sessionToken = createTestSession(testEmail)
+      document.cookie = `session-token=${sessionToken}; path=/`
+      
+      setUserEmail(testEmail)
     }
     init()
   }, [])
@@ -144,15 +148,11 @@ export default function ChatPage() {
     setIsTyping(true)
 
     try {
-      // Get auth token for backend
-      const { data: { session } } = await supabase.auth.getSession()
-      
-      // Call your RAG backend through the API route
+      // For now, use simple auth (in production, you'd use proper tokens)
       const response = await fetch('/api/chat', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          ...(session?.access_token ? { 'Authorization': `Bearer ${session.access_token}` } : {})
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify({
           message: text
@@ -291,7 +291,8 @@ export default function ChatPage() {
 
   const handleLogout = async () => {
     try {
-      await supabase.auth.signOut()
+      // Clear session cookie
+      document.cookie = 'session-token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT'
       window.location.href = '/login'
     } catch (error) {
       console.error('Logout error:', error)
