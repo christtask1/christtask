@@ -1,9 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { getAuthUser } from '../../../lib/auth'
 import { allowRequest } from '../../../lib/ratelimit'
-import { getStripe } from '../../../lib/stripe'
 
-// Reverted to original working chatbot code - no subscription gate
+// Simplified version without subscription checking for now
 
 export async function POST(request: NextRequest) {
   try {
@@ -22,49 +21,8 @@ if (!user) {
   return NextResponse.json({ error: 'Please log in to use the chatbot.', code: 'LOGIN_REQUIRED' }, { status: 401 })
 }
 
-// Check subscription status with Stripe API
-const stripe = getStripe()
-if (!user.email) {
-  return NextResponse.json({ error: 'User email is required for subscription check.', code: 'EMAIL_REQUIRED' }, { status: 400 })
-}
-
-const customers = await stripe.customers.list({
-  email: user.email,
-  limit: 10
-})
-
-let hasActiveSubscription = false
-for (const customer of customers.data) {
-  const subscriptions = await stripe.subscriptions.list({
-    customer: customer.id,
-    status: 'all'  // Get all subscription statuses
-  })
-  
-  // Check if customer has any valid subscription (active or past_due within grace period)
-  const validSubscription = subscriptions.data.some(sub => {
-    // Always allow active subscriptions
-    if (sub.status === 'active') return true
-    
-    // For past_due: allow 7-day grace period after billing period ended
-    if (sub.status === 'past_due') {
-      const periodEnd = (sub as any).current_period_end * 1000 // Convert to JS timestamp
-      const gracePeriodEnd = periodEnd + (7 * 24 * 60 * 60 * 1000) // Add 7 days
-      return Date.now() <= gracePeriodEnd
-    }
-    
-    // Block all other statuses: 'canceled', 'unpaid', 'incomplete', etc.
-    return false
-  })
-  
-  if (validSubscription) {
-    hasActiveSubscription = true
-    break
-  }
-}
-
-      if (!hasActiveSubscription) {
-  return NextResponse.json({ error: 'Active subscription required to use the chatbot.', code: 'SUBSCRIPTION_REQUIRED' }, { status: 403 })
-    }
+// TODO: Add Whop subscription checking here later
+// For now, allow all authenticated users to access the chatbot
     
     const { message, question, conversation_history = [] } = await request.json()
     
