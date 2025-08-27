@@ -1,16 +1,15 @@
 'use client'
 
 import { useState } from 'react'
-import { useCheckoutEmbedControls, WhopCheckoutEmbed } from '@whop/react/checkout'
+import { useRouter } from 'next/navigation'
 
 export default function PaymentPage() {
   const [selectedPlan, setSelectedPlan] = useState<'monthly' | 'weekly'>('monthly')
   
+  const router = useRouter()
+  
   // Your Whop product ID
   const WHOP_PRODUCT_ID = 'prod_rF9SRBoGKYPsc'
-  
-  // Whop checkout controls
-  const ref = useCheckoutEmbedControls()
   
   const plans = [
     {
@@ -139,18 +138,38 @@ export default function PaymentPage() {
               </div>
             </div>
 
-                         {/* Whop Checkout */}
-             <WhopCheckoutEmbed 
-               ref={ref}
-               planId={WHOP_PRODUCT_ID}
-               onComplete={(plan_id, receipt_id) => {
-                 console.log('Checkout completed!', { plan_id, receipt_id })
-                 // You can redirect to chat page here
-               }}
-               onStateChange={(state) => {
-                 console.log('Checkout state changed:', state)
-               }}
-             />
+            {/* Checkout Button */}
+            <button
+              onClick={async () => {
+                try {
+                  // Create checkout session using our API
+                  const response = await fetch('/api/whop/checkout', {
+                    method: 'POST',
+                    headers: {
+                      'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                      planId: WHOP_PRODUCT_ID,
+                    }),
+                  })
+
+                  if (!response.ok) {
+                    throw new Error('Failed to create checkout')
+                  }
+
+                  const { checkout_url } = await response.json()
+                  
+                  // Redirect to Whop checkout
+                  window.location.href = checkout_url
+                } catch (error) {
+                  console.error('Checkout error:', error)
+                  alert('Failed to start checkout. Please try again.')
+                }
+              }}
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-200"
+            >
+              Continue to Checkout
+            </button>
 
             {/* Security badges */}
             <div className="mt-6 flex items-center justify-center space-x-4 text-sm text-gray-500">
