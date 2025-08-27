@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { useCheckoutEmbedControls, WhopCheckoutEmbed } from '@whop/react/checkout'
 
 export default function PaymentPage() {
   const [selectedPlan, setSelectedPlan] = useState<'monthly' | 'weekly'>('monthly')
@@ -12,8 +11,7 @@ export default function PaymentPage() {
   // Your Whop product ID
   const WHOP_PRODUCT_ID = 'prod_rF9SRBoGKYPsc'
   
-  // Whop checkout controls
-  const ref = useCheckoutEmbedControls()
+
   
   const plans = [
     {
@@ -142,19 +140,44 @@ export default function PaymentPage() {
               </div>
             </div>
 
-            {/* Whop Embedded Checkout */}
-            <WhopCheckoutEmbed 
-              ref={ref}
-              planId={WHOP_PRODUCT_ID}
-              onComplete={(plan_id, receipt_id) => {
-                console.log('Checkout completed!', { plan_id, receipt_id })
-                // Redirect to chat page after successful payment
-                router.push('/chat')
-              }}
-              onStateChange={(state) => {
-                console.log('Checkout state changed:', state)
-              }}
-            />
+            {/* Whop Checkout */}
+            <div className="space-y-4">
+              <button
+                onClick={async () => {
+                  try {
+                    // Create checkout session using our API
+                    const response = await fetch('/api/whop/checkout', {
+                      method: 'POST',
+                      headers: {
+                        'Content-Type': 'application/json',
+                      },
+                      body: JSON.stringify({
+                        planId: WHOP_PRODUCT_ID,
+                      }),
+                    })
+
+                    if (!response.ok) {
+                      throw new Error('Failed to create checkout')
+                    }
+
+                    const { checkout_url } = await response.json()
+                    
+                    // Redirect to Whop checkout
+                    window.location.href = checkout_url
+                  } catch (error) {
+                    console.error('Checkout error:', error)
+                    alert('Failed to start checkout. Please try again.')
+                  }
+                }}
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 rounded-lg transition-colors duration-200"
+              >
+                Continue to Checkout
+              </button>
+              
+              <p className="text-sm text-gray-500 text-center">
+                You'll be redirected to Whop's secure checkout page
+              </p>
+            </div>
 
             {/* Security badges */}
             <div className="mt-6 flex items-center justify-center space-x-4 text-sm text-gray-500">
