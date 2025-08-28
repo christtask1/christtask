@@ -124,6 +124,12 @@ export default function ChatPage() {
       router.push('/login')
     }
   }, [session, status, router])
+ 
+  // Ensure all hooks run before any early returns to avoid React hook order errors
+  useEffect(() => {
+    // Set a default user email for display
+    setUserEmail('User')
+  }, [])
   
   // Show loading while checking auth
   if (status === 'loading') {
@@ -142,11 +148,7 @@ export default function ChatPage() {
       </div>
     )
   }
-
-  useEffect(() => {
-    // Set a default user email for display
-    setUserEmail('User')
-  }, [])
+ 
 
 
 
