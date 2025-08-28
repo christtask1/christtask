@@ -89,32 +89,7 @@ export default function ChatPage() {
   const { data: session, status } = useSession()
   const router = useRouter()
   
-  // Redirect to login if not authenticated
-  useEffect(() => {
-    if (status === 'loading') return // Still loading
-    if (!session) {
-      router.push('/login')
-    }
-  }, [session, status, router])
-  
-  // Show loading while checking auth
-  if (status === 'loading') {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-900">
-        <div className="text-white">Loading...</div>
-      </div>
-    )
-  }
-  
-  // Redirect if not authenticated
-  if (!session) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gray-900">
-        <div className="text-white">Redirecting to login...</div>
-      </div>
-    )
-  }
-
+  // ALL hooks must be called before any early returns
   const [userEmail, setUserEmail] = useState<string>('')
   const [messages, setMessages] = useState<Array<{ role: 'user' | 'assistant'; content: string }>>([
     { role: 'assistant', content: 'Welcome to ChristTask chat. How can I help you today?' },
@@ -141,6 +116,32 @@ export default function ChatPage() {
   const chatTopRef = useRef<HTMLDivElement | null>(null)
   const biblePanelRef = useRef<HTMLDivElement | null>(null)
   const chatContainerRef = useRef<HTMLDivElement | null>(null)
+
+  // Redirect to login if not authenticated
+  useEffect(() => {
+    if (status === 'loading') return // Still loading
+    if (!session) {
+      router.push('/login')
+    }
+  }, [session, status, router])
+  
+  // Show loading while checking auth
+  if (status === 'loading') {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-900">
+        <div className="text-white">Loading...</div>
+      </div>
+    )
+  }
+  
+  // Redirect if not authenticated
+  if (!session) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-900">
+        <div className="text-white">Redirecting to login...</div>
+      </div>
+    )
+  }
 
   useEffect(() => {
     // Set a default user email for display
