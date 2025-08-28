@@ -1,5 +1,7 @@
 
 
+import AuthProvider from '../components/AuthProvider'
+
 export const metadata = { 
   title: 'ChristTask', 
   description: 'Christian apologetics, thoughtfully.',
@@ -130,23 +132,25 @@ export default function RootLayout({ children }: { children: any }) {
         `}</style>
       </head>
             <body>
-        <header className="site-header">
-          <div className="container header-inner">
-            <a href="/" className="brand">ChristTask</a>
-            <nav className="nav">
-              <a href="/login" className="nav-link">Login</a>
-              <a href="/payment" className="nav-cta">Get Access</a>
-            </nav>
-          </div>
-        </header>
-        <main>{children}</main>
+        <AuthProvider>
+          <header className="site-header">
+            <div className="container header-inner">
+              <a href="/" className="brand">ChristTask</a>
+              <nav className="nav">
+                <a href="/login" className="nav-link">Login</a>
+                <a href="/payment" className="nav-cta">Get Access</a>
+              </nav>
+            </div>
+          </header>
+          <main>{children}</main>
 
-        <footer className="site-footer">
-          <div className="container footer-inner">
-            <span>© {new Date().getFullYear()} ChristTask</span>
-            <a href="/payment" className="link">Subscribe</a>
-          </div>
-        </footer>
+          <footer className="site-footer">
+            <div className="container footer-inner">
+              <span>© {new Date().getFullYear()} ChristTask</span>
+              <a href="/payment" className="link">Subscribe</a>
+            </div>
+          </footer>
+        </AuthProvider>
 
 
 

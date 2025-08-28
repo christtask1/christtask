@@ -1,6 +1,8 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import { useSession } from 'next-auth/react'
+import { useRouter } from 'next/navigation'
 
 // Component for typing animation effect like demo box
 function TypingText({ text, delay = 0 }: { text: string; delay?: number }) {
@@ -84,6 +86,31 @@ const NEW_TESTAMENT: Array<{ name: string; chapters: number }> = [
 const GOSPELS = ['Matthew', 'Mark', 'Luke', 'John']
 
 export default function ChatPage() {
+  const { data: session, status } = useSession()
+  const router = useRouter()
+  
+  // Redirect to login if not authenticated
+  useEffect(() => {
+    if (status === 'loading') return // Still loading
+    if (!session) {
+      router.push('/login')
+    }
+  }, [session, status, router])
+  
+  // Show loading while checking auth
+  if (status === 'loading') {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-900">
+        <div className="text-white">Loading...</div>
+      </div>
+    )
+  }
+  
+  // Redirect if not authenticated
+  if (!session) {
+    return null
+  }
+
   const [userEmail, setUserEmail] = useState<string>('')
   const [messages, setMessages] = useState<Array<{ role: 'user' | 'assistant'; content: string }>>([
     { role: 'assistant', content: 'Welcome to ChristTask chat. How can I help you today?' },
