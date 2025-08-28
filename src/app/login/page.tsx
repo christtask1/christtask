@@ -9,6 +9,15 @@ export default function LoginPage() {
   const { data: session, status } = useSession()
   const router = useRouter()
 
+  // Debug: Log environment variables (remove this later)
+  useEffect(() => {
+    console.log('Environment check:', {
+      hasSession: !!session,
+      status,
+      windowData: typeof window !== 'undefined' ? !!window.__NEXT_DATA__ : 'server'
+    })
+  }, [session, status])
+
   useEffect(() => {
     if (session) {
       router.push('/chat')

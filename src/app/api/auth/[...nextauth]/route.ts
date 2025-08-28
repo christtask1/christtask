@@ -12,6 +12,10 @@ declare module "next-auth" {
 
 // Check if required environment variables are set
 if (!process.env.WHOP_API_KEY || !process.env.WHOP_APP_ID) {
+  console.error('Missing environment variables:', {
+    WHOP_API_KEY: !!process.env.WHOP_API_KEY,
+    WHOP_APP_ID: !!process.env.WHOP_APP_ID
+  })
   throw new Error('Missing required environment variables: WHOP_API_KEY and WHOP_APP_ID')
 }
 
