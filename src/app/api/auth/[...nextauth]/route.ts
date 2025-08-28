@@ -10,9 +10,14 @@ declare module "next-auth" {
   }
 }
 
+// Check if required environment variables are set
+if (!process.env.WHOP_API_KEY || !process.env.WHOP_APP_ID) {
+  throw new Error('Missing required environment variables: WHOP_API_KEY and WHOP_APP_ID')
+}
+
 const whopApi = WhopServerSdk({
-  appApiKey: process.env.WHOP_API_KEY!,
-  appId: process.env.WHOP_APP_ID!,
+  appApiKey: process.env.WHOP_API_KEY,
+  appId: process.env.WHOP_APP_ID,
 })
 
 const WhopProvider = whopApi.oauth.authJsProvider({
