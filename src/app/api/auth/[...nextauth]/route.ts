@@ -21,6 +21,9 @@ const WhopProvider = whopApi.oauth.authJsProvider({
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [WhopProvider],
+  pages: {
+    signIn: '/login',
+  },
   callbacks: {
     async jwt({ token, account }) {
       // Persist the OAuth access_token to the token right after signin
