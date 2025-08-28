@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 
 export default function LoginPage() {
+  // Simple comment to trigger deployment
   const { data: session, status } = useSession()
   const router = useRouter()
 
