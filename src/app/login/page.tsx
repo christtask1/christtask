@@ -38,6 +38,7 @@ export default function LoginPage() {
         <div className="text-center">
           <h2 className="text-3xl font-bold text-white">Welcome Back</h2>
           <p className="mt-2 text-gray-400">Sign in to access your account</p>
+          {/* Minimal change to trigger deployment */}
         </div>
         
         <div className="mt-8 space-y-6">
