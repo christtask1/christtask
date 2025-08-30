@@ -124,6 +124,33 @@ export default function ChatPage() {
       router.push('/login')
     }
   }, [session, status, router])
+
+  // Check subscription status
+  const [subscriptionStatus, setSubscriptionStatus] = useState<'loading' | 'active' | 'inactive'>('loading')
+  
+  useEffect(() => {
+    if (session) {
+      checkSubscription()
+    }
+  }, [session])
+
+  const checkSubscription = async () => {
+    try {
+      const response = await fetch('/api/check-access')
+      const data = await response.json()
+      
+      if (data.hasAccess) {
+        setSubscriptionStatus('active')
+      } else {
+        setSubscriptionStatus('inactive')
+        router.push('/payment')
+      }
+    } catch (error) {
+      console.error('Failed to check subscription:', error)
+      setSubscriptionStatus('inactive')
+      router.push('/payment')
+    }
+  }
  
   // Ensure all hooks run before any early returns to avoid React hook order errors
   useEffect(() => {
@@ -145,6 +172,24 @@ export default function ChatPage() {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-900">
         <div className="text-white">Redirecting to login...</div>
+      </div>
+    )
+  }
+
+  // Show loading while checking subscription
+  if (subscriptionStatus === 'loading') {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-900">
+        <div className="text-white">Checking subscription...</div>
+      </div>
+    )
+  }
+
+  // Redirect if subscription is inactive
+  if (subscriptionStatus === 'inactive') {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-900">
+        <div className="text-white">Redirecting to payment...</div>
       </div>
     )
   }

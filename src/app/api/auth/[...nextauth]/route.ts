@@ -4,9 +4,11 @@ import { WhopServerSdk } from "@whop/api"
 declare module "next-auth" {
   interface Session {
     accessToken?: string
+    userId?: string
   }
   interface JWT {
     accessToken?: string
+    userId?: string
   }
 }
 
@@ -38,12 +40,14 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       // Persist the OAuth access_token to the token right after signin
       if (account) {
         token.accessToken = account.access_token as string
+        token.userId = account.providerAccountId as string
       }
       return token
     },
     async session({ session, token }) {
       // Send properties to the client, like an access_token from a provider
       session.accessToken = token.accessToken as string
+      session.userId = token.userId as string
       return session
     },
   },
