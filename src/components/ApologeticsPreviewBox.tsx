@@ -133,6 +133,8 @@ const styles: Record<string, React.CSSProperties> = {
     minHeight: 320,
     border: '1px solid rgba(255,255,255,0.22)',
     background: 'rgba(255,255,255,0.08)',
+    backdropFilter: 'saturate(180%) blur(16px)',
+    WebkitBackdropFilter: 'saturate(180%) blur(16px)',
     boxShadow: '0 20px 40px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.10)',
     color: '#ffffff',
     fontFamily: '-apple-system, system-ui, Segoe UI, Roboto, Inter, Arial, sans-serif',
