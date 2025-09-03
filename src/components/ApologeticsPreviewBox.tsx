@@ -100,7 +100,18 @@ export default function ApologeticsPreviewBox() {
 
       {/* Local keyframes */}
       <style>{`
-        @keyframes blurReveal { from { opacity: 0; filter: blur(10px); } to { opacity: 1; filter: blur(0); } }
+        @keyframes blurReveal { 
+          from { 
+            opacity: 0; 
+            filter: blur(10px); 
+            transform: translateZ(0);
+          } 
+          to { 
+            opacity: 1; 
+            filter: blur(0); 
+            transform: translateZ(0);
+          } 
+        }
       `}</style>
     </div>
   )
@@ -117,14 +128,15 @@ const styles: Record<string, React.CSSProperties> = {
     width: 'min(700px, 92vw)',
     borderRadius: 24,
     padding: 18,
-    minHeight: 320,
+    height: 320,
     border: '1px solid rgba(255,255,255,0.22)',
     background: 'rgba(255,255,255,0.08)',
     backdropFilter: 'saturate(180%) blur(16px)',
     WebkitBackdropFilter: 'saturate(180%) blur(16px)',
     boxShadow: '0 20px 40px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.10)',
     color: '#ffffff',
-    fontFamily: '-apple-system, system-ui, Segoe UI, Roboto, Inter, Arial, sans-serif'
+    fontFamily: '-apple-system, system-ui, Segoe UI, Roboto, Inter, Arial, sans-serif',
+    overflow: 'hidden'
   },
   headerRow: { display: 'flex', alignItems: 'center' },
   headerTitle: { fontSize: 14, fontWeight: 600, color: '#4E7BFF', letterSpacing: 0.2, textShadow: '0 1px 1px rgba(0,0,0,0.25)' },
@@ -192,16 +204,19 @@ const styles: Record<string, React.CSSProperties> = {
   },
   pointReveal: {
     animation: 'blurReveal 700ms cubic-bezier(0.2, 0.8, 0.2, 1) both',
-    willChange: 'filter, opacity'
+    willChange: 'filter, opacity',
+    transform: 'translateZ(0)'
   },
   revealText: {
     animation: 'blurReveal 700ms cubic-bezier(0.2, 0.8, 0.2, 1) both',
-    willChange: 'filter, opacity'
+    willChange: 'filter, opacity',
+    transform: 'translateZ(0)'
   },
   revealTextDelayed: {
     animation: 'blurReveal 700ms cubic-bezier(0.2, 0.8, 0.2, 1) both',
     animationDelay: '120ms',
-    willChange: 'filter, opacity'
+    willChange: 'filter, opacity',
+    transform: 'translateZ(0)'
   }
 }
 

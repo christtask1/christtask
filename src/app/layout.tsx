@@ -68,13 +68,13 @@ export default function RootLayout({ children }: { children: any }) {
           .nav-cta { text-decoration: none; background: linear-gradient(180deg, var(--brand), var(--brand-strong)); color: white; padding: 8px 14px; border-radius: 8px; font-weight: 600; }
           main { min-height: calc(100vh - 64px - 64px); }
           .site-footer { border-top: 1px solid var(--border); background: #0f0f0f; }
-          .footer-inner { height: 100px; display: flex; align-items: center; justify-content: space-between; color: var(--muted); }
+          .footer-inner { height: 100px; display: flex; align-items: center; justify-content: space-between; color: var(--muted); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
           .footer-left { display: flex; align-items: center; }
           .footer-right { display: flex; align-items: center; gap: 20px; }
           .footer-info { display: flex; flex-direction: column; align-items: flex-end; }
-          .footer-title { margin: 0 0 6px; font-size: 14px; font-weight: 600; color: var(--text); letter-spacing: 0.3px; }
+          .footer-title { margin: 0 0 6px; font-size: 14px; font-weight: 500; color: var(--text); letter-spacing: 0.2px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
           .footer-links { display: flex; flex-direction: column; gap: 4px; }
-          .footer-links .link { font-size: 12px; color: var(--muted); }
+          .footer-links .link { font-size: 13px; color: var(--muted); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-weight: 400; }
           .link { color: var(--brand); text-decoration: none; }
           .link:hover { text-decoration: underline; }
           .btn { display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(180deg, var(--brand), var(--brand-strong)); color: #fff; padding: 12px 18px; border-radius: 10px; text-decoration: none; font-weight: 700; box-shadow: 0 10px 30px rgba(78,123,255,0.25); }
