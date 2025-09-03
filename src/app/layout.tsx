@@ -72,9 +72,9 @@ export default function RootLayout({ children }: { children: any }) {
           .footer-left { display: flex; align-items: center; }
           .footer-right { display: flex; align-items: center; gap: 20px; }
           .footer-info { display: flex; flex-direction: column; align-items: flex-end; }
-          .footer-title { margin: 0 0 4px; font-size: 12px; font-weight: 600; color: var(--text); text-transform: uppercase; letter-spacing: 0.5px; }
+          .footer-title { margin: 0 0 4px; font-size: 12px; font-weight: 600; color: var(--text); letter-spacing: 0.3px; }
           .footer-links { display: flex; flex-direction: column; gap: 2px; }
-          .footer-links .link { font-size: 12px; color: var(--text); }
+          .footer-links .link { font-size: 12px; color: var(--muted); }
           .link { color: var(--brand); text-decoration: none; }
           .link:hover { text-decoration: underline; }
           .btn { display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(180deg, var(--brand), var(--brand-strong)); color: #fff; padding: 12px 18px; border-radius: 10px; text-decoration: none; font-weight: 700; box-shadow: 0 10px 30px rgba(78,123,255,0.25); }
