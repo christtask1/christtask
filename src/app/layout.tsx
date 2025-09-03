@@ -72,8 +72,8 @@ export default function RootLayout({ children }: { children: any }) {
           .footer-left { display: flex; align-items: center; }
           .footer-right { display: flex; align-items: center; gap: 20px; }
           .footer-info { display: flex; flex-direction: column; align-items: flex-end; }
-          .footer-title { margin: 0 0 4px; font-size: 12px; font-weight: 600; color: var(--text); letter-spacing: 0.3px; }
-          .footer-links { display: flex; flex-direction: column; gap: 2px; }
+          .footer-title { margin: 0 0 6px; font-size: 14px; font-weight: 600; color: var(--text); letter-spacing: 0.3px; }
+          .footer-links { display: flex; flex-direction: column; gap: 4px; }
           .footer-links .link { font-size: 12px; color: var(--muted); }
           .link { color: var(--brand); text-decoration: none; }
           .link:hover { text-decoration: underline; }
