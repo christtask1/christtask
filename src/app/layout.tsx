@@ -69,6 +69,12 @@ export default function RootLayout({ children }: { children: any }) {
           main { min-height: calc(100vh - 64px - 64px); }
           .site-footer { border-top: 1px solid var(--border); background: #0b1020; }
           .footer-inner { height: 64px; display: flex; align-items: center; justify-content: space-between; color: var(--muted); }
+          .footer-left { display: flex; align-items: center; }
+          .footer-right { display: flex; align-items: center; gap: 20px; }
+          .footer-info { display: flex; flex-direction: column; align-items: flex-end; }
+          .footer-title { margin: 0 0 4px; font-size: 12px; font-weight: 600; color: var(--text); text-transform: uppercase; letter-spacing: 0.5px; }
+          .footer-links { display: flex; flex-direction: column; gap: 2px; }
+          .footer-links .link { font-size: 12px; }
           .link { color: var(--brand); text-decoration: none; }
           .link:hover { text-decoration: underline; }
           .btn { display: inline-flex; align-items: center; gap: 8px; background: linear-gradient(180deg, var(--brand), var(--brand-strong)); color: #fff; padding: 12px 18px; border-radius: 10px; text-decoration: none; font-weight: 700; box-shadow: 0 10px 30px rgba(78,123,255,0.25); }
@@ -146,8 +152,19 @@ export default function RootLayout({ children }: { children: any }) {
 
           <footer className="site-footer">
             <div className="container footer-inner">
-              <span>© {new Date().getFullYear()} ChristTask</span>
-              <a href="/payment" className="link">Subscribe</a>
+              <div className="footer-left">
+                <span>© {new Date().getFullYear()} ChristTask</span>
+              </div>
+              <div className="footer-right">
+                <div className="footer-info">
+                  <h4 className="footer-title">Information</h4>
+                  <div className="footer-links">
+                    <a href="/privacy" className="link">Privacy Policy</a>
+                    <a href="/terms" className="link">Terms</a>
+                  </div>
+                </div>
+                <a href="/payment" className="link">Subscribe</a>
+              </div>
             </div>
           </footer>
         </AuthProvider>
