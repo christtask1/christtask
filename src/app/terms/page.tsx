@@ -371,9 +371,7 @@ export default function TermsPage() {
             paddingLeft: '20px',
             color: 'var(--muted)'
           }}>
-            <li><strong>Email:</strong> legal@christtask.com</li>
-            <li><strong>Address:</strong> [Your Business Address]</li>
-            <li><strong>Phone:</strong> [Your Phone Number]</li>
+            <li><strong>Email:</strong> christtasks@gmail.com</li>
           </ul>
         </section>
 

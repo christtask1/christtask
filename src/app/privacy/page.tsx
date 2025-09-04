@@ -320,9 +320,7 @@ export default function PrivacyPolicyPage() {
             paddingLeft: '20px',
             color: 'var(--muted)'
           }}>
-            <li><strong>Email:</strong> privacy@christtask.com</li>
-            <li><strong>Address:</strong> [Your Business Address]</li>
-            <li><strong>Phone:</strong> [Your Phone Number]</li>
+            <li><strong>Email:</strong> christtasks@gmail.com</li>
           </ul>
         </section>
 
@@ -343,6 +341,7 @@ export default function PrivacyPolicyPage() {
             onMouseEnter={(e) => {
               (e.target as HTMLElement).style.background = 'var(--brand-strong)';
               (e.target as HTMLElement).style.transform = 'translateY(-1px)';
+              
             }}
             onMouseLeave={(e) => {
               (e.target as HTMLElement).style.background = 'var(--brand)';
