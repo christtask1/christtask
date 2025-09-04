@@ -67,7 +67,7 @@ export default function RootLayout({ children }: { children: any }) {
           .nav-link:hover { color: var(--text); background: rgba(122,162,255,0.08); }
           .nav-cta { text-decoration: none; background: linear-gradient(180deg, var(--brand), var(--brand-strong)); color: white; padding: 8px 14px; border-radius: 8px; font-weight: 600; }
           main { min-height: calc(100vh - 64px - 64px); }
-          .site-footer { border-top: 1px solid var(--border); background: #0f0f0f; }
+          .site-footer { border-top: 1px solid var(--border); background: #080808; }
           .footer-inner { height: 100px; display: flex; align-items: center; justify-content: space-between; color: var(--muted); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
           .footer-left { display: flex; align-items: center; }
           .footer-right { display: flex; align-items: center; gap: 20px; }
@@ -163,7 +163,6 @@ export default function RootLayout({ children }: { children: any }) {
                     <a href="/terms" className="link">Terms</a>
                   </div>
                 </div>
-                <a href="/payment" className="link">Subscribe</a>
               </div>
             </div>
           </footer>
