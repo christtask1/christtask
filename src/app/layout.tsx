@@ -199,9 +199,11 @@ export default function RootLayout({ children }: { children: any }) {
             color: white !important;
             border: 2px solid rgba(255, 255, 255, 0.3) !important;
             border-radius: 1rem !important;
-            padding: 1.5rem !important;
-            font-size: 1.25rem !important;
+            padding: 1rem !important;
+            font-size: 1.1rem !important;
             backdrop-filter: blur(4px) !important;
+            width: 80% !important;
+            margin-left: 3cm !important;
           }
           
           body:has([data-page="newsletter"]) input[type="email"]:focus {
