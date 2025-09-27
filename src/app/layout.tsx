@@ -203,7 +203,7 @@ export default function RootLayout({ children }: { children: any }) {
             font-size: 1.1rem !important;
             backdrop-filter: blur(4px) !important;
             width: 80% !important;
-            margin-left: 3cm !important;
+            margin-left: 1.5cm !important;
           }
           
           body:has([data-page="newsletter"]) input[type="email"]:focus {
