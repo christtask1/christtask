@@ -238,6 +238,37 @@ export default function RootLayout({ children }: { children: any }) {
             background: #991b1b !important;
             border-color: #991b1b !important;
           }
+          
+          /* Newsletter headline glow animation */
+          @keyframes text-glow {
+            0% {
+              text-shadow: 0 0 20px rgba(230, 57, 70, 0.3);
+            }
+            100% {
+              text-shadow: 0 0 30px rgba(230, 57, 70, 0.5), 0 0 40px rgba(230, 57, 70, 0.2);
+            }
+          }
+          
+          body:has([data-page="newsletter"]) h1 {
+            font-family: 'Anton', sans-serif !important;
+            font-size: 72px !important;
+            font-weight: 400 !important;
+            text-transform: uppercase !important;
+            letter-spacing: -2px !important;
+            line-height: 0.9 !important;
+            margin-bottom: 40px !important;
+            color: #F5F5F5 !important;
+            text-shadow: rgba(230, 57, 70, 0.31) 0px 0px 20.3504px, rgba(230, 57, 70, 0.008) 0px 0px 1.40157px !important;
+            animation: text-glow 3s ease-in-out infinite alternate !important;
+          }
+          
+          @media (max-width: 768px) {
+            body:has([data-page="newsletter"]) h1 {
+              font-size: 42px !important;
+              margin-bottom: 30px !important;
+              letter-spacing: -1px !important;
+            }
+          }
         `}</style>
       </body>
     </html>
