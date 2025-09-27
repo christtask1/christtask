@@ -87,10 +87,6 @@ export default function NewsletterPage() {
             {isSubmitting ? 'SUBSCRIBING...' : 'ACCESS NOW'}
           </button>
         </form>
-
-        <p className="text-sm text-gray-500 mt-6">
-          No spam. Unsubscribe anytime. Your email is safe with us.
-        </p>
       </div>
     </div>
   )
