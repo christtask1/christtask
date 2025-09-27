@@ -182,6 +182,12 @@ export default function RootLayout({ children }: { children: any }) {
           body:has([data-page="payment"]) .site-footer {
             display: none !important;
           }
+          
+          /* Hide header and footer on newsletter page */
+          body:has([data-page="newsletter"]) .site-header,
+          body:has([data-page="newsletter"]) .site-footer {
+            display: none !important;
+          }
         `}</style>
       </body>
     </html>
