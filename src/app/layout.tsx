@@ -215,6 +215,29 @@ export default function RootLayout({ children }: { children: any }) {
           body:has([data-page="newsletter"]) input[type="email"]::placeholder {
             color: rgba(255, 255, 255, 0.7) !important;
           }
+          
+          body:has([data-page="newsletter"]) button[type="submit"] {
+            background: #dc2626 !important;
+            color: white !important;
+            border: 2px solid #dc2626 !important;
+            border-radius: 1rem !important;
+            padding: 1rem !important;
+            font-size: 1.1rem !important;
+            width: 80% !important;
+            margin-left: 1.5cm !important;
+            margin-top: 2rem !important;
+            font-weight: bold !important;
+          }
+          
+          body:has([data-page="newsletter"]) button[type="submit"]:hover {
+            background: #b91c1c !important;
+            border-color: #b91c1c !important;
+          }
+          
+          body:has([data-page="newsletter"]) button[type="submit"]:disabled {
+            background: #991b1b !important;
+            border-color: #991b1b !important;
+          }
         `}</style>
       </body>
     </html>
