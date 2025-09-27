@@ -188,6 +188,31 @@ export default function RootLayout({ children }: { children: any }) {
           body:has([data-page="newsletter"]) .site-footer {
             display: none !important;
           }
+          
+          /* Newsletter page specific styles */
+          body:has([data-page="newsletter"]) {
+            background: #000000 !important;
+          }
+          
+          body:has([data-page="newsletter"]) input[type="email"] {
+            background: transparent !important;
+            color: white !important;
+            border: 2px solid rgba(255, 255, 255, 0.3) !important;
+            border-radius: 1rem !important;
+            padding: 1.5rem !important;
+            font-size: 1.25rem !important;
+            backdrop-filter: blur(4px) !important;
+          }
+          
+          body:has([data-page="newsletter"]) input[type="email"]:focus {
+            outline: none !important;
+            border-color: rgba(255, 255, 255, 0.6) !important;
+            box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2) !important;
+          }
+          
+          body:has([data-page="newsletter"]) input[type="email"]::placeholder {
+            color: rgba(255, 255, 255, 0.7) !important;
+          }
         `}</style>
       </body>
     </html>
