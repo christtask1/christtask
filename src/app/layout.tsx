@@ -153,7 +153,7 @@ export default function RootLayout({ children }: { children: any }) {
           <footer className="site-footer">
             <div className="container footer-inner">
               <div className="footer-left">
-                <span>© {new Date().getFullYear()} ChristTask</span>
+              <span>© {new Date().getFullYear()} ChristTask</span>
               </div>
               <div className="footer-right">
                 <div className="footer-info">
