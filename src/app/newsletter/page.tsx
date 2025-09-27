@@ -63,14 +63,14 @@ export default function NewsletterPage() {
           Join my private email list and get the unfiltered, tactical breakdowns on ecom, AI, making money online, and what's actually working right now. No fluff. No fake screenshots. Just real sh*t that makes you money.
         </p>
 
-        <form onSubmit={handleSubmit} className="max-w-md mx-auto">
-          <div className="mb-4">
+        <form onSubmit={handleSubmit} className="max-w-lg mx-auto">
+          <div className="mb-6">
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Enter your email address..."
-              className="w-full bg-gray-800 text-white placeholder-gray-400 border border-gray-600 rounded-lg px-4 py-4 text-lg focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition-colors"
+              className="w-full bg-transparent text-white placeholder-gray-300 border-2 border-white/30 rounded-2xl px-6 py-6 text-xl focus:outline-none focus:border-white/60 focus:ring-2 focus:ring-white/20 transition-all duration-300 backdrop-blur-sm"
               disabled={isSubmitting}
             />
           </div>
