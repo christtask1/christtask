@@ -410,13 +410,21 @@ export default function RootLayout({ children }: { children: any }) {
         }
         /* Move only bottom line ON THE INTERNET on mobile */
         body:has([data-page="newsletter"]) .mobile-bottom-line {
-          margin-left: -0.5cm !important;
+          margin-left: -1cm !important;
         }
 
         /* Widen input and button by 1.5cm each side on mobile */
         body:has([data-page="newsletter"]) input[type="email"],
         body:has([data-page="newsletter"]) button[type="submit"] {
           width: calc(60% + 3cm) !important;
+        }
+
+        /* Tighten input-to-button gap on mobile */
+        body:has([data-page="newsletter"]) .newsletter-content form .mb-6 {
+          margin-bottom: 0.5rem !important;
+        }
+        body:has([data-page="newsletter"]) button[type="submit"] {
+          margin-top: 0.5rem !important;
         }
           }
           
