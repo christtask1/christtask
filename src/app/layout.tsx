@@ -217,6 +217,7 @@ export default function RootLayout({ children }: { children: any }) {
             
             body:has([data-page="newsletter"]) button[type="submit"] {
               width: 40% !important;
+              max-width: 40% !important;
             }
           }
           
