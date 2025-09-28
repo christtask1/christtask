@@ -101,6 +101,18 @@ export default function RootLayout({ children }: { children: any }) {
               text-shadow: 0 0 0px rgba(230, 57, 70, 0);
             }
           }
+          /* Desktop red glow animation for newsletter headline */
+          @keyframes newsletter-desktop-glow {
+            0% {
+              text-shadow: 0 0 0px rgba(230, 57, 70, 0);
+            }
+            50% {
+              text-shadow: 0 0 30px rgba(230, 57, 70, 0.8), 0 0 60px rgba(230, 57, 70, 0.4), 0 0 90px rgba(230, 57, 70, 0.2);
+            }
+            100% {
+              text-shadow: 0 0 0px rgba(230, 57, 70, 0);
+            }
+          }
           
           /* Mobile Header Responsive Styles */
           @media (max-width: 768px) {
@@ -304,6 +316,13 @@ export default function RootLayout({ children }: { children: any }) {
             text-align: center !important;
             margin-left: 0 !important;
             text-shadow: none !important;
+          }
+
+          /* Desktop-specific line positioning */
+          @media (min-width: 769px) {
+            body:has([data-page="newsletter"]) .newsletter-headline {
+              animation: newsletter-desktop-glow 4s ease-in-out infinite !important;
+            }
           }
 
           /* Desktop-specific line positioning */
