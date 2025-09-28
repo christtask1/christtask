@@ -282,8 +282,7 @@ export default function RootLayout({ children }: { children: any }) {
         margin-bottom: 2rem !important;
         text-align: center !important;
         margin-left: 0 !important;
-        position: relative !important;
-        top: -4cm !important;
+        margin-top: -2rem !important;
       }
           
           /* Show desktop text by default, hide mobile text */
