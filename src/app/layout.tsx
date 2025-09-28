@@ -261,7 +261,7 @@ export default function RootLayout({ children }: { children: any }) {
           
           @media (max-width: 768px) {
             body:has([data-page="newsletter"]) .newsletter-headline {
-              font-size: 48px !important;
+              font-size: 44px !important;
               margin-bottom: 30px !important;
               letter-spacing: -1px !important;
               margin-left: 1cm !important;
@@ -274,7 +274,7 @@ export default function RootLayout({ children }: { children: any }) {
           
           @media (max-width: 480px) {
             body:has([data-page="newsletter"]) .newsletter-headline {
-              font-size: 36px !important;
+              font-size: 34px !important;
               margin-left: 1cm !important;
             }
             
