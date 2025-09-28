@@ -269,7 +269,7 @@ export default function RootLayout({ children }: { children: any }) {
           }
           
       body:has([data-page="newsletter"]) .newsletter-content {
-        padding-top: 2rem !important;
+        padding-top: 0 !important;
       }
 
       body:has([data-page="newsletter"]) .christtask-brand {
@@ -282,7 +282,6 @@ export default function RootLayout({ children }: { children: any }) {
         margin-bottom: 2rem !important;
         text-align: center !important;
         margin-left: 0 !important;
-        margin-top: -2rem !important;
       }
           
           /* Show desktop text by default, hide mobile text */
