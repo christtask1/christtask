@@ -240,18 +240,6 @@ export default function RootLayout({ children }: { children: any }) {
             border-color: #991b1b !important;
           }
           
-          /* Newsletter headline glow animation */
-          @keyframes text-glow {
-            0% {
-              text-shadow: 0 0 0px rgba(230, 57, 70, 0), 0 0 0px rgba(230, 57, 70, 0), 0 0 0px rgba(230, 57, 70, 0);
-            }
-            50% {
-              text-shadow: 0 0 30px rgba(230, 57, 70, 0.8), 0 0 50px rgba(230, 57, 70, 0.4), 0 0 70px rgba(230, 57, 70, 0.2);
-            }
-            100% {
-              text-shadow: 0 0 0px rgba(230, 57, 70, 0), 0 0 0px rgba(230, 57, 70, 0), 0 0 0px rgba(230, 57, 70, 0);
-            }
-          }
           
           body:has([data-page="newsletter"]) .newsletter-headline {
             font-family: 'Anton', sans-serif !important;
@@ -264,27 +252,12 @@ export default function RootLayout({ children }: { children: any }) {
             color: #F5F5F5 !important;
             margin-left: 2cm !important;
             text-shadow: none !important;
-            animation: text-glow 4s ease-in-out infinite !important;
-            animation-name: text-glow !important;
-            animation-duration: 4s !important;
-            animation-timing-function: ease-in-out !important;
-            animation-iteration-count: infinite !important;
           }
           
           body:has([data-page="newsletter"]) .newsletter-content {
             padding-top: 2rem !important;
           }
           
-          /* Desktop-specific animation */
-          @media (min-width: 769px) {
-            body:has([data-page="newsletter"]) .newsletter-headline {
-              animation: text-glow 4s ease-in-out infinite !important;
-              animation-name: text-glow !important;
-              animation-duration: 4s !important;
-              animation-timing-function: ease-in-out !important;
-              animation-iteration-count: infinite !important;
-            }
-          }
           
           @media (max-width: 768px) {
             body:has([data-page="newsletter"]) .newsletter-headline {
