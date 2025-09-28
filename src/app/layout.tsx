@@ -259,6 +259,7 @@ export default function RootLayout({ children }: { children: any }) {
             line-height: 0.9 !important;
             margin-bottom: 40px !important;
             color: #F5F5F5 !important;
+            margin-left: 2cm !important;
             text-shadow: rgba(230, 57, 70, 0.31) 0px 0px 20.3504px, rgba(230, 57, 70, 0.008) 0px 0px 1.40157px !important;
             animation: text-glow 3s ease-in-out infinite alternate !important;
           }
@@ -268,6 +269,7 @@ export default function RootLayout({ children }: { children: any }) {
               font-size: 42px !important;
               margin-bottom: 30px !important;
               letter-spacing: -1px !important;
+              margin-left: 1cm !important;
             }
           }
         `}</style>
