@@ -408,6 +408,16 @@ export default function RootLayout({ children }: { children: any }) {
           display: inline-block !important;
           margin-left: -0.5cm !important;
         }
+        /* Move only bottom line ON THE INTERNET on mobile */
+        body:has([data-page="newsletter"]) .mobile-bottom-line {
+          margin-left: -0.5cm !important;
+        }
+
+        /* Widen input and button by 1.5cm each side on mobile */
+        body:has([data-page="newsletter"]) input[type="email"],
+        body:has([data-page="newsletter"]) button[type="submit"] {
+          width: calc(60% + 3cm) !important;
+        }
           }
           
           @media (max-width: 480px) {
