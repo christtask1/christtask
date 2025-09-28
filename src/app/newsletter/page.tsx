@@ -55,9 +55,17 @@ export default function NewsletterPage() {
   return (
     <div className="h-screen bg-black flex items-center justify-center px-4" data-page="newsletter">
       <div className="text-center max-w-4xl">
-        <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-8 leading-tight">
-          THE MOST DANGEROUS MARKETING NEWSLETTER ON THE INTERNET
-        </h1>
+        <div className="mb-8">
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-2">
+            THE MOST DANGEROUS
+          </h1>
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-2">
+            MARKETING NEWSLETTER ON
+          </h1>
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-tight">
+            THE INTERNET
+          </h1>
+        </div>
         
         <p className="text-lg md:text-xl text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed">
           Join my private email list and get the unfiltered, tactical breakdowns on ecom, AI, making money online, and what's actually working right now. No fluff. No fake screenshots. Just real sh*t that makes you money.
