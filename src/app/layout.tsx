@@ -339,6 +339,9 @@ export default function RootLayout({ children }: { children: any }) {
         text-align: center !important;
       }
 
+      /* Hide mobile variant by default */
+      body:has([data-page="newsletter"]) .newsletter-subcopy-mobile { display: none !important; }
+
       @media (min-width: 769px) {
         body:has([data-page="newsletter"]) .newsletter-subcopy {
           text-align: left !important;
@@ -352,8 +355,22 @@ export default function RootLayout({ children }: { children: any }) {
       }
 
       @media (max-width: 768px) {
-        body:has([data-page="newsletter"]) .newsletter-subcopy { text-align: center !important; }
-        body:has([data-page="newsletter"]) .newsletter-subcopy .sub-line { margin-left: 0 !important; }
+        /* Show 5-line mobile staircase and hide desktop variant */
+        body:has([data-page="newsletter"]) .newsletter-subcopy { display: none !important; }
+        body:has([data-page="newsletter"]) .newsletter-subcopy-mobile { 
+          display: block !important; 
+          max-width: 48rem !important;
+          margin: 0 auto 3rem auto !important;
+          color: #d1d5db !important;
+          line-height: 1.7 !important;
+          font-size: 1.05rem !important;
+          text-align: left !important;
+        }
+        body:has([data-page="newsletter"]) .newsletter-subcopy-mobile .m-sub-line-1 { margin-left: 0 !important; }
+        body:has([data-page="newsletter"]) .newsletter-subcopy-mobile .m-sub-line-2 { margin-left: 0.6cm !important; }
+        body:has([data-page="newsletter"]) .newsletter-subcopy-mobile .m-sub-line-3 { margin-left: 1.2cm !important; }
+        body:has([data-page="newsletter"]) .newsletter-subcopy-mobile .m-sub-line-4 { margin-left: 1.8cm !important; }
+        body:has([data-page="newsletter"]) .newsletter-subcopy-mobile .m-sub-line-5 { margin-left: 2.4cm !important; }
       }
           
           /* Show desktop text by default, hide mobile text */
