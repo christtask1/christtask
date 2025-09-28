@@ -263,7 +263,7 @@ export default function RootLayout({ children }: { children: any }) {
             margin-bottom: 40px !important;
             color: #F5F5F5 !important;
             margin-left: 2cm !important;
-            text-shadow: 0 0 30px rgba(230, 57, 70, 0.8), 0 0 50px rgba(230, 57, 70, 0.4), 0 0 70px rgba(230, 57, 70, 0.2) !important;
+            text-shadow: 0 0 0px rgba(230, 57, 70, 0), 0 0 0px rgba(230, 57, 70, 0), 0 0 0px rgba(230, 57, 70, 0) !important;
             animation: text-glow 4s ease-in-out infinite !important;
           }
           
