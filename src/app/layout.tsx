@@ -266,10 +266,17 @@ export default function RootLayout({ children }: { children: any }) {
           
           @media (max-width: 768px) {
             body:has([data-page="newsletter"]) h1 {
-              font-size: 42px !important;
+              font-size: 28px !important;
               margin-bottom: 30px !important;
               letter-spacing: -1px !important;
               margin-left: 1cm !important;
+            }
+          }
+          
+          @media (max-width: 480px) {
+            body:has([data-page="newsletter"]) h1 {
+              font-size: 22px !important;
+              margin-left: 0.5cm !important;
             }
           }
         `}</style>
