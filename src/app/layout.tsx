@@ -208,6 +208,17 @@ export default function RootLayout({ children }: { children: any }) {
             display: block !important;
             text-align: center !important;
           }
+
+          /* Desktop-specific form sizing */
+          @media (min-width: 769px) {
+            body:has([data-page="newsletter"]) input[type="email"] {
+              width: 40% !important;
+            }
+            
+            body:has([data-page="newsletter"]) button[type="submit"] {
+              width: 40% !important;
+            }
+          }
           
           body:has([data-page="newsletter"]) input[type="email"]:focus {
             outline: none !important;
