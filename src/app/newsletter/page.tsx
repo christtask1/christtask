@@ -58,8 +58,8 @@ export default function NewsletterPage() {
         <div className="mb-8">
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-tight text-left">
             &nbsp;&nbsp;&nbsp;&nbsp;THE MOST DANGEROUS<br/>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MARKETING NEWSLETTER ON<br/>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;THE INTERNET
+            MARKETING NEWSLETTER ON<br/>
+            &nbsp;&nbsp;&nbsp;&nbsp;THE INTERNET
           </h1>
         </div>
         
