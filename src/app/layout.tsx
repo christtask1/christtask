@@ -259,6 +259,10 @@ export default function RootLayout({ children }: { children: any }) {
 
           /* Desktop-specific line positioning */
           @media (min-width: 769px) {
+            body:has([data-page="newsletter"]) .desktop-text {
+              position: relative !important;
+              left: -2cm !important;
+            }
             body:has([data-page="newsletter"]) .desktop-middle-line {
               margin-left: 2.5cm !important;
             }
