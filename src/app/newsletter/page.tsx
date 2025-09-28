@@ -29,7 +29,7 @@ export default function NewsletterPage() {
 
   if (isSubmitted) {
     return (
-      <div className="h-screen bg-black flex items-center justify-center px-4" data-page="newsletter">
+      <div className="min-h-screen bg-black flex items-center justify-center px-4" data-page="newsletter">
         <div className="text-center max-w-2xl">
           <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
             YOU'RE IN
@@ -53,7 +53,7 @@ export default function NewsletterPage() {
   }
 
   return (
-    <div className="h-screen bg-black flex items-center justify-center px-4" data-page="newsletter">
+    <div className="min-h-screen bg-black flex items-center justify-center px-4" data-page="newsletter">
       <div className="text-center max-w-4xl newsletter-content">
         <div className="mb-8">
           <div className="christtask-brand">ChristTask</div>
