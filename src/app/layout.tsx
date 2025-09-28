@@ -329,48 +329,26 @@ export default function RootLayout({ children }: { children: any }) {
         margin-left: 0 !important;
       }
 
-      /* Subcopy staircase styling */
-      body:has([data-page="newsletter"]) .newsletter-subcopy {
-        max-width: 48rem !important;
+      /* Exact paragraph alignment block */
+      body:has([data-page="newsletter"]) .paragraph-exact {
+        max-width: 56rem !important;
         margin: 0 auto 3rem auto !important;
-        color: #d1d5db !important; /* gray-300 */
-        line-height: 1.75 !important;
-        font-size: 1.125rem !important; /* text-lg */
+        color: #d1d5db !important;
+        line-height: 1.8 !important;
+        font-size: 1.125rem !important;
         text-align: center !important;
       }
 
-      /* Hide mobile variant by default */
-      body:has([data-page="newsletter"]) .newsletter-subcopy-mobile { display: none !important; }
-
       @media (min-width: 769px) {
-        body:has([data-page="newsletter"]) .newsletter-subcopy {
-          text-align: left !important;
-          position: relative !important;
-          left: 3cm !important; /* shift whole block right */
-        }
-        body:has([data-page="newsletter"]) .newsletter-subcopy .sub-line-1 { margin-left: 0 !important; }
-        body:has([data-page="newsletter"]) .newsletter-subcopy .sub-line-2 { margin-left: 0.6cm !important; }
-        body:has([data-page="newsletter"]) .newsletter-subcopy .sub-line-3 { margin-left: 1.2cm !important; }
-        body:has([data-page="newsletter"]) .newsletter-subcopy .sub-line-4 { margin-left: 1.8cm !important; }
+        body:has([data-page="newsletter"]) .paragraph-exact { text-align: center !important; }
       }
 
       @media (max-width: 768px) {
-        /* Show 5-line mobile staircase and hide desktop variant */
-        body:has([data-page="newsletter"]) .newsletter-subcopy { display: none !important; }
-        body:has([data-page="newsletter"]) .newsletter-subcopy-mobile { 
-          display: block !important; 
-          max-width: 48rem !important;
-          margin: 0 auto 3rem auto !important;
-          color: #d1d5db !important;
-          line-height: 1.7 !important;
+        body:has([data-page="newsletter"]) .paragraph-exact { 
+          max-width: 90% !important;
           font-size: 1.05rem !important;
-          text-align: left !important;
+          line-height: 1.7 !important;
         }
-        body:has([data-page="newsletter"]) .newsletter-subcopy-mobile .m-sub-line-1 { margin-left: 0 !important; }
-        body:has([data-page="newsletter"]) .newsletter-subcopy-mobile .m-sub-line-2 { margin-left: 0.6cm !important; }
-        body:has([data-page="newsletter"]) .newsletter-subcopy-mobile .m-sub-line-3 { margin-left: 1.2cm !important; }
-        body:has([data-page="newsletter"]) .newsletter-subcopy-mobile .m-sub-line-4 { margin-left: 1.8cm !important; }
-        body:has([data-page="newsletter"]) .newsletter-subcopy-mobile .m-sub-line-5 { margin-left: 2.4cm !important; }
       }
           
           /* Show desktop text by default, hide mobile text */
