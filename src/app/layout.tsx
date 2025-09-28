@@ -279,7 +279,7 @@ export default function RootLayout({ children }: { children: any }) {
         text-transform: none !important;
         letter-spacing: normal !important;
         color: #F5F5F5 !important;
-        margin-bottom: 2rem !important;
+        margin-bottom: 5cm !important;
         text-align: center !important;
         margin-left: 0 !important;
       }
