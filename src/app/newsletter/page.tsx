@@ -59,7 +59,7 @@ export default function NewsletterPage() {
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-tight text-left">
             &nbsp;&nbsp;&nbsp;&nbsp;THE MOST DANGEROUS<br/>
             MARKETING NEWSLETTER ON<br/>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;THE INTERNET
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;THE INTERNET
           </h1>
         </div>
         
