@@ -403,6 +403,11 @@ export default function RootLayout({ children }: { children: any }) {
         body:has([data-page="newsletter"]) .newsletter-content {
           padding-top: 4rem !important;
         }
+        /* Move only top line on mobile */
+        body:has([data-page="newsletter"]) .mobile-top-line {
+          display: inline-block !important;
+          margin-left: -0.5cm !important;
+        }
           }
           
           @media (max-width: 480px) {
