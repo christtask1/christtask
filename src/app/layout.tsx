@@ -260,11 +260,11 @@ export default function RootLayout({ children }: { children: any }) {
           /* Desktop-specific line positioning */
           @media (min-width: 769px) {
             body:has([data-page="newsletter"]) .desktop-middle-line {
-              margin-left: 1.5cm !important;
+              margin-left: 2.5cm !important;
             }
             
             body:has([data-page="newsletter"]) .desktop-bottom-line {
-              margin-left: -3cm !important;
+              margin-left: -4.5cm !important;
             }
           }
           
@@ -282,6 +282,7 @@ export default function RootLayout({ children }: { children: any }) {
         margin-bottom: 2rem !important;
         text-align: center !important;
         margin-left: 0 !important;
+        margin-top: -4cm !important;
       }
           
           /* Show desktop text by default, hide mobile text */
