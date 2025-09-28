@@ -275,6 +275,17 @@ export default function RootLayout({ children }: { children: any }) {
             padding-top: 2rem !important;
           }
           
+          /* Desktop-specific animation */
+          @media (min-width: 769px) {
+            body:has([data-page="newsletter"]) h1 {
+              animation: text-glow 4s ease-in-out infinite !important;
+              animation-name: text-glow !important;
+              animation-duration: 4s !important;
+              animation-timing-function: ease-in-out !important;
+              animation-iteration-count: infinite !important;
+            }
+          }
+          
           @media (max-width: 768px) {
             body:has([data-page="newsletter"]) h1 {
               font-size: 36px !important;
