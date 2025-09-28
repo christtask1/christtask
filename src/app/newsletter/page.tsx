@@ -56,10 +56,10 @@ export default function NewsletterPage() {
     <div className="h-screen bg-black flex items-center justify-center px-4" data-page="newsletter">
       <div className="text-center max-w-4xl">
         <div className="mb-8">
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-2">
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-0">
             THE MOST DANGEROUS
           </h1>
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-2">
+          <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-0">
             MARKETING NEWSLETTER ON
           </h1>
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-tight">
