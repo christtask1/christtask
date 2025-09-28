@@ -265,6 +265,10 @@ export default function RootLayout({ children }: { children: any }) {
             margin-left: 2cm !important;
             text-shadow: 0 0 0px rgba(230, 57, 70, 0), 0 0 0px rgba(230, 57, 70, 0), 0 0 0px rgba(230, 57, 70, 0) !important;
             animation: text-glow 4s ease-in-out infinite !important;
+            animation-name: text-glow !important;
+            animation-duration: 4s !important;
+            animation-timing-function: ease-in-out !important;
+            animation-iteration-count: infinite !important;
           }
           
           body:has([data-page="newsletter"]) .newsletter-content {
