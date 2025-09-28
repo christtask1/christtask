@@ -264,7 +264,7 @@ export default function RootLayout({ children }: { children: any }) {
             }
             
             body:has([data-page="newsletter"]) .desktop-bottom-line {
-              margin-left: 0 !important;
+              margin-left: -1.5cm !important;
             }
           }
           
