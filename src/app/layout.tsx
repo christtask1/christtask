@@ -89,6 +89,18 @@ export default function RootLayout({ children }: { children: any }) {
           h1, h2, h3 { margin: 0 0 10px; line-height: 1.15; }
           @keyframes blink { 0%, 50% { opacity: 1; } 51%, 100% { opacity: 0; } }
           @keyframes typing { 0%, 60%, 100% { transform: translateY(0); } 30% { transform: translateY(-10px); } }
+          /* Mobile red glow animation for newsletter headline */
+          @keyframes newsletter-mobile-glow {
+            0% {
+              text-shadow: 0 0 0px rgba(230, 57, 70, 0);
+            }
+            50% {
+              text-shadow: 0 0 24px rgba(230, 57, 70, 0.75), 0 0 48px rgba(230, 57, 70, 0.35);
+            }
+            100% {
+              text-shadow: 0 0 0px rgba(230, 57, 70, 0);
+            }
+          }
           
           /* Mobile Header Responsive Styles */
           @media (max-width: 768px) {
@@ -368,6 +380,7 @@ export default function RootLayout({ children }: { children: any }) {
           letter-spacing: -1px !important;
           text-align: center !important;
           margin-left: 0 !important;
+          animation: newsletter-mobile-glow 4s ease-in-out infinite !important;
         }
             
             /* Show mobile text, hide desktop text on mobile */
