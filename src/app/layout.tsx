@@ -410,7 +410,7 @@ export default function RootLayout({ children }: { children: any }) {
         }
         /* Move only bottom line ON THE INTERNET on mobile */
         body:has([data-page="newsletter"]) .mobile-bottom-line {
-          margin-left: -1cm !important;
+          margin-left: -2cm !important;
         }
 
         /* Widen input and button by 1.5cm each side on mobile */
