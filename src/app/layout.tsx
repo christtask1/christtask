@@ -363,7 +363,7 @@ export default function RootLayout({ children }: { children: any }) {
           
           @media (max-width: 768px) {
         body:has([data-page="newsletter"]) .newsletter-headline {
-          font-size: 48px !important;
+          font-size: 52px !important;
           margin-bottom: 30px !important;
           letter-spacing: -1px !important;
           text-align: center !important;
