@@ -292,7 +292,7 @@ export default function RootLayout({ children }: { children: any }) {
             
             /* Move only the middle line on mobile */
             body:has([data-page="newsletter"]) .mobile-middle-line {
-              margin-left: 0.5cm !important;
+              margin-left: 0.3cm !important;
             }
             
             body:has([data-page="newsletter"]) .newsletter-content {
