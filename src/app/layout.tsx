@@ -213,6 +213,9 @@ export default function RootLayout({ children }: { children: any }) {
           @media (min-width: 769px) {
             body:has([data-page="newsletter"]) input[type="email"] {
               width: 40% !important;
+              padding-top: 1.25rem !important;  /* taller top */
+              padding-bottom: 1.25rem !important; /* taller bottom */
+              border-radius: 0.5rem !important; /* more square */
             }
             
             body:has([data-page="newsletter"]) button[type="submit"] {
