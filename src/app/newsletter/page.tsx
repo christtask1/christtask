@@ -57,9 +57,16 @@ export default function NewsletterPage() {
       <div className="text-center max-w-4xl newsletter-content">
         <div className="mb-8">
           <h1 className="newsletter-headline">
-            &nbsp;&nbsp;&nbsp;&nbsp;THE MOST DANGEROUS<br/>
-            MARKETING NEWSLETTER ON<br/>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;THE INTERNET
+            <span className="desktop-text">
+              &nbsp;&nbsp;&nbsp;&nbsp;THE MOST DANGEROUS<br/>
+              MARKETING NEWSLETTER ON<br/>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;THE INTERNET
+            </span>
+            <span className="mobile-text">
+              &nbsp;&nbsp;&nbsp;&nbsp;THE MOST DANGEROUS<br/>
+              MARKETING NEWSLETTER<br/>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ON THE INTERNET
+            </span>
           </h1>
         </div>
         

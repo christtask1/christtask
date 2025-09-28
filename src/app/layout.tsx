@@ -258,6 +258,15 @@ export default function RootLayout({ children }: { children: any }) {
             padding-top: 2rem !important;
           }
           
+          /* Show desktop text by default, hide mobile text */
+          body:has([data-page="newsletter"]) .desktop-text {
+            display: block !important;
+          }
+          
+          body:has([data-page="newsletter"]) .mobile-text {
+            display: none !important;
+          }
+          
           
           @media (max-width: 768px) {
             body:has([data-page="newsletter"]) .newsletter-headline {
@@ -265,6 +274,15 @@ export default function RootLayout({ children }: { children: any }) {
               margin-bottom: 30px !important;
               letter-spacing: -1px !important;
               margin-left: 1cm !important;
+            }
+            
+            /* Show mobile text, hide desktop text on mobile */
+            body:has([data-page="newsletter"]) .desktop-text {
+              display: none !important;
+            }
+            
+            body:has([data-page="newsletter"]) .mobile-text {
+              display: block !important;
             }
             
             body:has([data-page="newsletter"]) .newsletter-content {
