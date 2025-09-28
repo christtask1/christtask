@@ -259,14 +259,15 @@ export default function RootLayout({ children }: { children: any }) {
       }
 
       body:has([data-page="newsletter"]) .christtask-brand {
-        font-family: 'Anton', sans-serif !important;
+        font-family: 'Inter', sans-serif !important;
         font-size: 24px !important;
         font-weight: 400 !important;
-        text-transform: uppercase !important;
-        letter-spacing: 2px !important;
+        text-transform: none !important;
+        letter-spacing: normal !important;
         color: #F5F5F5 !important;
         margin-bottom: 2rem !important;
-        margin-left: 2cm !important;
+        text-align: center !important;
+        margin-left: 0 !important;
       }
           
           /* Show desktop text by default, hide mobile text */
@@ -308,8 +309,9 @@ export default function RootLayout({ children }: { children: any }) {
             
         body:has([data-page="newsletter"]) .christtask-brand {
           font-size: 20px !important;
-          margin-left: 1cm !important;
+          margin-left: 0 !important;
           margin-bottom: 1.5rem !important;
+          text-align: center !important;
         }
 
         body:has([data-page="newsletter"]) .newsletter-content {
