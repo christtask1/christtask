@@ -213,14 +213,14 @@ export default function RootLayout({ children }: { children: any }) {
           /* Desktop-specific form sizing */
           @media (min-width: 769px) {
             body:has([data-page="newsletter"]) input[type="email"] {
-              width: calc(40% - 10cm) !important; /* 5cm less on each side */
+              width: calc(40% - 4cm) !important; /* 2cm less on each side (3cm longer than before) */
               padding-top: 1.25rem !important;  /* taller top */
               padding-bottom: 1.25rem !important; /* taller bottom */
               border-radius: 0.5rem !important; /* more square */
             }
             
             body:has([data-page="newsletter"]) button[type="submit"] {
-              width: calc(40% - 10cm) !important; /* match input width */
+              width: calc(40% - 4cm) !important; /* match input width */
               max-width: none !important;
             }
           }
