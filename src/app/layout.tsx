@@ -320,6 +320,8 @@ export default function RootLayout({ children }: { children: any }) {
       @media (min-width: 769px) {
         body:has([data-page="newsletter"]) .newsletter-subcopy {
           text-align: left !important;
+          position: relative !important;
+          left: 3cm !important; /* shift whole block right */
         }
         body:has([data-page="newsletter"]) .newsletter-subcopy .sub-line-1 { margin-left: 0 !important; }
         body:has([data-page="newsletter"]) .newsletter-subcopy .sub-line-2 { margin-left: 0.6cm !important; }
