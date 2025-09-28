@@ -261,7 +261,7 @@ export default function RootLayout({ children }: { children: any }) {
           @media (min-width: 769px) {
             body:has([data-page="newsletter"]) .desktop-text {
               position: relative !important;
-              left: 0 !important;
+              left: -1cm !important;
             }
             body:has([data-page="newsletter"]) .desktop-text > br:first-child + * {
               margin-left: 2cm !important;
