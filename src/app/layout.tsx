@@ -218,10 +218,15 @@ export default function RootLayout({ children }: { children: any }) {
               padding-bottom: 1.5rem !important; /* slightly taller than before */
               border-radius: 0.5rem !important; /* more square */
             }
+            /* Reduce gap between input and button */
+            body:has([data-page="newsletter"]) .newsletter-content form .mb-6 {
+              margin-bottom: 0.75rem !important;
+            }
             
             body:has([data-page="newsletter"]) button[type="submit"] {
               width: calc(40% - 2cm) !important; /* keep matching input width */
               max-width: none !important;
+              margin-top: 0.75rem !important; /* closer to input */
             }
           }
           
