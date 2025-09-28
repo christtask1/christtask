@@ -314,6 +314,7 @@ export default function RootLayout({ children }: { children: any }) {
           
       body:has([data-page="newsletter"]) .newsletter-content {
         padding-top: 0 !important;
+        padding-bottom: 10rem !important; /* allow scrolling past content */
       }
 
       body:has([data-page="newsletter"]) .christtask-brand {
