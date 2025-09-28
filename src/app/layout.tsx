@@ -268,6 +268,17 @@ export default function RootLayout({ children }: { children: any }) {
             border-color: #991b1b !important;
           }
           
+          /* Ensure desktop button exactly matches input size/shape (placed after base rule) */
+          @media (min-width: 769px) {
+            body:has([data-page="newsletter"]) button[type="submit"] {
+              width: calc(40% - 2cm) !important;
+              max-width: calc(40% - 2cm) !important;
+              padding-top: 1.5rem !important;
+              padding-bottom: 1.5rem !important;
+              border-radius: 0.5rem !important;
+            }
+          }
+
           
           body:has([data-page="newsletter"]) .newsletter-headline {
             font-family: 'Anton', sans-serif !important;
