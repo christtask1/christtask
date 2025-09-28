@@ -273,8 +273,8 @@ export default function RootLayout({ children }: { children: any }) {
             body:has([data-page="newsletter"]) button[type="submit"] {
               width: calc(40% - 2cm) !important;
               max-width: calc(40% - 2cm) !important;
-              padding-top: calc(1.5rem - 0.5cm) !important; /* slimmer top */
-              padding-bottom: calc(1.5rem - 0.5cm) !important; /* slimmer bottom */
+              padding-top: calc(1.5rem - 0.2cm) !important; /* +0.3cm from previous */
+              padding-bottom: calc(1.5rem - 0.2cm) !important; /* +0.3cm from previous */
               border-radius: 0.5rem !important;
             }
           }
