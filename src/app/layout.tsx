@@ -217,6 +217,8 @@ export default function RootLayout({ children }: { children: any }) {
               padding-top: 1.5rem !important;  /* slightly taller than before */
               padding-bottom: 1.5rem !important; /* slightly taller than before */
               border-radius: 0.5rem !important; /* more square */
+              position: relative !important;
+              top: 0.5cm !important; /* move box down by 0.5cm */
             }
             /* Reduce gap between input and button */
             body:has([data-page="newsletter"]) .newsletter-content form .mb-6 {
