@@ -315,18 +315,17 @@ export default function RootLayout({ children }: { children: any }) {
             color: #F5F5F5 !important;
             text-align: center !important;
             margin-left: 0 !important;
-            text-shadow: none !important;
+            text-shadow: none;
           }
 
-          /* Desktop-specific line positioning */
+          /* Desktop headline glow and line positioning */
           @media (min-width: 769px) {
             body:has([data-page="newsletter"]) .newsletter-headline {
-              animation: newsletter-desktop-glow 4s ease-in-out infinite !important;
+              animation-name: newsletter-desktop-glow !important;
+              animation-duration: 4s !important;
+              animation-timing-function: ease-in-out !important;
+              animation-iteration-count: infinite !important;
             }
-          }
-
-          /* Desktop-specific line positioning */
-          @media (min-width: 769px) {
             body:has([data-page="newsletter"]) .desktop-text {
               position: relative !important;
               left: -1cm !important;
