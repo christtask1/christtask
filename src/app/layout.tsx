@@ -253,7 +253,7 @@ export default function RootLayout({ children }: { children: any }) {
             }
           }
           
-          body:has([data-page="newsletter"]) h1 {
+          body:has([data-page="newsletter"]) .newsletter-headline {
             font-family: 'Anton', sans-serif !important;
             font-size: 72px !important;
             font-weight: 400 !important;
@@ -277,7 +277,7 @@ export default function RootLayout({ children }: { children: any }) {
           
           /* Desktop-specific animation */
           @media (min-width: 769px) {
-            body:has([data-page="newsletter"]) h1 {
+            body:has([data-page="newsletter"]) .newsletter-headline {
               animation: text-glow 4s ease-in-out infinite !important;
               animation-name: text-glow !important;
               animation-duration: 4s !important;
@@ -287,7 +287,7 @@ export default function RootLayout({ children }: { children: any }) {
           }
           
           @media (max-width: 768px) {
-            body:has([data-page="newsletter"]) h1 {
+            body:has([data-page="newsletter"]) .newsletter-headline {
               font-size: 36px !important;
               margin-bottom: 30px !important;
               letter-spacing: -1px !important;
@@ -300,7 +300,7 @@ export default function RootLayout({ children }: { children: any }) {
           }
           
           @media (max-width: 480px) {
-            body:has([data-page="newsletter"]) h1 {
+            body:has([data-page="newsletter"]) .newsletter-headline {
               font-size: 28px !important;
               margin-left: 0.5cm !important;
             }
