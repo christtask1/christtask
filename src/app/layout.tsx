@@ -264,6 +264,10 @@ export default function RootLayout({ children }: { children: any }) {
             animation: text-glow 3s ease-in-out infinite alternate !important;
           }
           
+          body:has([data-page="newsletter"]) .newsletter-content {
+            padding-top: 2rem !important;
+          }
+          
           @media (max-width: 768px) {
             body:has([data-page="newsletter"]) h1 {
               font-size: 36px !important;
