@@ -346,7 +346,7 @@ export default function RootLayout({ children }: { children: any }) {
       @media (max-width: 768px) {
         body:has([data-page="newsletter"]) .paragraph-exact { 
           max-width: 90% !important;
-          font-size: 1.05rem !important;
+          font-size: 0.95rem !important;
           line-height: 1.7 !important;
         }
       }
@@ -363,7 +363,7 @@ export default function RootLayout({ children }: { children: any }) {
           
           @media (max-width: 768px) {
         body:has([data-page="newsletter"]) .newsletter-headline {
-          font-size: 44px !important;
+          font-size: 48px !important;
           margin-bottom: 30px !important;
           letter-spacing: -1px !important;
           text-align: center !important;
