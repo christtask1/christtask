@@ -214,8 +214,8 @@ export default function RootLayout({ children }: { children: any }) {
           @media (min-width: 769px) {
             body:has([data-page="newsletter"]) input[type="email"] {
               width: calc(40% - 2cm) !important; /* 1cm longer per side vs prior */
-              padding-top: calc(1.25rem + 1cm) !important;  /* add 1cm top */
-              padding-bottom: calc(1.25rem + 1cm) !important; /* add 1cm bottom */
+              padding-top: 1.5rem !important;  /* slightly taller than before */
+              padding-bottom: 1.5rem !important; /* slightly taller than before */
               border-radius: 0.5rem !important; /* more square */
             }
             
