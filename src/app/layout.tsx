@@ -261,10 +261,10 @@ export default function RootLayout({ children }: { children: any }) {
           
           @media (max-width: 768px) {
             body:has([data-page="newsletter"]) .newsletter-headline {
-              font-size: 36px !important;
+              font-size: 42px !important;
               margin-bottom: 30px !important;
               letter-spacing: -1px !important;
-              margin-left: 0.5cm !important;
+              margin-left: 1cm !important;
             }
             
             body:has([data-page="newsletter"]) .newsletter-content {
@@ -274,8 +274,8 @@ export default function RootLayout({ children }: { children: any }) {
           
           @media (max-width: 480px) {
             body:has([data-page="newsletter"]) .newsletter-headline {
-              font-size: 28px !important;
-              margin-left: 0.5cm !important;
+              font-size: 32px !important;
+              margin-left: 1cm !important;
             }
             
             body:has([data-page="newsletter"]) .newsletter-content {
