@@ -283,6 +283,31 @@ export default function RootLayout({ children }: { children: any }) {
         text-align: center !important;
         margin-left: 0 !important;
       }
+
+      /* Subcopy staircase styling */
+      body:has([data-page="newsletter"]) .newsletter-subcopy {
+        max-width: 48rem !important;
+        margin: 0 auto 3rem auto !important;
+        color: #d1d5db !important; /* gray-300 */
+        line-height: 1.75 !important;
+        font-size: 1.125rem !important; /* text-lg */
+        text-align: center !important;
+      }
+
+      @media (min-width: 769px) {
+        body:has([data-page="newsletter"]) .newsletter-subcopy {
+          text-align: left !important;
+        }
+        body:has([data-page="newsletter"]) .newsletter-subcopy .sub-line-1 { margin-left: 0 !important; }
+        body:has([data-page="newsletter"]) .newsletter-subcopy .sub-line-2 { margin-left: 0.6cm !important; }
+        body:has([data-page="newsletter"]) .newsletter-subcopy .sub-line-3 { margin-left: 1.2cm !important; }
+        body:has([data-page="newsletter"]) .newsletter-subcopy .sub-line-4 { margin-left: 1.8cm !important; }
+      }
+
+      @media (max-width: 768px) {
+        body:has([data-page="newsletter"]) .newsletter-subcopy { text-align: center !important; }
+        body:has([data-page="newsletter"]) .newsletter-subcopy .sub-line { margin-left: 0 !important; }
+      }
           
           /* Show desktop text by default, hide mobile text */
           body:has([data-page="newsletter"]) .desktop-text {

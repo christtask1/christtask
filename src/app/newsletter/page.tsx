@@ -71,9 +71,12 @@ export default function NewsletterPage() {
           </h1>
         </div>
         
-        <p className="text-lg md:text-xl text-gray-300 mb-12 max-w-3xl mx-auto leading-relaxed">
-          Join my private email list and get the unfiltered, tactical breakdowns on ecom, AI, making money online, and what's actually working right now. No fluff. No fake screenshots. Just real sh*t that makes you money.
-        </p>
+        <div className="newsletter-subcopy">
+          <div className="sub-line sub-line-1">Join my private email list and get the unfiltered, tactical</div>
+          <div className="sub-line sub-line-2">breakdowns on ecom, AI, making money online, and what's</div>
+          <div className="sub-line sub-line-3">actually working right now. No fluff. No fake screenshots. Just</div>
+          <div className="sub-line sub-line-4">real sh*t that makes you money.</div>
+        </div>
 
         <form onSubmit={handleSubmit} className="max-w-lg mx-auto">
           <div className="mb-6">
