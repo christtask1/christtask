@@ -197,16 +197,17 @@ export default function RootLayout({ children }: { children: any }) {
           
           body:has([data-page="newsletter"]) input[type="email"] {
             background: transparent !important;
-            color: white !important;
-            border: 2px solid rgba(255, 255, 255, 0.3) !important;
-            border-radius: 1rem !important;
+            color: #ffffff !important;
+            border: 1px solid #ffffff !important; /* thin white line */
+            border-radius: 0.75rem !important;
             padding: 1rem !important;
             font-size: 1.1rem !important;
             backdrop-filter: blur(4px) !important;
             width: 60% !important;
             margin: 0 auto !important;
             display: block !important;
-            text-align: center !important;
+            text-align: left !important; /* left align text */
+            caret-color: #ffffff !important; /* left-start caret, white */
           }
 
           /* Desktop-specific form sizing */
@@ -226,7 +227,7 @@ export default function RootLayout({ children }: { children: any }) {
           
           body:has([data-page="newsletter"]) input[type="email"]:focus {
             outline: none !important;
-            border-color: rgba(255, 255, 255, 0.6) !important;
+            border-color: #ffffff !important;
             box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.2) !important;
           }
           
