@@ -254,9 +254,20 @@ export default function RootLayout({ children }: { children: any }) {
             text-shadow: none !important;
           }
           
-          body:has([data-page="newsletter"]) .newsletter-content {
-            padding-top: 2rem !important;
-          }
+      body:has([data-page="newsletter"]) .newsletter-content {
+        padding-top: 2rem !important;
+      }
+
+      body:has([data-page="newsletter"]) .christtask-brand {
+        font-family: 'Anton', sans-serif !important;
+        font-size: 24px !important;
+        font-weight: 400 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 2px !important;
+        color: #F5F5F5 !important;
+        margin-bottom: 2rem !important;
+        margin-left: 2cm !important;
+      }
           
           /* Show desktop text by default, hide mobile text */
           body:has([data-page="newsletter"]) .desktop-text {
@@ -295,9 +306,15 @@ export default function RootLayout({ children }: { children: any }) {
               margin-left: 0.3cm !important;
             }
             
-            body:has([data-page="newsletter"]) .newsletter-content {
-              padding-top: 4rem !important;
-            }
+        body:has([data-page="newsletter"]) .christtask-brand {
+          font-size: 20px !important;
+          margin-left: 1cm !important;
+          margin-bottom: 1.5rem !important;
+        }
+
+        body:has([data-page="newsletter"]) .newsletter-content {
+          padding-top: 4rem !important;
+        }
           }
           
           @media (max-width: 480px) {

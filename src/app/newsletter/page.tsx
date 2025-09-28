@@ -56,6 +56,7 @@ export default function NewsletterPage() {
     <div className="h-screen bg-black flex items-center justify-center px-4" data-page="newsletter">
       <div className="text-center max-w-4xl newsletter-content">
         <div className="mb-8">
+          <div className="christtask-brand">ChristTask</div>
           <h1 className="newsletter-headline">
             <span className="desktop-text">
               &nbsp;&nbsp;&nbsp;&nbsp;THE MOST DANGEROUS<br/>
