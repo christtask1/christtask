@@ -445,6 +445,7 @@ export default function RootLayout({ children }: { children: any }) {
         body:has([data-page="newsletter"]) input[type="email"],
         body:has([data-page="newsletter"]) button[type="submit"] {
           width: calc(60% + 3cm) !important;
+          border-radius: 0.25rem !important; /* Less rounded corners on mobile */
         }
 
         /* Tighten input-to-button gap on mobile */
