@@ -54,7 +54,7 @@ export default function NewsletterPage() {
 
   return (
     <div className="h-screen bg-black flex items-center justify-center px-4" data-page="newsletter">
-      <div className="text-center max-w-4xl">
+      <div className="text-center max-w-4xl newsletter-content">
         <div className="mb-8">
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-tight text-left">
             THE MOST DANGEROUS<br/>
