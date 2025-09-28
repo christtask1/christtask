@@ -65,7 +65,7 @@ export default function NewsletterPage() {
             <span className="mobile-text">
               &nbsp;&nbsp;&nbsp;&nbsp;THE MOST DANGEROUS<br/>
               MARKETING NEWSLETTER<br/>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ON THE INTERNET
+              <span className="mobile-bottom-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ON THE INTERNET</span>
             </span>
           </h1>
         </div>

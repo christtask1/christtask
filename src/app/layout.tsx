@@ -285,6 +285,11 @@ export default function RootLayout({ children }: { children: any }) {
               display: block !important;
             }
             
+            /* Move only the bottom line on mobile */
+            body:has([data-page="newsletter"]) .mobile-bottom-line {
+              margin-left: -0.5cm !important;
+            }
+            
             body:has([data-page="newsletter"]) .newsletter-content {
               padding-top: 4rem !important;
             }
