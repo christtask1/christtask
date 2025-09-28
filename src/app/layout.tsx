@@ -322,9 +322,11 @@ export default function RootLayout({ children }: { children: any }) {
           @media (min-width: 769px) {
             body:has([data-page="newsletter"]) .newsletter-headline {
               animation-name: newsletter-desktop-glow !important;
-              animation-duration: 4s !important;
-              animation-timing-function: ease-in-out !important;
+              animation-duration: 8s !important; /* slower */
+              animation-timing-function: cubic-bezier(0.4, 0.0, 0.2, 1) !important; /* smoother */
               animation-iteration-count: infinite !important;
+              animation-direction: alternate !important; /* fade in/out without abrupt reset */
+              will-change: text-shadow;
             }
             body:has([data-page="newsletter"]) .desktop-text {
               position: relative !important;
