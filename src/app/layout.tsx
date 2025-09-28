@@ -213,15 +213,15 @@ export default function RootLayout({ children }: { children: any }) {
           /* Desktop-specific form sizing */
           @media (min-width: 769px) {
             body:has([data-page="newsletter"]) input[type="email"] {
-              width: 40% !important;
+              width: calc(40% - 10cm) !important; /* 5cm less on each side */
               padding-top: 1.25rem !important;  /* taller top */
               padding-bottom: 1.25rem !important; /* taller bottom */
               border-radius: 0.5rem !important; /* more square */
             }
             
             body:has([data-page="newsletter"]) button[type="submit"] {
-              width: 40% !important;
-              max-width: 40% !important;
+              width: calc(40% - 10cm) !important; /* match input width */
+              max-width: none !important;
             }
           }
           
