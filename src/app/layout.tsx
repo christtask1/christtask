@@ -204,7 +204,9 @@ export default function RootLayout({ children }: { children: any }) {
             font-size: 1.1rem !important;
             backdrop-filter: blur(4px) !important;
             width: 80% !important;
-            margin-left: 1.5cm !important;
+            margin: 0 auto !important;
+            display: block !important;
+            text-align: center !important;
           }
           
           body:has([data-page="newsletter"]) input[type="email"]:focus {
@@ -225,8 +227,8 @@ export default function RootLayout({ children }: { children: any }) {
             padding: 1rem !important;
             font-size: 1.1rem !important;
             width: 80% !important;
-            margin-left: 1.5cm !important;
-            margin-top: 2rem !important;
+            margin: 2rem auto 0 auto !important;
+            display: block !important;
             font-weight: bold !important;
           }
           
@@ -250,7 +252,8 @@ export default function RootLayout({ children }: { children: any }) {
             line-height: 0.9 !important;
             margin-bottom: 40px !important;
             color: #F5F5F5 !important;
-            margin-left: 7cm !important;
+            text-align: center !important;
+            margin-left: 0 !important;
             text-shadow: none !important;
           }
           
@@ -281,12 +284,13 @@ export default function RootLayout({ children }: { children: any }) {
           
           
           @media (max-width: 768px) {
-            body:has([data-page="newsletter"]) .newsletter-headline {
-              font-size: 44px !important;
-              margin-bottom: 30px !important;
-              letter-spacing: -1px !important;
-              margin-left: 1cm !important;
-            }
+        body:has([data-page="newsletter"]) .newsletter-headline {
+          font-size: 44px !important;
+          margin-bottom: 30px !important;
+          letter-spacing: -1px !important;
+          text-align: center !important;
+          margin-left: 0 !important;
+        }
             
             /* Show mobile text, hide desktop text on mobile */
             body:has([data-page="newsletter"]) .desktop-text {
@@ -297,15 +301,14 @@ export default function RootLayout({ children }: { children: any }) {
               display: block !important;
             }
             
-            /* Move only the bottom line on mobile */
-            body:has([data-page="newsletter"]) .mobile-bottom-line {
-              margin-left: -0.5cm !important;
-            }
-            
-            /* Move only the middle line on mobile */
-            body:has([data-page="newsletter"]) .mobile-middle-line {
-              margin-left: 0.3cm !important;
-            }
+        /* Center all mobile lines */
+        body:has([data-page="newsletter"]) .mobile-bottom-line {
+          margin-left: 0 !important;
+        }
+
+        body:has([data-page="newsletter"]) .mobile-middle-line {
+          margin-left: 0 !important;
+        }
             
         body:has([data-page="newsletter"]) .christtask-brand {
           font-size: 20px !important;
@@ -320,10 +323,11 @@ export default function RootLayout({ children }: { children: any }) {
           }
           
           @media (max-width: 480px) {
-            body:has([data-page="newsletter"]) .newsletter-headline {
-              font-size: 34px !important;
-              margin-left: 1cm !important;
-            }
+        body:has([data-page="newsletter"]) .newsletter-headline {
+          font-size: 34px !important;
+          text-align: center !important;
+          margin-left: 0 !important;
+        }
             
             body:has([data-page="newsletter"]) .newsletter-content {
               padding-top: 3rem !important;
