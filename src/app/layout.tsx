@@ -250,7 +250,7 @@ export default function RootLayout({ children }: { children: any }) {
             line-height: 0.9 !important;
             margin-bottom: 40px !important;
             color: #F5F5F5 !important;
-            margin-left: 5cm !important;
+            margin-left: 9cm !important;
             text-shadow: none !important;
           }
           
