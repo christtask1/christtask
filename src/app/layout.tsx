@@ -203,7 +203,7 @@ export default function RootLayout({ children }: { children: any }) {
             padding: 1rem !important;
             font-size: 1.1rem !important;
             backdrop-filter: blur(4px) !important;
-            width: 80% !important;
+            width: 60% !important;
             margin: 0 auto !important;
             display: block !important;
             text-align: center !important;
@@ -226,7 +226,7 @@ export default function RootLayout({ children }: { children: any }) {
             border-radius: 1rem !important;
             padding: 1rem !important;
             font-size: 1.1rem !important;
-            width: 80% !important;
+            width: 60% !important;
             margin: 2rem auto 0 auto !important;
             display: block !important;
             font-weight: bold !important;
