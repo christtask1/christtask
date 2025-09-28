@@ -229,6 +229,9 @@ export default function RootLayout({ children }: { children: any }) {
               width: calc(40% - 2cm) !important; /* keep matching input width */
               max-width: none !important;
               margin-top: 0.75rem !important; /* closer to input */
+              padding-top: 1.5rem !important; /* match input height */
+              padding-bottom: 1.5rem !important; /* match input height */
+              border-radius: 0.5rem !important; /* match input shape */
             }
           }
           
