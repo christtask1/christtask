@@ -256,6 +256,17 @@ export default function RootLayout({ children }: { children: any }) {
             margin-left: 0 !important;
             text-shadow: none !important;
           }
+
+          /* Desktop-specific line positioning */
+          @media (min-width: 769px) {
+            body:has([data-page="newsletter"]) .desktop-middle-line {
+              margin-left: 1cm !important;
+            }
+            
+            body:has([data-page="newsletter"]) .desktop-bottom-line {
+              margin-left: -0.5cm !important;
+            }
+          }
           
       body:has([data-page="newsletter"]) .newsletter-content {
         padding-top: 2rem !important;

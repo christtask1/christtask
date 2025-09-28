@@ -60,8 +60,8 @@ export default function NewsletterPage() {
           <h1 className="newsletter-headline">
             <span className="desktop-text">
               &nbsp;&nbsp;&nbsp;&nbsp;THE MOST DANGEROUS<br/>
-              MARKETING NEWSLETTER ON<br/>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;THE INTERNET
+              <span className="desktop-middle-line">MARKETING NEWSLETTER ON</span><br/>
+              <span className="desktop-bottom-line">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;THE INTERNET</span>
             </span>
             <span className="mobile-text">
               &nbsp;&nbsp;&nbsp;&nbsp;THE MOST DANGEROUS<br/>
