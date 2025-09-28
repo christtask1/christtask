@@ -290,6 +290,11 @@ export default function RootLayout({ children }: { children: any }) {
               margin-left: -0.5cm !important;
             }
             
+            /* Move only the middle line on mobile */
+            body:has([data-page="newsletter"]) .mobile-middle-line {
+              margin-left: 0.5cm !important;
+            }
+            
             body:has([data-page="newsletter"]) .newsletter-content {
               padding-top: 4rem !important;
             }
